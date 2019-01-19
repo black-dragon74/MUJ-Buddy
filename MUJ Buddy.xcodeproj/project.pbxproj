@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		0110BB2E21F32B5500E6546A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0110BB2D21F32B5500E6546A /* AppDelegate.swift */; };
-		0110BB3021F32B5500E6546A /* LoginViewCotroller.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0110BB2F21F32B5500E6546A /* LoginViewCotroller.swift */; };
+		0110BB3021F32B5500E6546A /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0110BB2F21F32B5500E6546A /* LoginViewController.swift */; };
 		0110BB3521F32B5600E6546A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0110BB3421F32B5600E6546A /* Assets.xcassets */; };
 		0110BB3821F32B5600E6546A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0110BB3621F32B5600E6546A /* LaunchScreen.storyboard */; };
 		0110BB4121F32DA600E6546A /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0110BB4021F32DA600E6546A /* Extensions.swift */; };
@@ -21,7 +21,7 @@
 /* Begin PBXFileReference section */
 		0110BB2A21F32B5500E6546A /* MUJ Buddy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "MUJ Buddy.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		0110BB2D21F32B5500E6546A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		0110BB2F21F32B5500E6546A /* LoginViewCotroller.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewCotroller.swift; sourceTree = "<group>"; };
+		0110BB2F21F32B5500E6546A /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		0110BB3421F32B5600E6546A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		0110BB3721F32B5600E6546A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		0110BB3921F32B5600E6546A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -94,7 +94,7 @@
 		01505C1921F33FB9005D7971 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				0110BB2F21F32B5500E6546A /* LoginViewCotroller.swift */,
+				0110BB2F21F32B5500E6546A /* LoginViewController.swift */,
 				01505C1F21F3A2B6005D7971 /* MainViewController.swift */,
 			);
 			path = Controllers;
@@ -180,7 +180,7 @@
 			files = (
 				01505C2021F3A2B6005D7971 /* MainViewController.swift in Sources */,
 				0110BB4421F33D1A00E6546A /* LoginPageCell.swift in Sources */,
-				0110BB3021F32B5500E6546A /* LoginViewCotroller.swift in Sources */,
+				0110BB3021F32B5500E6546A /* LoginViewController.swift in Sources */,
 				0110BB4121F32DA600E6546A /* Extensions.swift in Sources */,
 				01505C1C21F34265005D7971 /* LoginPage.swift in Sources */,
 				0110BB2E21F32B5500E6546A /* AppDelegate.swift in Sources */,
