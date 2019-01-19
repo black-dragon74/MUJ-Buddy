@@ -159,7 +159,7 @@ class LoginViewController: UIViewController, UICollectionViewDelegate, UICollect
             return
         }
         
-        if pControl.currentPage == pages.count - 1{
+        if pControl.currentPage == pages.count - 1 {
             moveControlsOffScreen()
             
             // Animate the bitch
@@ -176,17 +176,12 @@ class LoginViewController: UIViewController, UICollectionViewDelegate, UICollect
     
     // Function to skip to the main login page
     @objc fileprivate func scrollToLogin() {
-        let scrollTo = IndexPath(item: pages.count, section: 0)
-        collectionView.scrollToItem(at: scrollTo, at: .centeredHorizontally, animated: true)
-        pControl.currentPage = pages.count
+        // Set the current page to second last
+        pControl.currentPage = pages.count - 1
         
-        // Move the controls off the screen
-        moveControlsOffScreen()
+        // Call next page from there, removes redundancy
+        scrollToNextCell()
         
-        // Animate
-        UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
-            self.view.layoutIfNeeded()
-        }, completion: nil)
     }
     
     // Hide and show buttons, page control relative to the current page scroll event
