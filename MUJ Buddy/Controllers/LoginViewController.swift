@@ -104,6 +104,10 @@ class LoginViewController: UIViewController, UICollectionViewDelegate, UICollect
         // In case someone taps outside the keyboard, end editing and close the keyboard
         view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(endEditing)))
         
+        // Add the targets to the buttons
+        skipButton.addTarget(self, action: #selector(scrollToLogin), for: .touchUpInside)
+        nextButton.addTarget(self, action: #selector(scrollToNextCell), for: .touchUpInside)
+        
     }
     
     // Listens for keyboard hide and show events to push the view up and down
@@ -141,14 +145,48 @@ class LoginViewController: UIViewController, UICollectionViewDelegate, UICollect
         view.endEditing(true)
     }
     
+    // Move the controls off the screen
+    fileprivate func moveControlsOffScreen() {
+        pControlBottomAnchor?.constant = 40
+        nButtonTopAnchor?.constant = -30
+        sButtonTopAnchor?.constant = -30
+    }
+    
     // Function to skip to the next cell
     @objc fileprivate func scrollToNextCell() {
+        if pControl.currentPage == pages.count {
+            // On the last page, return
+            return
+        }
         
+        if pControl.currentPage == pages.count - 1{
+            moveControlsOffScreen()
+            
+            // Animate the bitch
+            UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
+                self.view.layoutIfNeeded()
+            }, completion: nil)
+        }
+        
+        // Else, we will just keep on incrementing to the next page
+        let currentCell = IndexPath(item: pControl.currentPage + 1, section: 0)
+        collectionView.scrollToItem(at: currentCell, at: .centeredHorizontally, animated: true)
+        pControl.currentPage += 1
     }
     
     // Function to skip to the main login page
     @objc fileprivate func scrollToLogin() {
+        let scrollTo = IndexPath(item: pages.count, section: 0)
+        collectionView.scrollToItem(at: scrollTo, at: .centeredHorizontally, animated: true)
+        pControl.currentPage = pages.count
         
+        // Move the controls off the screen
+        moveControlsOffScreen()
+        
+        // Animate
+        UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
+            self.view.layoutIfNeeded()
+        }, completion: nil)
     }
     
     // Hide and show buttons, page control relative to the current page scroll event
@@ -158,10 +196,8 @@ class LoginViewController: UIViewController, UICollectionViewDelegate, UICollect
         
         // For removing the page control, next and skip buttons
         if (currentPage == pages.count) {
-            // Change the constant
-            pControlBottomAnchor?.constant = 40
-            nButtonTopAnchor?.constant = -30
-            sButtonTopAnchor?.constant = -30
+            // Off we go
+            moveControlsOffScreen()
         }
         else {
             // Change the constant
