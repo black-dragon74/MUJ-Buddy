@@ -68,3 +68,23 @@ extension UIView {
         return anchors
     }
 }
+
+// To load the image form an URL
+extension UIImageView {
+    func downloadImage(from url:String) {
+        // Start a new session
+        guard let u = URL(string: url) else { return }
+        URLSession.shared.dataTask(with: u) {(data, response, error) in
+            guard
+                let httpURLResponse = response as? HTTPURLResponse, httpURLResponse.statusCode == 200,
+                let mimeType = response?.mimeType, mimeType.hasPrefix("image"),
+                let data = data, error == nil,
+                let image = UIImage(data: data)
+                else { return }
+            DispatchQueue.main.async {
+                self.image = image
+            }
+        }.resume()
+        
+    }
+}
