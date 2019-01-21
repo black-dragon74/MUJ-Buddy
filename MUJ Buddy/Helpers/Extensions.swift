@@ -8,6 +8,10 @@
 
 import UIKit
 
+
+// Init the cache
+let imageCache = NSCache<NSString, UIImage>()
+
 // Custom extensions for this project, makes my life much easier
 extension UIColor {
     convenience init(r: CGFloat, g: CGFloat, b: CGFloat, alpha: CGFloat = 1) {
@@ -74,17 +78,30 @@ extension UIImageView {
     func downloadImage(from url:String) {
         // Start a new session
         guard let u = URL(string: url) else { return }
-        URLSession.shared.dataTask(with: u) {(data, response, error) in
-            guard
-                let httpURLResponse = response as? HTTPURLResponse, httpURLResponse.statusCode == 200,
-                let mimeType = response?.mimeType, mimeType.hasPrefix("image"),
-                let data = data, error == nil,
-                let image = UIImage(data: data)
-                else { return }
-            DispatchQueue.main.async {
-                self.image = image
-            }
-        }.resume()
+        
+        // Check if the image is there in the cache
+        print(imageCache.object(forKey: url as NSString) ?? "Empty cache")
+        if let cachedImage = imageCache.object(forKey: url as NSString) {
+            // Set the image
+            self.image = cachedImage
+            print("Set image from cache")
+        } else {
+            URLSession.shared.dataTask(with: u) {(data, response, error) in
+                guard
+                    let httpURLResponse = response as? HTTPURLResponse, httpURLResponse.statusCode == 200,
+                    let mimeType = response?.mimeType, mimeType.hasPrefix("image"),
+                    let data = data, error == nil,
+                    let image = UIImage(data: data)
+                    else { return }
+                // Set the image in the cache
+                DispatchQueue.main.async {
+                    self.image = image
+                    
+                    imageCache.setObject(image, forKey: url as NSString)
+                    print("Set the image to the cache")
+                }
+                }.resume()
+        }
         
     }
 }

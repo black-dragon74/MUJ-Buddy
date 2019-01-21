@@ -8,15 +8,13 @@
 
 import UIKit
 
-class ContactsViewController: UITableViewController {
+class ContactsViewController: UITableViewController, UISearchBarDelegate {
     
     let cellID = "cellid"
     let blankCellID = "blackcellid"
     
     var faculties = [FacultyContactModel]()
-    
-    // Create the search controller
-    let searchBar = UISearchController(searchResultsController: nil)
+    var filteredFaculties = [FacultyContactModel]()
     
     lazy var rControl: UIRefreshControl = {
         let r = UIRefreshControl()
@@ -39,10 +37,10 @@ class ContactsViewController: UITableViewController {
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: blankCellID)
         tableView.allowsSelection = false
         
-        searchBar.searchResultsUpdater = self as? UISearchResultsUpdating
-        tableView.tableHeaderView = searchBar.searchBar
         rControl.addTarget(self, action: #selector(handleRefresh), for: .valueChanged)
         tableView.addSubview(rControl)
+        
+        setupSearchBar()
         
         if let facultyData = UserDefaults.standard.data(forKey: FACULTY_CONTACT_KEY) {
             // Try to decode the data
@@ -51,6 +49,12 @@ class ContactsViewController: UITableViewController {
                 faculties.append(f)
             }
         }
+    }
+    
+    func setupSearchBar() {
+        let searchbar = UISearchBar(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: 50))
+        searchbar.delegate = self
+        self.tableView.tableHeaderView = searchbar
     }
     
     @objc func handleRefresh() {
@@ -67,6 +71,9 @@ class ContactsViewController: UITableViewController {
                 // Decode the data
                 let decoder = JSONDecoder()
                 let f = try decoder.decode([FacultyContactModel].self, from: data)
+                
+                // Empty the array as we'll populate once again
+                self.faculties = []
                 
                 // Append the array
                 for faculty in f {
@@ -95,14 +102,21 @@ class ContactsViewController: UITableViewController {
         reloadTableView(tableViewToReload: tableView)
     }
     
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        filteredFaculties = faculties.filter({ (mod) -> Bool in
+             mod.name.lowercased().contains(searchText.lowercased())
+        })
+        self.tableView.reloadData()
+    }
+    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return faculties.count
+        return filteredFaculties.count == 0 ? faculties.count : filteredFaculties.count
     }
     
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath) as! FacultyContactCell
-        let currentFaculty = faculties[indexPath.row]
+        let currentFaculty = filteredFaculties.count == 0 ? faculties[indexPath.row] : filteredFaculties[indexPath.row]
         cell.currentFaculty = currentFaculty
         return cell
     }
