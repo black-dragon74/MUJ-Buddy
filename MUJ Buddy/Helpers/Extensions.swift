@@ -8,9 +8,9 @@
 
 import UIKit
 
-
-// Init the cache
-let imageCache = NSCache<NSString, UIImage>()
+// Used by download image from URL method to save to the local disk
+let fileManager = FileManager.default
+let docURL = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first!
 
 // Custom extensions for this project, makes my life much easier
 extension UIColor {
@@ -76,16 +76,26 @@ extension UIView {
 // To load the image form an URL
 extension UIImageView {
     func downloadImage(from url:String) {
-        // Start a new session
-        guard let u = URL(string: url) else { return }
+        // For storing the downloaded image locally
+        let tempURL = url.replacingOccurrences(of: "/", with: "")
+        let imageNameForStorage = docURL.appendingPathComponent(tempURL)
         
-        // Check if the image is there in the cache
-        print(imageCache.object(forKey: url as NSString) ?? "Empty cache")
-        if let cachedImage = imageCache.object(forKey: url as NSString) {
-            // Set the image
-            self.image = cachedImage
-            print("Set image from cache")
-        } else {
+        // If the image is already present in the local directory, use that and stop the network request
+//        guard (FileManager.default.contents(atPath: imageNameForStorage.path) != nil),
+//            let imageData = try? Data(contentsOf: imageNameForStorage),
+//            let image = UIImage(data: imageData) else {
+//                return
+//        }
+        if FileManager.default.contents(atPath: imageNameForStorage.path) != nil {
+            let imageData = try? Data(contentsOf: imageNameForStorage)
+            if let data = imageData {
+                self.image = UIImage(data: data)
+                print("Data was loaded from the local storage")
+                return
+            }
+        }
+        else {
+            guard let u = URL(string: url) else { return }
             URLSession.shared.dataTask(with: u) {(data, response, error) in
                 guard
                     let httpURLResponse = response as? HTTPURLResponse, httpURLResponse.statusCode == 200,
@@ -96,12 +106,19 @@ extension UIImageView {
                 // Set the image in the cache
                 DispatchQueue.main.async {
                     self.image = image
-                    
-                    imageCache.setObject(image, forKey: url as NSString)
-                    print("Set the image to the cache")
+                    // Now we will store the image locally and fetch it before the next call
+                    do {
+                        if let pngImageData = image.pngData() {
+                            print(tempURL)
+                            try pngImageData.write(to: imageNameForStorage, options: .atomic)
+                            print("Stored image locally.")
+                        }
+                    }
+                    catch let err {
+                        print("Error: ",err)
+                    }
                 }
                 }.resume()
         }
-        
     }
 }
