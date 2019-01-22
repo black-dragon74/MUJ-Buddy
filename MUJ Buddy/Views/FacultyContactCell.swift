@@ -21,7 +21,7 @@ class FacultyContactCell: UITableViewCell {
     }
     
     // Let's create an image item for the profile image
-    let facultyImage: UIImageView = {
+    lazy var facultyImage: UIImageView = {
         let f = UIImageView()
         f.contentMode = .scaleAspectFill
         f.clipsToBounds = true

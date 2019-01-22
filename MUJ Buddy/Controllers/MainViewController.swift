@@ -14,7 +14,6 @@ class MainViewController: UITabBarController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .cyan
         
         // If user is not logged in, present the login view controller with a slight delay to prevent thread crash
         if !isLoggedIn {
@@ -26,8 +25,10 @@ class MainViewController: UITabBarController {
     }
     
     fileprivate func setupViews() {
-        // Set the views to the tabs
+        // Set the background color
+        view.backgroundColor = .white
         
+        // Set the views to the tabs
         let dashController = DashboardViewController()
         dashController.tabBarItem = UITabBarItem(tabBarSystemItem: .featured, tag: 0)
         

@@ -90,7 +90,6 @@ extension UIImageView {
             let imageData = try? Data(contentsOf: imageNameForStorage)
             if let data = imageData {
                 self.image = UIImage(data: data)
-                print("Data was loaded from the local storage")
                 return
             }
         }
@@ -109,9 +108,7 @@ extension UIImageView {
                     // Now we will store the image locally and fetch it before the next call
                     do {
                         if let pngImageData = image.pngData() {
-                            print(tempURL)
                             try pngImageData.write(to: imageNameForStorage, options: .atomic)
-                            print("Stored image locally.")
                         }
                     }
                     catch let err {

@@ -14,11 +14,5 @@ class DashboardViewController: UIViewController {
         super.viewDidLoad()
         
         self.title = "Dashboard"
-        
-        setupViews()
-    }
-    
-    func setupViews() {
-        
     }
 }

@@ -8,10 +8,14 @@
 
 import UIKit
 
-class ContactsViewController: UITableViewController, UISearchBarDelegate {
+class ContactsViewController: UITableViewController, UISearchControllerDelegate, UISearchResultsUpdating {
     
     let cellID = "cellid"
     let blankCellID = "blackcellid"
+    
+    let selectedFaculty = -1
+    
+    let searchController = UISearchController(searchResultsController: nil)
     
     var faculties = [FacultyContactModel]()
     var filteredFaculties = [FacultyContactModel]()
@@ -35,12 +39,10 @@ class ContactsViewController: UITableViewController, UISearchBarDelegate {
         tableView.delegate = self
         tableView.register(FacultyContactCell.self, forCellReuseIdentifier: cellID)
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: blankCellID)
-        tableView.allowsSelection = false
+        self.navigationItem.searchController = searchController
         
         rControl.addTarget(self, action: #selector(handleRefresh), for: .valueChanged)
         tableView.addSubview(rControl)
-        
-        setupSearchBar()
         
         if let facultyData = UserDefaults.standard.data(forKey: FACULTY_CONTACT_KEY) {
             // Try to decode the data
@@ -49,12 +51,12 @@ class ContactsViewController: UITableViewController, UISearchBarDelegate {
                 faculties.append(f)
             }
         }
-    }
-    
-    func setupSearchBar() {
-        let searchbar = UISearchBar(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: 50))
-        searchbar.delegate = self
-        self.tableView.tableHeaderView = searchbar
+        
+        searchController.delegate = self
+        searchController.searchResultsUpdater = self
+        searchController.obscuresBackgroundDuringPresentation = false
+        self.definesPresentationContext = true
+        self.navigationController?.navigationBar.prefersLargeTitles = true
     }
     
     @objc func handleRefresh() {
@@ -102,26 +104,47 @@ class ContactsViewController: UITableViewController, UISearchBarDelegate {
         reloadTableView(tableViewToReload: tableView)
     }
     
-    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        filteredFaculties = faculties.filter({ (mod) -> Bool in
-             mod.name.lowercased().contains(searchText.lowercased())
-        })
-        self.tableView.reloadData()
-    }
-    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return filteredFaculties.count == 0 ? faculties.count : filteredFaculties.count
+        return isSearching() && !isSearchTextEmpty() ? filteredFaculties.count : faculties.count
     }
     
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let fv = FacultyContactView()
+        fv.currentFaculty = faculties[indexPath.row]
+        self.navigationController?.pushViewController(FacultyContactView(), animated: true)
+    }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath) as! FacultyContactCell
-        let currentFaculty = filteredFaculties.count == 0 ? faculties[indexPath.row] : filteredFaculties[indexPath.row]
+        let currentFaculty = isSearching() && !isSearchTextEmpty() ? filteredFaculties[indexPath.row] : faculties[indexPath.row]
         cell.currentFaculty = currentFaculty
         return cell
     }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 60
+    }
+    
+    func updateSearchResults(for searchController: UISearchController) {
+        guard let searchText = searchController.searchBar.text else { return }
+        if searchText.isEmpty {
+            filteredFaculties = []
+        }
+        else {
+            filteredFaculties = faculties.filter({ (model) -> Bool in
+                return model.name.lowercased().contains(searchText.lowercased())
+            })
+        }
+        tableView.reloadData()
+    }
+    
+    func isSearching() -> Bool {
+        return searchController.isActive
+    }
+    
+    func isSearchTextEmpty() -> Bool {
+        guard let text = searchController.searchBar.text else { return false }
+        
+        return text.isEmpty
     }
 }
