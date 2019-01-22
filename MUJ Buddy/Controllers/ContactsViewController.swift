@@ -56,7 +56,9 @@ class ContactsViewController: UITableViewController, UISearchControllerDelegate,
         searchController.searchResultsUpdater = self
         searchController.obscuresBackgroundDuringPresentation = false
         self.definesPresentationContext = true
-        self.navigationController?.navigationBar.prefersLargeTitles = true
+        
+        
+        navigationController?.navigationBar.prefersLargeTitles = true
     }
     
     @objc func handleRefresh() {
@@ -110,8 +112,8 @@ class ContactsViewController: UITableViewController, UISearchControllerDelegate,
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let fv = FacultyContactView()
-        fv.currentFaculty = faculties[indexPath.row]
-        self.navigationController?.pushViewController(FacultyContactView(), animated: true)
+        fv.currentFaculty = isSearching() && !isSearchTextEmpty() ? filteredFaculties[indexPath.row] : faculties[indexPath.row]
+        self.navigationController?.pushViewController(fv, animated: true)
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {

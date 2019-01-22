@@ -20,6 +20,13 @@
 		0112A68E21F47B5400B269FA /* FacultyContactCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0112A68D21F47B5400B269FA /* FacultyContactCell.swift */; };
 		0112A69021F4884F00B269FA /* FacultyContactModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0112A68F21F4884F00B269FA /* FacultyContactModel.swift */; };
 		0143EB6F21F5FDA3006B39F2 /* FacultyContactView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0143EB6E21F5FDA3006B39F2 /* FacultyContactView.swift */; };
+		014512C221F79E8000407B91 /* DashboardModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 014512BB21F79E8000407B91 /* DashboardModel.swift */; };
+		014512C321F79E8000407B91 /* EventsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 014512BC21F79E8000407B91 /* EventsModel.swift */; };
+		014512C421F79E8000407B91 /* GpaModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 014512BD21F79E8000407B91 /* GpaModel.swift */; };
+		014512C521F79E8000407B91 /* AttendanceModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 014512BE21F79E8000407B91 /* AttendanceModel.swift */; };
+		014512C621F79E8000407B91 /* FeeModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 014512BF21F79E8000407B91 /* FeeModel.swift */; };
+		014512C721F79E8000407B91 /* ResultsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 014512C021F79E8000407B91 /* ResultsModel.swift */; };
+		014512C821F79E8000407B91 /* InternalsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 014512C121F79E8000407B91 /* InternalsModel.swift */; };
 		01505C1C21F34265005D7971 /* LoginPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01505C1B21F34265005D7971 /* LoginPage.swift */; };
 		01505C1E21F38D60005D7971 /* LoginCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01505C1D21F38D60005D7971 /* LoginCell.swift */; };
 		01505C2021F3A2B6005D7971 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01505C1F21F3A2B6005D7971 /* MainViewController.swift */; };
@@ -44,6 +51,13 @@
 		0112A68D21F47B5400B269FA /* FacultyContactCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FacultyContactCell.swift; sourceTree = "<group>"; };
 		0112A68F21F4884F00B269FA /* FacultyContactModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FacultyContactModel.swift; sourceTree = "<group>"; };
 		0143EB6E21F5FDA3006B39F2 /* FacultyContactView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FacultyContactView.swift; sourceTree = "<group>"; };
+		014512BB21F79E8000407B91 /* DashboardModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DashboardModel.swift; sourceTree = "<group>"; };
+		014512BC21F79E8000407B91 /* EventsModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventsModel.swift; sourceTree = "<group>"; };
+		014512BD21F79E8000407B91 /* GpaModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GpaModel.swift; sourceTree = "<group>"; };
+		014512BE21F79E8000407B91 /* AttendanceModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AttendanceModel.swift; sourceTree = "<group>"; };
+		014512BF21F79E8000407B91 /* FeeModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeeModel.swift; sourceTree = "<group>"; };
+		014512C021F79E8000407B91 /* ResultsModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResultsModel.swift; sourceTree = "<group>"; };
+		014512C121F79E8000407B91 /* InternalsModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InternalsModel.swift; sourceTree = "<group>"; };
 		01505C1B21F34265005D7971 /* LoginPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginPage.swift; sourceTree = "<group>"; };
 		01505C1D21F38D60005D7971 /* LoginCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginCell.swift; sourceTree = "<group>"; };
 		01505C1F21F3A2B6005D7971 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
@@ -133,6 +147,13 @@
 			isa = PBXGroup;
 			children = (
 				01505C1B21F34265005D7971 /* LoginPage.swift */,
+				014512BE21F79E8000407B91 /* AttendanceModel.swift */,
+				014512BB21F79E8000407B91 /* DashboardModel.swift */,
+				014512BC21F79E8000407B91 /* EventsModel.swift */,
+				014512BF21F79E8000407B91 /* FeeModel.swift */,
+				014512BD21F79E8000407B91 /* GpaModel.swift */,
+				014512C121F79E8000407B91 /* InternalsModel.swift */,
+				014512C021F79E8000407B91 /* ResultsModel.swift */,
 				0112A68F21F4884F00B269FA /* FacultyContactModel.swift */,
 			);
 			path = Models;
@@ -218,12 +239,19 @@
 				0143EB6F21F5FDA3006B39F2 /* FacultyContactView.swift in Sources */,
 				01505C1C21F34265005D7971 /* LoginPage.swift in Sources */,
 				0112A68821F4606200B269FA /* AcademicsViewController.swift in Sources */,
+				014512C221F79E8000407B91 /* DashboardModel.swift in Sources */,
 				0110BB2E21F32B5500E6546A /* AppDelegate.swift in Sources */,
 				0112A69021F4884F00B269FA /* FacultyContactModel.swift in Sources */,
+				014512C321F79E8000407B91 /* EventsModel.swift in Sources */,
 				01505C1E21F38D60005D7971 /* LoginCell.swift in Sources */,
 				0112A68621F4605200B269FA /* DashboardViewController.swift in Sources */,
+				014512C821F79E8000407B91 /* InternalsModel.swift in Sources */,
+				014512C721F79E8000407B91 /* ResultsModel.swift in Sources */,
 				0112A68A21F4607000B269FA /* ContactsViewController.swift in Sources */,
 				01E9623921F4F48F002C9899 /* UtilityFunctions.swift in Sources */,
+				014512C621F79E8000407B91 /* FeeModel.swift in Sources */,
+				014512C421F79E8000407B91 /* GpaModel.swift in Sources */,
+				014512C521F79E8000407B91 /* AttendanceModel.swift in Sources */,
 				0112A68E21F47B5400B269FA /* FacultyContactCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

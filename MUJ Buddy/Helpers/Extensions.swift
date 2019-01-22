@@ -8,10 +8,6 @@
 
 import UIKit
 
-// Used by download image from URL method to save to the local disk
-let fileManager = FileManager.default
-let docURL = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first!
-
 // Custom extensions for this project, makes my life much easier
 extension UIColor {
     convenience init(r: CGFloat, g: CGFloat, b: CGFloat, alpha: CGFloat = 1) {
@@ -76,46 +72,18 @@ extension UIView {
 // To load the image form an URL
 extension UIImageView {
     func downloadImage(from url:String) {
-        // For storing the downloaded image locally
-        let tempURL = url.replacingOccurrences(of: "/", with: "")
-        let imageNameForStorage = docURL.appendingPathComponent(tempURL)
-        
-        // If the image is already present in the local directory, use that and stop the network request
-//        guard (FileManager.default.contents(atPath: imageNameForStorage.path) != nil),
-//            let imageData = try? Data(contentsOf: imageNameForStorage),
-//            let image = UIImage(data: imageData) else {
-//                return
-//        }
-        if FileManager.default.contents(atPath: imageNameForStorage.path) != nil {
-            let imageData = try? Data(contentsOf: imageNameForStorage)
-            if let data = imageData {
-                self.image = UIImage(data: data)
-                return
+        guard let u = URL(string: url) else { return }
+        URLSession.shared.dataTask(with: u) {(data, response, error) in
+            guard
+                let httpURLResponse = response as? HTTPURLResponse, httpURLResponse.statusCode == 200,
+                let mimeType = response?.mimeType, mimeType.hasPrefix("image"),
+                let data = data, error == nil,
+                let image = UIImage(data: data)
+                else { return }
+            // Set the image in the cache
+            DispatchQueue.main.async {
+                self.image = image
             }
-        }
-        else {
-            guard let u = URL(string: url) else { return }
-            URLSession.shared.dataTask(with: u) {(data, response, error) in
-                guard
-                    let httpURLResponse = response as? HTTPURLResponse, httpURLResponse.statusCode == 200,
-                    let mimeType = response?.mimeType, mimeType.hasPrefix("image"),
-                    let data = data, error == nil,
-                    let image = UIImage(data: data)
-                    else { return }
-                // Set the image in the cache
-                DispatchQueue.main.async {
-                    self.image = image
-                    // Now we will store the image locally and fetch it before the next call
-                    do {
-                        if let pngImageData = image.pngData() {
-                            try pngImageData.write(to: imageNameForStorage, options: .atomic)
-                        }
-                    }
-                    catch let err {
-                        print("Error: ",err)
-                    }
-                }
-                }.resume()
-        }
+            }.resume()
     }
 }
