@@ -13,13 +13,13 @@ class FacultyContactView: UIViewController {
     var currentFaculty: FacultyContactModel?
     
     // UI Image view that will contain the image for the teacher
-    let teacherImage: UIImageView = {
-        let iv = UIImageView()
+    let teacherImage: UIImageToDownload = {
+        let iv = UIImageToDownload()
         iv.clipsToBounds = true
         iv.layer.cornerRadius = 60
         iv.layer.masksToBounds = true
         iv.contentMode = .scaleAspectFill
-        iv.image = UIImage(named: "page_1")
+        iv.image = UIImage(named: "dummy")
         return iv
     }()
     
@@ -115,7 +115,7 @@ class FacultyContactView: UIViewController {
             departmentLabel.text = currF.department
             facultyEmail.text = " \(currF.email)"
             facultyPhone.text = "+91-\(currF.phone)"
-            teacherImage.downloadImage(from: currF.image)
+            teacherImage.dowloadAndSet(url: currF.image)
             self.navigationItem.title  = "Faculty Details"
         }
         

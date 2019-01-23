@@ -8,6 +8,8 @@
 
 import UIKit
 
+let imageCache = NSCache<NSString, UIImage>()
+
 // Custom extensions for this project, makes my life much easier
 extension UIColor {
     convenience init(r: CGFloat, g: CGFloat, b: CGFloat, alpha: CGFloat = 1) {
@@ -69,21 +71,41 @@ extension UIView {
     }
 }
 
-// To load the image form an URL
-extension UIImageView {
-    func downloadImage(from url:String) {
+// Custom sub class for the UIImage
+class UIImageToDownload: UIImageView {
+    
+    var imageURLString: String?
+    
+    // Function to get the image from the remote
+    func dowloadAndSet(url: String) {
+        imageURLString = url
+        print("Got imageURLString as: \(imageURLString!)")
+        print("Got imageURL as: \(url)")
+        
+        // Convert to URl
         guard let u = URL(string: url) else { return }
-        URLSession.shared.dataTask(with: u) {(data, response, error) in
+        
+        // Else send a URL request and fetch the image
+        URLSession.shared.dataTask(with: u) {(data, resp, error) in
+            
+            // Check for errors
+            if let error = error {
+                print("Error in HTTP Request, ", error)
+                return
+            }
+            
             guard
-                let httpURLResponse = response as? HTTPURLResponse, httpURLResponse.statusCode == 200,
-                let mimeType = response?.mimeType, mimeType.hasPrefix("image"),
-                let data = data, error == nil,
+                let data = data,
                 let image = UIImage(data: data)
                 else { return }
-            // Set the image in the cache
+            
+            // Set the image on the Main queue
             DispatchQueue.main.async {
-                self.image = image
+                if self.imageURLString == url {
+                    print("Setting image for: \(self.imageURLString!)")
+                    self.image = image
+                }
             }
-            }.resume()
+        }.resume()
     }
 }

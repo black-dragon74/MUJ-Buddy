@@ -12,7 +12,7 @@
 //
 //  API URLs
 //
-let API_URL = "https://siddharthjaidka.me/faculties.json"
+let API_URL = "https://restfuldms.herokuapp.com/faculties?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJNVUpfRE1TX0FQSSIsImlhdCI6MTU0ODIyMzE5MywiaXNzIjoiTmljayIsInBhciI6Ik4yWXlNalE0TlRRd01USTBOekJpTnpVMllXWTBUVVJrVkZKV1FYaFBWR3MwTW1GbVpqY3daakZsWTJKaE9RPT0nIiwic3RkIjoiTjJZeU1qUTROVFF3TVRJME56QmlOelUyWVdZME1UZzVOelU0T1RnME1tRm1aamN3WmpGbFkySmhPUT09IiwibmJmIjoxNTQ4MjIzMTkzLCJleHAiOjE1NDgyMjQ5OTN9.XaZvq-UElNwgfWcbo_fNnfym54_HHQPLO3ANtnzaVy0"
 
 
 //

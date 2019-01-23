@@ -14,15 +14,16 @@ class FacultyContactCell: UITableViewCell {
     var currentFaculty: FacultyContactModel? {
         didSet {
             guard let currF = currentFaculty else {return}
-            facultyImage.downloadImage(from: currF.image)
+            facultyImage.dowloadAndSet(url: currF.image)
             facultyName.text = currF.name
             facultyDesignation.text = currF.designation
         }
     }
     
     // Let's create an image item for the profile image
-    lazy var facultyImage: UIImageView = {
-        let f = UIImageView()
+    lazy var facultyImage: UIImageToDownload = {
+        let f = UIImageToDownload()
+        f.image = UIImage(named: "dummy")
         f.contentMode = .scaleAspectFill
         f.clipsToBounds = true
         f.layer.cornerRadius = 25 // Half of the cell's height

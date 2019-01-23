@@ -67,8 +67,7 @@ class ContactsViewController: UITableViewController, UISearchControllerDelegate,
         let task = URLSession.shared.dataTask(with: url) {(data, response, error) in
             guard let data = data else {return}
             if let error = error {
-                print("Error", error)
-                self.rControl.endRefreshing()
+                print("HTTP Error", error)
             }
             do {
                 
@@ -76,33 +75,33 @@ class ContactsViewController: UITableViewController, UISearchControllerDelegate,
                 let decoder = JSONDecoder()
                 let f = try decoder.decode([FacultyContactModel].self, from: data)
                 
-                // Empty the array as we'll populate once again
-                self.faculties = []
-                
-                // Append the array
-                for faculty in f {
-                    self.faculties.append(faculty)
+                DispatchQueue.main.async {
+                    // Empty the array as we'll populate once again
+                    self.faculties = []
+                    
+                    // Append the array
+                    for faculty in f {
+                        self.faculties.append(faculty)
+                    }
+                    
+                    // Save the data upon serialization
+                    let dataToSave = try! JSONEncoder().encode(self.faculties)
+                    UserDefaults.standard.removeObject(forKey: FACULTY_CONTACT_KEY)
+                    UserDefaults.standard.set(dataToSave, forKey: FACULTY_CONTACT_KEY)
                 }
-                
-                // Save the data upon serialization
-                let dataToSave = try! JSONEncoder().encode(self.faculties)
-                UserDefaults.standard.removeObject(forKey: FACULTY_CONTACT_KEY)
-                UserDefaults.standard.set(dataToSave, forKey: FACULTY_CONTACT_KEY)
             }
             catch let err {
-                print("Error ", err)
-                self.rControl.endRefreshing()
+                print("JSON Error ", err)
             }
         }
         task.resume()
         
-        rControl.endRefreshing()
-        
-        perform(#selector(reloadTable), with: nil, afterDelay: 0.01)
+        perform(#selector(reloadTable), with: nil, afterDelay: 0.2)
         
     }
     
     @objc func reloadTable() {
+        self.rControl.endRefreshing()
         reloadTableView(tableViewToReload: tableView)
     }
     
