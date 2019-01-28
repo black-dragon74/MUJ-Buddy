@@ -78,9 +78,7 @@ class LoginCell: UICollectionViewCell {
     
     // Handle login
     @objc fileprivate func handleLogin() {
-        let vc = MainViewController()
-        vc.viewControllers = [MainViewController()]
-        vc.dismiss(animated: true, completion: nil)
+        //TODO:- Implement this
     }
 }
 

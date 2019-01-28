@@ -23,7 +23,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window?.makeKeyAndVisible()
         
         // Set the root view controller
-        window?.rootViewController = MainViewController()
+        window?.rootViewController = UINavigationController(rootViewController: DashboardViewController())
         
         // Required
         return true

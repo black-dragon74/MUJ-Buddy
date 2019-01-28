@@ -2,7 +2,7 @@
 //  FacultyContactView.swift
 //  MUJ Buddy
 //
-//  Created by Nick on 1/21/19.
+//  Created by Nick on 1/28/19.
 //  Copyright © 2019 Nick. All rights reserved.
 //
 
@@ -10,140 +10,249 @@ import UIKit
 
 class FacultyContactView: UIViewController {
     
-    var currentFaculty: FacultyContactModel?
+    var currentFaculty: FacultyContactModel? {
+        didSet {
+            guard let currF = currentFaculty else { return }
+            nameLabel.text = currF.name
+            designationLabel.text = currF.designation
+            departmentLabel.text = currF.department
+            phoneLabel.text = currF.phone.isEmpty ? "NA" : currF.phone
+            emailLabel.text = currF.email.isEmpty ? "NA" : currF.email
+            facultyImage.downloadFromURL(urlString: currF.image) { (image, error) in
+                if let error = error {
+                    self.indicator.stopAnimating()
+                    print("Error in getting Image: ", error)
+                    return
+                }
+                
+                if let image = image {
+                    DispatchQueue.main.async {
+                        self.facultyImage.image = image
+                        self.indicator.stopAnimating()
+                    }
+                }
+            }
+        }
+    }
     
-    // UI Image view that will contain the image for the teacher
-    let teacherImage: UIImageToDownload = {
-        let iv = UIImageToDownload()
-        iv.clipsToBounds = true
-        iv.layer.cornerRadius = 60
-        iv.layer.masksToBounds = true
-        iv.contentMode = .scaleAspectFill
-        iv.image = UIImage(named: "dummy")
-        return iv
+    // Activity Indicator
+    let indicator: UIActivityIndicatorView = {
+        let i = UIActivityIndicatorView()
+        i.hidesWhenStopped = true
+        i.translatesAutoresizingMaskIntoConstraints = false
+        i.style = .whiteLarge
+        i.color = .orange
+        return i
     }()
     
-    // Bold label to show name
-    let nameLabel: UILabel = {
-        let l = UILabel()
-        l.font = UIFont.systemFont(ofSize: 24, weight: .bold)
-        return l
+    // Faculty Image
+    let facultyImage: UIImageView = {
+        let f = UIImageView()
+        f.contentMode = .scaleAspectFill
+        f.clipsToBounds = true
+        f.backgroundColor = .clear
+        return f
     }()
     
-    // Another label to show the designation
-    let designationLabel: UILabel = {
-        let d = UILabel()
-        d.font = UIFont.systemFont(ofSize: 20, weight: .semibold)
+    // View that contains name and title
+    let nameTitleView: UIView = {
+        let d = UIView()
+        d.backgroundColor = .white
+        d.heightAnchor.constraint(equalToConstant: 70).isActive = true
         return d
+    }()
+    
+    // Name label
+    let nameLabel: UILabel = {
+        let n = UILabel()
+        n.font = UIFont.systemFont(ofSize: 17, weight: .bold)
+        return n
+    }()
+    
+    // Designation label
+    let designationLabel: UILabel = {
+        let n = UILabel()
+        n.textColor = .darkGray
+        n.adjustsFontSizeToFitWidth = true
+        return n
+    }()
+    
+    // View that contains rest of the things
+    let detailedView: UIView = {
+        let d = UIView()
+        d.backgroundColor = .white
+        return d
+    }()
+    
+    // Phone Icon
+    let phoneIcon: UIImageView = {
+        let p = UIImageView()
+        p.contentMode = .scaleAspectFill
+        p.clipsToBounds = true
+        p.heightAnchor.constraint(equalToConstant: 40).isActive = true
+        p.widthAnchor.constraint(equalToConstant: 40).isActive = true
+        p.image = UIImage(named: "phone")
+        return p
+    }()
+    
+    // Phone Label
+    let phoneLabel: UILabel = {
+        let p = UILabel()
+        p.text = "+91-123456789"
+        p.font = UIFont.systemFont(ofSize: 15, weight: .bold)
+        p.isUserInteractionEnabled = true
+        return p
+    }()
+    
+    // Email Icon
+    let emailIcon: UIImageView = {
+        let p = UIImageView()
+        p.contentMode = .scaleAspectFill
+        p.clipsToBounds = true
+        p.heightAnchor.constraint(equalToConstant: 40).isActive = true
+        p.widthAnchor.constraint(equalToConstant: 40).isActive = true
+        p.image = UIImage(named: "email")
+        return p
+    }()
+    
+    // Email Label
+    let emailLabel: UILabel = {
+        let p = UILabel()
+        p.text = "someone@extralongemailaddress.com"
+        p.font = UIFont.systemFont(ofSize: 15, weight: .bold)
+        p.adjustsFontSizeToFitWidth = true
+        p.isUserInteractionEnabled = true
+        return p
+    }()
+    
+    // Department Icon
+    let departmentIcon: UIImageView = {
+        let p = UIImageView()
+        p.contentMode = .scaleAspectFill
+        p.clipsToBounds = true
+        p.heightAnchor.constraint(equalToConstant: 40).isActive = true
+        p.widthAnchor.constraint(equalToConstant: 40).isActive = true
+        p.image = UIImage(named: "work")
+        return p
     }()
     
     // Department Label
     let departmentLabel: UILabel = {
-        let d = UILabel()
-        d.font = UIFont.systemFont(ofSize: 18, weight: .semibold)
-        d.textColor = .lightGray
-        return d
-    }()
-    
-    // Create a separator
-    let separator: UIView = {
-        let s = UIView()
-        s.backgroundColor = UIColor(white: 0.2, alpha: 1)
-        s.heightAnchor.constraint(equalToConstant: 1).isActive = true
-        return s
-    }()
-    
-    // Contact details info label
-    let contactDetails: UILabel = {
-        let l = UILabel()
-        l.text = "Contact details:"
-        l.font = UIFont.systemFont(ofSize: 24, weight: .heavy)
-        return l
-    }()
-    
-    // Email label
-    let emailLabel: UILabel = {
-        let e = UILabel()
-        e.font = UIFont.boldSystemFont(ofSize: 16)
-        e.text = "Email: "
-        return e
-    }()
-    
-    // Phone label
-    let phoneLabel: UILabel = {
-        let e = UILabel()
-        e.font = UIFont.boldSystemFont(ofSize: 16)
-        e.text = "Mobile: "
-        return e
-    }()
-    
-    // Real Email
-    let facultyEmail: UILabel = {
-        let f = UILabel()
-        return f
-    }()
-    
-    // Real phone number
-    let facultyPhone: UILabel = {
-        let f = UILabel()
-        return f
+        let p = UILabel()
+        p.text = "Dept. of science and what not"
+        p.font = UIFont.systemFont(ofSize: 15, weight: .bold)
+        p.adjustsFontSizeToFitWidth = true
+        return p
     }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        view.backgroundColor = UIColor(red: 238/255, green: 239/255, blue: 243/255, alpha: 1)
+        self.title = "Details"
+        
         setupViews()
     }
     
-    func setupViews() {
-        view.backgroundColor = .white
-        // Add view to the subviews
-        view.addSubview(teacherImage)
-        view.addSubview(nameLabel)
-        view.addSubview(designationLabel)
-        view.addSubview(departmentLabel)
-        view.addSubview(separator)
-        view.addSubview(contactDetails)
-        view.addSubview(emailLabel)
-        view.addSubview(phoneLabel)
-        view.addSubview(facultyEmail)
-        view.addSubview(facultyPhone)
+    fileprivate func setupViews() {
+        view.addSubview(facultyImage)
+        facultyImage.addSubview(indicator)
         
-        if let currF = currentFaculty {
-            nameLabel.text = currF.name
-            designationLabel.text = currF.designation
-            departmentLabel.text = currF.department
-            facultyEmail.text = " \(currF.email)"
-            facultyPhone.text = "+91-\(currF.phone)"
-            teacherImage.dowloadAndSet(url: currF.image)
-            self.navigationItem.title  = "Faculty Details"
+        
+        view.addSubview(nameTitleView)
+        nameTitleView.addSubview(nameLabel)
+        nameTitleView.addSubview(designationLabel)
+        
+        
+        view.addSubview(detailedView)
+        detailedView.addSubview(phoneIcon)
+        detailedView.addSubview(phoneLabel)
+        detailedView.addSubview(emailIcon)
+        detailedView.addSubview(emailLabel)
+        detailedView.addSubview(departmentIcon)
+        detailedView.addSubview(departmentLabel)
+        
+        //MARK:- Gesture recognizers
+        phoneLabel.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(callPhone)))
+        emailLabel.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(sendEmail)))
+        
+        
+        indicator.startAnimating()
+        
+        //MARK:- Constraints
+        facultyImage.anchorWithConstraints(top: view.safeAreaLayoutGuide.topAnchor, right: view.rightAnchor, left: view.leftAnchor, height: view.frame.height / 2.5)
+        indicator.centerXAnchor.constraint(equalTo: facultyImage.centerXAnchor).isActive = true
+        indicator.centerYAnchor.constraint(equalTo: facultyImage.centerYAnchor).isActive = true
+        
+        nameTitleView.anchorWithConstraints(top: facultyImage.bottomAnchor, right: view.rightAnchor, left: view.leftAnchor)
+        nameLabel.anchorWithConstraints(top: nameTitleView.topAnchor, left: nameTitleView.leftAnchor, topOffset: 14, leftOffset: 16)
+        designationLabel.anchorWithConstraints(top: nameLabel.bottomAnchor, left: nameTitleView.leftAnchor, topOffset: 5, leftOffset: 16)
+        designationLabel.widthAnchor.constraint(equalToConstant: (view.frame.width - 17)).isActive = true
+        
+        detailedView.anchorWithConstraints(top: nameTitleView.bottomAnchor, right: view.rightAnchor, bottom: view.safeAreaLayoutGuide.bottomAnchor, left: view.leftAnchor, topOffset: 10)
+        
+        phoneIcon.anchorWithConstraints(top: detailedView.topAnchor, left: detailedView.leftAnchor, topOffset: 14, leftOffset: 16)
+        phoneLabel.anchorWithConstraints(left: phoneIcon.rightAnchor, leftOffset: 16)
+        phoneLabel.centerYAnchor.constraint(equalTo: phoneIcon.centerYAnchor).isActive = true
+        
+        emailIcon.anchorWithConstraints(top: phoneIcon.bottomAnchor, left: detailedView.leftAnchor, topOffset: 14, leftOffset: 16)
+        emailLabel.anchorWithConstraints(left: emailIcon.rightAnchor, leftOffset: 16)
+        emailLabel.centerYAnchor.constraint(equalTo: emailIcon.centerYAnchor).isActive = true
+        emailLabel.widthAnchor.constraint(equalToConstant: (view.frame.width - 72)).isActive = true
+        
+        departmentIcon.anchorWithConstraints(top: emailIcon.bottomAnchor, left: detailedView.leftAnchor, topOffset: 15, leftOffset: 16)
+        departmentLabel.anchorWithConstraints(left: departmentIcon.rightAnchor, leftOffset: 16)
+        departmentLabel.centerYAnchor.constraint(equalTo: departmentIcon.centerYAnchor).isActive = true
+        departmentLabel.widthAnchor.constraint(equalToConstant: (view.frame.width - 72)).isActive = true
+        
+    }
+    
+    //MARK:- OBJC Fuctions
+    @objc func callPhone() {
+        if let phoneNumber = phoneLabel.text {
+            if phoneNumber == "NA"{
+                return
+            }
+            else {
+                let phone = "tel://+91" + phoneNumber
+                guard let url = URL(string: phone) else { return }
+                UIApplication.shared.open(url, options: [:], completionHandler: nil)
+            }
         }
+    }
+    
+    @objc func sendEmail() {
+        if let emailAddress = emailLabel.text {
+            if emailAddress == "NA"{
+                return
+            }
+            else {
+                let email = "mailto://" + emailAddress
+                guard let url = URL(string: email) else { return }
+                UIApplication.shared.open(url, options: [:], completionHandler: nil)
+            }
+        }
+    }
+}
+
+//MARK:- Extensions for Image View
+extension UIImageView {
+    func downloadFromURL(urlString: String, completion: @escaping(UIImage?, Error?) -> Void) {
+        let escapedURL = urlString.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)
+        guard let url = URL(string: escapedURL!) else { return }
         
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .reply, target: self, action: nil)
-        
-        // Set the contraints
-        _ = teacherImage.anchorWithConstantsToTop(top: view.topAnchor, right: nil, bottom: nil, left: nil, topConstant: 150, rightConstant: 0, bottomConstant: 0, leftConstant: 0, heightConstant: 120, widthConstant: 120)
-        teacherImage.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        
-        _ = nameLabel.anchorWithConstantsToTop(top: teacherImage.bottomAnchor, right: nil, bottom: nil, left: nil, topConstant: 10, rightConstant: 0, bottomConstant: 0, leftConstant: 0, heightConstant: nil, widthConstant: nil)
-        nameLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        
-        _ = designationLabel.anchorWithConstantsToTop(top: nameLabel.bottomAnchor, right: nil, bottom: nil, left: nil, topConstant: 5, rightConstant: 0, bottomConstant: 0, leftConstant: 0, heightConstant: nil, widthConstant: nil)
-        designationLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        
-        _ = departmentLabel.anchorWithConstantsToTop(top: designationLabel.bottomAnchor, right: nil, bottom: nil, left: nil, topConstant: 5, rightConstant: 0, bottomConstant: 0, leftConstant: 0, heightConstant: nil, widthConstant: nil)
-        departmentLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        
-        _ = separator.anchorWithConstantsToTop(top: departmentLabel.bottomAnchor, right: view.rightAnchor, bottom: nil, left: view.leftAnchor, topConstant: 5, rightConstant: 8, bottomConstant: 0, leftConstant: 8, heightConstant: nil, widthConstant: nil)
-        
-        _ = contactDetails.anchorWithConstantsToTop(top: separator.bottomAnchor, right: nil, bottom: nil, left: view.leftAnchor, topConstant: 10, rightConstant: 0, bottomConstant: 0, leftConstant: 8, heightConstant: nil, widthConstant: nil)
-        
-        _ = emailLabel.anchorWithConstantsToTop(top: contactDetails.bottomAnchor, right: nil, bottom: nil, left: view.leftAnchor, topConstant: 10, rightConstant: 0, bottomConstant: 0, leftConstant: 7, heightConstant: nil, widthConstant: nil)
-        
-        _ = phoneLabel.anchorWithConstantsToTop(top: emailLabel.bottomAnchor, right: nil, bottom: nil, left: view.leftAnchor, topConstant: 10, rightConstant: 0, bottomConstant: 0, leftConstant: 8, heightConstant: nil, widthConstant: nil)
-        
-        _ = facultyEmail.anchorWithConstantsToTop(top: contactDetails.bottomAnchor, right: nil, bottom: nil, left: emailLabel.rightAnchor, topConstant: 10, rightConstant: 0, bottomConstant: 0, leftConstant: 20, heightConstant: nil, widthConstant: nil)
-        
-        _ = facultyPhone.anchorWithConstantsToTop(top: facultyEmail.bottomAnchor, right: nil, bottom: nil, left: phoneLabel.rightAnchor, topConstant: 10, rightConstant: 0, bottomConstant: 0, leftConstant: 10, heightConstant: nil, widthConstant: nil)
+        URLSession.shared.dataTask(with: url) {(data, status, error) in
+            if let error = error {
+                print(error)
+                completion(nil, error)
+                return
+            }
+            
+            if let data = data {
+                let image = UIImage(data: data)
+                completion(image, nil)
+                return
+            }
+            }.resume()
     }
 }

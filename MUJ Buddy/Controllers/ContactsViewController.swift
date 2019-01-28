@@ -2,7 +2,7 @@
 //  ContactsViewController.swift
 //  MUJ Buddy
 //
-//  Created by Nick on 1/20/19.
+//  Created by Nick on 1/28/19.
 //  Copyright © 2019 Nick. All rights reserved.
 //
 
@@ -10,142 +10,192 @@ import UIKit
 
 class ContactsViewController: UITableViewController, UISearchControllerDelegate, UISearchResultsUpdating {
     
-    let cellID = "cellid"
-    let blankCellID = "blackcellid"
+    // Cell indentifier
+    let cellID = "cellID"
     
-    let selectedFaculty = -1
+    // Faculty details that will be fetched
+    var facultyDetails = [FacultyContactModel]()
+    var filteredFacultyDetails = [FacultyContactModel]()
     
+    // Search controller
     let searchController = UISearchController(searchResultsController: nil)
     
-    var faculties = [FacultyContactModel]()
-    var filteredFaculties = [FacultyContactModel]()
-    
-    lazy var rControl: UIRefreshControl = {
+    // Refresh Control
+    let rControl: UIRefreshControl = {
         let r = UIRefreshControl()
-        r.tintColor = .orange
         return r
     }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.title = "Contacts"
         
-        // Set up the views
+        // Register the cell
+        tableView.register(UITableViewCell.self, forCellReuseIdentifier: cellID)
+        
+        // Setup the views
         setupViews()
     }
     
-    fileprivate func setupViews() {
-        tableView.dataSource = self
-        tableView.delegate = self
-        tableView.register(FacultyContactCell.self, forCellReuseIdentifier: cellID)
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: blankCellID)
+    func setupViews() {
+        self.title = "Faculty Contacts"
         self.navigationItem.searchController = searchController
-        
-        rControl.addTarget(self, action: #selector(handleRefresh), for: .valueChanged)
-        tableView.addSubview(rControl)
-        
-        if let facultyData = UserDefaults.standard.data(forKey: FACULTY_CONTACT_KEY) {
-            // Try to decode the data
-            let decodedData = try! JSONDecoder().decode([FacultyContactModel].self, from: facultyData)
-            for f in decodedData {
-                faculties.append(f)
-            }
-        }
-        
-        searchController.delegate = self
-        searchController.searchResultsUpdater = self
-        searchController.obscuresBackgroundDuringPresentation = false
         self.definesPresentationContext = true
+        rControl.addTarget(self, action: #selector(handleRefresh), for: .valueChanged)
+        self.refreshControl = rControl
         
+        searchController.obscuresBackgroundDuringPresentation = false
+        searchController.searchResultsUpdater = self
+        searchController.delegate = self
         
-        navigationController?.navigationBar.prefersLargeTitles = true
-    }
-    
-    @objc func handleRefresh() {
-        // Create a new URLSession
-        guard let url = URL(string: API_URL) else { return }
-        let task = URLSession.shared.dataTask(with: url) {(data, response, error) in
-            guard let data = data else {return}
-            if let error = error {
-                print("HTTP Error", error)
+        // Get faculty details
+        getFacultyDetails(token: TOKEN) { (faculties, err) in
+            if let error = err {
+                print("Error: ", error)
+                return
             }
-            do {
-                
-                // Decode the data
-                let decoder = JSONDecoder()
-                let f = try decoder.decode([FacultyContactModel].self, from: data)
-                
+            
+            if let facultie = faculties {
+                for f in facultie {
+                    self.facultyDetails.append(f)
+                }
                 DispatchQueue.main.async {
-                    // Empty the array as we'll populate once again
-                    self.faculties = []
-                    
-                    // Append the array
-                    for faculty in f {
-                        self.faculties.append(faculty)
-                    }
-                    
-                    // Save the data upon serialization
-                    let dataToSave = try! JSONEncoder().encode(self.faculties)
-                    UserDefaults.standard.removeObject(forKey: FACULTY_CONTACT_KEY)
-                    UserDefaults.standard.set(dataToSave, forKey: FACULTY_CONTACT_KEY)
+                    self.tableView.reloadData()
                 }
             }
-            catch let err {
-                print("JSON Error ", err)
+        }
+    }
+    
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        
+        print("Memory warning received.")
+    }
+    
+    //MARK:- Refresh Control OBJC method
+    @objc fileprivate func handleRefresh() {
+        // Empty user defaults
+        UserDefaults.standard.removeObject(forKey: "https://siddharthjaidka.me/faculties.json")
+        
+        // Get faculty details
+        getFacultyDetails(token: TOKEN) { (faculties, err) in
+            if let error = err {
+                print("Error: ", error)
+                return
+            }
+            
+            if let facultie = faculties {
+                for f in facultie {
+                    self.facultyDetails.append(f)
+                }
+                DispatchQueue.main.async {
+                    self.rControl.endRefreshing()
+                    self.tableView.reloadData()
+                }
             }
         }
-        task.resume()
-        
-        perform(#selector(reloadTable), with: nil, afterDelay: 0.2)
-        
     }
     
-    @objc func reloadTable() {
-        self.rControl.endRefreshing()
-        reloadTableView(tableViewToReload: tableView)
-    }
-    
+    //MARK:- Table view delegate
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return isSearching() && !isSearchTextEmpty() ? filteredFaculties.count : faculties.count
+        return filteredFacultyDetails.count == 0 ? facultyDetails.count : filteredFacultyDetails.count
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let fv = FacultyContactView()
-        fv.currentFaculty = isSearching() && !isSearchTextEmpty() ? filteredFaculties[indexPath.row] : faculties[indexPath.row]
-        self.navigationController?.pushViewController(fv, animated: true)
+        let selectedItem = filteredFacultyDetails.count == 0 ? facultyDetails[indexPath.row] : filteredFacultyDetails[indexPath.row]
+        let fView = FacultyContactView()
+        fView.currentFaculty = selectedItem
+        self.navigationController?.pushViewController(fView, animated: true)
     }
     
+    // MARK:- Table view data source
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath) as! FacultyContactCell
-        let currentFaculty = isSearching() && !isSearchTextEmpty() ? filteredFaculties[indexPath.row] : faculties[indexPath.row]
-        cell.currentFaculty = currentFaculty
+        let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath)
+        cell.textLabel?.font = UIFont.systemFont(ofSize: 17, weight: .bold)
+        cell.textLabel?.text = filteredFacultyDetails.count == 0 ? facultyDetails[indexPath.row].name : filteredFacultyDetails[indexPath.row].name
         return cell
     }
     
-    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 60
-    }
-    
+    //MARK:- Search Controller delegate
     func updateSearchResults(for searchController: UISearchController) {
-        guard let searchText = searchController.searchBar.text else { return }
-        if searchText.isEmpty {
-            filteredFaculties = []
+        guard let text = searchController.searchBar.text else { return }
+        if text.isEmpty {
+            // Null the array
+            filteredFacultyDetails = []
         }
         else {
-            filteredFaculties = faculties.filter({ (model) -> Bool in
-                return model.name.lowercased().contains(searchText.lowercased())
+            filteredFacultyDetails = facultyDetails.filter({ (model) -> Bool in
+                return model.name.lowercased().contains(text.lowercased())
             })
         }
+        
+        perform(#selector(refreshTableView), with: self, afterDelay: 0.02)
+    }
+    
+    @objc func refreshTableView() {
         tableView.reloadData()
     }
     
     func isSearching() -> Bool {
-        return searchController.isActive
+        return self.searchController.isActive
     }
     
     func isSearchTextEmpty() -> Bool {
-        guard let text = searchController.searchBar.text else { return false }
-        
+        guard let text = self.searchController.searchBar.text else { return false }
         return text.isEmpty
     }
+    
+    func getFacultyDetails(token: String, uponFinishing: @escaping ([FacultyContactModel]?, Error?) -> ()) {
+        
+        let tURL = "https://restfuldms.herokuapp.com/faculties?token=\(token)"
+        
+        guard let url = URL(string: tURL) else { return }
+        
+        // Check if the data is there in userdefaults
+        if let data = UserDefaults.standard.object(forKey: "https://siddharthjaidka.me/faculties.json") as? Data {
+            print("Processing User Defaults data")
+            do {
+                let decoder = JSONDecoder()
+                let json =  try decoder.decode([FacultyContactModel].self, from: data)
+                print("Got data as JSON from user defaults")
+                uponFinishing(json, nil)
+                return
+            }
+            catch let err {
+                print("JSON ERROR in user defaults, ",err)
+                uponFinishing(nil, err)
+                return
+            }
+        }
+        
+        // Send the request, if the datat is not saved in user defaults
+        URLSession.shared.dataTask(with: url) {(data, response, error) in
+            if let error = error {
+                print("HTTP error: ", error)
+                uponFinishing(nil, error)
+                return
+            }
+            
+            if let data = data {
+                // Try to decode
+                do {
+                    let decoder = JSONDecoder()
+                    let json =  try decoder.decode([FacultyContactModel].self, from: data)
+                    print("Got data as JSON from the web")
+                    // Encode and save
+                    let encoder = JSONEncoder()
+                    let encodedData = try! encoder.encode(json)
+                    UserDefaults.standard.removeObject(forKey: "https://siddharthjaidka.me/faculties.json")
+                    UserDefaults.standard.set(encodedData, forKey: "https://siddharthjaidka.me/faculties.json")
+                    uponFinishing(json, nil)
+                }
+                catch let err {
+                    print("JSON ERROR, ",err)
+                    uponFinishing(nil, err)
+                    return
+                }
+            }
+            
+            }.resume()
+    }
+    
 }
