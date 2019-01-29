@@ -168,7 +168,7 @@ class AttendanceController: UIViewController, UICollectionViewDelegate, UICollec
         getAttendance(token: getToken(), isRefresh: true) { (model, err) in
             if err != nil {
                 DispatchQueue.main.async {
-                    self.indicator.stopAnimating()
+                    self.rControl.endRefreshing()
                     let alert = showAlert(with: "Your attendance is not available on the DMS")
                     self.present(alert, animated: true, completion: nil)
                 }

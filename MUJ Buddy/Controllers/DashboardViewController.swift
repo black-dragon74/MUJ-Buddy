@@ -207,10 +207,26 @@ class DashboardViewController: UIViewController, UICollectionViewDelegate, UICol
         }
     }
     
-    fileprivate func fetchDashDetails(token: String, completion: @escaping(DashboardModel?, Error?) -> Void) {
+    fileprivate func fetchDashDetails(token: String, isRefresh: Bool = false, completion: @escaping(DashboardModel?, Error?) -> Void) {
         // We hate empty tokens, right?
         if token == "nil" {
             return
+        }
+        
+        if !isRefresh {
+            if let datafromDB = getDashFromDB() {
+                let decoder = JSONDecoder()
+                decoder.keyDecodingStrategy = .convertFromSnakeCase
+                do {
+                    let json = try decoder.decode(DashboardModel.self, from: datafromDB)
+                    completion(json, nil)
+                    return
+                }
+                catch let err {
+                    completion(nil, err)
+                    return
+                }
+            }
         }
         
         let u = API_URL + "dashboard?token=\(token)"
@@ -227,6 +243,10 @@ class DashboardViewController: UIViewController, UICollectionViewDelegate, UICol
                 decoder.keyDecodingStrategy = .convertFromSnakeCase
                 do {
                     let json = try decoder.decode(DashboardModel.self, from: data)
+                    // Save to JSON
+                    let encoder = JSONEncoder()
+                    let dashData = try! encoder.encode(json)
+                    updateDashInDB(data: dashData)
                     completion(json, nil)
                     return
                 }

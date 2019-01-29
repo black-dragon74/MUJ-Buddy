@@ -51,6 +51,26 @@ func isLoggedIn() -> Bool {
 
 
 //
+//  Dashboard related functions
+//
+func updateDashInDB(data: Data?) {
+    guard let data = data else { return }
+    UserDefaults.standard.removeObject(forKey: DASHBOARD_KEY)
+    UserDefaults.standard.set(data, forKey: DASHBOARD_KEY)
+    UserDefaults.standard.synchronize()
+}
+
+func getDashFromDB() -> Data? {
+    if let data = UserDefaults.standard.object(forKey: DASHBOARD_KEY) as? Data {
+        return data
+    }
+    else {
+        return nil
+    }
+}
+
+
+//
 //  Attendance related functions
 //
 func updateAttendanceInDB(attendance: Data?) {
