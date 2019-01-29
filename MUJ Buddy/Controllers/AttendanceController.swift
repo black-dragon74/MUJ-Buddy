@@ -28,6 +28,14 @@ class AttendanceController: UIViewController, UICollectionViewDelegate, UICollec
         return i
     }()
     
+    // Refresh control
+    let rControl: UIRefreshControl = {
+        let r = UIRefreshControl()
+        r.addTarget(self, action: #selector(handleAttendanceRefresh), for: .valueChanged)
+        r.tintColor = .orange
+        return r
+    }()
+    
     var attendanceDetails = [AttendanceModel]()
     
     let cellID = "cellID"
@@ -49,6 +57,7 @@ class AttendanceController: UIViewController, UICollectionViewDelegate, UICollec
         collectionView.dataSource = self
         collectionView.delegate = self
         collectionView.register(AttendanceCell.self, forCellWithReuseIdentifier: cellID)
+        collectionView.refreshControl = rControl
         
         // Constraints
         indicator.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
@@ -60,7 +69,11 @@ class AttendanceController: UIViewController, UICollectionViewDelegate, UICollec
         // Get attendance details
         getAttendance(token: getToken()) { (model, err) in
             if err != nil {
-                self.indicator.stopAnimating()
+                DispatchQueue.main.async {
+                    self.indicator.stopAnimating()
+                    let alert = showAlert(with: "Your attendance is not available on the DMS")
+                    self.present(alert, animated: true, completion: nil)
+                }
                 return
             }
             
@@ -98,10 +111,26 @@ class AttendanceController: UIViewController, UICollectionViewDelegate, UICollec
     }
     
     //MARK:- Custom functions
-    func getAttendance(token: String, completion: @escaping([AttendanceModel]?, Error?) -> Void) {
+    func getAttendance(token: String, isRefresh: Bool = false, completion: @escaping([AttendanceModel]?, Error?) -> Void) {
         // We hate empty tokens, right?
         if token == "nil" {
             return
+        }
+        
+        // Check if attendance is there in the DB, saves an extra call, but only when it is not a refresh request
+        if !isRefresh {
+            if let attendanceInDB = getAttendanceFromDB() {
+                do {
+                    let decoder = JSONDecoder()
+                    let json = try decoder.decode([AttendanceModel].self, from: attendanceInDB)
+                    completion(json, nil)
+                    return
+                }
+                catch let err {
+                    completion(nil, err)
+                    return
+                }
+            }
         }
         
         let u = API_URL + "attendance?token=\(token)"
@@ -118,6 +147,10 @@ class AttendanceController: UIViewController, UICollectionViewDelegate, UICollec
                 let decoder = JSONDecoder()
                 do {
                     let json = try decoder.decode([AttendanceModel].self, from: data)
+                    // Save to user defaults
+                    let encoder = JSONEncoder()
+                    let attendanceData = try? encoder.encode(json) // If it is empty, nil value will be returned from the utility function
+                    updateAttendanceInDB(attendance: attendanceData)
                     completion(json, nil)
                     return
                 }
@@ -128,6 +161,31 @@ class AttendanceController: UIViewController, UICollectionViewDelegate, UICollec
                 }
             }
             }.resume()
+    }
+    
+    @objc func handleAttendanceRefresh() {
+        // Get attendance details
+        getAttendance(token: getToken(), isRefresh: true) { (model, err) in
+            if err != nil {
+                DispatchQueue.main.async {
+                    self.indicator.stopAnimating()
+                    let alert = showAlert(with: "Your attendance is not available on the DMS")
+                    self.present(alert, animated: true, completion: nil)
+                }
+                return
+            }
+            
+            if let data = model {
+                self.attendanceDetails = [] // Coz we will append to it now
+                for d in data {
+                    DispatchQueue.main.async {
+                        self.attendanceDetails.append(d)
+                        self.rControl.endRefreshing()
+                        self.collectionView.reloadData()
+                    }
+                }
+            }
+        }
     }
     
 }

@@ -23,6 +23,7 @@ class ContactsViewController: UITableViewController, UISearchControllerDelegate,
     // Refresh Control
     let rControl: UIRefreshControl = {
         let r = UIRefreshControl()
+        r.tintColor = .orange
         return r
     }()
     
