@@ -22,7 +22,7 @@ class DashCell: UICollectionViewCell {
     // Parent controller
     let cellUIView: UIView = {
         let c = UIView()
-        //        c.clipsToBounds = true //TODO:- Fix overlap in a better way on iPhone 5s
+//      c.clipsToBounds = true //TODO:- Fix overlap in a better way on iPhone 5s
         return c
     }()
     

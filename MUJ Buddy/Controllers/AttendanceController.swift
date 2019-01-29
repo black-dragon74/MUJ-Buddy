@@ -58,7 +58,7 @@ class AttendanceController: UIViewController, UICollectionViewDelegate, UICollec
         collectionView.anchorWithConstraints(top: view.safeAreaLayoutGuide.topAnchor, right: view.rightAnchor, bottom: view.safeAreaLayoutGuide.bottomAnchor, left: view.leftAnchor, topOffset: 0, rightOffset: 0, bottomOffset: 0, leftOffset: 0, height: nil, width: nil)
         
         // Get attendance details
-        getAttendance(token: TOKEN) { (model, err) in
+        getAttendance(token: getToken()) { (model, err) in
             if err != nil {
                 self.indicator.stopAnimating()
                 return
@@ -99,7 +99,12 @@ class AttendanceController: UIViewController, UICollectionViewDelegate, UICollec
     
     //MARK:- Custom functions
     func getAttendance(token: String, completion: @escaping([AttendanceModel]?, Error?) -> Void) {
-        let u = "https://restfuldms.herokuapp.com/attendance?token=\(token)"
+        // We hate empty tokens, right?
+        if token == "nil" {
+            return
+        }
+        
+        let u = API_URL + "attendance?token=\(token)"
         guard let url = URL(string: u) else { return }
         
         // Start a URL session

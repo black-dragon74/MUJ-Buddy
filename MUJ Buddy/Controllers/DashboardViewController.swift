@@ -1,5 +1,5 @@
 //
-//  ViewController.swift
+//  DashboardViewController.swift
 //  MUJ Buddy
 //
 //  Created by Nick on 1/22/19.
@@ -98,6 +98,9 @@ class DashboardViewController: UIViewController, UICollectionViewDelegate, UICol
         self.navigationItem.title = "Dashboard"
         view.backgroundColor = .white
         
+        // Logout button
+        let logoutButton = UIBarButtonItem(title: "Logout", style: .plain, target: self, action: #selector(handleLogout))
+        self.navigationItem.rightBarButtonItem = logoutButton
         
         view.addSubview(admView)
         view.addSubview(collectionView)
@@ -127,7 +130,7 @@ class DashboardViewController: UIViewController, UICollectionViewDelegate, UICol
         acadTF.anchorWithConstraints(top: programLabel.bottomAnchor, right: nil, bottom: nil, left: acadLabel.rightAnchor, topOffset: 4, rightOffset: 0, bottomOffset: 0, leftOffset: 4, height: nil, width: nil)
         
         //MARK:- Fetch details from the remote
-        fetchDashDetails(token: TOKEN) { (dash, err) in
+        fetchDashDetails(token: getToken()) { (dash, err) in
             if err != nil {
                 return
             }
@@ -205,7 +208,12 @@ class DashboardViewController: UIViewController, UICollectionViewDelegate, UICol
     }
     
     fileprivate func fetchDashDetails(token: String, completion: @escaping(DashboardModel?, Error?) -> Void) {
-        let u = "https://restfuldms.herokuapp.com/dashboard?token=\(token)"
+        // We hate empty tokens, right?
+        if token == "nil" {
+            return
+        }
+        
+        let u = API_URL + "dashboard?token=\(token)"
         guard let url = URL(string: u) else { return }
         URLSession.shared.dataTask(with: url) {(data, response, error) in
             if let error = error {
@@ -229,6 +237,12 @@ class DashboardViewController: UIViewController, UICollectionViewDelegate, UICol
                 }
             }
             }.resume()
+    }
+    
+    @objc fileprivate func handleLogout() {
+        UserDefaults.standard.removePersistentDomain(forName: Bundle.main.bundleIdentifier!)
+        UserDefaults.standard.synchronize()
+        present(LoginViewController(), animated: true, completion: nil)
     }
 }
 

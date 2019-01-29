@@ -8,7 +8,7 @@
 
 import UIKit
 
-class LoginViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+class LoginViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, LoginDelegate {
     
     // TODO: Change the status bar to be light
 //    override var preferredStatusBarStyle: UIStatusBarStyle = .lightContent
@@ -220,7 +220,8 @@ class LoginViewController: UIViewController, UICollectionViewDelegate, UICollect
     // Cell for item at the index path
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         if (indexPath.item == pages.count) {
-            let loginCell = collectionView.dequeueReusableCell(withReuseIdentifier: self.loginCell, for: indexPath)
+            let loginCell = collectionView.dequeueReusableCell(withReuseIdentifier: self.loginCell, for: indexPath) as! LoginCell
+            loginCell.delegate = self
             return loginCell
         }
         
@@ -233,6 +234,73 @@ class LoginViewController: UIViewController, UICollectionViewDelegate, UICollect
     // Size of an individual cell
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: view.frame.width, height: view.frame.height)
+    }
+    
+    func handleLogin() {
+        // Call the login cell instance
+        let cell = collectionView.cellForItem(at: IndexPath(item: pages.count, section: 0)) as! LoginCell
+        let username = cell.userTextField.text
+        let password = cell.passwordField.text
+        if username != "" && password != "" {
+            // Perform login
+            // Encrypt the password and the userrname
+            cell.progressBar.startAnimating()
+            cell.loginButton.isUserInteractionEnabled = false
+            let encUser = encodeUID(userid: username!)
+            let encPass = encodePassword(password: password!)
+            
+            // Send a login request
+            let u = API_URL + "auth?userid=\(encUser)&password=\(encPass)"
+            guard let url = URL(string: u) else { return }
+            URLSession.shared.dataTask(with: url) {(data, response, error) in
+                if let error = error {
+                    DispatchQueue.main.async {
+                        let alert = showAlert(with: error as? String ?? "Error while communicating to the server")
+                        self.present(alert, animated: true, completion: nil)
+                        cell.progressBar.stopAnimating()
+                        cell.loginButton.isEnabled = true
+                    }
+                    return
+                }
+                
+                if let data = data {
+                    do {
+                        let json = try JSONSerialization.jsonObject(with: data, options: []) as! [String: String]
+                        let error = json["error"]
+                        let token = json["token"]
+                        if let error = error {
+                            DispatchQueue.main.async {
+                                let alert = showAlert(with: error)
+                                self.present(alert, animated: true, completion: nil)
+                                cell.progressBar.stopAnimating()
+                                cell.loginButton.isUserInteractionEnabled = true
+                            }
+                            return
+                        }
+                        
+                        if let token = token {
+                            DispatchQueue.main.async {
+                                // We have the token, set it to user defaults and dismiss the login controller
+                                updateAndSetToken(to: token)
+                                let newController = UINavigationController(rootViewController: DashboardViewController())
+                                self.present(newController, animated: true, completion: nil)
+                            }
+                            return
+                        }
+                    }
+                    catch let err {
+                        print("Error: ", err)
+                        DispatchQueue.main.async {
+                            let alert = showAlert(with: "Server sent an invalid response")
+                            self.present(alert, animated: true, completion: nil)
+                            cell.progressBar.stopAnimating()
+                            cell.loginButton.isUserInteractionEnabled = true
+                        }
+                        return
+                    }
+                }
+            }.resume()
+        }
     }
 
 }

@@ -48,7 +48,7 @@ class ContactsViewController: UITableViewController, UISearchControllerDelegate,
         searchController.delegate = self
         
         // Get faculty details
-        getFacultyDetails(token: TOKEN) { (faculties, err) in
+        getFacultyDetails(token: getToken()) { (faculties, err) in
             if let error = err {
                 print("Error: ", error)
                 return
@@ -74,10 +74,10 @@ class ContactsViewController: UITableViewController, UISearchControllerDelegate,
     //MARK:- Refresh Control OBJC method
     @objc fileprivate func handleRefresh() {
         // Empty user defaults
-        UserDefaults.standard.removeObject(forKey: "https://siddharthjaidka.me/faculties.json")
+        UserDefaults.standard.removeObject(forKey: FACULTY_CONTACT_KEY)
         
         // Get faculty details
-        getFacultyDetails(token: TOKEN) { (faculties, err) in
+        getFacultyDetails(token: getToken()) { (faculties, err) in
             if let error = err {
                 print("Error: ", error)
                 return
@@ -102,7 +102,7 @@ class ContactsViewController: UITableViewController, UISearchControllerDelegate,
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let selectedItem = filteredFacultyDetails.count == 0 ? facultyDetails[indexPath.row] : filteredFacultyDetails[indexPath.row]
-        let fView = FacultyContactView()
+        let fView = FacultyContactViewController()
         fView.currentFaculty = selectedItem
         self.navigationController?.pushViewController(fView, animated: true)
     }
@@ -145,13 +145,17 @@ class ContactsViewController: UITableViewController, UISearchControllerDelegate,
     }
     
     func getFacultyDetails(token: String, uponFinishing: @escaping ([FacultyContactModel]?, Error?) -> ()) {
+        // We hate empty tokens, right?
+        if token == "nil" {
+            return
+        }
         
-        let tURL = "https://restfuldms.herokuapp.com/faculties?token=\(token)"
+        let tURL = API_URL + "faculties?token=\(token)"
         
         guard let url = URL(string: tURL) else { return }
         
         // Check if the data is there in userdefaults
-        if let data = UserDefaults.standard.object(forKey: "https://siddharthjaidka.me/faculties.json") as? Data {
+        if let data = UserDefaults.standard.object(forKey: FACULTY_CONTACT_KEY) as? Data {
             print("Processing User Defaults data")
             do {
                 let decoder = JSONDecoder()
@@ -184,8 +188,8 @@ class ContactsViewController: UITableViewController, UISearchControllerDelegate,
                     // Encode and save
                     let encoder = JSONEncoder()
                     let encodedData = try! encoder.encode(json)
-                    UserDefaults.standard.removeObject(forKey: "https://siddharthjaidka.me/faculties.json")
-                    UserDefaults.standard.set(encodedData, forKey: "https://siddharthjaidka.me/faculties.json")
+                    UserDefaults.standard.removeObject(forKey: FACULTY_CONTACT_KEY)
+                    UserDefaults.standard.set(encodedData, forKey: FACULTY_CONTACT_KEY)
                     uponFinishing(json, nil)
                 }
                 catch let err {

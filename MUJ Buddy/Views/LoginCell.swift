@@ -11,6 +11,9 @@ import UIKit
 
 class LoginCell: UICollectionViewCell {
     
+    // Delegate
+    weak var delegate: LoginDelegate?
+    
     // Image view to contain the logo
     let logoView: UIImageView = {
         let l = UIImageView()
@@ -45,6 +48,16 @@ class LoginCell: UICollectionViewCell {
         return b
     }()
     
+    // Progress bar to show while loggin in
+    let progressBar: UIActivityIndicatorView = {
+        let p = UIActivityIndicatorView()
+        p.translatesAutoresizingMaskIntoConstraints = false
+        p.style = .whiteLarge
+        p.color = .red
+        p.hidesWhenStopped = true
+        return p
+    }()
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         
@@ -54,12 +67,16 @@ class LoginCell: UICollectionViewCell {
     
     func setupViews() {
         // Add child views to the subviews
+        addSubview(progressBar)
         addSubview(logoView)
         addSubview(userTextField)
         addSubview(passwordField)
         addSubview(loginButton)
         
         // Set the constraints
+        progressBar.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
+        progressBar.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
+        
         _ = logoView.anchorWithConstantsToTop(top: centerYAnchor, right: nil, bottom: nil, left: nil, topConstant: -200, rightConstant: 0, bottomConstant: 0, leftConstant: 0, heightConstant: 150, widthConstant: 150)
         logoView.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
         
@@ -78,7 +95,9 @@ class LoginCell: UICollectionViewCell {
     
     // Handle login
     @objc fileprivate func handleLogin() {
-        //TODO:- Implement this
+        if let delegate = delegate {
+            delegate.handleLogin()
+        }
     }
 }
 
