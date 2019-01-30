@@ -139,6 +139,8 @@ class AttendanceCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         
+        self.dropShadow()
+        
         setupViews()
     }
     

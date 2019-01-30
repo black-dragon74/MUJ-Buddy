@@ -41,7 +41,7 @@ class FacultyContactViewController: UIViewController {
         i.hidesWhenStopped = true
         i.translatesAutoresizingMaskIntoConstraints = false
         i.style = .whiteLarge
-        i.color = .orange
+        i.color = .red
         return i
     }()
     
@@ -148,7 +148,7 @@ class FacultyContactViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.backgroundColor = UIColor(red: 238/255, green: 239/255, blue: 243/255, alpha: 1)
+        view.backgroundColor = DMSColors.primaryLighter.value
         self.title = "Details"
         
         setupViews()

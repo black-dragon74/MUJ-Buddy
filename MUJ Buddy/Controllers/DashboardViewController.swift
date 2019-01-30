@@ -191,9 +191,12 @@ class DashboardViewController: UIViewController, UICollectionViewDelegate, UICol
             break
         case "Events":
             print("Pushing Events")
+            self.navigationController?.pushViewController(EventsViewController(collectionViewLayout: UICollectionViewLayout()), animated: true)
             break
         case "Announcements":
             print("Pushing Announcements")
+            let alert = showAlert(with: "Annnouncements are not available on the DMS as of now.")
+            present(alert, animated: true, completion: nil)
             break
         case "Fee Details":
             print("Pushing Fee Details")

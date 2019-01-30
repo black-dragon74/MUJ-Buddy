@@ -18,6 +18,9 @@
 		0112A68C21F4607E00B269FA /* AboutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0112A68B21F4607E00B269FA /* AboutViewController.swift */; };
 		0112A68E21F47B5400B269FA /* FacultyContactCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0112A68D21F47B5400B269FA /* FacultyContactCell.swift */; };
 		0112A69021F4884F00B269FA /* FacultyContactModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0112A68F21F4884F00B269FA /* FacultyContactModel.swift */; };
+		01261C992201F7CF00E6EB63 /* EventsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01261C982201F7CF00E6EB63 /* EventsViewController.swift */; };
+		01261C9B2201FEDA00E6EB63 /* Enumerators.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01261C9A2201FEDA00E6EB63 /* Enumerators.swift */; };
+		01261C9D220200B300E6EB63 /* EventsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01261C9C220200B300E6EB63 /* EventsCell.swift */; };
 		0143EB6F21F5FDA3006B39F2 /* FacultyContactViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0143EB6E21F5FDA3006B39F2 /* FacultyContactViewController.swift */; };
 		014512C221F79E8000407B91 /* DashboardModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 014512BB21F79E8000407B91 /* DashboardModel.swift */; };
 		014512C321F79E8000407B91 /* EventsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 014512BC21F79E8000407B91 /* EventsModel.swift */; };
@@ -52,6 +55,9 @@
 		0112A68B21F4607E00B269FA /* AboutViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutViewController.swift; sourceTree = "<group>"; };
 		0112A68D21F47B5400B269FA /* FacultyContactCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FacultyContactCell.swift; sourceTree = "<group>"; };
 		0112A68F21F4884F00B269FA /* FacultyContactModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FacultyContactModel.swift; sourceTree = "<group>"; };
+		01261C982201F7CF00E6EB63 /* EventsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsViewController.swift; sourceTree = "<group>"; };
+		01261C9A2201FEDA00E6EB63 /* Enumerators.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Enumerators.swift; sourceTree = "<group>"; };
+		01261C9C220200B300E6EB63 /* EventsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsCell.swift; sourceTree = "<group>"; };
 		0143EB6E21F5FDA3006B39F2 /* FacultyContactViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FacultyContactViewController.swift; sourceTree = "<group>"; };
 		014512BB21F79E8000407B91 /* DashboardModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DashboardModel.swift; sourceTree = "<group>"; };
 		014512BC21F79E8000407B91 /* EventsModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventsModel.swift; sourceTree = "<group>"; };
@@ -121,6 +127,7 @@
 				01B4C95521F4CA0E004D0DB4 /* Encryptor.swift */,
 				01E9623621F4DB40002C9899 /* Constants.swift */,
 				01E9623821F4F48F002C9899 /* UtilityFunctions.swift */,
+				01261C9A2201FEDA00E6EB63 /* Enumerators.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -133,6 +140,7 @@
 				0112A68D21F47B5400B269FA /* FacultyContactCell.swift */,
 				0168081921FF7C7B007AA4DC /* DashCell.swift */,
 				0168081D21FF7E01007AA4DC /* AttendanceCell.swift */,
+				01261C9C220200B300E6EB63 /* EventsCell.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -146,6 +154,7 @@
 				0112A68B21F4607E00B269FA /* AboutViewController.swift */,
 				0168081B21FF7DD2007AA4DC /* AttendanceController.swift */,
 				0143EB6E21F5FDA3006B39F2 /* FacultyContactViewController.swift */,
+				01261C982201F7CF00E6EB63 /* EventsViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -264,13 +273,16 @@
 				014512C321F79E8000407B91 /* EventsModel.swift in Sources */,
 				01505C1E21F38D60005D7971 /* LoginCell.swift in Sources */,
 				0112A68621F4605200B269FA /* DashboardViewController.swift in Sources */,
+				01261C9D220200B300E6EB63 /* EventsCell.swift in Sources */,
 				014512C821F79E8000407B91 /* InternalsModel.swift in Sources */,
+				01261C9B2201FEDA00E6EB63 /* Enumerators.swift in Sources */,
 				014512C721F79E8000407B91 /* ResultsModel.swift in Sources */,
 				0112A68A21F4607000B269FA /* ContactsViewController.swift in Sources */,
 				01E9623921F4F48F002C9899 /* UtilityFunctions.swift in Sources */,
 				014512C621F79E8000407B91 /* FeeModel.swift in Sources */,
 				014512C421F79E8000407B91 /* GpaModel.swift in Sources */,
 				014512C521F79E8000407B91 /* AttendanceModel.swift in Sources */,
+				01261C992201F7CF00E6EB63 /* EventsViewController.swift in Sources */,
 				01FD5A7522008F3D00ECDF3E /* LoginDelegate.swift in Sources */,
 				0112A68E21F47B5400B269FA /* FacultyContactCell.swift in Sources */,
 			);

@@ -14,7 +14,7 @@ class AttendanceController: UIViewController, UICollectionViewDelegate, UICollec
     let collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         let c = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        c.backgroundColor = .lightGray
+        c.backgroundColor = DMSColors.primaryLighter.value
         return c
     }()
     
@@ -24,7 +24,7 @@ class AttendanceController: UIViewController, UICollectionViewDelegate, UICollec
         i.style = .whiteLarge
         i.hidesWhenStopped = true
         i.translatesAutoresizingMaskIntoConstraints = false
-        i.color = .orange
+        i.color = .red
         return i
     }()
     
@@ -32,7 +32,7 @@ class AttendanceController: UIViewController, UICollectionViewDelegate, UICollec
     let rControl: UIRefreshControl = {
         let r = UIRefreshControl()
         r.addTarget(self, action: #selector(handleAttendanceRefresh), for: .valueChanged)
-        r.tintColor = .orange
+        r.tintColor = .red
         return r
     }()
     
@@ -79,11 +79,12 @@ class AttendanceController: UIViewController, UICollectionViewDelegate, UICollec
             
             if let data = model {
                 for d in data {
-                    DispatchQueue.main.async {
-                        self.attendanceDetails.append(d)
-                        self.collectionView.reloadData()
-                        self.indicator.stopAnimating()
-                    }
+                    self.attendanceDetails.append(d)
+                }
+                
+                DispatchQueue.main.async {
+                    self.collectionView.reloadData()
+                    self.indicator.stopAnimating()
                 }
             }
         }
@@ -178,11 +179,12 @@ class AttendanceController: UIViewController, UICollectionViewDelegate, UICollec
             if let data = model {
                 self.attendanceDetails = [] // Coz we will append to it now
                 for d in data {
-                    DispatchQueue.main.async {
-                        self.attendanceDetails.append(d)
-                        self.rControl.endRefreshing()
-                        self.collectionView.reloadData()
-                    }
+                    self.attendanceDetails.append(d)
+                }
+                
+                DispatchQueue.main.async {
+                    self.rControl.endRefreshing()
+                    self.collectionView.reloadData()
                 }
             }
         }

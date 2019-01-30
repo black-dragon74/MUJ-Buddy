@@ -95,6 +95,7 @@ class LoginCell: UICollectionViewCell {
     
     // Handle login
     @objc fileprivate func handleLogin() {
+        endEditing(true)
         if let delegate = delegate {
             delegate.handleLogin()
         }

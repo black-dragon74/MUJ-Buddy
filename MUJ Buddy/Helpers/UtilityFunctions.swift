@@ -88,3 +88,22 @@ func getAttendanceFromDB() -> Data? {
         return nil
     }
 }
+
+//
+//  Events related function
+//
+func updateEventsInDB(events: Data?) {
+    guard let events = events else { return } // Safely unwrap the data
+    UserDefaults.standard.removeObject(forKey: EVENTS_KEY)
+    UserDefaults.standard.set(events, forKey: EVENTS_KEY)
+    UserDefaults.standard.synchronize()
+}
+
+func getEventsFromDB() -> Data? {
+    if let eventFromDb = UserDefaults.standard.object(forKey: EVENTS_KEY) as? Data {
+        return eventFromDb
+    }
+    else {
+        return nil
+    }
+}

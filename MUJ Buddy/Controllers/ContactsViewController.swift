@@ -23,8 +23,18 @@ class ContactsViewController: UITableViewController, UISearchControllerDelegate,
     // Refresh Control
     let rControl: UIRefreshControl = {
         let r = UIRefreshControl()
-        r.tintColor = .orange
+        r.tintColor = .red
         return r
+    }()
+    
+    // Indicator
+    let indicator: UIActivityIndicatorView = {
+        let i = UIActivityIndicatorView()
+        i.style = .whiteLarge
+        i.hidesWhenStopped = true
+        i.translatesAutoresizingMaskIntoConstraints = false
+        i.color = .red
+        return i
     }()
     
     override func viewDidLoad() {
@@ -44,14 +54,24 @@ class ContactsViewController: UITableViewController, UISearchControllerDelegate,
         rControl.addTarget(self, action: #selector(handleRefresh), for: .valueChanged)
         self.refreshControl = rControl
         
+        self.indicator.startAnimating()
+        
+        view.addSubview(indicator)
+        
+        indicator.anchorWithConstraints(top: view.centerYAnchor, left: view.centerXAnchor, topOffset: -100, leftOffset: -20)
+        
         searchController.obscuresBackgroundDuringPresentation = false
         searchController.searchResultsUpdater = self
         searchController.delegate = self
         
         // Get faculty details
         getFacultyDetails(token: getToken()) { (faculties, err) in
-            if let error = err {
-                print("Error: ", error)
+            if err != nil {
+                DispatchQueue.main.async {
+                    self.indicator.stopAnimating()
+                    let alert = showAlert(with: "Unable to get faculty details.")
+                    self.present(alert, animated: true, completion: nil)
+                }
                 return
             }
             
@@ -60,6 +80,7 @@ class ContactsViewController: UITableViewController, UISearchControllerDelegate,
                     self.facultyDetails.append(f)
                 }
                 DispatchQueue.main.async {
+                    self.indicator.stopAnimating()
                     self.tableView.reloadData()
                 }
             }
@@ -74,17 +95,19 @@ class ContactsViewController: UITableViewController, UISearchControllerDelegate,
     
     //MARK:- Refresh Control OBJC method
     @objc fileprivate func handleRefresh() {
-        // Empty user defaults
-        UserDefaults.standard.removeObject(forKey: FACULTY_CONTACT_KEY)
-        
-        // Get faculty details
-        getFacultyDetails(token: getToken()) { (faculties, err) in
-            if let error = err {
-                print("Error: ", error)
+        // Refresh
+        getFacultyDetails(token: getToken(), isRefresh: true) { (faculties, err) in
+            if err != nil {
+                DispatchQueue.main.async {
+                    self.rControl.endRefreshing()
+                    let alert = showAlert(with: "Unable to get faculty details.")
+                    self.present(alert, animated: true, completion: nil)
+                }
                 return
             }
             
             if let facultie = faculties {
+                self.facultyDetails = []
                 for f in facultie {
                     self.facultyDetails.append(f)
                 }
@@ -145,7 +168,7 @@ class ContactsViewController: UITableViewController, UISearchControllerDelegate,
         return text.isEmpty
     }
     
-    func getFacultyDetails(token: String, uponFinishing: @escaping ([FacultyContactModel]?, Error?) -> ()) {
+    func getFacultyDetails(token: String, isRefresh: Bool = false, uponFinishing: @escaping ([FacultyContactModel]?, Error?) -> ()) {
         // We hate empty tokens, right?
         if token == "nil" {
             return
@@ -155,20 +178,22 @@ class ContactsViewController: UITableViewController, UISearchControllerDelegate,
         
         guard let url = URL(string: tURL) else { return }
         
-        // Check if the data is there in userdefaults
-        if let data = UserDefaults.standard.object(forKey: FACULTY_CONTACT_KEY) as? Data {
-            print("Processing User Defaults data")
-            do {
-                let decoder = JSONDecoder()
-                let json =  try decoder.decode([FacultyContactModel].self, from: data)
-                print("Got data as JSON from user defaults")
-                uponFinishing(json, nil)
-                return
-            }
-            catch let err {
-                print("JSON ERROR in user defaults, ",err)
-                uponFinishing(nil, err)
-                return
+        if !isRefresh {
+            // Check if the data is there in userdefaults
+            if let data = UserDefaults.standard.object(forKey: FACULTY_CONTACT_KEY) as? Data {
+                print("Processing User Defaults data")
+                do {
+                    let decoder = JSONDecoder()
+                    let json =  try decoder.decode([FacultyContactModel].self, from: data)
+                    print("Got data as JSON from user defaults")
+                    uponFinishing(json, nil)
+                    return
+                }
+                catch let err {
+                    print("JSON ERROR in user defaults, ",err)
+                    uponFinishing(nil, err)
+                    return
+                }
             }
         }
         

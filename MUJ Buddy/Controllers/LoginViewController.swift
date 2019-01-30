@@ -258,7 +258,7 @@ class LoginViewController: UIViewController, UICollectionViewDelegate, UICollect
                         let alert = showAlert(with: error as? String ?? "Error while communicating to the server")
                         self.present(alert, animated: true, completion: nil)
                         cell.progressBar.stopAnimating()
-                        cell.loginButton.isEnabled = true
+                        cell.loginButton.isUserInteractionEnabled = true
                     }
                     return
                 }
