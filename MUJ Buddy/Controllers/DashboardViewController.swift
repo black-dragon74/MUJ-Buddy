@@ -130,7 +130,7 @@ class DashboardViewController: UIViewController, UICollectionViewDelegate, UICol
         acadTF.anchorWithConstraints(top: programLabel.bottomAnchor, right: nil, bottom: nil, left: acadLabel.rightAnchor, topOffset: 4, rightOffset: 0, bottomOffset: 0, leftOffset: 4, height: nil, width: nil)
         
         //MARK:- Fetch details from the remote
-        fetchDashDetails(token: getToken()) { (dash, err) in
+        Service.shared.fetchDashDetails(token: getToken()) { (dash, err) in
             if err != nil {
                 return
             }
@@ -178,7 +178,7 @@ class DashboardViewController: UIViewController, UICollectionViewDelegate, UICol
     fileprivate func selectAndPushViewController(using viewControllerName: String) {
         switch viewControllerName {
         case "Attendance":
-            self.navigationController?.pushViewController(AttendanceController(), animated: true)
+            self.navigationController?.pushViewController(AttendanceViewController(), animated: true)
             break
         case "Internals":
             print("Pushing Internals")
@@ -187,14 +187,12 @@ class DashboardViewController: UIViewController, UICollectionViewDelegate, UICol
             print("Pushing Results")
             break
         case "GPA":
-            print("Pushing GPA")
+            self.navigationController?.pushViewController(GPAViewController(), animated: true)
             break
         case "Events":
-            print("Pushing Events")
             self.navigationController?.pushViewController(EventsViewController(collectionViewLayout: UICollectionViewLayout()), animated: true)
             break
         case "Announcements":
-            print("Pushing Announcements")
             let alert = showAlert(with: "Annnouncements are not available on the DMS as of now.")
             present(alert, animated: true, completion: nil)
             break
@@ -208,58 +206,6 @@ class DashboardViewController: UIViewController, UICollectionViewDelegate, UICol
         default:
             break
         }
-    }
-    
-    fileprivate func fetchDashDetails(token: String, isRefresh: Bool = false, completion: @escaping(DashboardModel?, Error?) -> Void) {
-        // We hate empty tokens, right?
-        if token == "nil" {
-            return
-        }
-        
-        if !isRefresh {
-            if let datafromDB = getDashFromDB() {
-                let decoder = JSONDecoder()
-                decoder.keyDecodingStrategy = .convertFromSnakeCase
-                do {
-                    let json = try decoder.decode(DashboardModel.self, from: datafromDB)
-                    completion(json, nil)
-                    return
-                }
-                catch let err {
-                    completion(nil, err)
-                    return
-                }
-            }
-        }
-        
-        let u = API_URL + "dashboard?token=\(token)"
-        guard let url = URL(string: u) else { return }
-        URLSession.shared.dataTask(with: url) {(data, response, error) in
-            if let error = error {
-                print("HTTP Error: ", error)
-                completion(nil, error)
-                return
-            }
-            
-            if let data = data {
-                let decoder = JSONDecoder()
-                decoder.keyDecodingStrategy = .convertFromSnakeCase
-                do {
-                    let json = try decoder.decode(DashboardModel.self, from: data)
-                    // Save to JSON
-                    let encoder = JSONEncoder()
-                    let dashData = try! encoder.encode(json)
-                    updateDashInDB(data: dashData)
-                    completion(json, nil)
-                    return
-                }
-                catch let ex {
-                    print("JSON ERROR: ", ex)
-                    completion(nil, ex)
-                    return
-                }
-            }
-            }.resume()
     }
     
     @objc fileprivate func handleLogout() {

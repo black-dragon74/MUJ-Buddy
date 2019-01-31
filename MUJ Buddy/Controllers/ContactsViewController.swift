@@ -65,7 +65,7 @@ class ContactsViewController: UITableViewController, UISearchControllerDelegate,
         searchController.delegate = self
         
         // Get faculty details
-        getFacultyDetails(token: getToken()) { (faculties, err) in
+        Service.shared.getFacultyDetails(token: getToken()) { (faculties, err) in
             if err != nil {
                 DispatchQueue.main.async {
                     self.indicator.stopAnimating()
@@ -96,7 +96,7 @@ class ContactsViewController: UITableViewController, UISearchControllerDelegate,
     //MARK:- Refresh Control OBJC method
     @objc fileprivate func handleRefresh() {
         // Refresh
-        getFacultyDetails(token: getToken(), isRefresh: true) { (faculties, err) in
+        Service.shared.getFacultyDetails(token: getToken(), isRefresh: true) { (faculties, err) in
             if err != nil {
                 DispatchQueue.main.async {
                     self.rControl.endRefreshing()
@@ -121,7 +121,7 @@ class ContactsViewController: UITableViewController, UISearchControllerDelegate,
     
     //MARK:- Table view delegate
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return filteredFacultyDetails.count == 0 ? facultyDetails.count : filteredFacultyDetails.count
+        return isSearching() && !isSearchTextEmpty() ? filteredFacultyDetails.count : facultyDetails.count
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -135,7 +135,7 @@ class ContactsViewController: UITableViewController, UISearchControllerDelegate,
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath)
         cell.textLabel?.font = UIFont.systemFont(ofSize: 17, weight: .bold)
-        cell.textLabel?.text = filteredFacultyDetails.count == 0 ? facultyDetails[indexPath.row].name : filteredFacultyDetails[indexPath.row].name
+        cell.textLabel?.text = isSearching() && !isSearchTextEmpty() ? filteredFacultyDetails[indexPath.row].name : facultyDetails[indexPath.row].name
         return cell
     }
     
@@ -166,66 +166,6 @@ class ContactsViewController: UITableViewController, UISearchControllerDelegate,
     func isSearchTextEmpty() -> Bool {
         guard let text = self.searchController.searchBar.text else { return false }
         return text.isEmpty
-    }
-    
-    func getFacultyDetails(token: String, isRefresh: Bool = false, uponFinishing: @escaping ([FacultyContactModel]?, Error?) -> ()) {
-        // We hate empty tokens, right?
-        if token == "nil" {
-            return
-        }
-        
-        let tURL = API_URL + "faculties?token=\(token)"
-        
-        guard let url = URL(string: tURL) else { return }
-        
-        if !isRefresh {
-            // Check if the data is there in userdefaults
-            if let data = UserDefaults.standard.object(forKey: FACULTY_CONTACT_KEY) as? Data {
-                print("Processing User Defaults data")
-                do {
-                    let decoder = JSONDecoder()
-                    let json =  try decoder.decode([FacultyContactModel].self, from: data)
-                    print("Got data as JSON from user defaults")
-                    uponFinishing(json, nil)
-                    return
-                }
-                catch let err {
-                    print("JSON ERROR in user defaults, ",err)
-                    uponFinishing(nil, err)
-                    return
-                }
-            }
-        }
-        
-        // Send the request, if the datat is not saved in user defaults
-        URLSession.shared.dataTask(with: url) {(data, response, error) in
-            if let error = error {
-                print("HTTP error: ", error)
-                uponFinishing(nil, error)
-                return
-            }
-            
-            if let data = data {
-                // Try to decode
-                do {
-                    let decoder = JSONDecoder()
-                    let json =  try decoder.decode([FacultyContactModel].self, from: data)
-                    print("Got data as JSON from the web")
-                    // Encode and save
-                    let encoder = JSONEncoder()
-                    let encodedData = try! encoder.encode(json)
-                    UserDefaults.standard.removeObject(forKey: FACULTY_CONTACT_KEY)
-                    UserDefaults.standard.set(encodedData, forKey: FACULTY_CONTACT_KEY)
-                    uponFinishing(json, nil)
-                }
-                catch let err {
-                    print("JSON ERROR, ",err)
-                    uponFinishing(nil, err)
-                    return
-                }
-            }
-            
-            }.resume()
     }
     
 }

@@ -21,6 +21,9 @@
 		01261C992201F7CF00E6EB63 /* EventsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01261C982201F7CF00E6EB63 /* EventsViewController.swift */; };
 		01261C9B2201FEDA00E6EB63 /* Enumerators.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01261C9A2201FEDA00E6EB63 /* Enumerators.swift */; };
 		01261C9D220200B300E6EB63 /* EventsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01261C9C220200B300E6EB63 /* EventsCell.swift */; };
+		013AE8E6220348B800A8831C /* GPAViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 013AE8E5220348B800A8831C /* GPAViewController.swift */; };
+		013AE8E82203546A00A8831C /* GPACell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 013AE8E72203546A00A8831C /* GPACell.swift */; };
+		013AE8EB2203682900A8831C /* Service.swift in Sources */ = {isa = PBXBuildFile; fileRef = 013AE8EA2203682900A8831C /* Service.swift */; };
 		0143EB6F21F5FDA3006B39F2 /* FacultyContactViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0143EB6E21F5FDA3006B39F2 /* FacultyContactViewController.swift */; };
 		014512C221F79E8000407B91 /* DashboardModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 014512BB21F79E8000407B91 /* DashboardModel.swift */; };
 		014512C321F79E8000407B91 /* EventsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 014512BC21F79E8000407B91 /* EventsModel.swift */; };
@@ -33,7 +36,7 @@
 		01505C1E21F38D60005D7971 /* LoginCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01505C1D21F38D60005D7971 /* LoginCell.swift */; };
 		0168081821FF7C52007AA4DC /* MenuModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0168081721FF7C52007AA4DC /* MenuModel.swift */; };
 		0168081A21FF7C7B007AA4DC /* DashCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0168081921FF7C7B007AA4DC /* DashCell.swift */; };
-		0168081C21FF7DD2007AA4DC /* AttendanceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0168081B21FF7DD2007AA4DC /* AttendanceController.swift */; };
+		0168081C21FF7DD2007AA4DC /* AttendanceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0168081B21FF7DD2007AA4DC /* AttendanceViewController.swift */; };
 		0168081E21FF7E01007AA4DC /* AttendanceCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0168081D21FF7E01007AA4DC /* AttendanceCell.swift */; };
 		01B4C95621F4CA0E004D0DB4 /* Encryptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01B4C95521F4CA0E004D0DB4 /* Encryptor.swift */; };
 		01E9623721F4DB40002C9899 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01E9623621F4DB40002C9899 /* Constants.swift */; };
@@ -58,6 +61,9 @@
 		01261C982201F7CF00E6EB63 /* EventsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsViewController.swift; sourceTree = "<group>"; };
 		01261C9A2201FEDA00E6EB63 /* Enumerators.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Enumerators.swift; sourceTree = "<group>"; };
 		01261C9C220200B300E6EB63 /* EventsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsCell.swift; sourceTree = "<group>"; };
+		013AE8E5220348B800A8831C /* GPAViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GPAViewController.swift; sourceTree = "<group>"; };
+		013AE8E72203546A00A8831C /* GPACell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GPACell.swift; sourceTree = "<group>"; };
+		013AE8EA2203682900A8831C /* Service.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Service.swift; sourceTree = "<group>"; };
 		0143EB6E21F5FDA3006B39F2 /* FacultyContactViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FacultyContactViewController.swift; sourceTree = "<group>"; };
 		014512BB21F79E8000407B91 /* DashboardModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DashboardModel.swift; sourceTree = "<group>"; };
 		014512BC21F79E8000407B91 /* EventsModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventsModel.swift; sourceTree = "<group>"; };
@@ -70,7 +76,7 @@
 		01505C1D21F38D60005D7971 /* LoginCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginCell.swift; sourceTree = "<group>"; };
 		0168081721FF7C52007AA4DC /* MenuModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuModel.swift; sourceTree = "<group>"; };
 		0168081921FF7C7B007AA4DC /* DashCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashCell.swift; sourceTree = "<group>"; };
-		0168081B21FF7DD2007AA4DC /* AttendanceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttendanceController.swift; sourceTree = "<group>"; };
+		0168081B21FF7DD2007AA4DC /* AttendanceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttendanceViewController.swift; sourceTree = "<group>"; };
 		0168081D21FF7E01007AA4DC /* AttendanceCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttendanceCell.swift; sourceTree = "<group>"; };
 		01B4C95521F4CA0E004D0DB4 /* Encryptor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Encryptor.swift; sourceTree = "<group>"; };
 		01E9623621F4DB40002C9899 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
@@ -108,6 +114,7 @@
 		0110BB2C21F32B5500E6546A /* MUJ Buddy */ = {
 			isa = PBXGroup;
 			children = (
+				013AE8E92203680D00A8831C /* API */,
 				01FD5A7322008F1C00ECDF3E /* Delegates */,
 				01505C1A21F3424A005D7971 /* Models */,
 				01505C1921F33FB9005D7971 /* Controllers */,
@@ -141,8 +148,17 @@
 				0168081921FF7C7B007AA4DC /* DashCell.swift */,
 				0168081D21FF7E01007AA4DC /* AttendanceCell.swift */,
 				01261C9C220200B300E6EB63 /* EventsCell.swift */,
+				013AE8E72203546A00A8831C /* GPACell.swift */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		013AE8E92203680D00A8831C /* API */ = {
+			isa = PBXGroup;
+			children = (
+				013AE8EA2203682900A8831C /* Service.swift */,
+			);
+			path = API;
 			sourceTree = "<group>";
 		};
 		01505C1921F33FB9005D7971 /* Controllers */ = {
@@ -152,9 +168,10 @@
 				0112A68521F4605200B269FA /* DashboardViewController.swift */,
 				0112A68921F4607000B269FA /* ContactsViewController.swift */,
 				0112A68B21F4607E00B269FA /* AboutViewController.swift */,
-				0168081B21FF7DD2007AA4DC /* AttendanceController.swift */,
+				0168081B21FF7DD2007AA4DC /* AttendanceViewController.swift */,
 				0143EB6E21F5FDA3006B39F2 /* FacultyContactViewController.swift */,
 				01261C982201F7CF00E6EB63 /* EventsViewController.swift */,
+				013AE8E5220348B800A8831C /* GPAViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -255,13 +272,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				013AE8E82203546A00A8831C /* GPACell.swift in Sources */,
 				01B4C95621F4CA0E004D0DB4 /* Encryptor.swift in Sources */,
 				0168081A21FF7C7B007AA4DC /* DashCell.swift in Sources */,
 				0110BB4421F33D1A00E6546A /* LoginPageCell.swift in Sources */,
-				0168081C21FF7DD2007AA4DC /* AttendanceController.swift in Sources */,
+				0168081C21FF7DD2007AA4DC /* AttendanceViewController.swift in Sources */,
 				0112A68C21F4607E00B269FA /* AboutViewController.swift in Sources */,
 				0110BB3021F32B5500E6546A /* LoginViewController.swift in Sources */,
 				01E9623721F4DB40002C9899 /* Constants.swift in Sources */,
+				013AE8E6220348B800A8831C /* GPAViewController.swift in Sources */,
 				0110BB4121F32DA600E6546A /* Extensions.swift in Sources */,
 				0168081E21FF7E01007AA4DC /* AttendanceCell.swift in Sources */,
 				0168081821FF7C52007AA4DC /* MenuModel.swift in Sources */,
@@ -275,6 +294,7 @@
 				0112A68621F4605200B269FA /* DashboardViewController.swift in Sources */,
 				01261C9D220200B300E6EB63 /* EventsCell.swift in Sources */,
 				014512C821F79E8000407B91 /* InternalsModel.swift in Sources */,
+				013AE8EB2203682900A8831C /* Service.swift in Sources */,
 				01261C9B2201FEDA00E6EB63 /* Enumerators.swift in Sources */,
 				014512C721F79E8000407B91 /* ResultsModel.swift in Sources */,
 				0112A68A21F4607000B269FA /* ContactsViewController.swift in Sources */,

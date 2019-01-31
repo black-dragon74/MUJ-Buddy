@@ -8,7 +8,7 @@
 
 import UIKit
 
-class AttendanceController: UIViewController, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UICollectionViewDataSource {
+class AttendanceViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UICollectionViewDataSource {
     
     // This view is also a collection view controller with elems for each subject
     let collectionView: UICollectionView = {
@@ -67,7 +67,7 @@ class AttendanceController: UIViewController, UICollectionViewDelegate, UICollec
         collectionView.anchorWithConstraints(top: view.safeAreaLayoutGuide.topAnchor, right: view.rightAnchor, bottom: view.safeAreaLayoutGuide.bottomAnchor, left: view.leftAnchor, topOffset: 0, rightOffset: 0, bottomOffset: 0, leftOffset: 0, height: nil, width: nil)
         
         // Get attendance details
-        getAttendance(token: getToken()) { (model, err) in
+        Service.shared.getAttendance(token: getToken()) { (model, err) in
             if err != nil {
                 DispatchQueue.main.async {
                     self.indicator.stopAnimating()
@@ -111,62 +111,9 @@ class AttendanceController: UIViewController, UICollectionViewDelegate, UICollec
         return UIEdgeInsets(top: 16, left: 16, bottom: 16, right: 16)
     }
     
-    //MARK:- Custom functions
-    func getAttendance(token: String, isRefresh: Bool = false, completion: @escaping([AttendanceModel]?, Error?) -> Void) {
-        // We hate empty tokens, right?
-        if token == "nil" {
-            return
-        }
-        
-        // Check if attendance is there in the DB, saves an extra call, but only when it is not a refresh request
-        if !isRefresh {
-            if let attendanceInDB = getAttendanceFromDB() {
-                do {
-                    let decoder = JSONDecoder()
-                    let json = try decoder.decode([AttendanceModel].self, from: attendanceInDB)
-                    completion(json, nil)
-                    return
-                }
-                catch let err {
-                    completion(nil, err)
-                    return
-                }
-            }
-        }
-        
-        let u = API_URL + "attendance?token=\(token)"
-        guard let url = URL(string: u) else { return }
-        
-        // Start a URL session
-        URLSession.shared.dataTask(with: url) {(data, response, error) in
-            if let error = error {
-                completion(nil, error)
-                return
-            }
-            
-            if let data = data {
-                let decoder = JSONDecoder()
-                do {
-                    let json = try decoder.decode([AttendanceModel].self, from: data)
-                    // Save to user defaults
-                    let encoder = JSONEncoder()
-                    let attendanceData = try? encoder.encode(json) // If it is empty, nil value will be returned from the utility function
-                    updateAttendanceInDB(attendance: attendanceData)
-                    completion(json, nil)
-                    return
-                }
-                catch let err {
-                    print("JSON ERROR, ", err)
-                    completion(nil, err)
-                    return
-                }
-            }
-            }.resume()
-    }
-    
     @objc func handleAttendanceRefresh() {
         // Get attendance details
-        getAttendance(token: getToken(), isRefresh: true) { (model, err) in
+        Service.shared.getAttendance(token: getToken(), isRefresh: true) { (model, err) in
             if err != nil {
                 DispatchQueue.main.async {
                     self.rControl.endRefreshing()

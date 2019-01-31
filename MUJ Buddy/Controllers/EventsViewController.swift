@@ -80,7 +80,7 @@ class EventsViewController: UICollectionViewController, UICollectionViewDelegate
         indicator.startAnimating()
         
         //MARK:- Fetch the data
-        fetchEvents(token: getToken()) { (data, error) in
+        Service.shared.fetchEvents(token: getToken()) { (data, error) in
             if error != nil {
                 DispatchQueue.main.async {
                     self.indicator.stopAnimating()
@@ -123,68 +123,6 @@ class EventsViewController: UICollectionViewController, UICollectionViewDelegate
         return cell
     }
     
-    //MARK:- Function to fetch the events from the API
-    fileprivate func fetchEvents(token: String, isRefresh: Bool = false, completion: @escaping([EventsModel]?, Error?) -> Void) {
-        // We hate empty tokens
-        if (token == "nil") {
-            return
-        }
-        
-        // Form the URL
-        let tURL = API_URL + "events?token=\(token)"
-        guard let url = URL(string: tURL) else { return }
-        
-        // If not refresh, means we have to return data from the DB. Check and return
-        if !isRefresh {
-            // Check if the data is in DB
-            if let dataFromDB = getEventsFromDB() {
-                print("Data from DB")
-                let decoder = JSONDecoder()
-                do {
-                    let json = try decoder.decode([EventsModel].self, from: dataFromDB)
-                    // Return the data
-                    completion(json, nil)
-                    return
-                }
-                catch let err {
-                    print("Json error: ", err)
-                    completion(nil, err)
-                    return
-                }
-            }
-        }
-        
-        // Send a URL session
-        URLSession.shared.dataTask(with: url) {(data, response, error) in
-            if let error = error {
-                print("HTTP error: ", error)
-                completion(nil, error)
-                return
-            }
-            
-            if let data = data {
-                // Decode
-                let decoder = JSONDecoder()
-                print("Data from URL")
-                do {
-                    let json = try decoder.decode([EventsModel].self, from: data)
-                    // Save it
-                    let encoder = JSONEncoder()
-                    let dataToSave = try? encoder.encode(json)
-                    updateEventsInDB(events: dataToSave)
-                    // Return with completion
-                    completion(json, nil)
-                    return
-                }
-                catch let err {
-                    print("Json parse error: ", err)
-                    completion(nil, err)
-                    return
-                }
-            }
-        }.resume()
-    }
-    
     //MARK:- Search controller functions
     fileprivate func isSearching() -> Bool {
         return self.searchController.isActive
@@ -217,8 +155,7 @@ class EventsViewController: UICollectionViewController, UICollectionViewDelegate
     }
     
     @objc fileprivate func handleEventsRefresh() {
-        print("Refresh called")
-        fetchEvents(token: getToken(), isRefresh: true) { (data, error) in
+        Service.shared.fetchEvents(token: getToken(), isRefresh: true) { (data, error) in
             if error != nil {
                 DispatchQueue.main.async {
                     self.rControl.endRefreshing()

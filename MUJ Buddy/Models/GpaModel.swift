@@ -8,9 +8,14 @@
 
 import UIKit
 
-// MARK:- Implement it in a better way
+// MARK:- Implement it in a better way, update API to return array
 struct GpaModel: Codable {
-    let semester1: String?
-    let semester2: String?
-    let semester3: String?
+    let semester_1: String?
+    let semester_2: String?
+    let semester_3: String?
+    let semester_4: String?
+    let semester_5: String?
+    let semester_6: String?
+    let semester_7: String?
+    let semester_8: String?
 }

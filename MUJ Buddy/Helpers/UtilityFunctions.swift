@@ -12,16 +12,18 @@ import UIKit
 //
 //  General purpose functions
 //
-func reloadTableView(tableViewToReload: UITableView) {
-    tableViewToReload.reloadData()
-}
 
-
+// Used to show alerts in this app
 func showAlert(with message: String) -> UIAlertController {
     let alertController = UIAlertController(title: "Message", message: message, preferredStyle: .alert)
     let actionDismiss = UIAlertAction(title: "OK", style: .cancel, handler: nil)
     alertController.addAction(actionDismiss)
     return alertController
+}
+
+// Returns a dictionary with key and value
+func valueAsDict(withKey key: String, value: String) -> [String: String] {
+    return [key: value]
 }
 
 
@@ -89,6 +91,7 @@ func getAttendanceFromDB() -> Data? {
     }
 }
 
+
 //
 //  Events related function
 //
@@ -102,6 +105,26 @@ func updateEventsInDB(events: Data?) {
 func getEventsFromDB() -> Data? {
     if let eventFromDb = UserDefaults.standard.object(forKey: EVENTS_KEY) as? Data {
         return eventFromDb
+    }
+    else {
+        return nil
+    }
+}
+
+
+//
+//  GPA related functions
+//
+func updateGPAInDB(gpa: Data?) {
+    guard let gpa = gpa else { return }
+    UserDefaults.standard.removeObject(forKey: GPA_KEY)
+    UserDefaults.standard.set(gpa, forKey: GPA_KEY)
+    UserDefaults.standard.synchronize()
+}
+
+func getGPAFromDB() -> Data? {
+    if let gpa = UserDefaults.standard.object(forKey: GPA_KEY) as? Data {
+        return gpa
     }
     else {
         return nil
