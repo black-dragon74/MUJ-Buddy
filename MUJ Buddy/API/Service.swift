@@ -297,4 +297,56 @@ class Service {
             }
             }.resume()
     }
+    
+    // Function to fetch internals from the API
+    func fetchInternals(token: String, semester: Int, isRefresh: Bool = false, completion: @escaping([InternalsModel]?, Error?) -> Void) {
+        if token == "nil" {
+            return
+        }
+        
+        if !isRefresh {
+            // Check if the data is there in the DB and return from there
+            if let data = getInternalsFromDB() {
+                let decoder = JSONDecoder()
+                do {
+                    let json = try decoder.decode([InternalsModel].self, from: data)
+                    let encoder = JSONEncoder()
+                    let dataToSave = try? encoder.encode(json)
+                    updateInternalsInDB(internals: dataToSave)
+                    completion(json, nil)
+                    return
+                }
+                catch let err {
+                    completion(nil, err)
+                    return
+                }
+            }
+        }
+        
+        // Else send a URL request
+        let tURL = API_URL + "internals?token=\(token)&semester=\(semester)"
+        guard let url = URL(string: tURL) else { return }
+        URLSession.shared.dataTask(with: url){(data, response, error) in
+            if let error = error {
+                completion(nil, error)
+                return
+            }
+            
+            if let data = data {
+                let decoder = JSONDecoder()
+                do {
+                    let json = try decoder.decode([InternalsModel].self, from: data)
+                    let encoder = JSONEncoder()
+                    let dataToSave = try? encoder.encode(json)
+                    updateInternalsInDB(internals: dataToSave)
+                    completion(json, nil)
+                    return
+                }
+                catch let err {
+                    completion(nil, err)
+                    return
+                }
+            }
+        }.resume()
+    }
 }

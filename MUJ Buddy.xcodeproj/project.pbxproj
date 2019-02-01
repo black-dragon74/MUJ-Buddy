@@ -38,6 +38,8 @@
 		0168081A21FF7C7B007AA4DC /* DashCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0168081921FF7C7B007AA4DC /* DashCell.swift */; };
 		0168081C21FF7DD2007AA4DC /* AttendanceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0168081B21FF7DD2007AA4DC /* AttendanceViewController.swift */; };
 		0168081E21FF7E01007AA4DC /* AttendanceCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0168081D21FF7E01007AA4DC /* AttendanceCell.swift */; };
+		01A82FA322044A4C002A13DF /* InternalsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01A82FA222044A4C002A13DF /* InternalsViewController.swift */; };
+		01A82FA52204562D002A13DF /* InternalsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01A82FA42204562D002A13DF /* InternalsCell.swift */; };
 		01B4C95621F4CA0E004D0DB4 /* Encryptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01B4C95521F4CA0E004D0DB4 /* Encryptor.swift */; };
 		01E9623721F4DB40002C9899 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01E9623621F4DB40002C9899 /* Constants.swift */; };
 		01E9623921F4F48F002C9899 /* UtilityFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01E9623821F4F48F002C9899 /* UtilityFunctions.swift */; };
@@ -78,6 +80,8 @@
 		0168081921FF7C7B007AA4DC /* DashCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashCell.swift; sourceTree = "<group>"; };
 		0168081B21FF7DD2007AA4DC /* AttendanceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttendanceViewController.swift; sourceTree = "<group>"; };
 		0168081D21FF7E01007AA4DC /* AttendanceCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttendanceCell.swift; sourceTree = "<group>"; };
+		01A82FA222044A4C002A13DF /* InternalsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InternalsViewController.swift; sourceTree = "<group>"; };
+		01A82FA42204562D002A13DF /* InternalsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InternalsCell.swift; sourceTree = "<group>"; };
 		01B4C95521F4CA0E004D0DB4 /* Encryptor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Encryptor.swift; sourceTree = "<group>"; };
 		01E9623621F4DB40002C9899 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		01E9623821F4F48F002C9899 /* UtilityFunctions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UtilityFunctions.swift; sourceTree = "<group>"; };
@@ -149,6 +153,7 @@
 				0168081D21FF7E01007AA4DC /* AttendanceCell.swift */,
 				01261C9C220200B300E6EB63 /* EventsCell.swift */,
 				013AE8E72203546A00A8831C /* GPACell.swift */,
+				01A82FA42204562D002A13DF /* InternalsCell.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -172,6 +177,7 @@
 				0143EB6E21F5FDA3006B39F2 /* FacultyContactViewController.swift */,
 				01261C982201F7CF00E6EB63 /* EventsViewController.swift */,
 				013AE8E5220348B800A8831C /* GPAViewController.swift */,
+				01A82FA222044A4C002A13DF /* InternalsViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -281,6 +287,7 @@
 				0110BB3021F32B5500E6546A /* LoginViewController.swift in Sources */,
 				01E9623721F4DB40002C9899 /* Constants.swift in Sources */,
 				013AE8E6220348B800A8831C /* GPAViewController.swift in Sources */,
+				01A82FA52204562D002A13DF /* InternalsCell.swift in Sources */,
 				0110BB4121F32DA600E6546A /* Extensions.swift in Sources */,
 				0168081E21FF7E01007AA4DC /* AttendanceCell.swift in Sources */,
 				0168081821FF7C52007AA4DC /* MenuModel.swift in Sources */,
@@ -303,6 +310,7 @@
 				014512C421F79E8000407B91 /* GpaModel.swift in Sources */,
 				014512C521F79E8000407B91 /* AttendanceModel.swift in Sources */,
 				01261C992201F7CF00E6EB63 /* EventsViewController.swift in Sources */,
+				01A82FA322044A4C002A13DF /* InternalsViewController.swift in Sources */,
 				01FD5A7522008F3D00ECDF3E /* LoginDelegate.swift in Sources */,
 				0112A68E21F47B5400B269FA /* FacultyContactCell.swift in Sources */,
 			);

@@ -181,7 +181,7 @@ class DashboardViewController: UIViewController, UICollectionViewDelegate, UICol
             self.navigationController?.pushViewController(AttendanceViewController(), animated: true)
             break
         case "Internals":
-            print("Pushing Internals")
+            self.navigationController?.pushViewController(InternalsViewController(collectionViewLayout: UICollectionViewLayout()), animated: true)
             break
         case "Results":
             print("Pushing Results")
@@ -209,9 +209,10 @@ class DashboardViewController: UIViewController, UICollectionViewDelegate, UICol
     }
     
     @objc fileprivate func handleLogout() {
-        UserDefaults.standard.removePersistentDomain(forName: Bundle.main.bundleIdentifier!)
-        UserDefaults.standard.synchronize()
-        present(LoginViewController(), animated: true, completion: nil)
+        purgeUserDefaults()
+        let dc = LoginViewController()
+        dc.modalTransitionStyle = .flipHorizontal
+        present(dc, animated: true, completion: nil)
     }
 }
 

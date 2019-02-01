@@ -13,7 +13,7 @@ struct InternalsModel: Codable {
     let subject: String
     let cws: String
     let prs: String
-    let mte1: String
-    let mte2: String
+    let mte_1: String
+    let mte_2: String
     let total: String
 }

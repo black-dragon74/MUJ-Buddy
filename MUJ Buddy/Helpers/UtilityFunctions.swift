@@ -26,6 +26,13 @@ func valueAsDict(withKey key: String, value: String) -> [String: String] {
     return [key: value]
 }
 
+// Function to purge the Userdefaults
+func purgeUserDefaults() {
+    UserDefaults.standard.removePersistentDomain(forName: Bundle.main.bundleIdentifier!)
+    UserDefaults.standard.removeVolatileDomain(forName: Bundle.main.bundleIdentifier!)
+    UserDefaults.standard.synchronize()
+}
+
 
 //
 //  Login related functions
@@ -125,6 +132,26 @@ func updateGPAInDB(gpa: Data?) {
 func getGPAFromDB() -> Data? {
     if let gpa = UserDefaults.standard.object(forKey: GPA_KEY) as? Data {
         return gpa
+    }
+    else {
+        return nil
+    }
+}
+
+
+//
+//  Internals related functions
+//
+func updateInternalsInDB(internals: Data?) {
+    guard let internals = internals else { return }
+    UserDefaults.standard.removeObject(forKey: INTERNALS_KEY)
+    UserDefaults.standard.set(internals, forKey: INTERNALS_KEY)
+    UserDefaults.standard.synchronize()
+}
+
+func getInternalsFromDB() -> Data? {
+    if let data = UserDefaults.standard.object(forKey: INTERNALS_KEY) as? Data {
+        return data
     }
     else {
         return nil

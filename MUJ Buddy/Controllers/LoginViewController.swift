@@ -252,7 +252,7 @@ class LoginViewController: UIViewController, UICollectionViewDelegate, UICollect
             // Send a login request
             let u = API_URL + "auth?userid=\(encUser)&password=\(encPass)"
             guard let url = URL(string: u) else { return }
-            URLSession.shared.dataTask(with: url) {(data, response, error) in
+            URLSession.shared.dataTask(with: url) {[unowned self] (data, response, error) in
                 if let error = error {
                     DispatchQueue.main.async {
                         let alert = showAlert(with: error as? String ?? "Error while communicating to the server")
@@ -280,9 +280,16 @@ class LoginViewController: UIViewController, UICollectionViewDelegate, UICollect
                         
                         if let token = token {
                             DispatchQueue.main.async {
+                                // Stop progress bar
+                                cell.progressBar.stopAnimating()
+                                
+                                // Purge user defaults once again
+                                purgeUserDefaults()
+                                
                                 // We have the token, set it to user defaults and dismiss the login controller
                                 updateAndSetToken(to: token)
                                 let newController = UINavigationController(rootViewController: DashboardViewController())
+                                newController.modalTransitionStyle = .crossDissolve
                                 self.present(newController, animated: true, completion: nil)
                             }
                             return
