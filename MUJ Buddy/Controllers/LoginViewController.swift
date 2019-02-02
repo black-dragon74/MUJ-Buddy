@@ -37,10 +37,10 @@ class LoginViewController: UIViewController, UICollectionViewDelegate, UICollect
     // Create the arrays for pages
     let pages: [LoginPage] = {
         // Create the pages
-        let firstPage = LoginPage(title: "Almighty", image: "page_1", subtitle: "The only app you need for all your needs at MUJ")
-        let secondPage = LoginPage(title: "Crafted with love", image: "page_2", subtitle: "Each element is designed with ease of use in mind")
-        let thirdPage = LoginPage(title: "One and only", image: "page_1", subtitle: "The only iOS app for MUJ")
-        let fourthPage = LoginPage(title: "Let's begin", image: "page_3", subtitle: "Swipe left and let's dive into this awesomeness together")
+        let firstPage = LoginPage(title: "Almighty", image: "almighty", subtitle: "The only app you need for all your needs at MUJ")
+        let secondPage = LoginPage(title: "Crafted with love", image: "crafted_with_love", subtitle: "Each element is designed with ease of use in mind")
+        let thirdPage = LoginPage(title: "One and only", image: "one_and_only", subtitle: "The only iOS app for MUJ")
+        let fourthPage = LoginPage(title: "Let's begin", image: "lets_begin", subtitle: "Swipe left and let's dive into this awesomeness together")
         
         // Return the pages array
         return [firstPage, secondPage, thirdPage, fourthPage]
