@@ -123,16 +123,17 @@ class FeesViewController: UIViewController {
             if let fee = fee {
                 DispatchQueue.main.async {
                     self.indicator.stopAnimating()
-                }
-                if let totalPaid = fee.paid?.total {
-                    self.paidLabel.text = "₹ \(totalPaid)"
-                }
-                
-                if let totalUnpaid = fee.unpaid?.total {
-                    self.unpaidLabel.text = "₹ \(totalUnpaid)"
-                }
-                else {
-                    self.unpaidLabel.text = "₹ 0.0"
+                    
+                    if let totalPaid = fee.paid?.total {
+                        self.paidLabel.text = "₹ \(totalPaid)"
+                    }
+                    
+                    if let totalUnpaid = fee.unpaid?.total {
+                        self.unpaidLabel.text = "₹ \(totalUnpaid)"
+                    }
+                    else {
+                        self.unpaidLabel.text = "₹ 0.0"
+                    }
                 }
             }
         }
