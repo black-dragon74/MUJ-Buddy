@@ -157,3 +157,42 @@ func getInternalsFromDB() -> Data? {
         return nil
     }
 }
+
+
+//
+//  Results related functions
+//
+func updateResultsInDB(results: Data?) {
+    guard let results = results else { return }
+    UserDefaults.standard.removeObject(forKey: RESULTS_KEY)
+    UserDefaults.standard.set(results, forKey: RESULTS_KEY)
+    UserDefaults.standard.synchronize()
+}
+
+func getResultsFromDB() -> Data? {
+    if let data = UserDefaults.standard.object(forKey: RESULTS_KEY) as? Data {
+        return data
+    }
+    else {
+        return nil
+    }
+}
+
+
+//
+//  Current semester related handlers
+//
+func getSemester() -> Int {
+    if let sem = UserDefaults.standard.object(forKey: CURRENT_SEMESTER) as? Int {
+        return sem
+    }
+    else {
+        return -1
+    }
+}
+
+func setSemester(as currSem: Int) {
+    UserDefaults.standard.removeObject(forKey: CURRENT_SEMESTER)
+    UserDefaults.standard.set(currSem, forKey: CURRENT_SEMESTER)
+    UserDefaults.standard.synchronize()
+}

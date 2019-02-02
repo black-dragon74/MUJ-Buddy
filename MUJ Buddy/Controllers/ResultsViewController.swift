@@ -1,60 +1,56 @@
 //
-//  InternalsViewController.swift
+//  ResultsViewController.swift
 //  MUJ Buddy
 //
-//  Created by Nick on 2/1/19.
+//  Created by Nick on 2/2/19.
 //  Copyright © 2019 Nick. All rights reserved.
 //
 
 import UIKit
 
-class InternalsViewController: UICollectionViewController, UICollectionViewDelegateFlowLayout {
+class ResultsViewController: UICollectionViewController, UICollectionViewDelegateFlowLayout {
     
-    // Cell ID
+    var resultsArray = [ResultsModel]()
+    
+    // Cell reuse identifier
     let cellID = "cellID"
     
-    // Internals array
-    var internalsArray = [InternalsModel]()
-    
-    // Refresh Control
-    let rControl: UIRefreshControl = {
-        let r = UIRefreshControl()
-        r.tintColor = .red
-        r.addTarget(self, action: #selector(handleRefreshForInternals), for: .valueChanged)
-        return r
-    }()
-    
-    // Activity indicator
+    // Activity Indicator
     let indicator: UIActivityIndicatorView = {
         let i = UIActivityIndicatorView()
         i.style = .whiteLarge
-        i.translatesAutoresizingMaskIntoConstraints = false
         i.color = .red
+        i.hidesWhenStopped = true
+        i.translatesAutoresizingMaskIntoConstraints = false
         return i
     }()
     
-    // Coz initializing a collection view with nil layout is not allowed
+    // Refresh control
+    let rControl: UIRefreshControl = {
+        let r = UIRefreshControl()
+        r.tintColor = .red
+        r.addTarget(self, action: #selector(handleResultsRefresh), for: .valueChanged)
+        return r
+    }()
+    
     override init(collectionViewLayout layout: UICollectionViewLayout) {
         super.init(collectionViewLayout: layout)
         
         let layout = UICollectionViewFlowLayout()
         collectionView.collectionViewLayout = layout
-    }
-    
-    // Override viewDidLoad and handle rest of the operations
-    override func viewDidLoad() {
-        
-        super.viewDidLoad()
-        
-        navigationItem.title = "Internals Marks"
-        collectionView.backgroundColor = DMSColors.primaryLighter.value
         collectionView.refreshControl = rControl
         indicator.startAnimating()
         
-        // Additional setups are handled separately
         setupViews()
+    }
+    
+    fileprivate func setupViews() {
+        view.addSubview(indicator)
         
-        //MARK:- Fetch data from the API
+        indicator.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        indicator.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+        
+        //MARK:- Get results from API
         var semester = 1
         if getSemester() == -1 {
             DispatchQueue.main.async {
@@ -66,58 +62,50 @@ class InternalsViewController: UICollectionViewController, UICollectionViewDeleg
             semester = getSemester()
         }
         
-        // Send the actual request
-        Service.shared.fetchInternals(token: getToken(), semester: semester) { [unowned self] (data, err) in
-            if let err = err {
-                print("Error: ",err)
+        Service.shared.fetchResults(token: getToken(), semester: semester) { [unowned self] (results, error) in
+            if let error = error {
+                print("Error: ", error)
                 DispatchQueue.main.async {
                     self.indicator.stopAnimating()
-                    let alert = showAlert(with: "Error fetching internals marks")
+                    let alert = showAlert(with: "Error fetching results.")
                     self.present(alert, animated: true, completion: nil)
                 }
+                return
             }
             
-            if let data = data {
+            if let data = results {
                 for d in data {
-                    self.internalsArray.append(d)
-                    DispatchQueue.main.async {
-                        self.indicator.stopAnimating()
-                        self.collectionView.reloadData()
-                    }
+                    self.resultsArray.append(d)
+                }
+                DispatchQueue.main.async {
+                    self.indicator.stopAnimating()
+                    self.collectionView.reloadData()
                 }
             }
         }
     }
     
-    //MARK:- Setup additional views
-    fileprivate func setupViews() {
-        // Register the cell
-        collectionView.register(InternalsCell.self, forCellWithReuseIdentifier: cellID)
-        
-        // Configure the collectionview
-        collectionView.dataSource = self
-        collectionView.delegate = self
-        
-        // Add additional views
-        view.addSubview(indicator)
-        indicator.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        indicator.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
-        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .compose, target: self, action: #selector(handleSemesterChange))
-    }
-    
-    //MARK:- Required Init
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    //MARK:- Collection view delegate
-    override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return internalsArray.count
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        collectionView.backgroundColor = DMSColors.primaryLighter.value
+        navigationItem.title = "Results"
+        collectionView.register(ResultsCell.self, forCellWithReuseIdentifier: cellID)
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .compose, target: self, action: #selector(handleSemesterChange))
     }
     
-    //MARK:- Delegate flow layout
+    //MARK:- Collection view delegate
+    override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return resultsArray.count
+    }
+    
+    //MARK:- Collection view delegate flow layout
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: view.frame.width - 32, height: 150)
+        return CGSize(width: view.frame.width - 32, height: 140)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
@@ -126,13 +114,13 @@ class InternalsViewController: UICollectionViewController, UICollectionViewDeleg
     
     //MARK:- Collection view data source
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellID, for: indexPath) as! InternalsCell
-        cell.internalData = internalsArray[indexPath.item]
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellID, for: indexPath) as! ResultsCell
+        cell.currentSubjectForResult = resultsArray[indexPath.item]
         return cell
     }
     
-    //MARK:- OBJC Refresh func
-    @objc fileprivate func handleRefreshForInternals() {
+    //MARK:- OBJC Refresh function
+    @objc fileprivate func handleResultsRefresh() {
         var semester = 1
         if getSemester() == -1 {
             let alert = showAlert(with: "Using default semester value as: 1. Please set your current semester by clicking on top right button.")
@@ -142,24 +130,25 @@ class InternalsViewController: UICollectionViewController, UICollectionViewDeleg
             semester = getSemester()
         }
         
-        Service.shared.fetchInternals(token: getToken(), semester: semester, isRefresh: true) { [unowned self] (data, err) in
-            if let err = err {
-                print("Error: ",err)
+        Service.shared.fetchResults(token: getToken(), semester: semester, isRefresh: true) { [unowned self] (results, error) in
+            if let error = error {
+                print("Error: ", error)
                 DispatchQueue.main.async {
                     self.rControl.endRefreshing()
-                    let alert = showAlert(with: "Error fetching internals marks")
+                    let alert = showAlert(with: "Error fetching results.")
                     self.present(alert, animated: true, completion: nil)
                 }
+                return
             }
             
-            if let data = data {
-                self.internalsArray = []
+            if let data = results {
+                self.resultsArray = []
                 for d in data {
-                    self.internalsArray.append(d)
-                    DispatchQueue.main.async {
-                        self.rControl.endRefreshing()
-                        self.collectionView.reloadData()
-                    }
+                    self.resultsArray.append(d)
+                }
+                DispatchQueue.main.async {
+                    self.rControl.endRefreshing()
+                    self.collectionView.reloadData()
                 }
             }
         }

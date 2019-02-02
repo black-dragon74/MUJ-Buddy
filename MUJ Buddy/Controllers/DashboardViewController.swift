@@ -181,16 +181,16 @@ class DashboardViewController: UIViewController, UICollectionViewDelegate, UICol
             self.navigationController?.pushViewController(AttendanceViewController(), animated: true)
             break
         case "Internals":
-            self.navigationController?.pushViewController(InternalsViewController(collectionViewLayout: UICollectionViewLayout()), animated: true)
+            self.navigationController?.pushViewController(InternalsViewController(collectionViewLayout: UICollectionViewFlowLayout()), animated: true)
             break
         case "Results":
-            print("Pushing Results")
+            self.navigationController?.pushViewController(ResultsViewController(collectionViewLayout: UICollectionViewFlowLayout()), animated: true)
             break
         case "GPA":
             self.navigationController?.pushViewController(GPAViewController(), animated: true)
             break
         case "Events":
-            self.navigationController?.pushViewController(EventsViewController(collectionViewLayout: UICollectionViewLayout()), animated: true)
+            self.navigationController?.pushViewController(EventsViewController(collectionViewLayout: UICollectionViewFlowLayout()), animated: true)
             break
         case "Announcements":
             let alert = showAlert(with: "Annnouncements are not available on the DMS as of now.")
