@@ -28,7 +28,7 @@ class DashboardViewController: UIViewController, UICollectionViewDelegate, UICol
     // Create a view to contain the
     let admView: UIView = {
         let a = UIView()
-        a.backgroundColor = .purple
+        a.backgroundColor = DMSColors.kindOfPurple.value
         return a
     }()
     
@@ -116,18 +116,18 @@ class DashboardViewController: UIViewController, UICollectionViewDelegate, UICol
         // Register the cell
         collectionView.register(DashCell.self, forCellWithReuseIdentifier: cellId)
         
-        admView.anchorWithConstraints(top: view.safeAreaLayoutGuide.topAnchor, right: view.rightAnchor, bottom: nil, left: view.leftAnchor, topOffset: 8, rightOffset: 8, bottomOffset: 0, leftOffset: 8, height: view.frame.height * 0.14, width: nil)
+        admView.anchorWithConstraints(top: view.safeAreaLayoutGuide.topAnchor, right: view.rightAnchor, left: view.leftAnchor, topOffset: 8, rightOffset: 8, leftOffset: 8, height: 90)
         
-        collectionView.anchorWithConstraints(top: admView.bottomAnchor, right: view.rightAnchor, bottom: view.safeAreaLayoutGuide.bottomAnchor, left: view.leftAnchor, topOffset: 0, rightOffset: 0, bottomOffset: 0, leftOffset: 0, height: nil, width: nil)
+        collectionView.anchorWithConstraints(top: admView.bottomAnchor, right: view.rightAnchor, bottom: view.safeAreaLayoutGuide.bottomAnchor, left: view.leftAnchor)
         
-        nameLabel.anchorWithConstraints(top: admView.topAnchor, right: nil, bottom: nil, left: admView.leftAnchor, topOffset: 12, rightOffset: 0, bottomOffset: 0, leftOffset: 16, height: nil, width: nil)
-        nameTF.anchorWithConstraints(top: admView.topAnchor, right: nil, bottom: nil, left: nameLabel.rightAnchor, topOffset: 12, rightOffset: 0, bottomOffset: 0, leftOffset: 4, height: nil, width: nil)
+        nameLabel.anchorWithConstraints(top: admView.topAnchor, left: admView.leftAnchor, topOffset: 12, leftOffset: 10)
+        nameTF.anchorWithConstraints(top: admView.topAnchor, left: nameLabel.rightAnchor, topOffset: 12, leftOffset: 4)
         
-        programLabel.anchorWithConstraints(top: nameLabel.bottomAnchor, right: nil, bottom: nil, left: admView.leftAnchor, topOffset: 4, rightOffset: 0, bottomOffset: 0, leftOffset: 16, height: nil, width: nil)
-        programTF.anchorWithConstraints(top: nameLabel.bottomAnchor, right: nil, bottom: nil, left: programLabel.rightAnchor, topOffset: 4, rightOffset: 0, bottomOffset: 0, leftOffset: 4, height: nil, width: nil)
+        programLabel.anchorWithConstraints(top: nameLabel.bottomAnchor, left: admView.leftAnchor, topOffset: 4, leftOffset: 10)
+        programTF.anchorWithConstraints(top: nameLabel.bottomAnchor, left: programLabel.rightAnchor, topOffset: 4, leftOffset: 4)
         
-        acadLabel.anchorWithConstraints(top: programLabel.bottomAnchor, right: nil, bottom: nil, left: admView.leftAnchor, topOffset: 4, rightOffset: 0, bottomOffset: 0, leftOffset: 16, height: nil, width: nil)
-        acadTF.anchorWithConstraints(top: programLabel.bottomAnchor, right: nil, bottom: nil, left: acadLabel.rightAnchor, topOffset: 4, rightOffset: 0, bottomOffset: 0, leftOffset: 4, height: nil, width: nil)
+        acadLabel.anchorWithConstraints(top: programLabel.bottomAnchor, left: admView.leftAnchor, topOffset: 4, leftOffset: 10)
+        acadTF.anchorWithConstraints(top: programLabel.bottomAnchor, left: acadLabel.rightAnchor, topOffset: 4, leftOffset: 4)
         
         //MARK:- Fetch details from the remote
         Service.shared.fetchDashDetails(token: getToken()) { (dash, err) in
@@ -138,7 +138,7 @@ class DashboardViewController: UIViewController, UICollectionViewDelegate, UICol
             if let dash = dash {
                 DispatchQueue.main.async {
                     self.nameTF.text = dash.admDetails.name
-                    self.programTF.text = dash.admDetails.program.replacingOccurrences(of: "Bachelor of", with: "B.")
+                    self.programTF.text = dash.admDetails.program.replacingOccurrences(of: "Bachelor of", with: "B.").replacingOccurrences(of: "Applications", with: "App.")
                     self.acadTF.text = dash.admDetails.acadYear
                 }
             }
@@ -197,10 +197,9 @@ class DashboardViewController: UIViewController, UICollectionViewDelegate, UICol
             present(alert, animated: true, completion: nil)
             break
         case "Fee Details":
-            print("Pushing Fee Details")
+            self.navigationController?.pushViewController(FeesViewController(), animated: true)
             break
         case "Faculty Contacts":
-            print("Pushing Faculty Contacts")
             self.navigationController?.pushViewController(ContactsViewController(), animated: true)
             break
         default:

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		01106DC8220601FB00C0DA40 /* FeesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01106DC7220601FB00C0DA40 /* FeesViewController.swift */; };
 		0110BB2E21F32B5500E6546A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0110BB2D21F32B5500E6546A /* AppDelegate.swift */; };
 		0110BB3021F32B5500E6546A /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0110BB2F21F32B5500E6546A /* LoginViewController.swift */; };
 		0110BB3521F32B5600E6546A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0110BB3421F32B5600E6546A /* Assets.xcassets */; };
@@ -16,7 +17,6 @@
 		0112A68621F4605200B269FA /* DashboardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0112A68521F4605200B269FA /* DashboardViewController.swift */; };
 		0112A68A21F4607000B269FA /* ContactsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0112A68921F4607000B269FA /* ContactsViewController.swift */; };
 		0112A68C21F4607E00B269FA /* AboutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0112A68B21F4607E00B269FA /* AboutViewController.swift */; };
-		0112A68E21F47B5400B269FA /* FacultyContactCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0112A68D21F47B5400B269FA /* FacultyContactCell.swift */; };
 		0112A69021F4884F00B269FA /* FacultyContactModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0112A68F21F4884F00B269FA /* FacultyContactModel.swift */; };
 		01261C992201F7CF00E6EB63 /* EventsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01261C982201F7CF00E6EB63 /* EventsViewController.swift */; };
 		01261C9B2201FEDA00E6EB63 /* Enumerators.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01261C9A2201FEDA00E6EB63 /* Enumerators.swift */; };
@@ -49,6 +49,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		01106DC7220601FB00C0DA40 /* FeesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeesViewController.swift; sourceTree = "<group>"; };
 		0110BB2A21F32B5500E6546A /* MUJ Buddy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "MUJ Buddy.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		0110BB2D21F32B5500E6546A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		0110BB2F21F32B5500E6546A /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
@@ -60,7 +61,6 @@
 		0112A68521F4605200B269FA /* DashboardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardViewController.swift; sourceTree = "<group>"; };
 		0112A68921F4607000B269FA /* ContactsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactsViewController.swift; sourceTree = "<group>"; };
 		0112A68B21F4607E00B269FA /* AboutViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutViewController.swift; sourceTree = "<group>"; };
-		0112A68D21F47B5400B269FA /* FacultyContactCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FacultyContactCell.swift; sourceTree = "<group>"; };
 		0112A68F21F4884F00B269FA /* FacultyContactModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FacultyContactModel.swift; sourceTree = "<group>"; };
 		01261C982201F7CF00E6EB63 /* EventsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsViewController.swift; sourceTree = "<group>"; };
 		01261C9A2201FEDA00E6EB63 /* Enumerators.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Enumerators.swift; sourceTree = "<group>"; };
@@ -152,7 +152,6 @@
 			children = (
 				0110BB4321F33D1A00E6546A /* LoginPageCell.swift */,
 				01505C1D21F38D60005D7971 /* LoginCell.swift */,
-				0112A68D21F47B5400B269FA /* FacultyContactCell.swift */,
 				0168081921FF7C7B007AA4DC /* DashCell.swift */,
 				0168081D21FF7E01007AA4DC /* AttendanceCell.swift */,
 				01261C9C220200B300E6EB63 /* EventsCell.swift */,
@@ -184,6 +183,7 @@
 				013AE8E5220348B800A8831C /* GPAViewController.swift */,
 				01A82FA222044A4C002A13DF /* InternalsViewController.swift */,
 				01A400AE220590A900D6E510 /* ResultsViewController.swift */,
+				01106DC7220601FB00C0DA40 /* FeesViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -311,6 +311,7 @@
 				013AE8EB2203682900A8831C /* Service.swift in Sources */,
 				01261C9B2201FEDA00E6EB63 /* Enumerators.swift in Sources */,
 				014512C721F79E8000407B91 /* ResultsModel.swift in Sources */,
+				01106DC8220601FB00C0DA40 /* FeesViewController.swift in Sources */,
 				0112A68A21F4607000B269FA /* ContactsViewController.swift in Sources */,
 				01E9623921F4F48F002C9899 /* UtilityFunctions.swift in Sources */,
 				014512C621F79E8000407B91 /* FeeModel.swift in Sources */,
@@ -319,7 +320,6 @@
 				01261C992201F7CF00E6EB63 /* EventsViewController.swift in Sources */,
 				01A82FA322044A4C002A13DF /* InternalsViewController.swift in Sources */,
 				01FD5A7522008F3D00ECDF3E /* LoginDelegate.swift in Sources */,
-				0112A68E21F47B5400B269FA /* FacultyContactCell.swift in Sources */,
 				01A400B1220591E300D6E510 /* ResultsCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

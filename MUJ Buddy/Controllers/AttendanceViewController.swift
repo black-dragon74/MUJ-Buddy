@@ -64,7 +64,7 @@ class AttendanceViewController: UIViewController, UICollectionViewDelegate, UICo
         indicator.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
         indicator.startAnimating()
         
-        collectionView.anchorWithConstraints(top: view.safeAreaLayoutGuide.topAnchor, right: view.rightAnchor, bottom: view.safeAreaLayoutGuide.bottomAnchor, left: view.leftAnchor, topOffset: 0, rightOffset: 0, bottomOffset: 0, leftOffset: 0, height: nil, width: nil)
+        collectionView.anchorWithConstraints(top: view.safeAreaLayoutGuide.topAnchor, right: view.rightAnchor, bottom: view.bottomAnchor, left: view.leftAnchor, topOffset: 0, rightOffset: 0, bottomOffset: 0, leftOffset: 0, height: nil, width: nil)
         
         // Get attendance details
         Service.shared.getAttendance(token: getToken()) { (model, err) in

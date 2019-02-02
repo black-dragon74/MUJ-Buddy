@@ -196,3 +196,22 @@ func setSemester(as currSem: Int) {
     UserDefaults.standard.set(currSem, forKey: CURRENT_SEMESTER)
     UserDefaults.standard.synchronize()
 }
+
+
+//
+//  Fee handlers
+//
+func updateFeeInDB(fee: Data?) {
+    UserDefaults.standard.removeObject(forKey: FEES_KEY)
+    UserDefaults.standard.set(fee, forKey: FEES_KEY)
+    UserDefaults.standard.synchronize()
+}
+
+func getFeeFromDB() -> Data? {
+    if let fee = UserDefaults.standard.object(forKey: FEES_KEY) as? Data {
+        return fee
+    }
+    else {
+        return nil
+    }
+}

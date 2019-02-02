@@ -86,11 +86,9 @@ class Service {
         if !isRefresh {
             // Check if the data is there in userdefaults
             if let data = UserDefaults.standard.object(forKey: FACULTY_CONTACT_KEY) as? Data {
-                print("Processing User Defaults data")
                 do {
                     let decoder = JSONDecoder()
                     let json =  try decoder.decode([FacultyContactModel].self, from: data)
-                    print("Got data as JSON from user defaults")
                     uponFinishing(json, nil)
                     return
                 }
@@ -115,7 +113,6 @@ class Service {
                 do {
                     let decoder = JSONDecoder()
                     let json =  try decoder.decode([FacultyContactModel].self, from: data)
-                    print("Got data as JSON from the web")
                     // Encode and save
                     let encoder = JSONEncoder()
                     let encodedData = try! encoder.encode(json)
@@ -201,7 +198,6 @@ class Service {
         if !isRefresh {
             // Check if the data is in DB
             if let dataFromDB = getEventsFromDB() {
-                print("Data from DB")
                 let decoder = JSONDecoder()
                 do {
                     let json = try decoder.decode([EventsModel].self, from: dataFromDB)
@@ -228,7 +224,6 @@ class Service {
             if let data = data {
                 // Decode
                 let decoder = JSONDecoder()
-                print("Data from URL")
                 do {
                     let json = try decoder.decode([EventsModel].self, from: data)
                     // Save it
@@ -387,6 +382,56 @@ class Service {
                     let encoder = JSONEncoder()
                     let dataToSave = try? encoder.encode(json)
                     updateResultsInDB(results: dataToSave)
+                    completion(json, nil)
+                    return
+                }
+                catch let err {
+                    completion(nil, err)
+                    return
+                }
+            }
+            }.resume()
+    }
+    
+    // Function to fetch fee details from the API
+    func fetchFeeDetails(token: String, isRefresh: Bool = false, completion: @escaping(FeeModel?, Error?) -> Void) {
+        if token == "nil" {
+            return
+        }
+        
+        if !isRefresh {
+            // Check if the data is there in the DB and return from there
+            if let data = getFeeFromDB() {
+                let decoder = JSONDecoder()
+                do {
+                    let json = try decoder.decode(FeeModel.self, from: data)
+                    completion(json, nil)
+                    return
+                }
+                catch let err {
+                    completion(nil, err)
+                    return
+                }
+            }
+        }
+        
+        // Else send a URL request
+        let tURL = API_URL + "feedetails?token=\(token)"
+        guard let url = URL(string: tURL) else { return }
+        URLSession.shared.dataTask(with: url){(data, response, error) in
+            if let error = error {
+                completion(nil, error)
+                return
+            }
+            
+            if let data = data {
+                let decoder = JSONDecoder()
+                decoder.keyDecodingStrategy = .convertFromSnakeCase
+                do {
+                    let json = try decoder.decode(FeeModel.self, from: data)
+                    let encoder = JSONEncoder()
+                    let dataToSave = try? encoder.encode(json)
+                    updateFeeInDB(fee: dataToSave)
                     completion(json, nil)
                     return
                 }

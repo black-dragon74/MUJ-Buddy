@@ -142,7 +142,7 @@ class GPAViewController: UIViewController, UICollectionViewDelegate, UICollectio
         indicator.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
         indicator.startAnimating()
         
-        collectionView.anchorWithConstraints(top: view.safeAreaLayoutGuide.topAnchor, right: view.rightAnchor, bottom: view.safeAreaLayoutGuide.bottomAnchor, left: view.leftAnchor)
+        collectionView.anchorWithConstraints(top: view.safeAreaLayoutGuide.topAnchor, right: view.rightAnchor, bottom: view.bottomAnchor, left: view.leftAnchor)
     }
     
     //MARK:- Collection view delegate

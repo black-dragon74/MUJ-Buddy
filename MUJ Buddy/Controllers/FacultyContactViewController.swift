@@ -189,7 +189,7 @@ class FacultyContactViewController: UIViewController {
         designationLabel.anchorWithConstraints(top: nameLabel.bottomAnchor, left: nameTitleView.leftAnchor, topOffset: 5, leftOffset: 16)
         designationLabel.widthAnchor.constraint(equalToConstant: (view.frame.width - 17)).isActive = true
         
-        detailedView.anchorWithConstraints(top: nameTitleView.bottomAnchor, right: view.rightAnchor, bottom: view.safeAreaLayoutGuide.bottomAnchor, left: view.leftAnchor, topOffset: 10)
+        detailedView.anchorWithConstraints(top: nameTitleView.bottomAnchor, right: view.rightAnchor, bottom: view.bottomAnchor, left: view.leftAnchor, topOffset: 10)
         
         phoneIcon.anchorWithConstraints(top: detailedView.topAnchor, left: detailedView.leftAnchor, topOffset: 14, leftOffset: 16)
         phoneLabel.anchorWithConstraints(left: phoneIcon.rightAnchor, leftOffset: 16)
