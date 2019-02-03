@@ -115,7 +115,7 @@ class Service {
                     let json =  try decoder.decode([FacultyContactModel].self, from: data)
                     // Encode and save
                     let encoder = JSONEncoder()
-                    let encodedData = try! encoder.encode(json)
+                    let encodedData = try? encoder.encode(json)
                     UserDefaults.standard.removeObject(forKey: FACULTY_CONTACT_KEY)
                     UserDefaults.standard.set(encodedData, forKey: FACULTY_CONTACT_KEY)
                     uponFinishing(json, nil)
