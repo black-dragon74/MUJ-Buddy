@@ -131,11 +131,12 @@ class ContactsViewController: UITableViewController, UISearchControllerDelegate,
         self.navigationController?.pushViewController(fView, animated: true)
     }
     
-    // MARK:- Table view data source
+    //MARK:- Table view data source
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath)
         cell.textLabel?.font = UIFont.systemFont(ofSize: 17, weight: .bold)
         cell.textLabel?.text = isSearching() && !isSearchTextEmpty() ? filteredFacultyDetails[indexPath.row].name : facultyDetails[indexPath.row].name
+        cell.accessoryType = .disclosureIndicator
         return cell
     }
     

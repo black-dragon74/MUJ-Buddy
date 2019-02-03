@@ -8,7 +8,7 @@
 
 import UIKit
 
-// MARK:- Implement it in a better way, update API to return array
+//TODO:- Implement it in a better way, update API to return array
 struct GpaModel: Codable {
     let semester_1: String?
     let semester_2: String?

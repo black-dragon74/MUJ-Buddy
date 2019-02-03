@@ -15,7 +15,7 @@ class ResultsCell: UICollectionViewCell {
             guard let curr = currentSubjectForResult else { return }
             subjectLabel.text = curr.courseName
             courseCodeTF.text = curr.courseCode
-            sessionTF.text = curr.academicEssion
+            sessionTF.text = curr.academicSession
             creditsTF.text = curr.credits
             setValueAndColorTo(grade: curr.grade)
         }

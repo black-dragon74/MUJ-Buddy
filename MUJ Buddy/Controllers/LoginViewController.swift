@@ -10,9 +10,6 @@ import UIKit
 
 class LoginViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, LoginDelegate {
     
-    // TODO: Change the status bar to be light
-//    override var preferredStatusBarStyle: UIStatusBarStyle = .lightContent
-    
     // Hold the keyboard state, in order to fix our view going out of bounds :P
     var isKbOpen: Bool = false
     

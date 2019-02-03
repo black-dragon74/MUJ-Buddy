@@ -58,7 +58,7 @@ class Service {
                     let json = try decoder.decode(DashboardModel.self, from: data)
                     // Save to JSON
                     let encoder = JSONEncoder()
-                    let dashData = try! encoder.encode(json)
+                    let dashData = try? encoder.encode(json)
                     updateDashInDB(data: dashData)
                     completion(json, nil)
                     return

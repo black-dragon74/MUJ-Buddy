@@ -12,7 +12,7 @@ struct ResultsModel: Codable {
     let index: String
     let courseName: String
     let courseCode: String
-    let academicEssion: String //TODO:- Update this typo in the API
+    let academicSession: String
     let grade: String
     let credits: String
 }

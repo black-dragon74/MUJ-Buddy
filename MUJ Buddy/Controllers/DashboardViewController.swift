@@ -131,7 +131,8 @@ class DashboardViewController: UIViewController, UICollectionViewDelegate, UICol
         
         //MARK:- Fetch details from the remote
         Service.shared.fetchDashDetails(token: getToken()) { (dash, err) in
-            if err != nil {
+            if let err = err {
+                print(err)
                 return
             }
             

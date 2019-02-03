@@ -8,7 +8,7 @@
 
 import UIKit
 
-//MARK:- Get hold of proper fee model
+//TODO:- Get hold of proper fee model
 struct FeeModel: Codable {
     
     struct paid: Codable {

@@ -20,7 +20,7 @@ struct DashboardModel: Codable {
     
     // For edu quals
     struct eduQualifications: Codable {
-        let indec: String //TODO:- Update this typo in the API
+        let index: String
         let obtainedMarks: String
         let maxMarks: String
         let year: String
