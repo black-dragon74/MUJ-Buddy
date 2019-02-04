@@ -12,7 +12,7 @@
 //
 //  API URLs
 //
-let API_URL = "https://restfuldms.herokuapp.com/"
+let API_URL = "https://api.apollo.strangebits.co.in/"
 
 
 //
@@ -29,3 +29,4 @@ let INTERNALS_KEY = "user_internals"
 let RESULTS_KEY = "user_results"
 let CURRENT_SEMESTER = "current_semester"
 let FEES_KEY = "user_fin"
+let DIALOG_KEY = "semester_dialog"

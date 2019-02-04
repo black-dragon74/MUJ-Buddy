@@ -215,3 +215,38 @@ func getFeeFromDB() -> Data? {
         return nil
     }
 }
+
+
+//
+//  Semester predictor related functions
+//
+func admDateFrom(regNo: String) -> Date {
+    // Extract the year from the reg number
+    let regYear = "20" + regNo.prefix(2)
+    
+    // Semesters generally start at JULY
+    let semStartDate = "\(regYear)-07-01 00:00:00"  // Will return 20 + first two digits of reg number
+    
+    // Create a date formatter instance to format our custom date
+    let formatter = DateFormatter()
+    formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+    
+    return formatter.date(from: semStartDate)! //TODO: Do not force unwrap the date
+}
+
+func setShowSemesterDialog(as val: Bool) {
+    UserDefaults.standard.removeObject(forKey: DIALOG_KEY)
+    UserDefaults.standard.set(val, forKey: DIALOG_KEY)
+    UserDefaults.standard.synchronize()
+}
+
+func showSemesterDialog() -> Bool {
+    // If value is there in the UserDefaults, return that
+    if let val = UserDefaults.standard.object(forKey: DIALOG_KEY) as? Bool {
+        return val
+    }
+    else {
+        // App is being launched after a new login. Default to true
+        return true
+    }
+}

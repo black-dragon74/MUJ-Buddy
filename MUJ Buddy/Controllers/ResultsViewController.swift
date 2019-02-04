@@ -51,15 +51,15 @@ class ResultsViewController: UICollectionViewController, UICollectionViewDelegat
         indicator.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
         
         //MARK:- Get results from API
-        var semester = 1
-        if getSemester() == -1 {
+        let semester = getSemester()  // Will contain the predicted semester
+        
+        if showSemesterDialog() {
             DispatchQueue.main.async {
-                let alert = showAlert(with: "Using default semester value as: 1. Please set your current semester by clicking on top right button.")
-                self.present(alert, animated: true, completion: nil)
+                let alert = showAlert(with: "Your predicted semester is: \(semester)\n Edit it by tapping the button on top")
+                self.present(alert, animated: true) {
+                    setShowSemesterDialog(as: false)
+                }
             }
-        }
-        else {
-            semester = getSemester()
         }
         
         Service.shared.fetchResults(token: getToken(), semester: semester) { [unowned self] (results, error) in
@@ -67,7 +67,7 @@ class ResultsViewController: UICollectionViewController, UICollectionViewDelegat
                 print("Error: ", error)
                 DispatchQueue.main.async {
                     self.indicator.stopAnimating()
-                    let alert = showAlert(with: "Error fetching results.")
+                    let alert = showAlert(with: "Error fetching results for semester: \(getSemester())")
                     self.present(alert, animated: true, completion: nil)
                 }
                 return
@@ -121,13 +121,15 @@ class ResultsViewController: UICollectionViewController, UICollectionViewDelegat
     
     //MARK:- OBJC Refresh function
     @objc fileprivate func handleResultsRefresh() {
-        var semester = 1
-        if getSemester() == -1 {
-            let alert = showAlert(with: "Using default semester value as: 1. Please set your current semester by clicking on top right button.")
-            present(alert, animated: true, completion: nil)
-        }
-        else {
-            semester = getSemester()
+        let semester = getSemester()  // Will contain the predicted semester
+        
+        if showSemesterDialog() {
+            DispatchQueue.main.async {
+                let alert = showAlert(with: "Your predicted semester is: \(semester)\n Edit it by tapping the button on top")
+                self.present(alert, animated: true) {
+                    setShowSemesterDialog(as: false)
+                }
+            }
         }
         
         Service.shared.fetchResults(token: getToken(), semester: semester, isRefresh: true) { [unowned self] (results, error) in
@@ -135,7 +137,7 @@ class ResultsViewController: UICollectionViewController, UICollectionViewDelegat
                 print("Error: ", error)
                 DispatchQueue.main.async {
                     self.rControl.endRefreshing()
-                    let alert = showAlert(with: "Error fetching results.")
+                    let alert = showAlert(with: "Error fetching results for semester: \(getSemester())")
                     self.present(alert, animated: true, completion: nil)
                 }
                 return
@@ -156,9 +158,9 @@ class ResultsViewController: UICollectionViewController, UICollectionViewDelegat
     
     //MARK:- Semester change
     @objc fileprivate func handleSemesterChange() {
-        let alert = UIAlertController(title: "Change semester", message: "The semester is saved as: \(getSemester()). Enter new semester", preferredStyle: .alert)
+        let alert = UIAlertController(title: "Change semester", message: "Current semester is set to: \(getSemester())", preferredStyle: .alert)
         alert.addTextField { (semTF) in
-            semTF.placeholder = "Enter semester"
+            semTF.placeholder = "Enter new semester"
             semTF.keyboardType = .numberPad
         }
         let okAction = UIAlertAction(title: "OK", style: .default) { [unowned self] (ok) in

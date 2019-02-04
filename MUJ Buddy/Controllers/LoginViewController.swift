@@ -238,6 +238,18 @@ class LoginViewController: UIViewController, UICollectionViewDelegate, UICollect
         let cell = collectionView.cellForItem(at: IndexPath(item: pages.count, section: 0)) as! LoginCell
         let username = cell.userTextField.text
         let password = cell.passwordField.text
+        var currSem: Int = -1
+        
+        // Calculate the semester from the userID
+        if let reg = username {
+            let regDate = admDateFrom(regNo: reg)
+            let monthSinceAdmission = regDate.monthsTillNow()
+            
+            // Now we just have to divide the months by 6 and floor it away from zero to get current semester
+            let rawSem = (Float(monthSinceAdmission) / 6).rounded(.awayFromZero)
+            currSem = Int(rawSem)  // Cast to int to get the exact value
+        }
+        
         if username != "" && password != "" {
             // Perform login
             // Encrypt the password and the userrname
@@ -285,6 +297,7 @@ class LoginViewController: UIViewController, UICollectionViewDelegate, UICollect
                                 
                                 // We have the token, set it to user defaults and dismiss the login controller
                                 updateAndSetToken(to: token)
+                                setSemester(as: currSem)  // Update the semester in the DB if the login is successful
                                 let newController = UINavigationController(rootViewController: DashboardViewController())
                                 newController.modalTransitionStyle = .crossDissolve
                                 self.present(newController, animated: true, completion: nil)

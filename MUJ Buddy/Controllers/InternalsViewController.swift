@@ -55,15 +55,15 @@ class InternalsViewController: UICollectionViewController, UICollectionViewDeleg
         setupViews()
         
         //MARK:- Fetch data from the API
-        var semester = 1
-        if getSemester() == -1 {
+        let semester = getSemester()  // Will contain the predicted semester
+        
+        if showSemesterDialog() {
             DispatchQueue.main.async {
-                let alert = showAlert(with: "Using default semester value as: 1. Please set your current semester by clicking on top right button.")
-                self.present(alert, animated: true, completion: nil)
+                let alert = showAlert(with: "Your predicted semester is: \(semester)\n Edit it by tapping the button on top")
+                self.present(alert, animated: true) {
+                    setShowSemesterDialog(as: false)
+                }
             }
-        }
-        else {
-            semester = getSemester()
         }
         
         // Send the actual request
@@ -72,7 +72,7 @@ class InternalsViewController: UICollectionViewController, UICollectionViewDeleg
                 print("Error: ",err)
                 DispatchQueue.main.async {
                     self.indicator.stopAnimating()
-                    let alert = showAlert(with: "Error fetching internals marks")
+                    let alert = showAlert(with: "Error fetching marks for semester: \(getSemester())")
                     self.present(alert, animated: true, completion: nil)
                 }
             }
@@ -133,13 +133,15 @@ class InternalsViewController: UICollectionViewController, UICollectionViewDeleg
     
     //MARK:- OBJC Refresh func
     @objc fileprivate func handleRefreshForInternals() {
-        var semester = 1
-        if getSemester() == -1 {
-            let alert = showAlert(with: "Using default semester value as: 1. Please set your current semester by clicking on top right button.")
-            present(alert, animated: true, completion: nil)
-        }
-        else {
-            semester = getSemester()
+        let semester = getSemester()  // Will contain the predicted semester
+        
+        if showSemesterDialog() {
+            DispatchQueue.main.async {
+                let alert = showAlert(with: "Your predicted semester is: \(semester)\n Edit it by tapping the button on top")
+                self.present(alert, animated: true) {
+                    setShowSemesterDialog(as: false)
+                }
+            }
         }
         
         Service.shared.fetchInternals(token: getToken(), semester: semester, isRefresh: true) { [unowned self] (data, err) in
@@ -147,7 +149,7 @@ class InternalsViewController: UICollectionViewController, UICollectionViewDeleg
                 print("Error: ",err)
                 DispatchQueue.main.async {
                     self.rControl.endRefreshing()
-                    let alert = showAlert(with: "Error fetching internals marks")
+                    let alert = showAlert(with: "Error fetching marks for semester: \(getSemester())")
                     self.present(alert, animated: true, completion: nil)
                 }
             }
@@ -167,9 +169,9 @@ class InternalsViewController: UICollectionViewController, UICollectionViewDeleg
     
     //MARK:- Semester change
     @objc fileprivate func handleSemesterChange() {
-        let alert = UIAlertController(title: "Change semester", message: "The semester is saved as: \(getSemester()). Enter new semester", preferredStyle: .alert)
+        let alert = UIAlertController(title: "Change semester", message: "Current semester is set to: \(getSemester())", preferredStyle: .alert)
         alert.addTextField { (semTF) in
-            semTF.placeholder = "Enter semester"
+            semTF.placeholder = "Enter new semester"
             semTF.keyboardType = .numberPad
         }
         let okAction = UIAlertAction(title: "OK", style: .default) { [unowned self] (ok) in

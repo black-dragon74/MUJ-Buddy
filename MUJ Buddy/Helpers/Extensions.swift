@@ -166,3 +166,13 @@ class UIImageToDownload: UIImageView {
         }.resume()
     }
 }
+
+// Extension on Date to get the time interval in months, returns int rounded off away from zero
+extension Date {
+    func monthsTillNow() -> Int {
+        // This will return the months from the given date to current date
+        let rawMonths = Calendar.current.dateComponents([.month], from: self, to: Date()).month ?? 0
+        return rawMonths
+    }
+}
+
