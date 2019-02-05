@@ -30,8 +30,32 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             window?.rootViewController = LoginViewController()
         }
         
+        // Update attendance after an interval of 2 hours
+        UIApplication.shared.setMinimumBackgroundFetchInterval(3600 * 2)
+        
         // Required
         return true
+    }
+    
+    // Perform the actual fetch
+    func application(_ application: UIApplication, performFetchWithCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
+        if application.backgroundRefreshStatus == UIBackgroundRefreshStatus.available && getToken() != "nil" {
+            Service.shared.getAttendance(token: getToken(), isRefresh: true) { (attendance, error) in
+                if let error = error {
+                    print("Refresh error: ", error)
+                    completionHandler(.noData)
+                    return
+                }
+                
+                if attendance != nil {
+                    // Data save is handled by the API service itself
+                    // Just notify the system that our session is complete
+                    print("Fetch completed.")
+                    completionHandler(.newData)
+                    return
+                }
+            }
+        }
     }
 
     func applicationWillResignActive(_ application: UIApplication) {

@@ -96,8 +96,6 @@ class DashboardViewController: UIViewController, UICollectionViewDelegate, UICol
     // Settings collection view
     let bottomSheetController = BottomMenuSheetController()
     
-    var sConst: NSLayoutConstraint?  // Will store the settings top offset to animate pull up and down
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()
