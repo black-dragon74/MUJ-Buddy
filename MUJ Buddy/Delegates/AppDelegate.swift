@@ -56,6 +56,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 }
             }
         }
+        else {
+            completionHandler(.failed)
+            print("Background service disabled")
+        }
     }
 
     func applicationWillResignActive(_ application: UIApplication) {

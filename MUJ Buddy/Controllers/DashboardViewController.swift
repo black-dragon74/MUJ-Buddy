@@ -150,6 +150,25 @@ class DashboardViewController: UIViewController, UICollectionViewDelegate, UICol
                 }
             }
         }
+        
+        // If backgroundd service is disabled, prompt the user
+        // But only once coz respect Apple Terms :P
+        if UIApplication.shared.backgroundRefreshStatus == .denied && showRefreshDialog() {
+            let alert = UIAlertController(title: "Auto update attendance?", message: "This app supports auto attendace updation every two hours. Please enable background app refresh to leverage that.", preferredStyle: .alert)
+            let okAction = UIAlertAction(title: "Sure", style: .default) { (action) in
+                setShowRefreshDialog(as: false)
+                guard let url = URL(string: UIApplication.openSettingsURLString) else { return }
+                UIApplication.shared.open(url, options: [:], completionHandler: nil)
+            }
+            alert.addAction(okAction)
+            let cancelAction = UIAlertAction(title: "Nah", style: .cancel) {(action) in
+                setShowRefreshDialog(as: false)
+            }
+            alert.addAction(cancelAction)
+            
+            // Present the alert
+            present(alert, animated: true, completion: nil)
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {

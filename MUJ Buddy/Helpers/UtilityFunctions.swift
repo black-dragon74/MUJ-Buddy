@@ -242,11 +242,19 @@ func setShowSemesterDialog(as val: Bool) {
 
 func showSemesterDialog() -> Bool {
     // If value is there in the UserDefaults, return that
-    if let val = UserDefaults.standard.object(forKey: DIALOG_KEY) as? Bool {
-        return val
-    }
-    else {
-        // App is being launched after a new login. Default to true
-        return true
-    }
+    return UserDefaults.standard.object(forKey: DIALOG_KEY) as? Bool ?? true
+}
+
+
+//
+//  Background app refresh related functions
+//
+func setShowRefreshDialog(as val: Bool) {
+    UserDefaults.standard.removeObject(forKey: REFRESH_KEY)
+    UserDefaults.standard.set(val, forKey: REFRESH_KEY)
+    UserDefaults.standard.synchronize()
+}
+
+func showRefreshDialog() -> Bool {
+    return UserDefaults.standard.object(forKey: REFRESH_KEY) as? Bool ?? true
 }
