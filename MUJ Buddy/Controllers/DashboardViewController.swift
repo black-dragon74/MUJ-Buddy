@@ -8,7 +8,7 @@
 
 import UIKit
 
-class DashboardViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UICollectionViewDataSource
+class DashboardViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UICollectionViewDataSource, BottomSheetDelegate
 {
     
     let cellId = "cellID"
@@ -93,13 +93,21 @@ class DashboardViewController: UIViewController, UICollectionViewDelegate, UICol
     }()
     
     
+    // Settings collection view
+    let bottomSheetController = BottomMenuSheetController()
+    
+    var sConst: NSLayoutConstraint?  // Will store the settings top offset to animate pull up and down
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationItem.title = "Dashboard"
         view.backgroundColor = .white
         
         // Logout button
-        let logoutButton = UIBarButtonItem(title: "Logout", style: .plain, target: self, action: #selector(handleLogout))
+        let btnImage = UIImage(named: "ios_more")
+        let logoutButton = UIBarButtonItem(image: btnImage, style: .plain, target: self, action: #selector(handleSettingsShow))
+        logoutButton.tintColor = .black
         self.navigationItem.rightBarButtonItem = logoutButton
         
         view.addSubview(admView)
@@ -213,6 +221,54 @@ class DashboardViewController: UIViewController, UICollectionViewDelegate, UICol
         let dc = LoginViewController()
         dc.modalTransitionStyle = .flipHorizontal
         present(dc, animated: true, completion: nil)
+    }
+    
+    @objc fileprivate func handleSettingsShow() {
+        // Set the delegate and then show the settings
+        // Rest everything is handled there!
+        bottomSheetController.delegate = self
+        bottomSheetController.showSettings()
+    }
+    
+    func handleSemesterChange() {
+        let alert = UIAlertController(title: "Change semester", message: "Current semester is set to: \(getSemester())", preferredStyle: .alert)
+        alert.addTextField { (semTF) in
+            semTF.placeholder = "Enter new semester"
+            semTF.keyboardType = .numberPad
+        }
+        let okAction = UIAlertAction(title: "OK", style: .default) { [unowned self] (ok) in
+            guard let tf = alert.textFields?.first else { return }
+            let iText = Int(tf.text!) ?? -1
+            if iText > 8 || iText <= 0 {
+                DispatchQueue.main.async {
+                    let alert = showAlert(with: "Invalid semester entered.")
+                    self.present(alert, animated: true, completion: nil)
+                }
+            }
+            else {
+                setSemester(as: iText)
+                DispatchQueue.main.async {
+                    let alert = showAlert(with: "Semester updated as: \(iText). Refresh to fetch new details.")
+                    self.present(alert, animated: true, completion: nil)
+                }
+            }
+        }
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        alert.addAction(okAction)
+        alert.addAction(cancelAction)
+        present(alert, animated: true, completion: nil)
+    }
+    
+    //MARK:- Delegate method
+    func handleMenuSelect(forItem: String) {
+        switch forItem {
+        case "Logout":
+            handleLogout()
+        case "Change Semester":
+            handleSemesterChange()
+        default:
+            break
+        }
     }
 }
 
