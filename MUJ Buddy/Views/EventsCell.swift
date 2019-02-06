@@ -9,7 +9,7 @@
 import UIKit
 
 class EventsCell: UICollectionViewCell {
-    
+
     // Handle the updation of the cell's values
     var currentEvent: EventsModel? {
         didSet {
@@ -18,7 +18,7 @@ class EventsCell: UICollectionViewCell {
             eventNameLabel.text = event.name
         }
     }
-    
+
     // Label to show the dates
     let dateLabel: UILabel = {
         let d = UILabel()
@@ -31,7 +31,7 @@ class EventsCell: UICollectionViewCell {
         d.layer.masksToBounds = true
         return d
     }()
-    
+
     // Event name comes here
     let eventNameLabel: UILabel = {
         let e = UILabel()
@@ -40,26 +40,26 @@ class EventsCell: UICollectionViewCell {
         e.text = "Branch Change Application for 1st Year B.Tech Starts"
         return e
     }()
-    
+
     override init(frame: CGRect) {
         super.init(frame: frame)
-        
+
         self.backgroundColor = .white
         self.dropShadow()
-        
+
         // Setup additional views
         setupViews()
     }
-    
+
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
     fileprivate func setupViews() {
         // Add subviews
         addSubview(dateLabel)
         addSubview(eventNameLabel)
-        
+
         // Add constraints
         dateLabel.anchorWithConstraints(top: topAnchor, left: leftAnchor, topOffset: 16, leftOffset: 16)
         eventNameLabel.anchorWithConstraints(top: dateLabel.bottomAnchor, right: rightAnchor, bottom: bottomAnchor, left: leftAnchor, topOffset: 5, rightOffset: 8, bottomOffset: 16, leftOffset: 16)

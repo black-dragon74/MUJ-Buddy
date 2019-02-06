@@ -9,7 +9,7 @@
 import UIKit
 
 struct DashboardModel: Codable {
-    
+
     // For the basic info
     struct admDetails: Codable {
         let name: String
@@ -17,7 +17,7 @@ struct DashboardModel: Codable {
         let regNo: String
         let program: String
     }
-    
+
     // For edu quals
     struct eduQualifications: Codable {
         let index: String
@@ -29,7 +29,7 @@ struct DashboardModel: Codable {
         let grade: String
         let institution: String
     }
-    
+
     // Real structure
     let admDetails: admDetails
     let eduQualifications: [eduQualifications]

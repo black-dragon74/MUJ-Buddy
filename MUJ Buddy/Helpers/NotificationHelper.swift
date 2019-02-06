@@ -20,12 +20,12 @@ func prepareNotification(withBody: String) -> UNNotificationRequest {
         c.sound = UNNotificationSound.default
         return c
     }()
-    
+
     let identifier = "notif\(Int.random(in: 1...234213))"
-    
+
     let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1, repeats: false)
-    
+
     let request = UNNotificationRequest(identifier: identifier, content: content, trigger: trigger)
-    
+
     return request
 }

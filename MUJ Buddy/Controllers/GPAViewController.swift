@@ -9,61 +9,61 @@
 import UIKit
 
 class GPAViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
-    
-    var GPADetails: GpaModel?{
+
+    var GPADetails: GpaModel? {
         didSet {
             guard let gpa = GPADetails else { return }
-            
+
             // Empty the dict first and then append, just to be safe coz I'm dealing with idiots
             gpaArray = []
-            
+
             // Semester 1
             if let s1 = gpa.semester_1 {
                 gpaArray.append(valueAsDict(withKey: "Semester 1", value: s1))
             }
-            
+
             // Semester 2
             if let s2 = gpa.semester_2 {
                 gpaArray.append(valueAsDict(withKey: "Semester 2", value: s2))
             }
-            
+
             // Semester 3
             if let s3 = gpa.semester_3 {
                 gpaArray.append(valueAsDict(withKey: "Semester 3", value: s3))
             }
-            
+
             // Semester 4
             if let s4 = gpa.semester_4 {
                 gpaArray.append(valueAsDict(withKey: "Semester 4", value: s4))
             }
-            
+
             // Semester 5
             if let s5 = gpa.semester_5 {
                 gpaArray.append(valueAsDict(withKey: "Semester 5", value: s5))
             }
-            
+
             // Semester 6
             if let s6 = gpa.semester_6 {
                 gpaArray.append(valueAsDict(withKey: "Semester 6", value: s6))
             }
-            
+
             // Semester 7
             if let s7 = gpa.semester_7 {
                 gpaArray.append(valueAsDict(withKey: "Semester 7", value: s7))
             }
-            
+
             // Semester 8
             if let s8 = gpa.semester_8 {
                 gpaArray.append(valueAsDict(withKey: "Semester 8", value: s8))
             }
         }
     }
-    
+
     var gpaArray = [[String: String]]() // Dictionary that will contain the results
-    
+
     // Cell reuse identifier
     let cellID = "cellID"
-    
+
     // Collection View to contain our cards
     lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -73,7 +73,7 @@ class GPAViewController: UIViewController, UICollectionViewDelegate, UICollectio
         c.backgroundColor = DMSColors.primaryLighter.value
         return c
     }()
-    
+
     // Refresh control
     let rControl: UIRefreshControl = {
         let r = UIRefreshControl()
@@ -81,7 +81,7 @@ class GPAViewController: UIViewController, UICollectionViewDelegate, UICollectio
         r.tintColor = .red
         return r
     }()
-    
+
     // Activity indicator
     let indicator: UIActivityIndicatorView = {
        let i = UIActivityIndicatorView()
@@ -91,16 +91,16 @@ class GPAViewController: UIViewController, UICollectionViewDelegate, UICollectio
         i.translatesAutoresizingMaskIntoConstraints = false
         return i
     }()
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         navigationItem.title = "GPA Details"
         view.backgroundColor = DMSColors.primaryLighter.value
-        
+
         // Setup additional views
         setupViews()
-        
+
         // Test the functionality
         Service.shared.fetchGPA(token: getToken()) { [unowned self] (gpa, error) in
             if let error = error {
@@ -127,46 +127,46 @@ class GPAViewController: UIViewController, UICollectionViewDelegate, UICollectio
             }
         }
     }
-    
-    //MARK:- Setup Views function
+
+    // MARK: - Setup Views function
     fileprivate func setupViews() {
         collectionView.register(GPACell.self, forCellWithReuseIdentifier: cellID)
         collectionView.refreshControl = rControl
-        
+
         // Add subviews
         view.addSubview(collectionView)
         view.addSubview(indicator)
-        
+
         // Add constraints
         indicator.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         indicator.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
         indicator.startAnimating()
-        
+
         collectionView.anchorWithConstraints(top: view.safeAreaLayoutGuide.topAnchor, right: view.rightAnchor, bottom: view.bottomAnchor, left: view.leftAnchor)
     }
-    
-    //MARK:- Collection view delegate
+
+    // MARK: - Collection view delegate
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return gpaArray.count
     }
-    
-    //MARK:- Collection view flow delegate
+
+    // MARK: - Collection view flow delegate
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
         return UIEdgeInsets(top: 16, left: 16, bottom: 16, right: 16)
     }
-    
+
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: view.frame.width - 32, height: 80)
     }
-    
-    //MARK:- Collection view data source
+
+    // MARK: - Collection view data source
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellID, for: indexPath) as! GPACell
         cell.currentGPA = gpaArray[indexPath.item]
         return cell
     }
-    
-    //MARK:- Function to handle refresh
+
+    // MARK: - Function to handle refresh
     @objc fileprivate func handleGPARefresh() {
         Service.shared.fetchGPA(token: getToken(), isRefresh: true) { [unowned self] (gpa, error) in
             if let error = error {
@@ -179,10 +179,10 @@ class GPAViewController: UIViewController, UICollectionViewDelegate, UICollectio
                 }
                 return
             }
-            
+
             if let gpa = gpa {
                 self.GPADetails = gpa
-                
+
                 // Now we assume that the dict is appended and ready with values
                 // Reload the collection view
                 DispatchQueue.main.async {

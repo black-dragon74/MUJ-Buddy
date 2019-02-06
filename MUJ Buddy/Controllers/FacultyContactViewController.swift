@@ -9,7 +9,7 @@
 import UIKit
 
 class FacultyContactViewController: UIViewController {
-    
+
     var currentFaculty: FacultyContactModel? {
         didSet {
             guard let currF = currentFaculty else { return }
@@ -24,7 +24,7 @@ class FacultyContactViewController: UIViewController {
                     print("Error in getting Image: ", error)
                     return
                 }
-                
+
                 if let image = image {
                     DispatchQueue.main.async {
                         self.facultyImage.image = image
@@ -34,7 +34,7 @@ class FacultyContactViewController: UIViewController {
             }
         }
     }
-    
+
     // Activity Indicator
     let indicator: UIActivityIndicatorView = {
         let i = UIActivityIndicatorView()
@@ -44,7 +44,7 @@ class FacultyContactViewController: UIViewController {
         i.color = .red
         return i
     }()
-    
+
     // Faculty Image
     let facultyImage: UIImageView = {
         let f = UIImageView()
@@ -53,7 +53,7 @@ class FacultyContactViewController: UIViewController {
         f.backgroundColor = .clear
         return f
     }()
-    
+
     // View that contains name and title
     let nameTitleView: UIView = {
         let d = UIView()
@@ -61,14 +61,14 @@ class FacultyContactViewController: UIViewController {
         d.heightAnchor.constraint(equalToConstant: 70).isActive = true
         return d
     }()
-    
+
     // Name label
     let nameLabel: UILabel = {
         let n = UILabel()
         n.font = UIFont.systemFont(ofSize: 17, weight: .bold)
         return n
     }()
-    
+
     // Designation label
     let designationLabel: UILabel = {
         let n = UILabel()
@@ -76,14 +76,14 @@ class FacultyContactViewController: UIViewController {
         n.adjustsFontSizeToFitWidth = true
         return n
     }()
-    
+
     // View that contains rest of the things
     let detailedView: UIView = {
         let d = UIView()
         d.backgroundColor = .white
         return d
     }()
-    
+
     // Phone Icon
     let phoneIcon: UIImageView = {
         let p = UIImageView()
@@ -94,7 +94,7 @@ class FacultyContactViewController: UIViewController {
         p.image = UIImage(named: "phone")
         return p
     }()
-    
+
     // Phone Label
     let phoneLabel: UILabel = {
         let p = UILabel()
@@ -103,7 +103,7 @@ class FacultyContactViewController: UIViewController {
         p.isUserInteractionEnabled = true
         return p
     }()
-    
+
     // Email Icon
     let emailIcon: UIImageView = {
         let p = UIImageView()
@@ -114,7 +114,7 @@ class FacultyContactViewController: UIViewController {
         p.image = UIImage(named: "email")
         return p
     }()
-    
+
     // Email Label
     let emailLabel: UILabel = {
         let p = UILabel()
@@ -124,7 +124,7 @@ class FacultyContactViewController: UIViewController {
         p.isUserInteractionEnabled = true
         return p
     }()
-    
+
     // Department Icon
     let departmentIcon: UIImageView = {
         let p = UIImageView()
@@ -135,7 +135,7 @@ class FacultyContactViewController: UIViewController {
         p.image = UIImage(named: "work")
         return p
     }()
-    
+
     // Department Label
     let departmentLabel: UILabel = {
         let p = UILabel()
@@ -144,26 +144,24 @@ class FacultyContactViewController: UIViewController {
         p.adjustsFontSizeToFitWidth = true
         return p
     }()
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         view.backgroundColor = DMSColors.primaryLighter.value
         self.title = "Details"
-        
+
         setupViews()
     }
-    
+
     fileprivate func setupViews() {
         view.addSubview(facultyImage)
         facultyImage.addSubview(indicator)
-        
-        
+
         view.addSubview(nameTitleView)
         nameTitleView.addSubview(nameLabel)
         nameTitleView.addSubview(designationLabel)
-        
-        
+
         view.addSubview(detailedView)
         detailedView.addSubview(phoneIcon)
         detailedView.addSubview(phoneLabel)
@@ -171,62 +169,59 @@ class FacultyContactViewController: UIViewController {
         detailedView.addSubview(emailLabel)
         detailedView.addSubview(departmentIcon)
         detailedView.addSubview(departmentLabel)
-        
-        //MARK:- Gesture recognizers
+
+        // MARK: - Gesture recognizers
         phoneLabel.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(callPhone)))
         emailLabel.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(sendEmail)))
-        
-        
+
         indicator.startAnimating()
-        
-        //MARK:- Constraints
+
+        // MARK: - Constraints
         facultyImage.anchorWithConstraints(top: view.safeAreaLayoutGuide.topAnchor, right: view.rightAnchor, left: view.leftAnchor, height: view.frame.height / 2.5)
         indicator.centerXAnchor.constraint(equalTo: facultyImage.centerXAnchor).isActive = true
         indicator.centerYAnchor.constraint(equalTo: facultyImage.centerYAnchor).isActive = true
-        
+
         nameTitleView.anchorWithConstraints(top: facultyImage.bottomAnchor, right: view.rightAnchor, left: view.leftAnchor)
         nameLabel.anchorWithConstraints(top: nameTitleView.topAnchor, left: nameTitleView.leftAnchor, topOffset: 14, leftOffset: 16)
         designationLabel.anchorWithConstraints(top: nameLabel.bottomAnchor, left: nameTitleView.leftAnchor, topOffset: 5, leftOffset: 16)
         designationLabel.widthAnchor.constraint(equalToConstant: (view.frame.width - 17)).isActive = true
-        
+
         detailedView.anchorWithConstraints(top: nameTitleView.bottomAnchor, right: view.rightAnchor, bottom: view.bottomAnchor, left: view.leftAnchor, topOffset: 10)
-        
+
         phoneIcon.anchorWithConstraints(top: detailedView.topAnchor, left: detailedView.leftAnchor, topOffset: 14, leftOffset: 16)
         phoneLabel.anchorWithConstraints(left: phoneIcon.rightAnchor, leftOffset: 16)
         phoneLabel.centerYAnchor.constraint(equalTo: phoneIcon.centerYAnchor).isActive = true
-        
+
         emailIcon.anchorWithConstraints(top: phoneIcon.bottomAnchor, left: detailedView.leftAnchor, topOffset: 14, leftOffset: 16)
         emailLabel.anchorWithConstraints(left: emailIcon.rightAnchor, leftOffset: 16)
         emailLabel.centerYAnchor.constraint(equalTo: emailIcon.centerYAnchor).isActive = true
         emailLabel.widthAnchor.constraint(equalToConstant: (view.frame.width - 72)).isActive = true
-        
+
         departmentIcon.anchorWithConstraints(top: emailIcon.bottomAnchor, left: detailedView.leftAnchor, topOffset: 15, leftOffset: 16)
         departmentLabel.anchorWithConstraints(left: departmentIcon.rightAnchor, leftOffset: 16)
         departmentLabel.centerYAnchor.constraint(equalTo: departmentIcon.centerYAnchor).isActive = true
         departmentLabel.widthAnchor.constraint(equalToConstant: (view.frame.width - 72)).isActive = true
-        
+
     }
-    
-    //MARK:- OBJC Fuctions
+
+    // MARK: - OBJC Fuctions
     @objc func callPhone() {
         if let phoneNumber = phoneLabel.text {
             if phoneNumber == "NA"{
                 return
-            }
-            else {
+            } else {
                 let phone = "tel://+91" + phoneNumber
                 guard let url = URL(string: phone) else { return }
                 UIApplication.shared.open(url, options: [:], completionHandler: nil)
             }
         }
     }
-    
+
     @objc func sendEmail() {
         if let emailAddress = emailLabel.text {
             if emailAddress == "NA"{
                 return
-            }
-            else {
+            } else {
                 let email = "mailto://" + emailAddress
                 guard let url = URL(string: email) else { return }
                 UIApplication.shared.open(url, options: [:], completionHandler: nil)
@@ -234,4 +229,3 @@ class FacultyContactViewController: UIViewController {
         }
     }
 }
-

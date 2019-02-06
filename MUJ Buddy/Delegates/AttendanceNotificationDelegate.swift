@@ -13,15 +13,15 @@ import UserNotifications
 //
 
 class AttendanceDelegate: NSObject, UNUserNotificationCenterDelegate {
-    
+
     var delegate: AttendanceNotificationDelegate?
-    
+
     // Notification received while app is open
     func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
         // Just display the notification for now
         completionHandler([.alert, .sound])
     }
-    
+
     func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
         guard let del = delegate else { return }
         switch response.actionIdentifier {

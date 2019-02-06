@@ -10,16 +10,16 @@ import UIKit
 
 //TODO:- Get hold of proper fee model
 struct FeeModel: Codable {
-    
+
     struct paid: Codable {
         let semester1: String?
         let total: String?
     }
-    
+
     struct unpaid: Codable {
         let total: String?
     }
-    
+
     let paid: paid?
     let unpaid: unpaid?
 }

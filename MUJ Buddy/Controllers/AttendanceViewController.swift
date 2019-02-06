@@ -9,7 +9,7 @@
 import UIKit
 
 class AttendanceViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UICollectionViewDataSource {
-    
+
     // This view is also a collection view controller with elems for each subject
     let collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -17,7 +17,7 @@ class AttendanceViewController: UIViewController, UICollectionViewDelegate, UICo
         c.backgroundColor = DMSColors.primaryLighter.value
         return c
     }()
-    
+
     // Indicator
     let indicator: UIActivityIndicatorView = {
         let i = UIActivityIndicatorView()
@@ -27,7 +27,7 @@ class AttendanceViewController: UIViewController, UICollectionViewDelegate, UICo
         i.color = .red
         return i
     }()
-    
+
     // Refresh control
     let rControl: UIRefreshControl = {
         let r = UIRefreshControl()
@@ -35,37 +35,37 @@ class AttendanceViewController: UIViewController, UICollectionViewDelegate, UICo
         r.tintColor = .red
         return r
     }()
-    
+
     var attendanceDetails = [AttendanceModel]()
-    
+
     let cellID = "cellID"
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         self.title = "Attendance"
         view.backgroundColor = .lightGray
-        
+
         setupViews()
     }
-    
+
     func setupViews() {
         // Add the subviews to the main views
         view.addSubview(collectionView)
         view.addSubview(indicator)
-        
+
         // Collection view config
         collectionView.dataSource = self
         collectionView.delegate = self
         collectionView.register(AttendanceCell.self, forCellWithReuseIdentifier: cellID)
         collectionView.refreshControl = rControl
-        
+
         // Constraints
         indicator.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         indicator.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
         indicator.startAnimating()
-        
+
         collectionView.anchorWithConstraints(top: view.safeAreaLayoutGuide.topAnchor, right: view.rightAnchor, bottom: view.bottomAnchor, left: view.leftAnchor, topOffset: 0, rightOffset: 0, bottomOffset: 0, leftOffset: 0, height: nil, width: nil)
-        
+
         // Get attendance details
         Service.shared.getAttendance(token: getToken()) { (model, err) in
             if err != nil {
@@ -76,12 +76,12 @@ class AttendanceViewController: UIViewController, UICollectionViewDelegate, UICo
                 }
                 return
             }
-            
+
             if let data = model {
                 for d in data {
                     self.attendanceDetails.append(d)
                 }
-                
+
                 DispatchQueue.main.async {
                     self.collectionView.reloadData()
                     self.indicator.stopAnimating()
@@ -90,28 +90,28 @@ class AttendanceViewController: UIViewController, UICollectionViewDelegate, UICo
             }
         }
     }
-    
-    //MARK:- CV Delegate
+
+    // MARK: - CV Delegate
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return attendanceDetails.count
     }
-    
-    //MARK:- CV Data Source
+
+    // MARK: - CV Data Source
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellID, for: indexPath) as! AttendanceCell
         cell.attendance = attendanceDetails[indexPath.row]
         return cell
     }
-    
-    //MARK:- CV Delegate Flow Layout
+
+    // MARK: - CV Delegate Flow Layout
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: view.frame.width - 32, height: 180)
     }
-    
+
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
         return UIEdgeInsets(top: 16, left: 16, bottom: 16, right: 16)
     }
-    
+
     @objc func handleAttendanceRefresh() {
         // Get attendance details
         Service.shared.getAttendance(token: getToken(), isRefresh: true) { (model, err) in
@@ -123,13 +123,13 @@ class AttendanceViewController: UIViewController, UICollectionViewDelegate, UICo
                 }
                 return
             }
-            
+
             if let data = model {
                 self.attendanceDetails = [] // Coz we will append to it now
                 for d in data {
                     self.attendanceDetails.append(d)
                 }
-                
+
                 DispatchQueue.main.async {
                     self.rControl.endRefreshing()
                     self.collectionView.reloadData()
@@ -137,5 +137,5 @@ class AttendanceViewController: UIViewController, UICollectionViewDelegate, UICo
             }
         }
     }
-    
+
 }

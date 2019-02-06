@@ -16,4 +16,3 @@ struct ResultsModel: Codable {
     let grade: String
     let credits: String
 }
-

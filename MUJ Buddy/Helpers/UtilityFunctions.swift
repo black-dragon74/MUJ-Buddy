@@ -8,7 +8,6 @@
 
 import UIKit
 
-
 //
 //  General purpose functions
 //
@@ -33,14 +32,13 @@ func purgeUserDefaults() {
     UserDefaults.standard.synchronize()
 }
 
-
 //
 //  Login related functions
 //
 func updateAndSetToken(to: String) {
     UserDefaults.standard.removeObject(forKey: TOKEN_KEY)
     UserDefaults.standard.set(to, forKey: TOKEN_KEY)
-    
+
     // Update user login state
     UserDefaults.standard.set(true, forKey: LOGGED_IN_KEY)
 }
@@ -48,8 +46,7 @@ func updateAndSetToken(to: String) {
 func getToken() -> String {
     if let token = UserDefaults.standard.object(forKey: TOKEN_KEY) as? String {
         return token
-    }
-    else {
+    } else {
         return "nil"
     }
 }
@@ -57,7 +54,6 @@ func getToken() -> String {
 func isLoggedIn() -> Bool {
     return UserDefaults.standard.bool(forKey: LOGGED_IN_KEY)
 }
-
 
 //
 //  Dashboard related functions
@@ -72,12 +68,10 @@ func updateDashInDB(data: Data?) {
 func getDashFromDB() -> Data? {
     if let data = UserDefaults.standard.object(forKey: DASHBOARD_KEY) as? Data {
         return data
-    }
-    else {
+    } else {
         return nil
     }
 }
-
 
 //
 //  Attendance related functions
@@ -92,12 +86,10 @@ func updateAttendanceInDB(attendance: Data?) {
 func getAttendanceFromDB() -> Data? {
     if let att = UserDefaults.standard.object(forKey: ATTENDANCE_KEY) as? Data {
         return att
-    }
-    else {
+    } else {
         return nil
     }
 }
-
 
 //
 //  Attendance notification related utility functions
@@ -112,8 +104,7 @@ func shouldShowAttendanceNotification() -> Bool {
 func getLastAttendanceNotificationDate() -> Date? {
     if let date = UserDefaults.standard.object(forKey: LAST_ATTENDANCE_NOTIFICATION_KEY) as? Date {
         return date
-    }
-    else {
+    } else {
         return nil
     }
 }
@@ -136,13 +127,11 @@ func getLowAttendanceCount() -> Int {
                 count += 1
             }
         }
-    }
-    catch  {
+    } catch {
         return 0
     }
     return count
 }
-
 
 //
 //  Events related function
@@ -157,12 +146,10 @@ func updateEventsInDB(events: Data?) {
 func getEventsFromDB() -> Data? {
     if let eventFromDb = UserDefaults.standard.object(forKey: EVENTS_KEY) as? Data {
         return eventFromDb
-    }
-    else {
+    } else {
         return nil
     }
 }
-
 
 //
 //  GPA related functions
@@ -177,12 +164,10 @@ func updateGPAInDB(gpa: Data?) {
 func getGPAFromDB() -> Data? {
     if let gpa = UserDefaults.standard.object(forKey: GPA_KEY) as? Data {
         return gpa
-    }
-    else {
+    } else {
         return nil
     }
 }
-
 
 //
 //  Internals related functions
@@ -197,12 +182,10 @@ func updateInternalsInDB(internals: Data?) {
 func getInternalsFromDB() -> Data? {
     if let data = UserDefaults.standard.object(forKey: INTERNALS_KEY) as? Data {
         return data
-    }
-    else {
+    } else {
         return nil
     }
 }
-
 
 //
 //  Results related functions
@@ -217,12 +200,10 @@ func updateResultsInDB(results: Data?) {
 func getResultsFromDB() -> Data? {
     if let data = UserDefaults.standard.object(forKey: RESULTS_KEY) as? Data {
         return data
-    }
-    else {
+    } else {
         return nil
     }
 }
-
 
 //
 //  Current semester related handlers
@@ -230,8 +211,7 @@ func getResultsFromDB() -> Data? {
 func getSemester() -> Int {
     if let sem = UserDefaults.standard.object(forKey: CURRENT_SEMESTER) as? Int {
         return sem
-    }
-    else {
+    } else {
         return -1
     }
 }
@@ -241,7 +221,6 @@ func setSemester(as currSem: Int) {
     UserDefaults.standard.set(currSem, forKey: CURRENT_SEMESTER)
     UserDefaults.standard.synchronize()
 }
-
 
 //
 //  Fee handlers
@@ -255,12 +234,10 @@ func updateFeeInDB(fee: Data?) {
 func getFeeFromDB() -> Data? {
     if let fee = UserDefaults.standard.object(forKey: FEES_KEY) as? Data {
         return fee
-    }
-    else {
+    } else {
         return nil
     }
 }
-
 
 //
 //  Semester predictor related functions
@@ -268,14 +245,14 @@ func getFeeFromDB() -> Data? {
 func admDateFrom(regNo: String) -> Date {
     // Extract the year from the reg number
     let regYear = "20" + regNo.prefix(2)
-    
+
     // Semesters generally start at JULY
     let semStartDate = "\(regYear)-07-01 00:00:00"  // Will return 20 + first two digits of reg number
-    
+
     // Create a date formatter instance to format our custom date
     let formatter = DateFormatter()
     formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
-    
+
     return formatter.date(from: semStartDate)! //TODO: Do not force unwrap the date although it won't bite
 }
 
@@ -289,7 +266,6 @@ func showSemesterDialog() -> Bool {
     // If value is there in the UserDefaults, return that
     return UserDefaults.standard.object(forKey: DIALOG_KEY) as? Bool ?? true
 }
-
 
 //
 //  Background app refresh related functions

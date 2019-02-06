@@ -8,11 +8,10 @@
 
 import UIKit
 
-class DashboardViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UICollectionViewDataSource, BottomSheetDelegate
-{
-    
+class DashboardViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UICollectionViewDataSource, BottomSheetDelegate {
+
     let cellId = "cellID"
-    
+
     let items: [MenuItems] = {
         let cell1 = MenuItems(image: "attendance_vector", title: "Attendance", subtitle: "Your Attendance")
         let cell2 = MenuItems(image: "assessment_vector", title: "Internals", subtitle: "Assessment Marks")
@@ -24,14 +23,14 @@ class DashboardViewController: UIViewController, UICollectionViewDelegate, UICol
         let cell8 = MenuItems(image: "contacts_vector", title: "Faculty Contacts", subtitle: "At University")
         return [cell1, cell2, cell3, cell4, cell5, cell6, cell7, cell8]
     }()
-    
+
     // Create a view to contain the
     let admView: UIView = {
         let a = UIView()
         a.backgroundColor = DMSColors.kindOfPurple.value
         return a
     }()
-    
+
     // Name
     let nameLabel: UILabel = {
         let n = UILabel()
@@ -40,14 +39,14 @@ class DashboardViewController: UIViewController, UICollectionViewDelegate, UICol
         n.font = UIFont.systemFont(ofSize: 17, weight: .bold)
         return  n
     }()
-    
+
     let nameTF: UILabel = {
         let n = UILabel()
         n.text = "Loading..."
         n.textColor = .white
         return  n
     }()
-    
+
     // Program
     let programLabel: UILabel = {
         let n = UILabel()
@@ -56,7 +55,7 @@ class DashboardViewController: UIViewController, UICollectionViewDelegate, UICol
         n.font = UIFont.systemFont(ofSize: 17, weight: .bold)
         return  n
     }()
-    
+
     let programTF: UILabel = {
         let n = UILabel()
         n.text = "Loading..."
@@ -64,7 +63,7 @@ class DashboardViewController: UIViewController, UICollectionViewDelegate, UICol
         n.lineBreakMode = .byTruncatingTail
         return  n
     }()
-    
+
     // Acad Year
     let acadLabel: UILabel = {
         let n = UILabel()
@@ -73,14 +72,14 @@ class DashboardViewController: UIViewController, UICollectionViewDelegate, UICol
         n.font = UIFont.systemFont(ofSize: 17, weight: .bold)
         return  n
     }()
-    
+
     let acadTF: UILabel = {
         let n = UILabel()
         n.text = "Loading..."
         n.textColor = .white
         return  n
     }()
-    
+
     // A collection view that will contain our cells with the images
     lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -91,56 +90,54 @@ class DashboardViewController: UIViewController, UICollectionViewDelegate, UICol
         cv.showsVerticalScrollIndicator = false // Gande ho ji tum
         return cv
     }()
-    
-    
+
     // Settings collection view
     let bottomSheetController = BottomMenuSheetController()
-    
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationItem.title = "Dashboard"
         view.backgroundColor = .white
-        
+
         // Logout button
         let btnImage = UIImage(named: "ios_more")
         let logoutButton = UIBarButtonItem(image: btnImage, style: .plain, target: self, action: #selector(handleSettingsShow))
         logoutButton.tintColor = .black
         self.navigationItem.rightBarButtonItem = logoutButton
-        
+
         view.addSubview(admView)
         view.addSubview(collectionView)
-        
+
         admView.addSubview(nameLabel)
         admView.addSubview(nameTF)
         admView.addSubview(programLabel)
         admView.addSubview(programTF)
         admView.addSubview(acadLabel)
         admView.addSubview(acadTF)
-        
+
         // Register the cell
         collectionView.register(DashCell.self, forCellWithReuseIdentifier: cellId)
-        
+
         admView.anchorWithConstraints(top: view.safeAreaLayoutGuide.topAnchor, right: view.rightAnchor, left: view.leftAnchor, topOffset: 8, rightOffset: 8, leftOffset: 8, height: 90)
-        
+
         collectionView.anchorWithConstraints(top: admView.bottomAnchor, right: view.rightAnchor, bottom: view.safeAreaLayoutGuide.bottomAnchor, left: view.leftAnchor)
-        
+
         nameLabel.anchorWithConstraints(top: admView.topAnchor, left: admView.leftAnchor, topOffset: 12, leftOffset: 10)
         nameTF.anchorWithConstraints(top: admView.topAnchor, left: nameLabel.rightAnchor, topOffset: 12, leftOffset: 4)
-        
+
         programLabel.anchorWithConstraints(top: nameLabel.bottomAnchor, left: admView.leftAnchor, topOffset: 4, leftOffset: 10)
         programTF.anchorWithConstraints(top: nameLabel.bottomAnchor, left: programLabel.rightAnchor, topOffset: 4, leftOffset: 4)
-        
+
         acadLabel.anchorWithConstraints(top: programLabel.bottomAnchor, left: admView.leftAnchor, topOffset: 4, leftOffset: 10)
         acadTF.anchorWithConstraints(top: programLabel.bottomAnchor, left: acadLabel.rightAnchor, topOffset: 4, leftOffset: 4)
-        
-        //MARK:- Fetch details from the remote
+
+        // MARK: - Fetch details from the remote
         Service.shared.fetchDashDetails(token: getToken()) { (dash, err) in
             if let err = err {
                 print(err)
                 return
             }
-            
+
             if let dash = dash {
                 DispatchQueue.main.async {
                     self.nameTF.text = dash.admDetails.name
@@ -149,57 +146,57 @@ class DashboardViewController: UIViewController, UICollectionViewDelegate, UICol
                 }
             }
         }
-        
+
         // If background service is disabled, prompt the user
         // But only once coz respect Apple Terms :P
         if UIApplication.shared.backgroundRefreshStatus == .denied && showRefreshDialog() {
             let alert = UIAlertController(title: "Auto update attendance?", message: "This app supports auto attendace updation every two hours. Please enable background app refresh to leverage that.", preferredStyle: .alert)
-            let okAction = UIAlertAction(title: "Sure", style: .default) { (action) in
+            let okAction = UIAlertAction(title: "Sure", style: .default) { (_) in
                 setShowRefreshDialog(as: false)
                 guard let url = URL(string: UIApplication.openSettingsURLString) else { return }
                 UIApplication.shared.open(url, options: [:], completionHandler: nil)
             }
             alert.addAction(okAction)
-            let cancelAction = UIAlertAction(title: "Nah", style: .cancel) {(action) in
+            let cancelAction = UIAlertAction(title: "Nah", style: .cancel) {(_) in
                 setShowRefreshDialog(as: false)
             }
             alert.addAction(cancelAction)
-            
+
             // Present the alert
             present(alert, animated: true, completion: nil)
         }
     }
-    
+
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return items.count
     }
-    
+
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! DashCell
         cell.items = items[indexPath.item]
         return cell
     }
-    
+
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let width = collectionView.bounds.width / 2
         let height = width // Maintains 1:1 ratio
         return CGSize(width: width, height: height)
     }
-    
+
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
         return 0
     }
-    
+
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return 0
     }
-    
+
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let currItem = items[indexPath.item]
         let title = currItem.title
         selectAndPushViewController(using: title)
     }
-    
+
     fileprivate func selectAndPushViewController(using viewControllerName: String) {
         switch viewControllerName {
         case "Attendance":
@@ -231,28 +228,28 @@ class DashboardViewController: UIViewController, UICollectionViewDelegate, UICol
             break
         }
     }
-    
+
     @objc fileprivate func handleLogout() {
         purgeUserDefaults()
         let dc = LoginViewController()
         dc.modalTransitionStyle = .flipHorizontal
         present(dc, animated: true, completion: nil)
     }
-    
+
     @objc fileprivate func handleSettingsShow() {
         // Set the delegate and then show the settings
         // Rest everything is handled there!
         bottomSheetController.delegate = self
         bottomSheetController.showSettings()
     }
-    
+
     func handleSemesterChange() {
         let alert = UIAlertController(title: "Change semester", message: "Current semester is set to: \(getSemester())", preferredStyle: .alert)
         alert.addTextField { (semTF) in
             semTF.placeholder = "Enter new semester"
             semTF.keyboardType = .numberPad
         }
-        let okAction = UIAlertAction(title: "OK", style: .default) { [unowned self] (ok) in
+        let okAction = UIAlertAction(title: "OK", style: .default) { [unowned self] (_) in
             guard let tf = alert.textFields?.first else { return }
             let iText = Int(tf.text!) ?? -1
             if iText > 8 || iText <= 0 {
@@ -260,8 +257,7 @@ class DashboardViewController: UIViewController, UICollectionViewDelegate, UICol
                     let alert = showAlert(with: "Invalid semester entered.")
                     self.present(alert, animated: true, completion: nil)
                 }
-            }
-            else {
+            } else {
                 setSemester(as: iText)
                 DispatchQueue.main.async {
                     let alert = showAlert(with: "Semester updated as: \(iText). Refresh to fetch new details.")
@@ -274,8 +270,8 @@ class DashboardViewController: UIViewController, UICollectionViewDelegate, UICol
         alert.addAction(cancelAction)
         present(alert, animated: true, completion: nil)
     }
-    
-    //MARK:- Delegate method
+
+    // MARK: - Delegate method
     func handleMenuSelect(forItem: String) {
         switch forItem {
         case "Logout":
@@ -287,4 +283,3 @@ class DashboardViewController: UIViewController, UICollectionViewDelegate, UICol
         }
     }
 }
-

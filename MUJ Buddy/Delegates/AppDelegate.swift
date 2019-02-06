@@ -15,26 +15,24 @@ class AppDelegate: UIResponder, UIApplicationDelegate, AttendanceNotificationDel
     var window: UIWindow?
     let notificationDelegate = AttendanceDelegate()
 
-
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Delay the launch for splash image, disabled coz testing
 //        RunLoop.current.run(until: Date(timeIntervalSinceNow: 1))
-        
+
         // Set the window manually coz I hate using storyboards
         window = UIWindow(frame: UIScreen.main.bounds)
         window?.makeKeyAndVisible()
-        
+
         // Set the root view controller
         if isLoggedIn() {
          window?.rootViewController = UINavigationController(rootViewController: DashboardViewController())
-        }
-        else {
+        } else {
             window?.rootViewController = LoginViewController()
         }
-        
+
         // Update attendance after an interval of 2 hours
         UIApplication.shared.setMinimumBackgroundFetchInterval(3600 * 2)
-        
+
         // Ask permission for the notifications
         let notificationCenter = UNUserNotificationCenter.current()
         let options = UNAuthorizationOptions(arrayLiteral: [.alert, .sound])
@@ -42,19 +40,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate, AttendanceNotificationDel
             if let error = error {
                 print("Permission error: ", error.localizedDescription)
             }
-            
+
             if !granted {
                 print("Notification permission denied.")
-            }
-            else {
+            } else {
                 print("Got the permission to display notifications")
             }
         }
-        
+
         // Required
         return true
     }
-    
+
     // Perform the actual fetch
     func application(_ application: UIApplication, performFetchWithCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
         if application.backgroundRefreshStatus == UIBackgroundRefreshStatus.available && getToken() != "nil" {
@@ -64,7 +61,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, AttendanceNotificationDel
                     completionHandler(.failed)
                     return
                 }
-                
+
                 if attendance != nil {
                     // Data save is handled by the API service itself
                     // Just notify the user if need be
@@ -84,8 +81,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, AttendanceNotificationDel
                     return
                 }
             }
-        }
-        else {
+        } else {
             completionHandler(.failed)
             print("Background service disabled")
         }
@@ -112,7 +108,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, AttendanceNotificationDel
     func applicationWillTerminate(_ application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
-    
+
     func handleNotificationTap(identifier: String) {
         switch identifier {
         case "Default":
@@ -126,6 +122,4 @@ class AppDelegate: UIResponder, UIApplicationDelegate, AttendanceNotificationDel
         }
     }
 
-
 }
-

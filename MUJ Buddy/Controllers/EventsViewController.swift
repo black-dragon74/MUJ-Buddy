@@ -9,14 +9,14 @@
 import UIKit
 
 class EventsViewController: UICollectionViewController, UICollectionViewDelegateFlowLayout, UISearchControllerDelegate, UISearchResultsUpdating {
-    
+
     // Cell reuse identifier
     let cellID = "cellID"
-    
+
     // Container for the events array
     var eventsArray = [EventsModel]()
     var filteredEventsArray = [EventsModel]()
-    
+
     // Collection view refresh control
     let rControl: UIRefreshControl = {
         let r = UIRefreshControl()
@@ -24,7 +24,7 @@ class EventsViewController: UICollectionViewController, UICollectionViewDelegate
         r.addTarget(self, action: #selector(handleEventsRefresh), for: .valueChanged)
         return r
     }()
-    
+
     // Indicator
     let indicator: UIActivityIndicatorView = {
         let i = UIActivityIndicatorView()
@@ -34,24 +34,24 @@ class EventsViewController: UICollectionViewController, UICollectionViewDelegate
         i.color = .red
         return i
     }()
-    
+
     // Search Controller
     let searchController = UISearchController(searchResultsController: nil)
-    
+
     override init(collectionViewLayout layout: UICollectionViewLayout) {
         super.init(collectionViewLayout: layout)
-        
+
         let newLayout = UICollectionViewFlowLayout()
         collectionView.collectionViewLayout = newLayout
     }
-    
+
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         // Basic config
         collectionView.backgroundColor = DMSColors.primaryLighter.value
         self.navigationItem.title = "Events"
@@ -59,27 +59,27 @@ class EventsViewController: UICollectionViewController, UICollectionViewDelegate
         collectionView.dataSource = self
         // collectionView.refreshControl = rControl doesn't work when the controller is UICollectionViewController
         collectionView.addSubview(rControl) // This somehow works
-        
+
         self.navigationItem.searchController = searchController
         searchController.delegate = self
         searchController.searchResultsUpdater = self
         searchController.obscuresBackgroundDuringPresentation = false
         self.definesPresentationContext = true
-        
+
         // Handle rest of the config separately
         setupViews()
     }
-    
+
     fileprivate func setupViews() {
         collectionView.register(EventsCell.self, forCellWithReuseIdentifier: cellID)
         view.addSubview(indicator)
-        
+
         indicator.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         indicator.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
-        
+
         indicator.startAnimating()
-        
-        //MARK:- Fetch the data
+
+        // MARK: - Fetch the data
         Service.shared.fetchEvents(token: getToken()) { (data, error) in
             if error != nil {
                 DispatchQueue.main.async {
@@ -89,7 +89,7 @@ class EventsViewController: UICollectionViewController, UICollectionViewDelegate
                 }
                 return
             }
-            
+
             if let data = data {
                 DispatchQueue.main.async {
                     for d in data {
@@ -102,58 +102,56 @@ class EventsViewController: UICollectionViewController, UICollectionViewDelegate
             }
         }
     }
-    
-    //MARK:- Collection view delegate
+
+    // MARK: - Collection view delegate
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return isSearching() && !isSearchTextEmpty() ? filteredEventsArray.count : eventsArray.count
     }
-    
+
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: view.frame.width - 32, height: 120)
     }
-    
+
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
         return UIEdgeInsets(top: 16, left: 16, bottom: 16, right: 16)
     }
-    
-    //MARK:- Collection view data source
+
+    // MARK: - Collection view data source
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellID, for: indexPath) as! EventsCell
         cell.currentEvent = isSearching() && !isSearchTextEmpty() ? filteredEventsArray[indexPath.item] : eventsArray[indexPath.item]
         return cell
     }
-    
-    //MARK:- Search controller functions
+
+    // MARK: - Search controller functions
     fileprivate func isSearching() -> Bool {
         return self.searchController.isActive
     }
-    
+
     fileprivate func isSearchTextEmpty() -> Bool {
         guard let text = self.searchController.searchBar.text else { return false }
         return text.isEmpty
     }
-    
+
     func updateSearchResults(for searchController: UISearchController) {
         guard let searchText = searchController.searchBar.text else { return }
-        
+
         if searchText.isEmpty {
             filteredEventsArray = []
-        }
-        else {
+        } else {
             filteredEventsArray = eventsArray.filter({ (model) -> Bool in
                 return model.name.lowercased().contains(searchText.lowercased())
             })
         }
-        
+
         perform(#selector(refreshCollectionView), with: self, afterDelay: 0.02)
     }
-    
-    
-    //MARK:- OBJC Functions
+
+    // MARK: - OBJC Functions
     @objc func refreshCollectionView() {
         collectionView.reloadData()
     }
-    
+
     @objc fileprivate func handleEventsRefresh() {
         Service.shared.fetchEvents(token: getToken(), isRefresh: true) { (data, error) in
             if error != nil {
@@ -164,17 +162,17 @@ class EventsViewController: UICollectionViewController, UICollectionViewDelegate
                 }
                 return
             }
-            
+
             if let data = data {
-                
+
                 self.eventsArray = []
-                
+
                 for d in data {
                     self.eventsArray.append(d)
                 }
-                
+
                 self.eventsArray.reverse() // Reverse to show events in ascending order
-                
+
                 DispatchQueue.main.async {
                     self.rControl.endRefreshing()
                     self.collectionView.reloadData()

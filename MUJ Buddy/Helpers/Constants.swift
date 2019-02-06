@@ -8,12 +8,10 @@
 
 // Will contain the constants
 
-
 //
 //  API URLs
 //
 let API_URL = "https://api.apollo.strangebits.co.in/"
-
 
 //
 //  UserDefault Keys
