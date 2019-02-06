@@ -118,7 +118,6 @@ class DashboardViewController: UIViewController, UICollectionViewDelegate, UICol
         admView.addSubview(acadLabel)
         admView.addSubview(acadTF)
         
-        
         // Register the cell
         collectionView.register(DashCell.self, forCellWithReuseIdentifier: cellId)
         
@@ -151,7 +150,7 @@ class DashboardViewController: UIViewController, UICollectionViewDelegate, UICol
             }
         }
         
-        // If backgroundd service is disabled, prompt the user
+        // If background service is disabled, prompt the user
         // But only once coz respect Apple Terms :P
         if UIApplication.shared.backgroundRefreshStatus == .denied && showRefreshDialog() {
             let alert = UIAlertController(title: "Auto update attendance?", message: "This app supports auto attendace updation every two hours. Please enable background app refresh to leverage that.", preferredStyle: .alert)

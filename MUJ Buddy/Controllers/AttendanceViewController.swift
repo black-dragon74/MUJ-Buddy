@@ -85,6 +85,7 @@ class AttendanceViewController: UIViewController, UICollectionViewDelegate, UICo
                 DispatchQueue.main.async {
                     self.collectionView.reloadData()
                     self.indicator.stopAnimating()
+
                 }
             }
         }

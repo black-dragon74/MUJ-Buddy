@@ -7,11 +7,13 @@
 //
 
 import UIKit
+import UserNotifications
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate, AttendanceNotificationDelegate {
 
     var window: UIWindow?
+    let notificationDelegate = AttendanceDelegate()
 
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
@@ -33,6 +35,22 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Update attendance after an interval of 2 hours
         UIApplication.shared.setMinimumBackgroundFetchInterval(3600 * 2)
         
+        // Ask permission for the notifications
+        let notificationCenter = UNUserNotificationCenter.current()
+        let options = UNAuthorizationOptions(arrayLiteral: [.alert, .sound])
+        notificationCenter.requestAuthorization(options: options) { (granted, error) in
+            if let error = error {
+                print("Permission error: ", error.localizedDescription)
+            }
+            
+            if !granted {
+                print("Notification permission denied.")
+            }
+            else {
+                print("Got the permission to display notifications")
+            }
+        }
+        
         // Required
         return true
     }
@@ -43,14 +61,25 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             Service.shared.getAttendance(token: getToken(), isRefresh: true) { (attendance, error) in
                 if let error = error {
                     print("Refresh error: ", error)
-                    completionHandler(.noData)
+                    completionHandler(.failed)
                     return
                 }
                 
                 if attendance != nil {
                     // Data save is handled by the API service itself
-                    // Just notify the system that our session is complete
+                    // Just notify the user if need be
                     print("Fetch completed.")
+                    if shouldShowAttendanceNotification() && getLowAttendanceCount() > 0 {
+                        let nc = UNUserNotificationCenter.current()
+                        nc.delegate = self.notificationDelegate
+                        self.notificationDelegate.delegate = self
+                        setLastAttendanceNotificationDate(to: Date())  // To current date
+                        nc.add(prepareNotification(withBody: "Running low in \(getLowAttendanceCount()) subject(s). Tap to check."), withCompletionHandler: { (error) in
+                            if let error = error {
+                                print(error)
+                            }
+                        })
+                    }
                     completionHandler(.newData)
                     return
                 }
@@ -82,6 +111,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func applicationWillTerminate(_ application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+    }
+    
+    func handleNotificationTap(identifier: String) {
+        switch identifier {
+        case "Default":
+            // Open the attendance
+            //TODO:- Try to not force unwrap the optionals
+            let rootVc = window!.rootViewController as! UINavigationController
+            rootVc.pushViewController(AttendanceViewController(), animated: true)
+            break
+        default:
+            break
+        }
     }
 
 

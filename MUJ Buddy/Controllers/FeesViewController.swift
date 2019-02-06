@@ -183,7 +183,33 @@ class FeesViewController: UIViewController {
     
     //MARK:- Fee refresh
     @objc fileprivate func handleFeeRefresh() {
-        print("handling refresh.....")
+        Service.shared.fetchFeeDetails(token: getToken(), isRefresh: true) { [unowned self] (fee, error) in
+            if let error = error {
+                print("Error: ", error)
+                DispatchQueue.main.async {
+                    self.rControl.endRefreshing()
+                    let alert = showAlert(with: "Error fetching fee details")
+                    self.present(alert, animated: true, completion: nil)
+                }
+            }
+            
+            if let fee = fee {
+                DispatchQueue.main.async {
+                    self.rControl.endRefreshing()
+                    
+                    if let totalPaid = fee.paid?.total {
+                        self.paidLabel.text = "₹ \(totalPaid)"
+                    }
+                    
+                    if let totalUnpaid = fee.unpaid?.total {
+                        self.unpaidLabel.text = "₹ \(totalUnpaid)"
+                    }
+                    else {
+                        self.unpaidLabel.text = "₹ 0.0"
+                    }
+                }
+            }
+        }
     }
     
     @objc func animateLabel() {

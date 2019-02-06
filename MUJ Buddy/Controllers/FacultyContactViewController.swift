@@ -235,24 +235,3 @@ class FacultyContactViewController: UIViewController {
     }
 }
 
-//MARK:- Extensions for Image View
-extension UIImageView {
-    func downloadFromURL(urlString: String, completion: @escaping(UIImage?, Error?) -> Void) {
-        let escapedURL = urlString.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)
-        guard let url = URL(string: escapedURL!) else { return }
-        
-        URLSession.shared.dataTask(with: url) {(data, status, error) in
-            if let error = error {
-                print(error)
-                completion(nil, error)
-                return
-            }
-            
-            if let data = data {
-                let image = UIImage(data: data)
-                completion(image, nil)
-                return
-            }
-            }.resume()
-    }
-}

@@ -100,6 +100,51 @@ func getAttendanceFromDB() -> Data? {
 
 
 //
+//  Attendance notification related utility functions
+//
+func shouldShowAttendanceNotification() -> Bool {
+    // As of now, if the last notification for attendance was shown within the past 24 hours
+    // We will not show the notification for the same. Else, we will then issue the notification
+    guard let lastNotificationDate = getLastAttendanceNotificationDate() else { return true}  // Return true if the last date is not set
+    return lastNotificationDate.hoursTillNow() >= 24
+}
+
+func getLastAttendanceNotificationDate() -> Date? {
+    if let date = UserDefaults.standard.object(forKey: LAST_ATTENDANCE_NOTIFICATION_KEY) as? Date {
+        return date
+    }
+    else {
+        return nil
+    }
+}
+
+func setLastAttendanceNotificationDate(to: Date) {
+    UserDefaults.standard.removeObject(forKey: LAST_ATTENDANCE_NOTIFICATION_KEY)
+    UserDefaults.standard.set(to, forKey: LAST_ATTENDANCE_NOTIFICATION_KEY)
+    UserDefaults.standard.synchronize()
+}
+
+func getLowAttendanceCount() -> Int {
+    var count = 0
+    // Parse the attendance here
+    let attendance = getAttendanceFromDB()
+    let decoder = JSONDecoder()
+    do {
+        let data = try decoder.decode([AttendanceModel].self, from: attendance!)
+        for d in data {
+            if (Int(d.percentage.isEmpty ? "75" : d.percentage)! < 75) {  //TODO:- Implement it in a better way
+                count += 1
+            }
+        }
+    }
+    catch  {
+        return 0
+    }
+    return count
+}
+
+
+//
 //  Events related function
 //
 func updateEventsInDB(events: Data?) {
@@ -231,7 +276,7 @@ func admDateFrom(regNo: String) -> Date {
     let formatter = DateFormatter()
     formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
     
-    return formatter.date(from: semStartDate)! //TODO: Do not force unwrap the date
+    return formatter.date(from: semStartDate)! //TODO: Do not force unwrap the date although it won't bite
 }
 
 func setShowSemesterDialog(as val: Bool) {

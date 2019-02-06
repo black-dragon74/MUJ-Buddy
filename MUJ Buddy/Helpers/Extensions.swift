@@ -8,8 +8,6 @@
 
 import UIKit
 
-let imageCache = NSCache<NSString, UIImage>()
-
 // Custom extensions for this project, makes my life much easier
 extension UIColor {
     convenience init(r: CGFloat, g: CGFloat, b: CGFloat, alpha: CGFloat = 1) {
@@ -17,7 +15,7 @@ extension UIColor {
     }
 }
 
-// Extension to UIView to set anchors for elements
+//MARK:- UIView Extensions
 extension UIView {
     // Just adds the anchors
     func anchorToTop(top: NSLayoutYAxisAnchor? = nil, right: NSLayoutXAxisAnchor? = nil, bottom: NSLayoutYAxisAnchor? = nil, left: NSLayoutXAxisAnchor? = nil) {
@@ -128,51 +126,39 @@ extension UIView {
     }
 }
 
-// Custom sub class for the UIImage
-class UIImageToDownload: UIImageView {
-    
-    var imageURLString: String?
-    
-    // Function to get the image from the remote
-    func dowloadAndSet(url: String) {
-        imageURLString = url
-        print("Got imageURLString as: \(imageURLString!)")
-        print("Got imageURL as: \(url)")
-        
-        // Convert to URl
-        guard let u = URL(string: url) else { return }
-        
-        // Else send a URL request and fetch the image
-        URLSession.shared.dataTask(with: u) {(data, resp, error) in
-            
-            // Check for errors
-            if let error = error {
-                print("Error in HTTP Request, ", error)
-                return
-            }
-            
-            guard
-                let data = data,
-                let image = UIImage(data: data)
-                else { return }
-            
-            // Set the image on the Main queue
-            DispatchQueue.main.async {
-                if self.imageURLString == url {
-                    print("Setting image for: \(self.imageURLString!)")
-                    self.image = image
-                }
-            }
-        }.resume()
-    }
-}
-
-// Extension on Date to get the time interval in months, returns int rounded off away from zero
+//MARK:- Date Extensions
 extension Date {
     func monthsTillNow() -> Int {
         // This will return the months from the given date to current date
         let rawMonths = Calendar.current.dateComponents([.month], from: self, to: Date()).month ?? 0
         return rawMonths
     }
+    
+    func hoursTillNow() -> Int {
+        // Returns interval in hours from the input date to current
+        let rawHours = Calendar.current.dateComponents([.hour], from: self, to: Date()).hour ?? 0
+        return rawHours
+    }
 }
 
+//MARK:- UIImageView Extensions
+extension UIImageView {
+    func downloadFromURL(urlString: String, completion: @escaping(UIImage?, Error?) -> Void) {
+        let escapedURL = urlString.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)
+        guard let url = URL(string: escapedURL!) else { return }
+        
+        URLSession.shared.dataTask(with: url) {(data, status, error) in
+            if let error = error {
+                print(error)
+                completion(nil, error)
+                return
+            }
+            
+            if let data = data {
+                let image = UIImage(data: data)
+                completion(image, nil)
+                return
+            }
+            }.resume()
+    }
+}
