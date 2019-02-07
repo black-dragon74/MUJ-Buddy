@@ -97,7 +97,7 @@ func getAttendanceFromDB() -> Data? {
 func shouldShowAttendanceNotification() -> Bool {
     // As of now, if the last notification for attendance was shown within the past 24 hours
     // We will not show the notification for the same. Else, we will then issue the notification
-    guard let lastNotificationDate = getLastAttendanceNotificationDate() else { return true}  // Return true if the last date is not set
+    guard let lastNotificationDate = getLastAttendanceNotificationDate() else { return true }  // Return true if the last date is not set
     return lastNotificationDate.hoursTillNow() >= 24
 }
 

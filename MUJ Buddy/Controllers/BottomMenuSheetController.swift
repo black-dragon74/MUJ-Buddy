@@ -38,8 +38,9 @@ class BottomMenuSheetController: NSObject, UICollectionViewDataSource, UICollect
     // Array to contain menu items
     let menuItems: [BottomMenuSheetModel] = {
         let item1 = BottomMenuSheetModel(image: "ios_settings", title: "Change Semester")
-        let item2 = BottomMenuSheetModel(image: "ios_logout", title: "Logout")
-        return [item1, item2]
+        let item2 = BottomMenuSheetModel(image: "ios_biometrics", title: "Use TouchID/FaceID Login")
+        let item3 = BottomMenuSheetModel(image: "ios_logout", title: "Logout")
+        return [item1, item2, item3]
     }()
 
     override init() {

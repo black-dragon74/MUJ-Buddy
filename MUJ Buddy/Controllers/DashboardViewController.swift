@@ -98,6 +98,11 @@ class DashboardViewController: UIViewController, UICollectionViewDelegate, UICol
         super.viewDidLoad()
         self.navigationItem.title = "Dashboard"
         view.backgroundColor = .white
+        view.snapshotView(afterScreenUpdates: true)
+        
+        if canUseBiometrics() && shouldUseBiometrics() {
+            self.navigationController?.present(BiometricAuthController(), animated: false, completion: nil)
+        }
 
         // Logout button
         let btnImage = UIImage(named: "ios_more")
@@ -165,6 +170,10 @@ class DashboardViewController: UIViewController, UICollectionViewDelegate, UICol
             // Present the alert
             present(alert, animated: true, completion: nil)
         }
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
     }
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -278,6 +287,26 @@ class DashboardViewController: UIViewController, UICollectionViewDelegate, UICol
             handleLogout()
         case "Change Semester":
             handleSemesterChange()
+        case "Use TouchID/FaceID Login":
+            if canUseBiometrics() {
+                setBiometricsState(to: !shouldUseBiometrics())
+            }
+            else {
+                print("Unable to use biometrics: \(authError!.localizedDescription)")
+                break
+            }
+            print("Biometric auth set to: \(shouldUseBiometrics())")
+        default:
+            break
+        }
+    }
+    
+    func handleNotificationTap(identifier: String) {
+        switch identifier {
+        case "Default":
+            // Open the attendance
+            selectAndPushViewController(using: "Attendance")
+            break
         default:
             break
         }

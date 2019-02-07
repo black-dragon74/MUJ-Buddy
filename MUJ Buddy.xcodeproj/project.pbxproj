@@ -24,6 +24,8 @@
 		013AE8E6220348B800A8831C /* GPAViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 013AE8E5220348B800A8831C /* GPAViewController.swift */; };
 		013AE8E82203546A00A8831C /* GPACell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 013AE8E72203546A00A8831C /* GPACell.swift */; };
 		013AE8EB2203682900A8831C /* Service.swift in Sources */ = {isa = PBXBuildFile; fileRef = 013AE8EA2203682900A8831C /* Service.swift */; };
+		013F512B220C79BE007D1390 /* BiometricsHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 013F512A220C79BE007D1390 /* BiometricsHelper.swift */; };
+		013F512D220C8EE6007D1390 /* BiometricAuthController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 013F512C220C8EE6007D1390 /* BiometricAuthController.swift */; };
 		0143EB6F21F5FDA3006B39F2 /* FacultyContactViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0143EB6E21F5FDA3006B39F2 /* FacultyContactViewController.swift */; };
 		014512C221F79E8000407B91 /* DashboardModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 014512BB21F79E8000407B91 /* DashboardModel.swift */; };
 		014512C321F79E8000407B91 /* EventsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 014512BC21F79E8000407B91 /* EventsModel.swift */; };
@@ -74,6 +76,8 @@
 		013AE8E5220348B800A8831C /* GPAViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GPAViewController.swift; sourceTree = "<group>"; };
 		013AE8E72203546A00A8831C /* GPACell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GPACell.swift; sourceTree = "<group>"; };
 		013AE8EA2203682900A8831C /* Service.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Service.swift; sourceTree = "<group>"; };
+		013F512A220C79BE007D1390 /* BiometricsHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BiometricsHelper.swift; sourceTree = "<group>"; };
+		013F512C220C8EE6007D1390 /* BiometricAuthController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BiometricAuthController.swift; sourceTree = "<group>"; };
 		0143EB6E21F5FDA3006B39F2 /* FacultyContactViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FacultyContactViewController.swift; sourceTree = "<group>"; };
 		014512BB21F79E8000407B91 /* DashboardModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DashboardModel.swift; sourceTree = "<group>"; };
 		014512BC21F79E8000407B91 /* EventsModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventsModel.swift; sourceTree = "<group>"; };
@@ -156,6 +160,7 @@
 				01E9623821F4F48F002C9899 /* UtilityFunctions.swift */,
 				01261C9A2201FEDA00E6EB63 /* Enumerators.swift */,
 				01483C51220A0DD50017E88A /* NotificationHelper.swift */,
+				013F512A220C79BE007D1390 /* BiometricsHelper.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -199,6 +204,7 @@
 				01A400AE220590A900D6E510 /* ResultsViewController.swift */,
 				01106DC7220601FB00C0DA40 /* FeesViewController.swift */,
 				01483C472209BDDD0017E88A /* BottomMenuSheetController.swift */,
+				013F512C220C8EE6007D1390 /* BiometricAuthController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -320,6 +326,7 @@
 				01E9623721F4DB40002C9899 /* Constants.swift in Sources */,
 				013AE8E6220348B800A8831C /* GPAViewController.swift in Sources */,
 				01A82FA52204562D002A13DF /* InternalsCell.swift in Sources */,
+				013F512D220C8EE6007D1390 /* BiometricAuthController.swift in Sources */,
 				0110BB4121F32DA600E6546A /* Extensions.swift in Sources */,
 				0168081E21FF7E01007AA4DC /* AttendanceCell.swift in Sources */,
 				0168081821FF7C52007AA4DC /* MenuModel.swift in Sources */,
@@ -329,6 +336,7 @@
 				0110BB2E21F32B5500E6546A /* AppDelegate.swift in Sources */,
 				0112A69021F4884F00B269FA /* FacultyContactModel.swift in Sources */,
 				014512C321F79E8000407B91 /* EventsModel.swift in Sources */,
+				013F512B220C79BE007D1390 /* BiometricsHelper.swift in Sources */,
 				01505C1E21F38D60005D7971 /* LoginCell.swift in Sources */,
 				0112A68621F4605200B269FA /* DashboardViewController.swift in Sources */,
 				01261C9D220200B300E6EB63 /* EventsCell.swift in Sources */,

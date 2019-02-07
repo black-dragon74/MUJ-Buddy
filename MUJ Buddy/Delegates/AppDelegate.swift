@@ -25,7 +25,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, AttendanceNotificationDel
 
         // Set the root view controller
         if isLoggedIn() {
-         window?.rootViewController = UINavigationController(rootViewController: DashboardViewController())
+            window?.rootViewController = UINavigationController(rootViewController: DashboardViewController())
         } else {
             window?.rootViewController = LoginViewController()
         }
@@ -121,5 +121,4 @@ class AppDelegate: UIResponder, UIApplicationDelegate, AttendanceNotificationDel
             break
         }
     }
-
 }

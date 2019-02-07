@@ -20,6 +20,8 @@
 	<string>1</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSFaceIDUsageDescription</key>
+	<string>The app uses biometrics to log user in seamlessly</string>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>fetch</string>
