@@ -12,9 +12,7 @@ import UserNotifications
 //  Acts as a notification delegate for the MUJ attendance notifications
 //
 
-class AttendanceDelegate: NSObject, UNUserNotificationCenterDelegate {
-
-    var delegate: AttendanceNotificationDelegate?
+class AttendanceNotificationDelegate: NSObject, UNUserNotificationCenterDelegate {
 
     // Notification received while app is open
     func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
@@ -23,10 +21,9 @@ class AttendanceDelegate: NSObject, UNUserNotificationCenterDelegate {
     }
 
     func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
-        guard let del = delegate else { return }
         switch response.actionIdentifier {
         case UNNotificationDefaultActionIdentifier:
-            del.handleNotificationTap(identifier: "Default")
+            NotificationCenter.default.post(name: .didTapOnAttendanceNotification, object: nil)
             completionHandler()
         case UNNotificationDismissActionIdentifier:
             completionHandler()
@@ -35,8 +32,4 @@ class AttendanceDelegate: NSObject, UNUserNotificationCenterDelegate {
             break
         }
     }
-}
-
-protocol AttendanceNotificationDelegate {
-    func handleNotificationTap(identifier: String)
 }

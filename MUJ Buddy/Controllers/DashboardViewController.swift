@@ -93,16 +93,23 @@ class DashboardViewController: UIViewController, UICollectionViewDelegate, UICol
 
     // Settings collection view
     let bottomSheetController = BottomMenuSheetController()
+    
+    // Override view will appear
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        // Add observer for notification tap
+        NotificationCenter.default.addObserver(self, selector: #selector(attendanceDidTap), name: .didTapOnAttendanceNotification, object: nil)
+        
+        // Add observer for biometry
+        NotificationCenter.default.addObserver(self, selector: #selector(handleReauth), name: .isReauthRequired, object: nil)
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationItem.title = "Dashboard"
         view.backgroundColor = .white
         view.snapshotView(afterScreenUpdates: true)
-        
-        if canUseBiometrics() && shouldUseBiometrics() {
-            self.navigationController?.present(BiometricAuthController(), animated: false, completion: nil)
-        }
 
         // Logout button
         let btnImage = UIImage(named: "ios_more")
@@ -170,10 +177,18 @@ class DashboardViewController: UIViewController, UICollectionViewDelegate, UICol
             // Present the alert
             present(alert, animated: true, completion: nil)
         }
+        
+        if canUseBiometrics() && shouldUseBiometrics() {
+            perform(#selector(handleReauth), with: self, afterDelay: 0.1)
+        }
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
+    // Override view will disapper to remove the observer for the notification
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        NotificationCenter.default.removeObserver(self, name: .didTapOnAttendanceNotification, object: nil)
+        NotificationCenter.default.removeObserver(self, name: .isReauthRequired, object: nil)
     }
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -301,14 +316,11 @@ class DashboardViewController: UIViewController, UICollectionViewDelegate, UICol
         }
     }
     
-    func handleNotificationTap(identifier: String) {
-        switch identifier {
-        case "Default":
-            // Open the attendance
-            selectAndPushViewController(using: "Attendance")
-            break
-        default:
-            break
-        }
+    @objc fileprivate func attendanceDidTap() {
+        selectAndPushViewController(using: "Attendance")
+    }
+    
+    @objc fileprivate func handleReauth() {
+        navigationController?.present(BiometricAuthController(), animated: true, completion: nil)
     }
 }

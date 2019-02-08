@@ -8,8 +8,8 @@
 
 import LocalAuthentication
 
-let authContext = LAContext()
-let authReason = "To login"
+private let authContext = LAContext()
+private let authReason = "To login"
 var authError: NSError?
 
 // This function determines whether the user's device supports biometrics authentication

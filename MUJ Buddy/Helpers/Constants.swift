@@ -12,6 +12,7 @@
 //  API URLs
 //
 let API_URL = "https://api.apollo.strangebits.co.in/"
+//let API_URL = "https://restfuldms.herokuapp.com/"
 
 //
 //  UserDefault Keys

@@ -11,6 +11,9 @@ import LocalAuthentication
 
 class BiometricAuthController: UIViewController {
     
+    let authCtx = LAContext()
+    let authRe = "Biometrics is required to unlock \(Bundle.main.infoDictionary!["CFBundleName"] as! String)"
+    
     let authStatusLabel: UILabel = {
         let authLabel = UILabel()
         authLabel.font = UIFont.boldSystemFont(ofSize: 17)
@@ -19,6 +22,12 @@ class BiometricAuthController: UIViewController {
         authLabel.numberOfLines = 3
         return authLabel
     }()
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(handleReauth), name: .isReauthRequired, object: nil)
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -30,16 +39,23 @@ class BiometricAuthController: UIViewController {
         
         handleBiometricHandshake()
         
-        view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(reAuth)))
+        view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleReauth)))
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        NotificationCenter.default.removeObserver(self, name: .isReauthRequired, object: nil)
     }
     
     func handleBiometricHandshake() {
         if canUseBiometrics() {
             self.authStatusLabel.text = ""  // Reset the text
-            authContext.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: authReason) {(success, error) in
+            authCtx.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: authRe) {(success, error) in
                 if success {
+                    print("Biometric auth successful")
                     DispatchQueue.main.async {
-                        self.dismiss(animated: false, completion: nil)
+                        self.dismiss(animated: true, completion: nil)
                     }
                 }
                 else {
@@ -68,7 +84,7 @@ class BiometricAuthController: UIViewController {
         }
     }
     
-    @objc fileprivate func reAuth() {
+    @objc fileprivate func handleReauth() {
         handleBiometricHandshake()
     }
 }

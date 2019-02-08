@@ -162,3 +162,11 @@ extension UIImageView {
             }.resume()
     }
 }
+
+extension Notification.Name {
+    // This notification is posted whenever user taps on the Attendance Notification
+    static let didTapOnAttendanceNotification = NSNotification.Name("didTapOnAttendanceNotification")
+    
+    // This notification is posted whenever a reauth is needed. It is catched in the appropriate VCs
+    static let isReauthRequired = NSNotification.Name("isReauthRequired")
+}

@@ -10,10 +10,10 @@ import UIKit
 import UserNotifications
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate, AttendanceNotificationDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-    let notificationDelegate = AttendanceDelegate()
+    let notificationDelegate = AttendanceNotificationDelegate()
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Delay the launch for splash image, disabled coz testing
@@ -66,10 +66,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, AttendanceNotificationDel
                     // Data save is handled by the API service itself
                     // Just notify the user if need be
                     print("Fetch completed.")
-                    if shouldShowAttendanceNotification() && getLowAttendanceCount() > 0 {
+                    if !shouldShowAttendanceNotification() && getLowAttendanceCount() > 0 {
                         let nc = UNUserNotificationCenter.current()
                         nc.delegate = self.notificationDelegate
-                        self.notificationDelegate.delegate = self
                         setLastAttendanceNotificationDate(to: Date())  // To current date
                         nc.add(prepareNotification(withBody: "Running low in \(getLowAttendanceCount()) subject(s). Tap to check."), withCompletionHandler: { (error) in
                             if let error = error {
@@ -90,15 +89,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate, AttendanceNotificationDel
     func applicationWillResignActive(_ application: UIApplication) {
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
         // Use this method to pause ongoing tasks, disable timers, and invalidate graphics rendering callbacks. Games should use this method to pause the game.
+        AppSessionManager.shared.needsReAuth = true  // User will have to reauthenticate with biometrics
     }
 
     func applicationDidEnterBackground(_ application: UIApplication) {
         // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
         // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
+        AppSessionManager.shared.needsReAuth = true  // User will have to reauthenticate with biometrics
     }
 
     func applicationWillEnterForeground(_ application: UIApplication) {
         // Called as part of the transition from the background to the active state; here you can undo many of the changes made on entering the background.
+        if canUseBiometrics() && shouldUseBiometrics() && AppSessionManager.shared.needsReAuth {
+            NotificationCenter.default.post(name: .isReauthRequired, object: nil)
+        }
     }
 
     func applicationDidBecomeActive(_ application: UIApplication) {
@@ -107,18 +111,5 @@ class AppDelegate: UIResponder, UIApplicationDelegate, AttendanceNotificationDel
 
     func applicationWillTerminate(_ application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
-    }
-
-    func handleNotificationTap(identifier: String) {
-        switch identifier {
-        case "Default":
-            // Open the attendance
-            //TODO:- Try to not force unwrap the optionals
-            let rootVc = window!.rootViewController as! UINavigationController
-            rootVc.pushViewController(AttendanceViewController(), animated: true)
-            break
-        default:
-            break
-        }
     }
 }
