@@ -254,8 +254,8 @@ class LoginViewController: UIViewController, UICollectionViewDelegate, UICollect
             // Encrypt the password and the userrname
             cell.progressBar.startAnimating()
             cell.loginButton.isUserInteractionEnabled = false
-            let encUser = encodeUID(userid: username!)
-            let encPass = encodePassword(password: password!)
+            let encUser = encryptDataWithRSA(withDataToEncrypt: username!)
+            let encPass = encryptDataWithRSA(withDataToEncrypt: password!)
 
             // Send a login request
             let u = API_URL + "auth?userid=\(encUser)&password=\(encPass)"

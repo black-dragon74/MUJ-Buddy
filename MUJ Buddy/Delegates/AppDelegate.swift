@@ -66,7 +66,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     // Data save is handled by the API service itself
                     // Just notify the user if need be
                     print("Fetch completed.")
-                    if !shouldShowAttendanceNotification() && getLowAttendanceCount() > 0 {
+                    if shouldShowAttendanceNotification() && getLowAttendanceCount() > 0 {
                         let nc = UNUserNotificationCenter.current()
                         nc.delegate = self.notificationDelegate
                         setLastAttendanceNotificationDate(to: Date())  // To current date

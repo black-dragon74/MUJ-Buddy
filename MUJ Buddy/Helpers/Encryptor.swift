@@ -6,44 +6,27 @@
 //  Copyright © 2019 Nick. All rights reserved.
 //
 
-// The class that provides utility fuctions to encode and decode the userid and the passwoed
+import SwiftyRSA
 
-let rjnk = "2aff70f1ecba9"
-let ljnk = "7f224854012470b756af4"
-let prime: Int = 8743983
-
-func encodeUID(userid: String) -> String {
-    // First, let's convert the string back to Int
-    var uid = Int(userid)!  // Force unwrap coz we know a int will be passed
-
-    // Add the prime
-    uid += prime
-
-    // Convert UID to string
-    var localUIDStr = String(uid)
-
-    localUIDStr = ljnk + localUIDStr + rjnk
-
-    return b64Encode(dataToEncode: localUIDStr)
-}
-
-func encodePassword(password: String) -> String {
-    // Add junk
-    let localPass = b64Encode(dataToEncode: password)
-
-    // Add the junk
-    let obfuscatedPass = ljnk + localPass + rjnk
-
-    // Encode again and return
-    return b64Encode(dataToEncode: obfuscatedPass)
-}
-
-private func b64Encode(dataToEncode: String) -> String {
-    // Convert string to utf-8 encoding
-    guard let utf8String = dataToEncode.data(using: String.Encoding.utf8) else { return "" }
-
-    // Convert to base64
-    let b64String = utf8String.base64EncodedString(options: .init(rawValue: 0))
-
-    return String(b64String)
+//
+//  RSA encryption related functions
+//
+func encryptDataWithRSA(withDataToEncrypt: String) -> String {
+    // Get hold of the public key
+    if let pub_path = Bundle.main.path(forResource: "app_pub", ofType: "") {
+        // Try to read that file
+        do {
+            let raw_pub = try String(contentsOfFile: pub_path)
+            // Create that into a public key object
+            let pub_key = try PublicKey(base64Encoded: raw_pub)
+            let clearData = try ClearMessage(string: withDataToEncrypt, using: .utf8)
+            let encodedData = try clearData.encrypted(with: pub_key, padding: .PKCS1)
+            return encodedData.base64String
+        }
+        catch let err {
+            print("Error in reading the PKEY", err)
+            return ""
+        }
+    }
+    return ""
 }
