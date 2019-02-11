@@ -7,6 +7,7 @@
 //
 
 import UserNotifications
+import UIKit
 
 //
 //  Acts as a notification delegate for the MUJ attendance notifications
@@ -24,6 +25,7 @@ class AttendanceNotificationDelegate: NSObject, UNUserNotificationCenterDelegate
         switch response.actionIdentifier {
         case UNNotificationDefaultActionIdentifier:
             NotificationCenter.default.post(name: .didTapOnAttendanceNotification, object: nil)
+            // Call the completion handler
             completionHandler()
         case UNNotificationDismissActionIdentifier:
             completionHandler()

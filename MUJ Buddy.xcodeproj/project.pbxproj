@@ -41,6 +41,7 @@
 		01483C4C2209CB5A0017E88A /* BottomMenuSheetModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01483C4B2209CB5A0017E88A /* BottomMenuSheetModel.swift */; };
 		01483C502209DBFE0017E88A /* BottomSheetDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01483C4F2209DBFE0017E88A /* BottomSheetDelegate.swift */; };
 		01483C52220A0DD50017E88A /* NotificationHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01483C51220A0DD50017E88A /* NotificationHelper.swift */; };
+		014B8E942211E4D600C0296B /* DashboardHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 014B8E932211E4D600C0296B /* DashboardHeaderView.swift */; };
 		01505C1C21F34265005D7971 /* LoginPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01505C1B21F34265005D7971 /* LoginPage.swift */; };
 		01505C1E21F38D60005D7971 /* LoginCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01505C1D21F38D60005D7971 /* LoginCell.swift */; };
 		0168081821FF7C52007AA4DC /* MenuModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0168081721FF7C52007AA4DC /* MenuModel.swift */; };
@@ -96,6 +97,7 @@
 		01483C4B2209CB5A0017E88A /* BottomMenuSheetModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomMenuSheetModel.swift; sourceTree = "<group>"; };
 		01483C4F2209DBFE0017E88A /* BottomSheetDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomSheetDelegate.swift; sourceTree = "<group>"; };
 		01483C51220A0DD50017E88A /* NotificationHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationHelper.swift; sourceTree = "<group>"; };
+		014B8E932211E4D600C0296B /* DashboardHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardHeaderView.swift; sourceTree = "<group>"; };
 		01505C1B21F34265005D7971 /* LoginPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginPage.swift; sourceTree = "<group>"; };
 		01505C1D21F38D60005D7971 /* LoginCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginCell.swift; sourceTree = "<group>"; };
 		0168081721FF7C52007AA4DC /* MenuModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuModel.swift; sourceTree = "<group>"; };
@@ -189,6 +191,7 @@
 				01A82FA42204562D002A13DF /* InternalsCell.swift */,
 				01A400B0220591E300D6E510 /* ResultsCell.swift */,
 				01483C492209C5CC0017E88A /* BottomMenuSheetCell.swift */,
+				014B8E932211E4D600C0296B /* DashboardHeaderView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -415,6 +418,7 @@
 				013AE8E6220348B800A8831C /* GPAViewController.swift in Sources */,
 				01A82FA52204562D002A13DF /* InternalsCell.swift in Sources */,
 				013F512D220C8EE6007D1390 /* BiometricAuthController.swift in Sources */,
+				014B8E942211E4D600C0296B /* DashboardHeaderView.swift in Sources */,
 				0110BB4121F32DA600E6546A /* Extensions.swift in Sources */,
 				0168081E21FF7E01007AA4DC /* AttendanceCell.swift in Sources */,
 				0168081821FF7C52007AA4DC /* MenuModel.swift in Sources */,

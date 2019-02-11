@@ -11,6 +11,7 @@ import UIKit
 class DashboardViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UICollectionViewDataSource, BottomSheetDelegate {
 
     let cellId = "cellID"
+    let headerID = "headerID"
 
     let items: [MenuItems] = {
         let cell1 = MenuItems(image: "attendance_vector", title: "Attendance", subtitle: "Your Attendance")
@@ -22,62 +23,6 @@ class DashboardViewController: UIViewController, UICollectionViewDelegate, UICol
         let cell7 = MenuItems(image: "fees_vector", title: "Fee Details", subtitle: "Paid / Unpaid")
         let cell8 = MenuItems(image: "contacts_vector", title: "Faculty Contacts", subtitle: "At University")
         return [cell1, cell2, cell3, cell4, cell5, cell6, cell7, cell8]
-    }()
-
-    // Create a view to contain the
-    let admView: UIView = {
-        let a = UIView()
-        a.backgroundColor = DMSColors.kindOfPurple.value
-        return a
-    }()
-
-    // Name
-    let nameLabel: UILabel = {
-        let n = UILabel()
-        n.text = "Name: "
-        n.textColor = .white
-        n.font = UIFont.systemFont(ofSize: 17, weight: .bold)
-        return  n
-    }()
-
-    let nameTF: UILabel = {
-        let n = UILabel()
-        n.text = "Loading..."
-        n.textColor = .white
-        return  n
-    }()
-
-    // Program
-    let programLabel: UILabel = {
-        let n = UILabel()
-        n.text = "Program: "
-        n.textColor = .white
-        n.font = UIFont.systemFont(ofSize: 17, weight: .bold)
-        return  n
-    }()
-
-    let programTF: UILabel = {
-        let n = UILabel()
-        n.text = "Loading..."
-        n.textColor = .white
-        n.lineBreakMode = .byTruncatingTail
-        return  n
-    }()
-
-    // Acad Year
-    let acadLabel: UILabel = {
-        let n = UILabel()
-        n.text = "Acad Year: "
-        n.textColor = .white
-        n.font = UIFont.systemFont(ofSize: 17, weight: .bold)
-        return  n
-    }()
-
-    let acadTF: UILabel = {
-        let n = UILabel()
-        n.text = "Loading..."
-        n.textColor = .white
-        return  n
     }()
 
     // A collection view that will contain our cells with the images
@@ -117,47 +62,14 @@ class DashboardViewController: UIViewController, UICollectionViewDelegate, UICol
         logoutButton.tintColor = .black
         self.navigationItem.rightBarButtonItem = logoutButton
 
-        view.addSubview(admView)
         view.addSubview(collectionView)
-
-        admView.addSubview(nameLabel)
-        admView.addSubview(nameTF)
-        admView.addSubview(programLabel)
-        admView.addSubview(programTF)
-        admView.addSubview(acadLabel)
-        admView.addSubview(acadTF)
 
         // Register the cell
         collectionView.register(DashCell.self, forCellWithReuseIdentifier: cellId)
+        
+        collectionView.register(DashboardHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: headerID)
 
-        admView.anchorWithConstraints(top: view.safeAreaLayoutGuide.topAnchor, right: view.rightAnchor, left: view.leftAnchor, topOffset: 8, rightOffset: 8, leftOffset: 8, height: 90)
-
-        collectionView.anchorWithConstraints(top: admView.bottomAnchor, right: view.rightAnchor, bottom: view.safeAreaLayoutGuide.bottomAnchor, left: view.leftAnchor)
-
-        nameLabel.anchorWithConstraints(top: admView.topAnchor, left: admView.leftAnchor, topOffset: 12, leftOffset: 10)
-        nameTF.anchorWithConstraints(top: admView.topAnchor, left: nameLabel.rightAnchor, topOffset: 12, leftOffset: 4)
-
-        programLabel.anchorWithConstraints(top: nameLabel.bottomAnchor, left: admView.leftAnchor, topOffset: 4, leftOffset: 10)
-        programTF.anchorWithConstraints(top: nameLabel.bottomAnchor, left: programLabel.rightAnchor, topOffset: 4, leftOffset: 4)
-
-        acadLabel.anchorWithConstraints(top: programLabel.bottomAnchor, left: admView.leftAnchor, topOffset: 4, leftOffset: 10)
-        acadTF.anchorWithConstraints(top: programLabel.bottomAnchor, left: acadLabel.rightAnchor, topOffset: 4, leftOffset: 4)
-
-        // MARK: - Fetch details from the remote
-        Service.shared.fetchDashDetails(token: getToken()) { (dash, err) in
-            if let err = err {
-                print(err)
-                return
-            }
-
-            if let dash = dash {
-                DispatchQueue.main.async {
-                    self.nameTF.text = dash.admDetails.name
-                    self.programTF.text = dash.admDetails.program.replacingOccurrences(of: "Bachelor of", with: "B.").replacingOccurrences(of: "Applications", with: "App.")
-                    self.acadTF.text = dash.admDetails.acadYear
-                }
-            }
-        }
+        collectionView.anchorWithConstraints(top: view.safeAreaLayoutGuide.topAnchor, right: view.rightAnchor, bottom: view.bottomAnchor, left: view.leftAnchor)
 
         // If background service is disabled, prompt the user
         // But only once coz respect Apple Terms :P
@@ -199,6 +111,32 @@ class DashboardViewController: UIViewController, UICollectionViewDelegate, UICol
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! DashCell
         cell.items = items[indexPath.item]
         return cell
+    }
+    
+    //MARK:- Section header
+    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        let header = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: headerID, for: indexPath) as! DashboardHeaderView
+        
+        // Get the details from remote
+        Service.shared.fetchDashDetails(token: getToken()) { (dash, err) in
+            if let err = err {
+                print(err)
+                return
+            }
+            
+            if let dash = dash {
+                DispatchQueue.main.async {
+                    header.dashDetails = dash
+                }
+            }
+        }
+        
+        // Finally return the header
+        return header
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
+        return CGSize(width: view.frame.width, height: 90)
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
