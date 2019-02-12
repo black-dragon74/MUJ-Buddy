@@ -15,6 +15,7 @@ class InternalsViewController: UICollectionViewController, UICollectionViewDeleg
 
     // Internals array
     var internalsArray = [InternalsModel]()
+    var internalsAltArray = [InternalsAltModel]()
 
     // Refresh Control
     let rControl: UIRefreshControl = {
@@ -39,6 +40,22 @@ class InternalsViewController: UICollectionViewController, UICollectionViewDeleg
 
         let layout = UICollectionViewFlowLayout()
         collectionView.collectionViewLayout = layout
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(handleBiometricAuth), name: .isReauthRequired, object: nil)
+    }
+    
+    @objc fileprivate func handleBiometricAuth() {
+        takeBiometricAction(navController: navigationController ?? UINavigationController(rootViewController: self))
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        NotificationCenter.default.removeObserver(self, name: .isReauthRequired, object: nil)
     }
 
     // Override viewDidLoad and handle rest of the operations
@@ -67,7 +84,7 @@ class InternalsViewController: UICollectionViewController, UICollectionViewDeleg
         }
 
         // Send the actual request
-        Service.shared.fetchInternals(token: getToken(), semester: semester) { [unowned self] (data, err) in
+        Service.shared.fetchInternals(token: getToken(), semester: semester) { [unowned self] (data, alt_data, err) in
             if let err = err {
                 print("Error: ", err)
                 DispatchQueue.main.async {
@@ -80,6 +97,16 @@ class InternalsViewController: UICollectionViewController, UICollectionViewDeleg
             if let data = data {
                 for d in data {
                     self.internalsArray.append(d)
+                    DispatchQueue.main.async {
+                        self.indicator.stopAnimating()
+                        self.collectionView.reloadData()
+                    }
+                }
+            }
+            
+            if let alt_data = alt_data {
+                for alt_d in alt_data {
+                    self.internalsAltArray.append(alt_d)
                     DispatchQueue.main.async {
                         self.indicator.stopAnimating()
                         self.collectionView.reloadData()
@@ -112,7 +139,7 @@ class InternalsViewController: UICollectionViewController, UICollectionViewDeleg
 
     // MARK: - Collection view delegate
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return internalsArray.count
+        return internalsArray.count == 0 ? internalsAltArray.count : internalsArray.count
     }
 
     // MARK: - Delegate flow layout
@@ -127,7 +154,12 @@ class InternalsViewController: UICollectionViewController, UICollectionViewDeleg
     // MARK: - Collection view data source
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellID, for: indexPath) as! InternalsCell
-        cell.internalData = internalsArray[indexPath.item]
+        if internalsArray.count == 0 {
+            cell.internalAltData = internalsAltArray[indexPath.item]
+        }
+        else {
+            cell.internalData = internalsArray[indexPath.item]
+        }
         return cell
     }
 
@@ -144,7 +176,7 @@ class InternalsViewController: UICollectionViewController, UICollectionViewDeleg
             }
         }
 
-        Service.shared.fetchInternals(token: getToken(), semester: semester, isRefresh: true) { [unowned self] (data, err) in
+        Service.shared.fetchInternals(token: getToken(), semester: semester, isRefresh: true) { [unowned self] (data, alt_data, err) in
             if let err = err {
                 print("Error: ", err)
                 DispatchQueue.main.async {
@@ -158,6 +190,16 @@ class InternalsViewController: UICollectionViewController, UICollectionViewDeleg
                 self.internalsArray = []
                 for d in data {
                     self.internalsArray.append(d)
+                    DispatchQueue.main.async {
+                        self.rControl.endRefreshing()
+                        self.collectionView.reloadData()
+                    }
+                }
+            }
+            
+            if let alt_data = alt_data {
+                for d in alt_data {
+                    self.internalsAltArray.append(d)
                     DispatchQueue.main.async {
                         self.rControl.endRefreshing()
                         self.collectionView.reloadData()

@@ -7,6 +7,7 @@
 //
 
 import LocalAuthentication
+import UIKit
 
 private let authContext = LAContext()
 private let authReason = "To login"
@@ -32,4 +33,12 @@ func setBiometricsState(to: Bool) {
     UserDefaults.standard.removeObject(forKey: BIOMETRICS_KEY)
     UserDefaults.standard.set(to, forKey: BIOMETRICS_KEY)
     UserDefaults.standard.synchronize()
+}
+
+
+//
+//  Functions for the biometrics events
+//
+func takeBiometricAction(navController: UINavigationController) {
+    navController.present(BiometricAuthController(), animated: true, completion: nil)
 }

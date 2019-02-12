@@ -15,6 +15,7 @@ import UIKit
 enum DMSColors {
     case primaryLighter // Kind of light gray, used as a background
     case kindOfPurple
+    case orangeish
 }
 
 extension DMSColors {
@@ -25,6 +26,8 @@ extension DMSColors {
                 return UIColor(r: 238, g: 239, b: 243)
             case .kindOfPurple:
                 return UIColor(r: 27, g: 38, b: 56)
+            case .orangeish:
+                return UIColor(r: 255, g: 152, b: 0)
             }
         }
     }

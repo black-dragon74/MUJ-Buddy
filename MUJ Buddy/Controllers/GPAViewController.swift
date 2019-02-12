@@ -91,6 +91,22 @@ class GPAViewController: UIViewController, UICollectionViewDelegate, UICollectio
         i.translatesAutoresizingMaskIntoConstraints = false
         return i
     }()
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(handleBiometricAuth), name: .isReauthRequired, object: nil)
+    }
+    
+    @objc fileprivate func handleBiometricAuth() {
+        takeBiometricAction(navController: navigationController ?? UINavigationController(rootViewController: self))
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        NotificationCenter.default.removeObserver(self, name: .isReauthRequired, object: nil)
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()

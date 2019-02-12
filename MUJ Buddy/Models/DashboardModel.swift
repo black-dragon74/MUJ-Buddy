@@ -29,8 +29,18 @@ struct DashboardModel: Codable {
         let grade: String
         let institution: String
     }
+    
+    // For parent details
+    struct parentDetails: Codable {
+        let mother: String
+        let father: String
+        let email: String
+        let mobileNo: String
+        let emergencyContact: String
+    }
 
     // Real structure
     let admDetails: admDetails
     let eduQualifications: [eduQualifications]
+    let parentDetails: parentDetails
 }

@@ -12,6 +12,7 @@ class DashboardViewController: UIViewController, UICollectionViewDelegate, UICol
 
     let cellId = "cellID"
     let headerID = "headerID"
+    var dashToSend: DashboardModel?
 
     let items: [MenuItems] = {
         let cell1 = MenuItems(image: "attendance_vector", title: "Attendance", subtitle: "Your Attendance")
@@ -117,8 +118,11 @@ class DashboardViewController: UIViewController, UICollectionViewDelegate, UICol
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         let header = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: headerID, for: indexPath) as! DashboardHeaderView
         
+        // Add a tap recognizer
+        header.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(didTapHeader)))
+        
         // Get the details from remote
-        Service.shared.fetchDashDetails(token: getToken()) { (dash, err) in
+        Service.shared.fetchDashDetails(token: getToken()) {[unowned self] (dash, err) in
             if let err = err {
                 print(err)
                 return
@@ -126,6 +130,7 @@ class DashboardViewController: UIViewController, UICollectionViewDelegate, UICol
             
             if let dash = dash {
                 DispatchQueue.main.async {
+                    self.dashToSend = dash
                     header.dashDetails = dash
                 }
             }
@@ -185,6 +190,11 @@ class DashboardViewController: UIViewController, UICollectionViewDelegate, UICol
             break
         case "Faculty Contacts":
             self.navigationController?.pushViewController(ContactsViewController(), animated: true)
+            break
+        case "StudentDetails":
+            let detailedView = StudentDetailedView()
+            detailedView.currentDash = dashToSend
+            self.navigationController?.pushViewController(detailedView, animated: true)
             break
         default:
             break
@@ -260,5 +270,9 @@ class DashboardViewController: UIViewController, UICollectionViewDelegate, UICol
     
     @objc fileprivate func handleReauth() {
         navigationController?.present(BiometricAuthController(), animated: true, completion: nil)
+    }
+    
+    @objc fileprivate func didTapHeader() {
+        selectAndPushViewController(using: "StudentDetails")
     }
 }

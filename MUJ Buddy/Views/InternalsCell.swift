@@ -22,6 +22,19 @@ class InternalsCell: UICollectionViewCell {
             totalLabel.text = internals.total == "" ? "NA" : "Total: \(internals.total)"
         }
     }
+    
+    var internalAltData: InternalsAltModel? {
+        didSet {
+            guard let internals = internalAltData else { return }
+            subjectLabel.text = internals.subject == "" ? "NA" : internals.subject
+            mte1Text.text = internals.mte_1 == "" ? "NA" : internals.mte_1
+            mte2Text.text = internals.mte_2 == "" ? "NA" : internals.mte_2
+            cwsText.text = internals.cws == "" ? "NA" : internals.cws
+            prsText.text = internals.prs == "" ? "NA" : internals.prs
+            totalLabel.text = internals.total == "" ? "Total: NA" : "Total: \(internals.total)"
+            resessLabel.text = internals.re_session == "" ? "Re Sess: NA" : "Re Sess: \(internals.re_session)"
+        }
+    }
 
     // Subject Label
     let subjectLabel: UILabel = {
@@ -106,13 +119,21 @@ class InternalsCell: UICollectionViewCell {
         c.text = "10.00"
         return c
     }()
+    
+    // ReSessional label
+    let resessLabel: UILabel = {
+        let rsLabel = UILabel()
+        rsLabel.font = UIFont.systemFont(ofSize: 20, weight: .bold)
+        rsLabel.text = "Re Sess: NA"
+        rsLabel.textColor = .white
+        return rsLabel
+    }()
 
     // Total label
     let totalLabel: UILabel = {
         let t = UILabel()
         t.font = UIFont.systemFont(ofSize: 20, weight: .bold)
         t.text = "Total: 500"
-        t.textAlignment = .center
         t.textColor = .white
         return t
     }()
@@ -141,6 +162,7 @@ class InternalsCell: UICollectionViewCell {
         rightView.addSubview(prsLabel)
         rightView.addSubview(cwsText)
         rightView.addSubview(prsText)
+        addSubview(resessLabel)
         addSubview(totalLabel)
 
         // Add constraints
@@ -158,7 +180,8 @@ class InternalsCell: UICollectionViewCell {
         prsLabel.anchorWithConstraints(top: cwsLabel.bottomAnchor, left: rightView.leftAnchor, topOffset: 10, leftOffset: 10)
         prsText.anchorWithConstraints(top: cwsLabel.bottomAnchor, left: prsLabel.rightAnchor, topOffset: 10, leftOffset: 10)
 
-        totalLabel.anchorWithConstraints(top: leftView.bottomAnchor, right: rightAnchor, left: leftAnchor, topOffset: 10)
+        resessLabel.anchorWithConstraints(top: leftView.bottomAnchor, left: leftAnchor, topOffset: 10, leftOffset: 10)
+        totalLabel.anchorWithConstraints(top: leftView.bottomAnchor, right: rightAnchor, topOffset: 10, rightOffset: 10)
     }
 
     required init?(coder aDecoder: NSCoder) {

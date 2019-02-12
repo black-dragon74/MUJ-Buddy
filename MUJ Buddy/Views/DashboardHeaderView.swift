@@ -75,6 +75,16 @@ class DashboardHeaderView: UICollectionReusableView {
         return cView
     }()
     
+    let rightChevron: UIImageView = {
+       let rCv = UIImageView()
+        rCv.image = UIImage(named: "ios_chevron_right")?.withRenderingMode(.alwaysTemplate)
+        rCv.tintColor = .white
+        rCv.translatesAutoresizingMaskIntoConstraints = false
+        rCv.heightAnchor.constraint(equalToConstant: 20).isActive = true
+        rCv.widthAnchor.constraint(equalToConstant: 20).isActive = true
+        return rCv
+    }()
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         backgroundColor = .white
@@ -90,6 +100,7 @@ class DashboardHeaderView: UICollectionReusableView {
         containerView.addSubview(programTF)
         containerView.addSubview(acadLabel)
         containerView.addSubview(acadTF)
+        containerView.addSubview(rightChevron)
         
         containerView.anchorWithConstraints(top: topAnchor, right: rightAnchor, bottom: bottomAnchor, left: leftAnchor, topOffset: 0, rightOffset: 8, bottomOffset: 0, leftOffset: 8, height: nil, width: nil)
         
@@ -101,6 +112,9 @@ class DashboardHeaderView: UICollectionReusableView {
         
         acadLabel.anchorWithConstraints(top: programLabel.bottomAnchor, left: containerView.leftAnchor, topOffset: 4, leftOffset: 10)
         acadTF.anchorWithConstraints(top: programLabel.bottomAnchor, left: acadLabel.rightAnchor, topOffset: 4, leftOffset: 4)
+        
+        rightChevron.centerYAnchor.constraint(equalTo: containerView.centerYAnchor).isActive = true
+        rightChevron.rightAnchor.constraint(equalTo: containerView.rightAnchor, constant: -5).isActive = true
     }
     
     required init?(coder aDecoder: NSCoder) {

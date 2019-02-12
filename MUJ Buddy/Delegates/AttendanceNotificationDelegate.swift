@@ -7,7 +7,6 @@
 //
 
 import UserNotifications
-import UIKit
 
 //
 //  Acts as a notification delegate for the MUJ attendance notifications
