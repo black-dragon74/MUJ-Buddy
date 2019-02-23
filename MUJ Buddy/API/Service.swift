@@ -284,7 +284,7 @@ class Service {
     }
 
     // Function to fetch internals from the API
-    func fetchInternals(token: String, semester: Int, isRefresh: Bool = false, completion: @escaping([InternalsModel]?,[InternalsAltModel]?, Error?) -> Void) {
+    func fetchInternals(token: String, semester: Int, isRefresh: Bool = false, completion: @escaping([InternalsModel]?, Error?) -> Void) {
         if token == "nil" {
             return
         }
@@ -294,19 +294,12 @@ class Service {
             if let data = getInternalsFromDB() {
                 let decoder = JSONDecoder()
                 do {
-                    let json = try decoder.decode([InternalsAltModel].self, from: data)
-                    completion(nil, json, nil)
+                    let json = try decoder.decode([InternalsModel].self, from: data)
+                    completion(json, nil)
                     return
-                } catch {
-                    do {
-                        let json = try decoder.decode([InternalsModel].self, from: data)
-                        completion(json, nil, nil)
-                        return
-                    }
-                    catch let err {
-                        completion(nil, nil, err)
-                        return
-                    }
+                } catch let err {
+                    completion(nil, err)
+                    return
                 }
             }
         }
@@ -316,35 +309,22 @@ class Service {
         guard let url = URL(string: tURL) else { return }
         URLSession.shared.dataTask(with: url) {(data, _, error) in
             if let error = error {
-                completion(nil, nil, error)
+                completion(nil, error)
                 return
             }
 
             if let data = data {
                 let decoder = JSONDecoder()
                 do {
-                    let json = try decoder.decode([InternalsAltModel].self, from: data)
+                    let json = try decoder.decode([InternalsModel].self, from: data)
                     let encoder = JSONEncoder()
                     let dataToSave = try? encoder.encode(json)
                     updateInternalsInDB(internals: dataToSave)
-                    print("Alt internals model found. Taking necessary steps.")
-                    completion(nil, json, nil)
+                    completion(json, nil)
                     return
-                } catch {
-                    // This is caused due to another dms inconsistency
-                    do {
-                        let json = try decoder.decode([InternalsModel].self, from: data)
-                        let encoder = JSONEncoder()
-                        let dataToSave = try? encoder.encode(json)
-                        updateInternalsInDB(internals: dataToSave)
-                        print("Normal internal model found")
-                        completion(json, nil, nil)
-                        return
-                    }
-                    catch let err {
-                        completion(nil, nil, err)
-                        return
-                    }
+                } catch let err {
+                    completion(nil, err)
+                    return
                 }
             }
         }.resume()

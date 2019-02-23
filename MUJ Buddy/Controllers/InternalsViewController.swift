@@ -15,7 +15,6 @@ class InternalsViewController: UICollectionViewController, UICollectionViewDeleg
 
     // Internals array
     var internalsArray = [InternalsModel]()
-    var internalsAltArray = [InternalsAltModel]()
 
     // Refresh Control
     let rControl: UIRefreshControl = {
@@ -84,7 +83,7 @@ class InternalsViewController: UICollectionViewController, UICollectionViewDeleg
         }
 
         // Send the actual request
-        Service.shared.fetchInternals(token: getToken(), semester: semester) { [unowned self] (data, alt_data, err) in
+        Service.shared.fetchInternals(token: getToken(), semester: semester) { [unowned self] (data, err) in
             if let err = err {
                 print("Error: ", err)
                 DispatchQueue.main.async {
@@ -97,16 +96,6 @@ class InternalsViewController: UICollectionViewController, UICollectionViewDeleg
             if let data = data {
                 for d in data {
                     self.internalsArray.append(d)
-                    DispatchQueue.main.async {
-                        self.indicator.stopAnimating()
-                        self.collectionView.reloadData()
-                    }
-                }
-            }
-            
-            if let alt_data = alt_data {
-                for alt_d in alt_data {
-                    self.internalsAltArray.append(alt_d)
                     DispatchQueue.main.async {
                         self.indicator.stopAnimating()
                         self.collectionView.reloadData()
@@ -139,7 +128,7 @@ class InternalsViewController: UICollectionViewController, UICollectionViewDeleg
 
     // MARK: - Collection view delegate
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return internalsArray.count == 0 ? internalsAltArray.count : internalsArray.count
+        return internalsArray.count
     }
 
     // MARK: - Delegate flow layout
@@ -154,12 +143,7 @@ class InternalsViewController: UICollectionViewController, UICollectionViewDeleg
     // MARK: - Collection view data source
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellID, for: indexPath) as! InternalsCell
-        if internalsArray.count == 0 {
-            cell.internalAltData = internalsAltArray[indexPath.item]
-        }
-        else {
-            cell.internalData = internalsArray[indexPath.item]
-        }
+        cell.internalData = internalsArray[indexPath.item]
         return cell
     }
 
@@ -176,7 +160,7 @@ class InternalsViewController: UICollectionViewController, UICollectionViewDeleg
             }
         }
 
-        Service.shared.fetchInternals(token: getToken(), semester: semester, isRefresh: true) { [unowned self] (data, alt_data, err) in
+        Service.shared.fetchInternals(token: getToken(), semester: semester, isRefresh: true) { [unowned self] (data, err) in
             if let err = err {
                 print("Error: ", err)
                 DispatchQueue.main.async {
@@ -190,16 +174,6 @@ class InternalsViewController: UICollectionViewController, UICollectionViewDeleg
                 self.internalsArray = []
                 for d in data {
                     self.internalsArray.append(d)
-                    DispatchQueue.main.async {
-                        self.rControl.endRefreshing()
-                        self.collectionView.reloadData()
-                    }
-                }
-            }
-            
-            if let alt_data = alt_data {
-                for d in alt_data {
-                    self.internalsAltArray.append(d)
                     DispatchQueue.main.async {
                         self.rControl.endRefreshing()
                         self.collectionView.reloadData()

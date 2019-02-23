@@ -16,4 +16,5 @@ struct InternalsModel: Codable {
     let mte_1: String
     let mte_2: String
     let total: String
+    let re_session: String?
 }

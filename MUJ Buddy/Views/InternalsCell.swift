@@ -20,19 +20,7 @@ class InternalsCell: UICollectionViewCell {
             cwsText.text = internals.cws == "" ? "NA" : internals.cws
             prsText.text = internals.prs == "" ? "NA" : internals.prs
             totalLabel.text = internals.total == "" ? "NA" : "Total: \(internals.total)"
-        }
-    }
-    
-    var internalAltData: InternalsAltModel? {
-        didSet {
-            guard let internals = internalAltData else { return }
-            subjectLabel.text = internals.subject == "" ? "NA" : internals.subject
-            mte1Text.text = internals.mte_1 == "" ? "NA" : internals.mte_1
-            mte2Text.text = internals.mte_2 == "" ? "NA" : internals.mte_2
-            cwsText.text = internals.cws == "" ? "NA" : internals.cws
-            prsText.text = internals.prs == "" ? "NA" : internals.prs
-            totalLabel.text = internals.total == "" ? "Total: NA" : "Total: \(internals.total)"
-            resessLabel.text = internals.re_session == "" ? "Re Sess: NA" : "Re Sess: \(internals.re_session)"
+            resessLabel.text = internals.re_session == "" ? "Re Sess: NA" : "Re Sess: \(internals.re_session ?? "Error")"
         }
     }
 
