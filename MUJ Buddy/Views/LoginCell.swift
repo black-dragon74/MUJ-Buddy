@@ -56,6 +56,15 @@ class LoginCell: UICollectionViewCell {
         p.hidesWhenStopped = true
         return p
     }()
+    
+    // Info label
+    let cpyLabel: UILabel = {
+        let cLabel = UILabel()
+        cLabel.textColor = .darkGray
+        cLabel.text = "Crafted with love by Nick"
+        cLabel.font = UIFont.systemFont(ofSize: 12)
+        return cLabel
+    }()
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -71,6 +80,7 @@ class LoginCell: UICollectionViewCell {
         addSubview(userTextField)
         addSubview(passwordField)
         addSubview(loginButton)
+        addSubview(cpyLabel)
 
         // Set the constraints
         progressBar.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
@@ -86,6 +96,9 @@ class LoginCell: UICollectionViewCell {
         _ = loginButton.anchorWithConstantsToTop(top: passwordField.bottomAnchor, right: rightAnchor, bottom: nil, left: leftAnchor, topConstant: 12, rightConstant: 32, bottomConstant: 0, leftConstant: 32, heightConstant: 50, widthConstant: nil)
 
         loginButton.addTarget(self, action: #selector(handleLogin), for: .touchUpInside)
+        
+        cpyLabel.anchorWithConstraints(bottom: safeAreaLayoutGuide.bottomAnchor, bottomOffset: 5)
+        cpyLabel.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
     }
 
     required init?(coder aDecoder: NSCoder) {

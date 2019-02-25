@@ -170,3 +170,10 @@ extension Notification.Name {
     // This notification is posted whenever a reauth is needed. It is catched in the appropriate VCs
     static let isReauthRequired = NSNotification.Name("isReauthRequired")
 }
+
+// Extension on string
+extension String {
+    func capitalizeFirstLetter() -> String {
+        return self.capitalized(with: nil)
+    }
+}

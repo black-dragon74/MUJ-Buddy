@@ -20,7 +20,7 @@ class InternalsCell: UICollectionViewCell {
             cwsText.text = internals.cws == "" ? "NA" : internals.cws
             prsText.text = internals.prs == "" ? "NA" : internals.prs
             totalLabel.text = internals.total == "" ? "NA" : "Total: \(internals.total)"
-            resessLabel.text = internals.re_session == "" ? "Re Sess: NA" : "Re Sess: \(internals.re_session ?? "Error")"
+            resessLabel.text = internals.re_session == "" ? "Re Sess: NA" : "Re Sess: \(internals.re_session ?? "NA")"
         }
     }
 

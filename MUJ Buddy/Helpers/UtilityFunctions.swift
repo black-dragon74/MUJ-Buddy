@@ -279,3 +279,22 @@ func setShowRefreshDialog(as val: Bool) {
 func showRefreshDialog() -> Bool {
     return UserDefaults.standard.object(forKey: REFRESH_KEY) as? Bool ?? true
 }
+
+//
+//  Profile image updaters
+//
+func getProfileImage() -> UIImage? {
+    if let image = UserDefaults.standard.value(forKey: PROFILE_IMG_KEY) as? Data {
+        let image = UIImage(data: image)
+        return image
+    }
+    else {
+        return nil
+    }
+}
+
+func setProfileImage(image: Data) {
+    UserDefaults.standard.removeObject(forKey: PROFILE_IMG_KEY)
+    UserDefaults.standard.set(image, forKey: PROFILE_IMG_KEY)
+    UserDefaults.standard.synchronize()
+}
