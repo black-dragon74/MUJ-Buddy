@@ -9,12 +9,12 @@
 import UIKit
 
 struct InternalsModel: Codable {
-    let index: String
-    let subject: String
-    let cws: String
-    let prs: String
-    let mte_1: String
-    let mte_2: String
-    let total: String
-    let re_session: String?
+    let sno: String
+    let subject_codes: String
+    let cws: String?
+    let prs: String?
+    let mte_1: String?
+    let mte_2: String?
+    let total: String?
+    let resession: String?
 }
