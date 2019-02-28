@@ -59,6 +59,8 @@
 			<string>UIApplicationShortcutIconTypeConfirmation</string>
 		</dict>
 	</array>
+	<key>UIApplicationShortcutWidget</key>
+	<string>com.black-dragon74.MUJ-Buddy.Attendance-Widget</string>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>fetch</string>

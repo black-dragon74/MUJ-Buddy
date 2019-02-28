@@ -9,6 +9,11 @@
 import UIKit
 
 //
+//  Shared user defaults between app and extensions
+//
+private let sharedUserDefaults = UserDefaults(suiteName: "group.mujbuddy.shared")
+
+//
 //  General purpose functions
 //
 
@@ -29,6 +34,8 @@ func valueAsDict(withKey key: String, value: String) -> [String: String] {
 func purgeUserDefaults() {
     UserDefaults.standard.removePersistentDomain(forName: Bundle.main.bundleIdentifier!)
     UserDefaults.standard.removeVolatileDomain(forName: Bundle.main.bundleIdentifier!)
+    UserDefaults.standard.removePersistentDomain(forName: "group.mujbuddy.shared")
+    UserDefaults.standard.removeVolatileDomain(forName: "group.mujbuddy.shared")
     UserDefaults.standard.synchronize()
 }
 
@@ -40,7 +47,8 @@ func updateAndSetToken(to: String) {
     UserDefaults.standard.set(to, forKey: TOKEN_KEY)
 
     // Update user login state
-    UserDefaults.standard.set(true, forKey: LOGGED_IN_KEY)
+    guard let sharedUD = sharedUserDefaults else { return }
+    sharedUD.set(true, forKey: LOGGED_IN_KEY)
 }
 
 func getToken() -> String {
@@ -52,7 +60,8 @@ func getToken() -> String {
 }
 
 func isLoggedIn() -> Bool {
-    return UserDefaults.standard.bool(forKey: LOGGED_IN_KEY)
+    guard let sharedUD = sharedUserDefaults else { return false }
+    return sharedUD.bool(forKey: LOGGED_IN_KEY)
 }
 
 //
@@ -74,17 +83,19 @@ func getDashFromDB() -> Data? {
 }
 
 //
-//  Attendance related functions
+//  Attendance related functions, uses the shared container for app and extension
 //
 func updateAttendanceInDB(attendance: Data?) {
     guard let attendance = attendance else { return } // Safely unwrap the data
-    UserDefaults.standard.removeObject(forKey: ATTENDANCE_KEY)
-    UserDefaults.standard.set(attendance, forKey: ATTENDANCE_KEY)
-    UserDefaults.standard.synchronize()
+    guard let attendanceDB = sharedUserDefaults else { return }
+    attendanceDB.removeObject(forKey: ATTENDANCE_KEY)
+    attendanceDB.set(attendance, forKey: ATTENDANCE_KEY)
+    attendanceDB.synchronize()
 }
 
 func getAttendanceFromDB() -> Data? {
-    if let att = UserDefaults.standard.object(forKey: ATTENDANCE_KEY) as? Data {
+    guard let attendanceDB = sharedUserDefaults else { return nil }
+    if let att = attendanceDB.object(forKey: ATTENDANCE_KEY) as? Data {
         return att
     } else {
         return nil
@@ -118,10 +129,10 @@ func setLastAttendanceNotificationDate(to: Date) {
 func getLowAttendanceCount() -> Int {
     var count = 0
     // Parse the attendance here
-    let attendance = getAttendanceFromDB()
+    guard let attendance = getAttendanceFromDB() else { return 0 }
     let decoder = JSONDecoder()
     do {
-        let data = try decoder.decode([AttendanceModel].self, from: attendance!)
+        let data = try decoder.decode([AttendanceModel].self, from: attendance)
         for d in data {
             if (Int(d.percentage.isEmpty ? "75" : d.percentage)! < 75) {  //TODO:- Implement it in a better way
                 count += 1

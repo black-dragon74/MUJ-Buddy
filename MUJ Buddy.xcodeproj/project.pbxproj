@@ -55,12 +55,45 @@
 		01A82FA322044A4C002A13DF /* InternalsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01A82FA222044A4C002A13DF /* InternalsViewController.swift */; };
 		01A82FA52204562D002A13DF /* InternalsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01A82FA42204562D002A13DF /* InternalsCell.swift */; };
 		01AFF686222815DA002403AF /* ShortcutsHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01AFF685222815DA002403AF /* ShortcutsHelper.swift */; };
+		01AFF68D22282D3F002403AF /* NotificationCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 01AFF68C22282D3F002403AF /* NotificationCenter.framework */; };
+		01AFF69022282D3F002403AF /* TodayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01AFF68F22282D3F002403AF /* TodayViewController.swift */; };
+		01AFF69322282D3F002403AF /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 01AFF69122282D3F002403AF /* MainInterface.storyboard */; };
+		01AFF69722282D3F002403AF /* Attendance Widget.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 01AFF68B22282D3F002403AF /* Attendance Widget.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		01AFF69C2228308C002403AF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0110BB3421F32B5600E6546A /* Assets.xcassets */; };
+		01AFF69F22283756002403AF /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01E9623621F4DB40002C9899 /* Constants.swift */; };
+		01AFF6A022283756002403AF /* UtilityFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01E9623821F4F48F002C9899 /* UtilityFunctions.swift */; };
+		01AFF6A122283766002403AF /* AttendanceModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 014512BE21F79E8000407B91 /* AttendanceModel.swift */; };
+		01AFF6A222283779002403AF /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0110BB4021F32DA600E6546A /* Extensions.swift */; };
 		01B4C95621F4CA0E004D0DB4 /* Encryptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01B4C95521F4CA0E004D0DB4 /* Encryptor.swift */; };
 		01E9623721F4DB40002C9899 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01E9623621F4DB40002C9899 /* Constants.swift */; };
 		01E9623921F4F48F002C9899 /* UtilityFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01E9623821F4F48F002C9899 /* UtilityFunctions.swift */; };
 		01FD5A7522008F3D00ECDF3E /* LoginDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01FD5A7422008F3D00ECDF3E /* LoginDelegate.swift */; };
 		890109C6982CC14354E641F8 /* Pods_MUJ_Buddy.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BCFC1217EBE133AD5012E206 /* Pods_MUJ_Buddy.framework */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		01AFF69522282D3F002403AF /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0110BB2221F32B5500E6546A /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 01AFF68A22282D3F002403AF;
+			remoteInfo = "Attendance Widget";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		01AFF69B22282D3F002403AF /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				01AFF69722282D3F002403AF /* Attendance Widget.appex in Embed App Extensions */,
+			);
+			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		01106DC7220601FB00C0DA40 /* FeesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeesViewController.swift; sourceTree = "<group>"; };
@@ -113,6 +146,13 @@
 		01A82FA222044A4C002A13DF /* InternalsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InternalsViewController.swift; sourceTree = "<group>"; };
 		01A82FA42204562D002A13DF /* InternalsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InternalsCell.swift; sourceTree = "<group>"; };
 		01AFF685222815DA002403AF /* ShortcutsHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShortcutsHelper.swift; sourceTree = "<group>"; };
+		01AFF68B22282D3F002403AF /* Attendance Widget.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "Attendance Widget.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
+		01AFF68C22282D3F002403AF /* NotificationCenter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NotificationCenter.framework; path = System/Library/Frameworks/NotificationCenter.framework; sourceTree = SDKROOT; };
+		01AFF68F22282D3F002403AF /* TodayViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayViewController.swift; sourceTree = "<group>"; };
+		01AFF69222282D3F002403AF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainInterface.storyboard; sourceTree = "<group>"; };
+		01AFF69422282D3F002403AF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		01AFF6A3222839B0002403AF /* MUJ Buddy.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "MUJ Buddy.entitlements"; sourceTree = "<group>"; };
+		01AFF6A4222839DC002403AF /* Attendance Widget.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Attendance Widget.entitlements"; sourceTree = "<group>"; };
 		01B4C95521F4CA0E004D0DB4 /* Encryptor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Encryptor.swift; sourceTree = "<group>"; };
 		01E9623621F4DB40002C9899 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		01E9623821F4F48F002C9899 /* UtilityFunctions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UtilityFunctions.swift; sourceTree = "<group>"; };
@@ -131,6 +171,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		01AFF68822282D3F002403AF /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				01AFF68D22282D3F002403AF /* NotificationCenter.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -138,6 +186,7 @@
 			isa = PBXGroup;
 			children = (
 				0110BB2C21F32B5500E6546A /* MUJ Buddy */,
+				01AFF68E22282D3F002403AF /* Attendance Widget */,
 				0110BB2B21F32B5500E6546A /* Products */,
 				8AC9AEA5B10147567FE81D7D /* Pods */,
 				DCCD3990B2122B3DA2DFEFD2 /* Frameworks */,
@@ -148,6 +197,7 @@
 			isa = PBXGroup;
 			children = (
 				0110BB2A21F32B5500E6546A /* MUJ Buddy.app */,
+				01AFF68B22282D3F002403AF /* Attendance Widget.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -155,6 +205,7 @@
 		0110BB2C21F32B5500E6546A /* MUJ Buddy */ = {
 			isa = PBXGroup;
 			children = (
+				01AFF6A3222839B0002403AF /* MUJ Buddy.entitlements */,
 				01255052220E05EA008926A6 /* Session */,
 				013AE8E92203680D00A8831C /* API */,
 				01FD5A7322008F1C00ECDF3E /* Delegates */,
@@ -257,6 +308,17 @@
 			path = Models;
 			sourceTree = "<group>";
 		};
+		01AFF68E22282D3F002403AF /* Attendance Widget */ = {
+			isa = PBXGroup;
+			children = (
+				01AFF6A4222839DC002403AF /* Attendance Widget.entitlements */,
+				01AFF68F22282D3F002403AF /* TodayViewController.swift */,
+				01AFF69122282D3F002403AF /* MainInterface.storyboard */,
+				01AFF69422282D3F002403AF /* Info.plist */,
+			);
+			path = "Attendance Widget";
+			sourceTree = "<group>";
+		};
 		01FD5A7322008F1C00ECDF3E /* Delegates */ = {
 			isa = PBXGroup;
 			children = (
@@ -281,6 +343,7 @@
 			isa = PBXGroup;
 			children = (
 				BCFC1217EBE133AD5012E206 /* Pods_MUJ_Buddy.framework */,
+				01AFF68C22282D3F002403AF /* NotificationCenter.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -297,15 +360,34 @@
 				0110BB2721F32B5500E6546A /* Frameworks */,
 				0110BB2821F32B5500E6546A /* Resources */,
 				E5BD6149FE42DA89E937C745 /* [CP] Embed Pods Frameworks */,
+				01AFF69B22282D3F002403AF /* Embed App Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				01AFF69622282D3F002403AF /* PBXTargetDependency */,
 			);
 			name = "MUJ Buddy";
 			productName = "MUJ Buddy";
 			productReference = 0110BB2A21F32B5500E6546A /* MUJ Buddy.app */;
 			productType = "com.apple.product-type.application";
+		};
+		01AFF68A22282D3F002403AF /* Attendance Widget */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 01AFF69822282D3F002403AF /* Build configuration list for PBXNativeTarget "Attendance Widget" */;
+			buildPhases = (
+				01AFF68722282D3F002403AF /* Sources */,
+				01AFF68822282D3F002403AF /* Frameworks */,
+				01AFF68922282D3F002403AF /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Attendance Widget";
+			productName = "Attendance Widget";
+			productReference = 01AFF68B22282D3F002403AF /* Attendance Widget.appex */;
+			productType = "com.apple.product-type.app-extension";
 		};
 /* End PBXNativeTarget section */
 
@@ -320,7 +402,18 @@
 					0110BB2921F32B5500E6546A = {
 						CreatedOnToolsVersion = 10.1;
 						SystemCapabilities = {
+							com.apple.ApplicationGroups.iOS = {
+								enabled = 1;
+							};
 							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
+						};
+					};
+					01AFF68A22282D3F002403AF = {
+						CreatedOnToolsVersion = 10.1;
+						SystemCapabilities = {
+							com.apple.ApplicationGroups.iOS = {
 								enabled = 1;
 							};
 						};
@@ -341,6 +434,7 @@
 			projectRoot = "";
 			targets = (
 				0110BB2921F32B5500E6546A /* MUJ Buddy */,
+				01AFF68A22282D3F002403AF /* Attendance Widget */,
 			);
 		};
 /* End PBXProject section */
@@ -353,6 +447,15 @@
 				016D38CB220EC04200F12B0F /* app_pub in Resources */,
 				0110BB3821F32B5600E6546A /* LaunchScreen.storyboard in Resources */,
 				0110BB3521F32B5600E6546A /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		01AFF68922282D3F002403AF /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				01AFF69C2228308C002403AF /* Assets.xcassets in Resources */,
+				01AFF69322282D3F002403AF /* MainInterface.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -462,7 +565,27 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		01AFF68722282D3F002403AF /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				01AFF6A222283779002403AF /* Extensions.swift in Sources */,
+				01AFF6A122283766002403AF /* AttendanceModel.swift in Sources */,
+				01AFF6A022283756002403AF /* UtilityFunctions.swift in Sources */,
+				01AFF69022282D3F002403AF /* TodayViewController.swift in Sources */,
+				01AFF69F22283756002403AF /* Constants.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		01AFF69622282D3F002403AF /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 01AFF68A22282D3F002403AF /* Attendance Widget */;
+			targetProxy = 01AFF69522282D3F002403AF /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		0110BB3621F32B5600E6546A /* LaunchScreen.storyboard */ = {
@@ -471,6 +594,14 @@
 				0110BB3721F32B5600E6546A /* Base */,
 			);
 			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+		01AFF69122282D3F002403AF /* MainInterface.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				01AFF69222282D3F002403AF /* Base */,
+			);
+			name = MainInterface.storyboard;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -596,7 +727,9 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 55CB5F7C880ACE96728787BA /* Pods-MUJ Buddy.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = "MUJ Buddy/MUJ Buddy.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = LUPK75PW6Q;
 				INFOPLIST_FILE = "MUJ Buddy/Info.plist";
@@ -616,7 +749,9 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = BE30A9571057720BD343ED4A /* Pods-MUJ Buddy.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = "MUJ Buddy/MUJ Buddy.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = LUPK75PW6Q;
 				INFOPLIST_FILE = "MUJ Buddy/Info.plist";
@@ -627,6 +762,46 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.black-dragon74.MUJ-Buddy";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.2;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		01AFF69922282D3F002403AF /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = "Attendance Widget/Attendance Widget.entitlements";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = LUPK75PW6Q;
+				INFOPLIST_FILE = "Attendance Widget/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.black-dragon74.MUJ-Buddy.Attendance-Widget";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 4.2;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		01AFF69A22282D3F002403AF /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = "Attendance Widget/Attendance Widget.entitlements";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = LUPK75PW6Q;
+				INFOPLIST_FILE = "Attendance Widget/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.black-dragon74.MUJ-Buddy.Attendance-Widget";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -649,6 +824,15 @@
 			buildConfigurations = (
 				0110BB3D21F32B5600E6546A /* Debug */,
 				0110BB3E21F32B5600E6546A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		01AFF69822282D3F002403AF /* Build configuration list for PBXNativeTarget "Attendance Widget" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				01AFF69922282D3F002403AF /* Debug */,
+				01AFF69A22282D3F002403AF /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
