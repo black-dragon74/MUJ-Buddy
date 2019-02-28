@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ContactsViewController: UITableViewController, UISearchControllerDelegate, UISearchResultsUpdating {
+class ContactsViewController: UITableViewController, UISearchControllerDelegate, UISearchResultsUpdating, UIViewControllerPreviewingDelegate {
 
     // Cell indentifier
     let cellID = "cellID"
@@ -61,6 +61,9 @@ class ContactsViewController: UITableViewController, UISearchControllerDelegate,
 
         // Setup the views
         setupViews()
+        
+        // Register for 3D touch
+        registerForPreviewing(with: self, sourceView: tableView)
     }
 
     func setupViews() {
@@ -182,6 +185,19 @@ class ContactsViewController: UITableViewController, UISearchControllerDelegate,
     func isSearchTextEmpty() -> Bool {
         guard let text = self.searchController.searchBar.text else { return false }
         return text.isEmpty
+    }
+    
+    //MARK:- Preview delegates
+    func previewingContext(_ previewingContext: UIViewControllerPreviewing, viewControllerForLocation location: CGPoint) -> UIViewController? {
+        guard let indexPath = tableView.indexPathForRow(at: location) else { return nil }
+        let selectedItem = filteredFacultyDetails.count == 0 ? facultyDetails[indexPath.row] : filteredFacultyDetails[indexPath.row]
+        let fView = FacultyContactViewController()
+        fView.currentFaculty = selectedItem
+        return fView
+    }
+    
+    func previewingContext(_ previewingContext: UIViewControllerPreviewing, commit viewControllerToCommit: UIViewController) {
+        navigationController?.pushViewController(viewControllerToCommit, animated: true)
     }
 
 }
