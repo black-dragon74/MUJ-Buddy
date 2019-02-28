@@ -14,6 +14,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
     let notificationDelegate = AttendanceNotificationDelegate()
+    private var launchedShortcutItem: UIApplicationShortcutItem? = nil
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Delay the launch for splash image, disabled coz testing
@@ -28,6 +29,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             window?.rootViewController = UINavigationController(rootViewController: DashboardViewController())
         } else {
             window?.rootViewController = LoginViewController()
+        }
+        
+        // Handle the 3D touch platter
+        if let selectedItem = launchOptions?[.shortcutItem] as? UIApplicationShortcutItem {
+            launchedShortcutItem = selectedItem
         }
 
         // Update attendance after an interval of 2 hours
@@ -107,9 +113,52 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func applicationDidBecomeActive(_ application: UIApplication) {
         // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+        
+        // Perform the actual handling of the shortcut item, if needed, if app is in foreground
+        if let shortcutItem = launchedShortcutItem {
+            _ = handleShortcutItem(item: shortcutItem)
+        }
+        
+        // Nil the value as a failsafe measure
+        launchedShortcutItem = nil
     }
 
     func applicationWillTerminate(_ application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+    }
+    
+    func application(_ application: UIApplication, performActionFor shortcutItem: UIApplicationShortcutItem, completionHandler: @escaping (Bool) -> Void) {
+        completionHandler(handleShortcutItem(item: shortcutItem))
+    }
+    
+    fileprivate func handleShortcutItem(item: UIApplicationShortcutItem) -> Bool {
+        
+        // If user is not logged in, all the calls to shortcut items are returned as true
+        if !isLoggedIn() {
+            return true
+        }
+        
+        var handled = false
+        var vcToPush: UIViewController!
+        
+        switch item.type {
+        case MUJShortcuts.attendance.value:
+            vcToPush = AttendanceViewController()
+        case MUJShortcuts.contacts.value:
+            vcToPush = ContactsViewController()
+        case MUJShortcuts.internals.value:
+            vcToPush = InternalsViewController(collectionViewLayout: UICollectionViewFlowLayout())
+        case MUJShortcuts.results.value:
+            vcToPush = ResultsViewController(collectionViewLayout: UICollectionViewFlowLayout())
+        default:
+            break
+        }
+        
+        if let mainVC = window?.rootViewController as? UINavigationController {
+            mainVC.pushViewController(vcToPush, animated: true)
+            handled = true
+        }
+        
+        return handled
     }
 }

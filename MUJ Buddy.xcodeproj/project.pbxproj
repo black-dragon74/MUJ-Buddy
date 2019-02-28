@@ -54,6 +54,7 @@
 		01A400B1220591E300D6E510 /* ResultsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01A400B0220591E300D6E510 /* ResultsCell.swift */; };
 		01A82FA322044A4C002A13DF /* InternalsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01A82FA222044A4C002A13DF /* InternalsViewController.swift */; };
 		01A82FA52204562D002A13DF /* InternalsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01A82FA42204562D002A13DF /* InternalsCell.swift */; };
+		01AFF686222815DA002403AF /* ShortcutsHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01AFF685222815DA002403AF /* ShortcutsHelper.swift */; };
 		01B4C95621F4CA0E004D0DB4 /* Encryptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01B4C95521F4CA0E004D0DB4 /* Encryptor.swift */; };
 		01E9623721F4DB40002C9899 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01E9623621F4DB40002C9899 /* Constants.swift */; };
 		01E9623921F4F48F002C9899 /* UtilityFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01E9623821F4F48F002C9899 /* UtilityFunctions.swift */; };
@@ -111,6 +112,7 @@
 		01A400B0220591E300D6E510 /* ResultsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultsCell.swift; sourceTree = "<group>"; };
 		01A82FA222044A4C002A13DF /* InternalsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InternalsViewController.swift; sourceTree = "<group>"; };
 		01A82FA42204562D002A13DF /* InternalsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InternalsCell.swift; sourceTree = "<group>"; };
+		01AFF685222815DA002403AF /* ShortcutsHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShortcutsHelper.swift; sourceTree = "<group>"; };
 		01B4C95521F4CA0E004D0DB4 /* Encryptor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Encryptor.swift; sourceTree = "<group>"; };
 		01E9623621F4DB40002C9899 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		01E9623821F4F48F002C9899 /* UtilityFunctions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UtilityFunctions.swift; sourceTree = "<group>"; };
@@ -177,6 +179,7 @@
 				01261C9A2201FEDA00E6EB63 /* Enumerators.swift */,
 				01483C51220A0DD50017E88A /* NotificationHelper.swift */,
 				013F512A220C79BE007D1390 /* BiometricsHelper.swift */,
+				01AFF685222815DA002403AF /* ShortcutsHelper.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -407,6 +410,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				01AFF686222815DA002403AF /* ShortcutsHelper.swift in Sources */,
 				013AE8E82203546A00A8831C /* GPACell.swift in Sources */,
 				01483C4C2209CB5A0017E88A /* BottomMenuSheetModel.swift in Sources */,
 				01B4C95621F4CA0E004D0DB4 /* Encryptor.swift in Sources */,

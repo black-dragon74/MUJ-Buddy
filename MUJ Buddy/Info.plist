@@ -24,6 +24,41 @@
 	<string>The app uses biometrics to log user in seamlessly</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>The app needs access to our photos library to set custom profile image</string>
+	<key>UIApplicationShortcutItems</key>
+	<array>
+		<dict>
+			<key>UIApplicationShortcutItemType</key>
+			<string>muj_attendance</string>
+			<key>UIApplicationShortcutItemTitle</key>
+			<string>Attendance</string>
+			<key>UIApplicationShortcutItemIconType</key>
+			<string>UIApplicationShortcutIconTypeDate</string>
+		</dict>
+		<dict>
+			<key>UIApplicationShortcutItemType</key>
+			<string>muj_contacts</string>
+			<key>UIApplicationShortcutItemTitle</key>
+			<string>Faculty Contacts</string>
+			<key>UIApplicationShortcutItemIconType</key>
+			<string>UIApplicationShortcutIconTypeContact</string>
+		</dict>
+		<dict>
+			<key>UIApplicationShortcutItemType</key>
+			<string>muj_internals</string>
+			<key>UIApplicationShortcutItemTitle</key>
+			<string>Internals Marks</string>
+			<key>UIApplicationShortcutItemIconType</key>
+			<string>UIApplicationShortcutIconTypeTaskCompleted</string>
+		</dict>
+		<dict>
+			<key>UIApplicationShortcutItemType</key>
+			<string>muj_results</string>
+			<key>UIApplicationShortcutItemTitle</key>
+			<string>Results</string>
+			<key>UIApplicationShortcutItemIconType</key>
+			<string>UIApplicationShortcutIconTypeConfirmation</string>
+		</dict>
+	</array>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>fetch</string>
