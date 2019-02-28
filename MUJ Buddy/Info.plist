@@ -61,6 +61,17 @@
 	</array>
 	<key>UIApplicationShortcutWidget</key>
 	<string>com.black-dragon74.MUJ-Buddy.Attendance-Widget</string>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleURLName</key>
+			<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>muj-buddy-main</string>
+			</array>
+		</dict>
+	</array>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>fetch</string>

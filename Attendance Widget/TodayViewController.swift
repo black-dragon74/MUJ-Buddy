@@ -16,6 +16,8 @@ class TodayViewController: UIViewController, NCWidgetProviding {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(openApp)))
+        
         // First off we need to check if the user is logged in
         if !isLoggedIn() {
             statusLabel.text = "Have a nice day"
@@ -64,6 +66,11 @@ class TodayViewController: UIViewController, NCWidgetProviding {
             statusImage.tintColor = UIColor(r: 0, g: 100, b: 0)
             withCompletionHandler(.newData)
         }
+    }
+    
+    @objc fileprivate func openApp() {
+        let myURL = URL(string: "muj-buddy-main:")!
+        extensionContext?.open(myURL, completionHandler: nil)
     }
     
 }
