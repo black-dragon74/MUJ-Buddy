@@ -78,7 +78,7 @@ class SettingsViewController: UITableViewController {
                     semTF.keyboardType = .numberPad
                     semTF.placeholder = "Max allowed value is 8"
                 }
-                let okAction = UIAlertAction(title: "OK", style: .default) { (action) in
+                let okAction = UIAlertAction(title: "OK", style: .default) { (_) in
                     if let tf = alertController.textFields?.first {
                         guard let val = tf.text, Int(val)! <= 8 && Int(val)! > 0 else { return }
                         setSemester(as: Int(val)!)
