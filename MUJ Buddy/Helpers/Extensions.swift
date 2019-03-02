@@ -177,3 +177,32 @@ extension String {
         return self.capitalized(with: nil)
     }
 }
+
+// Extension on a UINavigationItem to set the title and the subtitle for the NavItem
+extension UINavigationItem {
+    
+    func setHeader(title: String, subtitle: String) {
+        let titleLabel = UILabel()
+        titleLabel.text = title
+        titleLabel.font = UIFont.systemFont(ofSize: 17, weight: .bold)
+        titleLabel.textAlignment = .center
+        titleLabel.sizeToFit()
+        
+        let subtitleLabel = UILabel()
+        subtitleLabel.text = subtitle
+        subtitleLabel.font = UIFont.systemFont(ofSize: 12)
+        subtitleLabel.textAlignment = .center
+        subtitleLabel.sizeToFit()
+        
+        // Stack view to hold these
+        let stackView = UIStackView(arrangedSubviews: [titleLabel, subtitleLabel])
+        stackView.distribution = .equalCentering
+        stackView.axis = .vertical
+        
+        // Set the frame for the stack view
+        let width = max(titleLabel.frame.size.width, subtitleLabel.frame.size.width)
+        stackView.frame = CGRect(x: 0, y: 0, width: width, height: 35)
+        
+        self.titleView = stackView
+    }
+}

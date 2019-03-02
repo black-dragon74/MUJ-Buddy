@@ -15,6 +15,11 @@ class SettingsViewController: UITableViewController {
     @IBOutlet weak var lowAttendanceSwitch: UISwitch!
     @IBOutlet weak var biometrySwitch: UISwitch!
     
+    // Array of the whitelisted cells that should show the selection indicator
+    let whitelistedCells: [IndexPath] = [
+        IndexPath(row: 0, section: 2)
+    ]
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
@@ -63,8 +68,10 @@ class SettingsViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        // Set the selection style as none
-        tableView.cellForRow(at: indexPath)?.selectionStyle = .none
+        // Set the selection style as none only if the cell is not whitelisted
+        if !whitelistedCells.contains(indexPath) {
+            tableView.cellForRow(at: indexPath)?.selectionStyle = .none
+        }
         
         // Switch the section to handle the taps as this is a static table view
         switch indexPath.section {
@@ -96,7 +103,7 @@ class SettingsViewController: UITableViewController {
                 break
             case 1:
                 // Show an alert controller asking for the time interval
-                let alertController = UIAlertController(title: "Chnage refresh interval", message: "Please enter the new interval value", preferredStyle: .alert)
+                let alertController = UIAlertController(title: "Change refresh interval", message: "Please enter the new interval value", preferredStyle: .alert)
                 alertController.addTextField { (refreshTF) in
                     refreshTF.keyboardType = .numberPad
                     refreshTF.placeholder = "Max allowed value is 24 hours"
@@ -126,6 +133,10 @@ class SettingsViewController: UITableViewController {
         default:
             break
         }
+        
+        if indexPath == whitelistedCells[0] {
+            self.navigationController?.pushViewController(AppInfoViewController(), animated: true)
+        }
     }
     
     override func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {
@@ -136,6 +147,10 @@ class SettingsViewController: UITableViewController {
             else {
                 return "Require biometrics to use MUJ Buddy"
             }
+        }
+        
+        if section == 2 {
+            return "The app and it's developer"
         }
         
         return nil

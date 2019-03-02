@@ -20,6 +20,7 @@
 		0112A69021F4884F00B269FA /* FacultyContactModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0112A68F21F4884F00B269FA /* FacultyContactModel.swift */; };
 		01197BA3222A74E1002F1FC6 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01197BA2222A74E1002F1FC6 /* SettingsViewController.swift */; };
 		01197BA5222A8030002F1FC6 /* Settings.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 01197BA4222A8030002F1FC6 /* Settings.storyboard */; };
+		01197BA7222AA5D5002F1FC6 /* AppInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01197BA6222AA5D5002F1FC6 /* AppInfoViewController.swift */; };
 		01255054220E05FA008926A6 /* SessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01255053220E05FA008926A6 /* SessionManager.swift */; };
 		01261C992201F7CF00E6EB63 /* EventsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01261C982201F7CF00E6EB63 /* EventsViewController.swift */; };
 		01261C9B2201FEDA00E6EB63 /* Enumerators.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01261C9A2201FEDA00E6EB63 /* Enumerators.swift */; };
@@ -113,6 +114,7 @@
 		0112A68F21F4884F00B269FA /* FacultyContactModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FacultyContactModel.swift; sourceTree = "<group>"; };
 		01197BA2222A74E1002F1FC6 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		01197BA4222A8030002F1FC6 /* Settings.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Settings.storyboard; sourceTree = "<group>"; };
+		01197BA6222AA5D5002F1FC6 /* AppInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppInfoViewController.swift; sourceTree = "<group>"; };
 		01255053220E05FA008926A6 /* SessionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionManager.swift; sourceTree = "<group>"; };
 		01261C982201F7CF00E6EB63 /* EventsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsViewController.swift; sourceTree = "<group>"; };
 		01261C9A2201FEDA00E6EB63 /* Enumerators.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Enumerators.swift; sourceTree = "<group>"; };
@@ -292,6 +294,7 @@
 				013F512C220C8EE6007D1390 /* BiometricAuthController.swift */,
 				014B8E952211F86B00C0296B /* StudentDetailedView.swift */,
 				01197BA2222A74E1002F1FC6 /* SettingsViewController.swift */,
+				01197BA6222AA5D5002F1FC6 /* AppInfoViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -554,6 +557,7 @@
 				014512C821F79E8000407B91 /* InternalsModel.swift in Sources */,
 				01A400AF220590A900D6E510 /* ResultsViewController.swift in Sources */,
 				01197BA3222A74E1002F1FC6 /* SettingsViewController.swift in Sources */,
+				01197BA7222AA5D5002F1FC6 /* AppInfoViewController.swift in Sources */,
 				013AE8EB2203682900A8831C /* Service.swift in Sources */,
 				01261C9B2201FEDA00E6EB63 /* Enumerators.swift in Sources */,
 				014512C721F79E8000407B91 /* ResultsModel.swift in Sources */,
