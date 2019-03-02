@@ -247,7 +247,15 @@ class DashboardViewController: UIViewController, UICollectionViewDelegate, UICol
     func handleMenuSelect(forItem: String) {
         switch forItem {
         case "Logout":
-            handleLogout()
+            // Ask the user if he/she really wants to logout
+            let confirmAlert = UIAlertController(title: "Are you sure?", message: "Logging out will clear all user data.", preferredStyle: .actionSheet)
+            let okAction = UIAlertAction(title: "Yes", style: .destructive) {[unowned self] (_) in
+                self.handleLogout()
+            }
+            let cancelAction = UIAlertAction(title: "No", style: .cancel, handler: nil)
+            confirmAlert.addAction(okAction)
+            confirmAlert.addAction(cancelAction)
+            self.navigationController?.present(confirmAlert, animated: true, completion: nil)
         case "Change Semester":
             handleSemesterChange()
         case "Use TouchID/FaceID Login":
