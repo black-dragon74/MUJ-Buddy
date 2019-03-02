@@ -259,6 +259,10 @@ class DashboardViewController: UIViewController, UICollectionViewDelegate, UICol
                 break
             }
             print("Biometric auth set to: \(shouldUseBiometrics())")
+        case "Settings":
+            let vc = UIStoryboard(name: "Settings", bundle: nil)
+            let svc = vc.instantiateViewController(withIdentifier: "settingsSB")
+            navigationController?.pushViewController(svc, animated: true)
         default:
             break
         }

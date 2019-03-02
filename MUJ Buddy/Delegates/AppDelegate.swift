@@ -37,7 +37,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
 
         // Update attendance after an interval of 2 hours
-        UIApplication.shared.setMinimumBackgroundFetchInterval(3600 * 2)
+        let interval = 2 * getRefreshInterval()
+        UIApplication.shared.setMinimumBackgroundFetchInterval(Double(interval))
 
         // Ask permission for the notifications
         let notificationCenter = UNUserNotificationCenter.current()

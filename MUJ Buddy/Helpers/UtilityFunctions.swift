@@ -105,11 +105,21 @@ func getAttendanceFromDB() -> Data? {
 //
 //  Attendance notification related utility functions
 //
+func userHasAllowedNotification() -> Bool {
+    return UserDefaults.standard.object(forKey: USER_NOTIFICATION_PREFERENCE) as? Bool ?? true  // Defaulting to true
+}
+
+func userHasAllowedNotification(value: Bool) {
+    UserDefaults.standard.removeObject(forKey: USER_NOTIFICATION_PREFERENCE)
+    UserDefaults.standard.set(value, forKey: USER_NOTIFICATION_PREFERENCE)
+    UserDefaults.standard.synchronize()
+}
+
 func shouldShowAttendanceNotification() -> Bool {
     // As of now, if the last notification for attendance was shown within the past 24 hours
     // We will not show the notification for the same. Else, we will then issue the notification
     guard let lastNotificationDate = getLastAttendanceNotificationDate() else { return true }  // Return true if the last date is not set
-    return lastNotificationDate.hoursTillNow() >= 24
+    return lastNotificationDate.hoursTillNow() >= 24 && userHasAllowedNotification()
 }
 
 func getLastAttendanceNotificationDate() -> Date? {
@@ -142,6 +152,19 @@ func getLowAttendanceCount() -> Int {
         return 0
     }
     return count
+}
+
+//
+//  Attendance fetch interval related values
+//
+func getRefreshInterval() -> Int {
+    return UserDefaults.standard.object(forKey: REFRESH_INTERVAL) as? Int ?? 2  // Default fetch interval is 2 hours
+}
+
+func setRefreshInterval(as value: Int) {
+    UserDefaults.standard.removeObject(forKey: REFRESH_INTERVAL)
+    UserDefaults.standard.set(value, forKey: REFRESH_INTERVAL)
+    UserDefaults.standard.synchronize()
 }
 
 //

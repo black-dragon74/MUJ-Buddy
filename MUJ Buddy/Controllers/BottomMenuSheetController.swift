@@ -37,10 +37,9 @@ class BottomMenuSheetController: NSObject, UICollectionViewDataSource, UICollect
 
     // Array to contain menu items
     let menuItems: [BottomMenuSheetModel] = {
-        let item1 = BottomMenuSheetModel(image: "ios_settings", title: "Change Semester")
-        let item2 = BottomMenuSheetModel(image: "ios_biometrics", title: "Use TouchID/FaceID Login")
-        let item3 = BottomMenuSheetModel(image: "ios_logout", title: "Logout")
-        return [item1, item2, item3]
+        let item1 = BottomMenuSheetModel(image: "ios_settings", title: "Settings")
+        let item2 = BottomMenuSheetModel(image: "ios_logout", title: "Logout")
+        return [item1, item2]
     }()
 
     override init() {
@@ -53,7 +52,7 @@ class BottomMenuSheetController: NSObject, UICollectionViewDataSource, UICollect
     // Function to show settings
     func showSettings() {
         if let window = UIApplication.shared.keyWindow {
-            let height: CGFloat = cellHeight * CGFloat(menuItems.count) + 40
+            let height: CGFloat = cellHeight * CGFloat(menuItems.count) + 60
             let y = window.frame.height - height
 
             window.addSubview(blackView)
@@ -106,7 +105,7 @@ class BottomMenuSheetController: NSObject, UICollectionViewDataSource, UICollect
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-        return 0
+        return 4
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
