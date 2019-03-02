@@ -94,14 +94,20 @@ class BottomMenuSheetController: NSObject, UICollectionViewDataSource, UICollect
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         // Hide the menu first
-        handleSettingsHide()
-        let cell = collectionView.cellForItem(at: indexPath) as! BottomMenuSheetCell
-        let str = cell.title.text ?? "nil"
-
-        // We'll call the delegate and ask it to perform the required actions
-        if let delegate = delegate {
-            delegate.handleMenuSelect(forItem: str)
-        }
+        guard let window = UIApplication.shared.keyWindow else { return }
+        let height: CGFloat = cellHeight * CGFloat(menuItems.count) + 40
+        UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseOut, animations: { [unowned self] in
+            self.blackView.alpha = 0
+            self.collectionView.frame = CGRect(x: 0, y: window.frame.height, width: window.frame.width, height: height)
+        }, completion: {[unowned self] (Bool) in
+            let cell = collectionView.cellForItem(at: indexPath) as! BottomMenuSheetCell
+            let str = cell.title.text ?? "nil"
+            
+            // We'll call the delegate and ask it to perform the required actions
+            if let delegate = self.delegate {
+                delegate.handleMenuSelect(forItem: str)
+            }
+        })
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
