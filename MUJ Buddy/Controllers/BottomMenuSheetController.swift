@@ -62,9 +62,9 @@ class BottomMenuSheetController: NSObject, UICollectionViewDataSource, UICollect
             collectionView.frame = CGRect(x: 0, y: window.frame.height, width: window.frame.width, height: height)
 
             // Animate
-            UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseOut, animations: { [unowned self] in
-                self.blackView.alpha = 0.5
-                self.collectionView.frame = CGRect(x: 0, y: y, width: window.frame.width, height: height)
+            UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseOut, animations: { [weak self] in
+                self?.blackView.alpha = 0.5
+                self?.collectionView.frame = CGRect(x: 0, y: y, width: window.frame.width, height: height)
             }, completion: nil)
         }
     }
@@ -72,9 +72,9 @@ class BottomMenuSheetController: NSObject, UICollectionViewDataSource, UICollect
     @objc fileprivate func handleSettingsHide() {
         guard let window = UIApplication.shared.keyWindow else { return }
         let height: CGFloat = cellHeight * CGFloat(menuItems.count) + 40
-        UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseOut, animations: { [unowned self] in
-            self.blackView.alpha = 0
-            self.collectionView.frame = CGRect(x: 0, y: window.frame.height, width: window.frame.width, height: height)
+        UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseOut, animations: { [weak self] in
+            self?.blackView.alpha = 0
+            self?.collectionView.frame = CGRect(x: 0, y: window.frame.height, width: window.frame.width, height: height)
             }, completion: nil)
     }
 
@@ -96,15 +96,15 @@ class BottomMenuSheetController: NSObject, UICollectionViewDataSource, UICollect
         // Hide the menu first
         guard let window = UIApplication.shared.keyWindow else { return }
         let height: CGFloat = cellHeight * CGFloat(menuItems.count) + 40
-        UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseOut, animations: { [unowned self] in
-            self.blackView.alpha = 0
-            self.collectionView.frame = CGRect(x: 0, y: window.frame.height, width: window.frame.width, height: height)
-        }, completion: {[unowned self] (Bool) in
+        UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseOut, animations: { [weak self] in
+            self?.blackView.alpha = 0
+            self?.collectionView.frame = CGRect(x: 0, y: window.frame.height, width: window.frame.width, height: height)
+        }, completion: {[weak self] (Bool) in
             let cell = collectionView.cellForItem(at: indexPath) as! BottomMenuSheetCell
             let str = cell.title.text ?? "nil"
             
             // We'll call the delegate and ask it to perform the required actions
-            if let delegate = self.delegate {
+            if let delegate = self?.delegate {
                 delegate.handleMenuSelect(forItem: str)
             }
         })

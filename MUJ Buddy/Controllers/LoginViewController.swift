@@ -260,11 +260,11 @@ class LoginViewController: UIViewController, UICollectionViewDelegate, UICollect
             // Send a login request
             let u = API_URL + "auth?userid=\(encUser)&password=\(encPass)"
             guard let url = URL(string: u) else { return }
-            URLSession.shared.dataTask(with: url) {[unowned self] (data, _, error) in
+            URLSession.shared.dataTask(with: url) {[weak self] (data, _, error) in
                 if let error = error {
                     DispatchQueue.main.async {
                         let alert = showAlert(with: error as? String ?? "Error while communicating to the server")
-                        self.present(alert, animated: true, completion: nil)
+                        self?.present(alert, animated: true, completion: nil)
                         cell.progressBar.stopAnimating()
                         cell.loginButton.isUserInteractionEnabled = true
                     }
@@ -279,7 +279,7 @@ class LoginViewController: UIViewController, UICollectionViewDelegate, UICollect
                         if let error = error {
                             DispatchQueue.main.async {
                                 let alert = showAlert(with: error)
-                                self.present(alert, animated: true, completion: nil)
+                                self?.present(alert, animated: true, completion: nil)
                                 cell.progressBar.stopAnimating()
                                 cell.loginButton.isUserInteractionEnabled = true
                             }
@@ -299,7 +299,7 @@ class LoginViewController: UIViewController, UICollectionViewDelegate, UICollect
                                 setSemester(as: currSem)  // Update the semester in the DB if the login is successful
                                 let newController = UINavigationController(rootViewController: DashboardViewController())
                                 newController.modalTransitionStyle = .crossDissolve
-                                self.present(newController, animated: true, completion: nil)
+                                self?.present(newController, animated: true, completion: nil)
                             }
                             return
                         }
@@ -307,7 +307,7 @@ class LoginViewController: UIViewController, UICollectionViewDelegate, UICollect
                         print("Error: ", err)
                         DispatchQueue.main.async {
                             let alert = showAlert(with: "Server sent an invalid response")
-                            self.present(alert, animated: true, completion: nil)
+                            self?.present(alert, animated: true, completion: nil)
                             cell.progressBar.stopAnimating()
                             cell.loginButton.isUserInteractionEnabled = true
                         }

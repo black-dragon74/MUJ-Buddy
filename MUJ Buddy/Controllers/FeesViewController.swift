@@ -126,28 +126,28 @@ class FeesViewController: UIViewController {
         setupViews()
 
         // MARK: - Fetch fee from API
-        Service.shared.fetchFeeDetails(token: getToken()) { [unowned self] (fee, error) in
+        Service.shared.fetchFeeDetails(token: getToken()) { [weak self] (fee, error) in
             if let error = error {
                 print("Error: ", error)
                 DispatchQueue.main.async {
-                    self.indicator.stopAnimating()
+                    self?.indicator.stopAnimating()
                     let alert = showAlert(with: "Error fetching fee details")
-                    self.present(alert, animated: true, completion: nil)
+                    self?.present(alert, animated: true, completion: nil)
                 }
             }
 
             if let fee = fee {
                 DispatchQueue.main.async {
-                    self.indicator.stopAnimating()
+                    self?.indicator.stopAnimating()
 
                     if let totalPaid = fee.paid?.total {
-                        self.paidLabel.text = "₹ \(totalPaid)"
+                        self?.paidLabel.text = "₹ \(totalPaid)"
                     }
 
                     if let totalUnpaid = fee.unpaid?.total {
-                        self.unpaidLabel.text = "₹ \(totalUnpaid)"
+                        self?.unpaidLabel.text = "₹ \(totalUnpaid)"
                     } else {
-                        self.unpaidLabel.text = "₹ 0.0"
+                        self?.unpaidLabel.text = "₹ 0.0"
                     }
                 }
             }
@@ -198,28 +198,28 @@ class FeesViewController: UIViewController {
 
     // MARK: - Fee refresh
     @objc fileprivate func handleFeeRefresh() {
-        Service.shared.fetchFeeDetails(token: getToken(), isRefresh: true) { [unowned self] (fee, error) in
+        Service.shared.fetchFeeDetails(token: getToken(), isRefresh: true) { [weak self] (fee, error) in
             if let error = error {
                 print("Error: ", error)
                 DispatchQueue.main.async {
-                    self.rControl.endRefreshing()
+                    self?.rControl.endRefreshing()
                     let alert = showAlert(with: "Error fetching fee details")
-                    self.present(alert, animated: true, completion: nil)
+                    self?.present(alert, animated: true, completion: nil)
                 }
             }
 
             if let fee = fee {
                 DispatchQueue.main.async {
-                    self.rControl.endRefreshing()
+                    self?.rControl.endRefreshing()
 
                     if let totalPaid = fee.paid?.total {
-                        self.paidLabel.text = "₹ \(totalPaid)"
+                        self?.paidLabel.text = "₹ \(totalPaid)"
                     }
 
                     if let totalUnpaid = fee.unpaid?.total {
-                        self.unpaidLabel.text = "₹ \(totalUnpaid)"
+                        self?.unpaidLabel.text = "₹ \(totalUnpaid)"
                     } else {
-                        self.unpaidLabel.text = "₹ 0.0"
+                        self?.unpaidLabel.text = "₹ 0.0"
                     }
                 }
             }

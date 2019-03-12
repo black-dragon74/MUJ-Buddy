@@ -83,22 +83,22 @@ class InternalsViewController: UICollectionViewController, UICollectionViewDeleg
         }
 
         // Send the actual request
-        Service.shared.fetchInternals(token: getToken(), semester: semester) { [unowned self] (data, err) in
+        Service.shared.fetchInternals(token: getToken(), semester: semester) { [weak self] (data, err) in
             if let err = err {
                 print("Error: ", err)
                 DispatchQueue.main.async {
-                    self.indicator.stopAnimating()
+                    self?.indicator.stopAnimating()
                     let alert = showAlert(with: "Error fetching marks for semester: \(getSemester())")
-                    self.present(alert, animated: true, completion: nil)
+                    self?.present(alert, animated: true, completion: nil)
                 }
             }
 
             if let data = data {
                 for d in data {
-                    self.internalsArray.append(d)
+                    self?.internalsArray.append(d)
                     DispatchQueue.main.async {
-                        self.indicator.stopAnimating()
-                        self.collectionView.reloadData()
+                        self?.indicator.stopAnimating()
+                        self?.collectionView.reloadData()
                     }
                 }
             }
@@ -160,23 +160,23 @@ class InternalsViewController: UICollectionViewController, UICollectionViewDeleg
             }
         }
 
-        Service.shared.fetchInternals(token: getToken(), semester: semester, isRefresh: true) { [unowned self] (data, err) in
+        Service.shared.fetchInternals(token: getToken(), semester: semester, isRefresh: true) { [weak self] (data, err) in
             if let err = err {
                 print("Error: ", err)
                 DispatchQueue.main.async {
-                    self.rControl.endRefreshing()
+                    self?.rControl.endRefreshing()
                     let alert = showAlert(with: "Error fetching marks for semester: \(getSemester())")
-                    self.present(alert, animated: true, completion: nil)
+                    self?.present(alert, animated: true, completion: nil)
                 }
             }
 
             if let data = data {
-                self.internalsArray = []
+                self?.internalsArray = []
                 for d in data {
-                    self.internalsArray.append(d)
+                    self?.internalsArray.append(d)
                     DispatchQueue.main.async {
-                        self.rControl.endRefreshing()
-                        self.collectionView.reloadData()
+                        self?.rControl.endRefreshing()
+                        self?.collectionView.reloadData()
                     }
                 }
             }
@@ -190,19 +190,19 @@ class InternalsViewController: UICollectionViewController, UICollectionViewDeleg
             semTF.placeholder = "Enter new semester"
             semTF.keyboardType = .numberPad
         }
-        let okAction = UIAlertAction(title: "OK", style: .default) { [unowned self] (_) in
+        let okAction = UIAlertAction(title: "OK", style: .default) { [weak self] (_) in
             guard let tf = alert.textFields?.first else { return }
             let iText = Int(tf.text!) ?? -1
             if iText > 8 || iText <= 0 {
                 DispatchQueue.main.async {
                     let alert = showAlert(with: "Invalid semester entered.")
-                    self.present(alert, animated: true, completion: nil)
+                    self?.present(alert, animated: true, completion: nil)
                 }
             } else {
                 setSemester(as: iText)
                 DispatchQueue.main.async {
                     let alert = showAlert(with: "Semester updated as: \(iText). Refresh to fetch new details.")
-                    self.present(alert, animated: true, completion: nil)
+                    self?.present(alert, animated: true, completion: nil)
                 }
             }
         }

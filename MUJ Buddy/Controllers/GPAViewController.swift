@@ -118,26 +118,26 @@ class GPAViewController: UIViewController, UICollectionViewDelegate, UICollectio
         setupViews()
 
         // Test the functionality
-        Service.shared.fetchGPA(token: getToken()) { [unowned self] (gpa, error) in
+        Service.shared.fetchGPA(token: getToken()) { [weak self] (gpa, error) in
             if let error = error {
                 // Alert and return
                 print("GPA Error: ", error)
                 DispatchQueue.main.async {
-                    self.indicator.stopAnimating()
+                    self?.indicator.stopAnimating()
                     let alert = showAlert(with: "Unable to fetch GPA details.")
-                    self.present(alert, animated: true, completion: nil)
+                    self?.present(alert, animated: true, completion: nil)
                 }
                 return
             }
 
             if let gpa = gpa {
-                self.GPADetails = gpa
+                self?.GPADetails = gpa
 
                 // Now we assume that the dict is appended and ready with values
                 // Reload the collection view
                 DispatchQueue.main.async {
-                    self.indicator.stopAnimating()
-                    self.collectionView.reloadData()
+                    self?.indicator.stopAnimating()
+                    self?.collectionView.reloadData()
                 }
                 return
             }
@@ -184,26 +184,26 @@ class GPAViewController: UIViewController, UICollectionViewDelegate, UICollectio
 
     // MARK: - Function to handle refresh
     @objc fileprivate func handleGPARefresh() {
-        Service.shared.fetchGPA(token: getToken(), isRefresh: true) { [unowned self] (gpa, error) in
+        Service.shared.fetchGPA(token: getToken(), isRefresh: true) { [weak self] (gpa, error) in
             if let error = error {
                 // Alert and return
                 print("GPA Error: ", error)
                 DispatchQueue.main.async {
-                    self.rControl.endRefreshing()
+                    self?.rControl.endRefreshing()
                     let alert = showAlert(with: "Unable to fetch GPA details.")
-                    self.present(alert, animated: true, completion: nil)
+                    self?.present(alert, animated: true, completion: nil)
                 }
                 return
             }
 
             if let gpa = gpa {
-                self.GPADetails = gpa
+                self?.GPADetails = gpa
 
                 // Now we assume that the dict is appended and ready with values
                 // Reload the collection view
                 DispatchQueue.main.async {
-                    self.rControl.endRefreshing()
-                    self.collectionView.reloadData()
+                    self?.rControl.endRefreshing()
+                    self?.collectionView.reloadData()
                 }
                 return
             }

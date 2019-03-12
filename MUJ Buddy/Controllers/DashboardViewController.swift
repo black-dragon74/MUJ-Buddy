@@ -122,7 +122,7 @@ class DashboardViewController: UIViewController, UICollectionViewDelegate, UICol
         header.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(didTapHeader)))
         
         // Get the details from remote
-        Service.shared.fetchDashDetails(token: getToken()) {[unowned self] (dash, err) in
+        Service.shared.fetchDashDetails(token: getToken()) {[weak self] (dash, err) in
             if let err = err {
                 print(err)
                 return
@@ -130,7 +130,7 @@ class DashboardViewController: UIViewController, UICollectionViewDelegate, UICol
             
             if let dash = dash {
                 DispatchQueue.main.async {
-                    self.dashToSend = dash
+                    self?.dashToSend = dash
                     header.dashDetails = dash
                 }
             }
@@ -221,19 +221,19 @@ class DashboardViewController: UIViewController, UICollectionViewDelegate, UICol
             semTF.placeholder = "Enter new semester"
             semTF.keyboardType = .numberPad
         }
-        let okAction = UIAlertAction(title: "OK", style: .default) { [unowned self] (_) in
+        let okAction = UIAlertAction(title: "OK", style: .default) { [weak self] (_) in
             guard let tf = alert.textFields?.first else { return }
             let iText = Int(tf.text!) ?? -1
             if iText > 8 || iText <= 0 {
                 DispatchQueue.main.async {
                     let alert = showAlert(with: "Invalid semester entered.")
-                    self.present(alert, animated: true, completion: nil)
+                    self?.present(alert, animated: true, completion: nil)
                 }
             } else {
                 setSemester(as: iText)
                 DispatchQueue.main.async {
                     let alert = showAlert(with: "Semester updated as: \(iText). Refresh to fetch new details.")
-                    self.present(alert, animated: true, completion: nil)
+                    self?.present(alert, animated: true, completion: nil)
                 }
             }
         }
@@ -249,8 +249,8 @@ class DashboardViewController: UIViewController, UICollectionViewDelegate, UICol
         case "Logout":
             // Ask the user if he/she really wants to logout
             let confirmAlert = UIAlertController(title: "Are you sure?", message: "Logging out will clear all user data.", preferredStyle: .actionSheet)
-            let okAction = UIAlertAction(title: "Yes", style: .destructive) {[unowned self] (_) in
-                self.handleLogout()
+            let okAction = UIAlertAction(title: "Yes", style: .destructive) {[weak self] (_) in
+                self?.handleLogout()
             }
             let cancelAction = UIAlertAction(title: "No", style: .cancel, handler: nil)
             confirmAlert.addAction(okAction)
