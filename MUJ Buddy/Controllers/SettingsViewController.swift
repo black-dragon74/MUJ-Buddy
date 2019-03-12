@@ -14,10 +14,12 @@ class SettingsViewController: UITableViewController {
     @IBOutlet weak var refreshIntervalLabel: UILabel!
     @IBOutlet weak var lowAttendanceSwitch: UISwitch!
     @IBOutlet weak var biometrySwitch: UISwitch!
+    @IBOutlet weak var apiStatusView: UIView!
+    @IBOutlet weak var dmsStatusView: UIView!
     
     // Array of the whitelisted cells that should show the selection indicator
     let whitelistedCells: [IndexPath] = [
-        IndexPath(row: 0, section: 2)
+        IndexPath(row: 0, section: 3)
     ]
     
     override func viewWillAppear(_ animated: Bool) {
@@ -64,6 +66,15 @@ class SettingsViewController: UITableViewController {
         // Add targets to the switches
         lowAttendanceSwitch.addTarget(self, action: #selector(handleAttendance), for: .valueChanged)
         biometrySwitch.addTarget(self, action: #selector(handleBiometry), for: .valueChanged)
+        
+        // Configure the view
+        apiStatusView.layer.cornerRadius = apiStatusView.frame.width / 2
+        apiStatusView.layer.masksToBounds = true
+        
+        dmsStatusView.layer.cornerRadius = dmsStatusView.frame.width / 2
+        dmsStatusView.layer.masksToBounds = true
+        
+        setupStatusIndicators()
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -124,9 +135,6 @@ class SettingsViewController: UITableViewController {
                 })
                 
                 break
-            case 2:
-                let cell = tableView.cellForRow(at: indexPath)
-                cell?.selectionStyle = .none
             default:
                 break
             }
@@ -150,10 +158,10 @@ class SettingsViewController: UITableViewController {
         }
         
         if section == 2 {
-            return "The app and it's developer"
+            return "Red: Service is unavailable.\nGreen: Service is working normally.\nYellow: Checking status of the service."
         }
         
-        return nil
+        return tableView.footerView(forSection: section)?.textLabel?.text
     }
     
     //MARK:- Switch targets
@@ -166,5 +174,46 @@ class SettingsViewController: UITableViewController {
     @objc fileprivate func handleBiometry() {
         let state = biometrySwitch.isOn
         setBiometricsState(to: state)
+    }
+    
+    //MARK:- Switch status indicator updater
+    fileprivate func setupStatusIndicators() {
+        
+        // Send a URL request to the API and see if the service is working normally.
+        getStatusFor(url: API_URL) {[weak self] (respCode) in
+            DispatchQueue.main.async {
+                if respCode == 200 {
+                    self?.apiStatusView.animateBGColorTo(color: .green)
+                }
+                else {
+                    self?.apiStatusView.animateBGColorTo(color: .red)
+                }
+            }
+        }
+        
+        // Send a URL request to the DMS and see if the service is working normally.
+        getStatusFor(url: DMS_URL) {[weak self] (respCode) in
+            DispatchQueue.main.async {
+                if respCode == 200 {
+                    self?.dmsStatusView.animateBGColorTo(color: .green)
+                }
+                else {
+                    self?.dmsStatusView.animateBGColorTo(color: .red)
+                }
+            }
+        }
+    }
+    
+    fileprivate func getStatusFor(url: String, completion: @escaping (Int) -> Void) {
+        // Send a URL request and then call the completion handler closure
+        URLSession.shared.dataTask(with: URL(string: url)!) { (_, response, _) in
+            if let resp = response as? HTTPURLResponse {
+                completion(resp.statusCode)
+                return
+            }
+            else {
+                completion(-1)
+            }
+        }.resume()
     }
 }

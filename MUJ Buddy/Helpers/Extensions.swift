@@ -124,6 +124,13 @@ extension UIView {
         layer.shouldRasterize = true
         layer.rasterizationScale = scale ? UIScreen.main.scale : 1
     }
+    
+    // Function that animates the view's background color to the given value
+    func animateBGColorTo(color: UIColor) {
+        UIView.animate(withDuration: 2, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
+            self.backgroundColor = color
+        }, completion: nil)
+    }
 }
 
 // MARK: - Date Extensions

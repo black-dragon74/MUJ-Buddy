@@ -15,6 +15,11 @@ let API_URL = "https://dragon.strangebits.co.in/"
 //  let API_URL = "https://debug.dragon.strangebits.co.in/"   // Used for debugging only
 
 //
+//  DMS website URL for status check
+//
+let DMS_URL = "https://dms.jaipur.manipal.edu"
+
+//
 //  UserDefault Keys
 //
 let FACULTY_CONTACT_KEY = "faculty_contacts"
