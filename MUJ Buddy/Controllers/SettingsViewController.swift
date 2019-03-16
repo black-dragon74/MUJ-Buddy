@@ -16,6 +16,8 @@ class SettingsViewController: UITableViewController {
     @IBOutlet weak var biometrySwitch: UISwitch!
     @IBOutlet weak var apiStatusView: UIView!
     @IBOutlet weak var dmsStatusView: UIView!
+    @IBOutlet weak var notificationThreshold: UILabel!
+    
     
     // Array of the whitelisted cells that should show the selection indicator
     let whitelistedCells: [IndexPath] = [
@@ -46,6 +48,9 @@ class SettingsViewController: UITableViewController {
         
         // Set the current refresh interval from the DB
         refreshIntervalLabel.text = "\(getRefreshInterval()) Hours"
+        
+        // Set the current notification threshold from the DB
+        notificationThreshold.text = "\(getNotificationThresholdFromDB()) Hours"
         
         // If can't use biometrics, disable the switch with an off state
         if !canUseBiometrics() {
@@ -98,7 +103,8 @@ class SettingsViewController: UITableViewController {
                 }
                 let okAction = UIAlertAction(title: "OK", style: .default) { (_) in
                     if let tf = alertController.textFields?.first {
-                        guard let val = tf.text, Int(val)! <= 8 && Int(val)! > 0 else { return }
+                        guard tf.text != "", Int(tf.text!)! <= 8 && Int(tf.text!)! > 0 else { return }
+                        let val = tf.text!
                         setSemester(as: Int(val)!)
                         self.currentSemLabel.text = val
                     }
@@ -121,7 +127,8 @@ class SettingsViewController: UITableViewController {
                 }
                 let okAction = UIAlertAction(title: "OK", style: .default) { (action) in
                     if let tf = alertController.textFields?.first {
-                        guard let val = tf.text, Int(val)! <= 24 && Int(val)! > 0 else { return }
+                        guard tf.text != "", Int(tf.text!)! <= 24 && Int(tf.text!)! > 0 else { return }
+                        let val = tf.text!
                         setRefreshInterval(as: Int(val)!)
                         self.refreshIntervalLabel.text = "\(val) Hours"
                     }
@@ -133,6 +140,33 @@ class SettingsViewController: UITableViewController {
                     let cell = tableView.cellForRow(at: indexPath)
                     cell?.isSelected = false
                 })
+                
+                break
+            case 3:
+                let tAlert = UIAlertController(title: "Set Notification Threshold", message: "Please enter the new value", preferredStyle: .alert)
+                let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+                tAlert.addAction(cancelAction)
+                tAlert.addTextField { (valTF) in
+                    valTF.placeholder = "Enter the value in hours"
+                    valTF.keyboardType = .numberPad
+                }
+                let okAction = UIAlertAction(title: "OK", style: .default) { (_) in
+                    if let tf = tAlert.textFields?.first {
+                        
+                        guard tf.text != "", Int(tf.text!)! > 0  else { return }
+                        
+                        // Should not be more than a week
+                        var newVal = Int(tf.text!)!
+                        if (newVal > 24 * 7) {
+                            newVal = 24 * 7
+                        }
+                        
+                        setNotificationThreshold(to: newVal)
+                        self.notificationThreshold.text = "\(newVal) Hours"
+                    }
+                }
+                tAlert.addAction(okAction)
+                present(tAlert, animated: true, completion: nil)
                 
                 break
             default:
@@ -148,6 +182,11 @@ class SettingsViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {
+        
+        if (section == 0) {
+            return "Notification threshold determines the minimum interval at which the low attendance notification should reappear."
+        }
+        
         if (section == 1) {
             if !canUseBiometrics() {
                 return "Biometrics is unavailable on this device"

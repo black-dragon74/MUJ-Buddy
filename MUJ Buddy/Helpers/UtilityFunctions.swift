@@ -115,11 +115,21 @@ func userHasAllowedNotification(value: Bool) {
     UserDefaults.standard.synchronize()
 }
 
+func getNotificationThresholdFromDB() -> Int {
+    return UserDefaults.standard.object(forKey: NOTIFICATION_THRESHOLD) as? Int ?? 24
+}
+
+func setNotificationThreshold(to value: Int) {
+    UserDefaults.standard.removeObject(forKey: NOTIFICATION_THRESHOLD)
+    UserDefaults.standard.set(value, forKey: NOTIFICATION_THRESHOLD)
+    UserDefaults.standard.synchronize()
+}
+
 func shouldShowAttendanceNotification() -> Bool {
     // As of now, if the last notification for attendance was shown within the past 24 hours
     // We will not show the notification for the same. Else, we will then issue the notification
     guard let lastNotificationDate = getLastAttendanceNotificationDate() else { return true }  // Return true if the last date is not set
-    return lastNotificationDate.hoursTillNow() >= 24 && userHasAllowedNotification()
+    return lastNotificationDate.hoursTillNow() >= getNotificationThresholdFromDB() && userHasAllowedNotification()
 }
 
 func getLastAttendanceNotificationDate() -> Date? {
