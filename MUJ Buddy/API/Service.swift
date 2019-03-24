@@ -15,6 +15,11 @@
 import UIKit
 
 class Service {
+    
+    // Make the initializer private so that only the class itself can instantiate itself
+    private init() {
+        // Nothing, we don't do anything specific when initializing this singleton
+    }
 
     // Shared static instance of the class
     static var shared = Service()
