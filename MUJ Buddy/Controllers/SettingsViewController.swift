@@ -80,6 +80,10 @@ class SettingsViewController: UITableViewController {
         dmsStatusView.layer.masksToBounds = true
         
         setupStatusIndicators()
+        
+        // Hide that pesky warning related to ambiguous height
+        // Could have also been done by using heightForRowAtIndexPath but hey! it works :P
+        self.tableView.rowHeight = 44
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
