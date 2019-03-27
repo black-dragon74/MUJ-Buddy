@@ -10,9 +10,6 @@ import UIKit
 
 class ContactsViewController: UITableViewController, UISearchControllerDelegate, UISearchResultsUpdating, UIViewControllerPreviewingDelegate {
 
-    // Cell indentifier
-    let cellID = "cellID"
-
     // Faculty details that will be fetched
     var facultyDetails = [FacultyContactModel]()
     var filteredFacultyDetails = [FacultyContactModel]()
@@ -56,14 +53,13 @@ class ContactsViewController: UITableViewController, UISearchControllerDelegate,
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Register the cell
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: cellID)
-
         // Setup the views
         setupViews()
         
         // Register for 3D touch
         registerForPreviewing(with: self, sourceView: tableView)
+        
+        self.tableView.rowHeight = 50
     }
 
     func setupViews() {
@@ -152,9 +148,9 @@ class ContactsViewController: UITableViewController, UISearchControllerDelegate,
 
     // MARK: - Table view data source
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath)
-        cell.textLabel?.font = UIFont.systemFont(ofSize: 17, weight: .bold)
+        let cell = UITableViewCell(style: .subtitle, reuseIdentifier: "cellID")
         cell.textLabel?.text = isSearching() && !isSearchTextEmpty() ? filteredFacultyDetails[indexPath.row].name : facultyDetails[indexPath.row].name
+        cell.detailTextLabel?.text = isSearching() && !isSearchTextEmpty() ? filteredFacultyDetails[indexPath.row].department : facultyDetails[indexPath.row].department
         cell.accessoryType = .disclosureIndicator
         return cell
     }
