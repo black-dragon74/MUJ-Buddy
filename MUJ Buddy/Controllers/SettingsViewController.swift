@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import LocalAuthentication
 
 class SettingsViewController: UITableViewController {
     
@@ -215,8 +216,30 @@ class SettingsViewController: UITableViewController {
     }
     
     @objc fileprivate func handleBiometry() {
-        let state = biometrySwitch.isOn
-        setBiometricsState(to: state)
+        // If user is turning on the biometry for the first time ask for the re-auth
+        let authContext = LAContext()
+        if canUseBiometrics() {
+            // Let's try the auth
+            authContext.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: "Please verify biometrics") {[weak self] (success, error) in
+                if !success {
+                    DispatchQueue.main.async {
+                        self?.biometrySwitch.isOn = false
+                    }
+                    return
+                }
+                else {
+                    DispatchQueue.main.async {
+                        if let state = self?.biometrySwitch.isOn {
+                            setBiometricsState(to: state)
+                        }
+                    }
+                }
+                
+                if let error = error {
+                    print("Biometry error: ", error.localizedDescription)
+                }
+            }
+        }
     }
     
     //MARK:- Switch status indicator updater
