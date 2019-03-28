@@ -145,6 +145,59 @@ class ContactsViewController: UITableViewController, UISearchControllerDelegate,
         fView.currentFaculty = selectedItem
         self.navigationController?.pushViewController(fView, animated: true)
     }
+    
+    // For leading swipe action
+    override func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let callAction = callPhone(at: indexPath)
+        return UISwipeActionsConfiguration(actions: [callAction])
+    }
+    
+    // For trailing swipe action
+    override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let mailAction = sendMail(at: indexPath)
+        return UISwipeActionsConfiguration(actions: [mailAction])
+    }
+    
+    //MARK:- Swipe function and configs
+    // I send emails
+    fileprivate func sendMail(at indexpath: IndexPath) -> UIContextualAction {
+        let mailAction = UIContextualAction(style: .normal, title: "E-Mail") { (action, view, completion) in
+            let mailAddress = self.isSearching() && !self.isSearchTextEmpty() ? self.filteredFacultyDetails[indexpath.row].email : self.facultyDetails[indexpath.row].email
+            if mailAddress.isEmpty || mailAddress == "NA" {
+                completion(true)
+                return
+            }
+            else {
+                let mailURL = URL(string: "mailto://\(mailAddress)")
+                UIApplication.shared.open(mailURL!, options: [:], completionHandler: nil)
+                completion(true)
+            }
+            completion(true)
+        }
+        mailAction.backgroundColor = DMSColors.kindOfPurple.value
+        mailAction.image = UIImage(named: "ios_mail")
+        return mailAction
+    }
+    
+    // I make calls
+    fileprivate func callPhone(at indexPath: IndexPath) -> UIContextualAction {
+        let callAction = UIContextualAction(style: .normal, title: "Call") { (action, view, completion) in
+            let phoneNumber = self.isSearching() && !self.isSearchTextEmpty() ? self.filteredFacultyDetails[indexPath.row].phone : self.facultyDetails[indexPath.row].phone
+            if phoneNumber.isEmpty || phoneNumber == "NA" {
+                completion(true)
+                return
+            }
+            else {
+                let mailURL = URL(string: "tel://+91\(phoneNumber)")
+                UIApplication.shared.open(mailURL!, options: [:], completionHandler: nil)
+                completion(true)
+            }
+            completion(true)
+        }
+        callAction.backgroundColor = DMSColors.parrotGreen.value
+        callAction.image = UIImage(named: "ios_phone")
+        return callAction
+    }
 
     // MARK: - Table view data source
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {

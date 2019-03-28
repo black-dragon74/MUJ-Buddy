@@ -10,6 +10,7 @@ import UIKit
 
 // Structure for the faculty contacts model
 struct FacultyContactModel: Codable {
+    let id: Int
     let name: String
     let designation: String
     let department: String
