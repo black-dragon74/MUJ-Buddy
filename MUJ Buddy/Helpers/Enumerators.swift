@@ -32,7 +32,6 @@ extension DMSColors {
             case .parrotGreen:
                 return UIColor(r: 89, g: 193, b: 71)
             }
-            
         }
     }
 }
