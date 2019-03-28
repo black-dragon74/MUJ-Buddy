@@ -83,24 +83,23 @@ class AttendanceViewController: UIViewController, UICollectionViewDelegate, UICo
         collectionView.anchorWithConstraints(top: view.safeAreaLayoutGuide.topAnchor, right: view.rightAnchor, bottom: view.bottomAnchor, left: view.leftAnchor, topOffset: 0, rightOffset: 0, bottomOffset: 0, leftOffset: 0, height: nil, width: nil)
 
         // Get attendance details
-        Service.shared.getAttendance(token: getToken()) { (model, err) in
+        Service.shared.getAttendance(token: getToken()) {[weak self] (model, err) in
             if err != nil {
                 DispatchQueue.main.async {
-                    self.indicator.stopAnimating()
-                    let alert = showAlert(with: "Your attendance is not available on the DMS")
-                    self.present(alert, animated: true, completion: nil)
+                    self?.indicator.stopAnimating()
+                    Toast(with: "Attendance not available").show(on: self?.view)
                 }
                 return
             }
 
             if let data = model {
                 for d in data {
-                    self.attendanceDetails.append(d)
+                    self?.attendanceDetails.append(d)
                 }
 
                 DispatchQueue.main.async {
-                    self.collectionView.reloadData()
-                    self.indicator.stopAnimating()
+                    self?.collectionView.reloadData()
+                    self?.indicator.stopAnimating()
                 }
             }
         }
@@ -129,25 +128,24 @@ class AttendanceViewController: UIViewController, UICollectionViewDelegate, UICo
 
     @objc func handleAttendanceRefresh() {
         // Get attendance details
-        Service.shared.getAttendance(token: getToken(), isRefresh: true) { (model, err) in
+        Service.shared.getAttendance(token: getToken(), isRefresh: true) {[weak self] (model, err) in
             if err != nil {
                 DispatchQueue.main.async {
-                    self.rControl.endRefreshing()
-                    let alert = showAlert(with: "Your attendance is not available on the DMS")
-                    self.present(alert, animated: true, completion: nil)
+                    self?.rControl.endRefreshing()
+                    Toast(with: "Attendance not available").show(on: self?.view)
                 }
                 return
             }
 
             if let data = model {
-                self.attendanceDetails = [] // Coz we will append to it now
+                self?.attendanceDetails = [] // Coz we will append to it now
                 for d in data {
-                    self.attendanceDetails.append(d)
+                    self?.attendanceDetails.append(d)
                 }
 
                 DispatchQueue.main.async {
-                    self.rControl.endRefreshing()
-                    self.collectionView.reloadData()
+                    self?.rControl.endRefreshing()
+                    self?.collectionView.reloadData()
                 }
             }
         }

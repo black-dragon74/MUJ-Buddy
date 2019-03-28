@@ -96,12 +96,11 @@ class EventsViewController: UICollectionViewController, UICollectionViewDelegate
         indicator.startAnimating()
 
         // MARK: - Fetch the data
-        Service.shared.fetchEvents(token: getToken()) { (data, error) in
+        Service.shared.fetchEvents(token: getToken()) {[weak self] (data, error) in
             if error != nil {
                 DispatchQueue.main.async {
-                    self.indicator.stopAnimating()
-                    let alert = showAlert(with: "Unable to fetch events.")
-                    self.present(alert, animated: true, completion: nil)
+                    self?.indicator.stopAnimating()
+                    Toast(with: "Unable to fetch events.").show(on: self?.view)
                 }
                 return
             }
@@ -109,11 +108,11 @@ class EventsViewController: UICollectionViewController, UICollectionViewDelegate
             if let data = data {
                 DispatchQueue.main.async {
                     for d in data {
-                        self.eventsArray.append(d)
+                        self?.eventsArray.append(d)
                     }
-                    self.eventsArray.reverse() // Reverse to show events in ascending order
-                    self.indicator.stopAnimating()
-                    self.collectionView.reloadData()
+                    self?.eventsArray.reverse() // Reverse to show events in ascending order
+                    self?.indicator.stopAnimating()
+                    self?.collectionView.reloadData()
                 }
             }
         }
@@ -169,29 +168,28 @@ class EventsViewController: UICollectionViewController, UICollectionViewDelegate
     }
 
     @objc fileprivate func handleEventsRefresh() {
-        Service.shared.fetchEvents(token: getToken(), isRefresh: true) { (data, error) in
+        Service.shared.fetchEvents(token: getToken(), isRefresh: true) {[weak self] (data, error) in
             if error != nil {
                 DispatchQueue.main.async {
-                    self.rControl.endRefreshing()
-                    let alert = showAlert(with: "Unable to fetch events.")
-                    self.present(alert, animated: true, completion: nil)
+                    self?.rControl.endRefreshing()
+                    Toast(with: "Unable to fetch events.").show(on: self?.view)
                 }
                 return
             }
 
             if let data = data {
 
-                self.eventsArray = []
+                self?.eventsArray = []
 
                 for d in data {
-                    self.eventsArray.append(d)
+                    self?.eventsArray.append(d)
                 }
 
-                self.eventsArray.reverse() // Reverse to show events in ascending order
+                self?.eventsArray.reverse() // Reverse to show events in ascending order
 
                 DispatchQueue.main.async {
-                    self.rControl.endRefreshing()
-                    self.collectionView.reloadData()
+                    self?.rControl.endRefreshing()
+                    self?.collectionView.reloadData()
                 }
                 return
             }

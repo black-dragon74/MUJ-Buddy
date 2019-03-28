@@ -17,14 +17,6 @@ private let sharedUserDefaults = UserDefaults(suiteName: "group.mujbuddy.shared"
 //  General purpose functions
 //
 
-// Used to show alerts in this app
-func showAlert(with message: String) -> UIAlertController {
-    let alertController = UIAlertController(title: "Message", message: message, preferredStyle: .alert)
-    let actionDismiss = UIAlertAction(title: "OK", style: .cancel, handler: nil)
-    alertController.addAction(actionDismiss)
-    return alertController
-}
-
 // Returns a dictionary with key and value
 func valueAsDict(withKey key: String, value: String) -> [String: String] {
     return [key: value]

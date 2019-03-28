@@ -124,8 +124,7 @@ class GPAViewController: UIViewController, UICollectionViewDelegate, UICollectio
                 print("GPA Error: ", error)
                 DispatchQueue.main.async {
                     self?.indicator.stopAnimating()
-                    let alert = showAlert(with: "Unable to fetch GPA details.")
-                    self?.present(alert, animated: true, completion: nil)
+                    Toast.init(with: "Unable to fetch GPA details.").show(on: self?.view)
                 }
                 return
             }
@@ -190,8 +189,7 @@ class GPAViewController: UIViewController, UICollectionViewDelegate, UICollectio
                 print("GPA Error: ", error)
                 DispatchQueue.main.async {
                     self?.rControl.endRefreshing()
-                    let alert = showAlert(with: "Unable to fetch GPA details.")
-                    self?.present(alert, animated: true, completion: nil)
+                    Toast.init(with: "Unable to fetch GPA details.").show(on: self?.view)
                 }
                 return
             }

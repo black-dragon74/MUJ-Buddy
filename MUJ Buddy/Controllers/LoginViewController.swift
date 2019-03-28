@@ -263,8 +263,7 @@ class LoginViewController: UIViewController, UICollectionViewDelegate, UICollect
             URLSession.shared.dataTask(with: url) {[weak self] (data, _, error) in
                 if let error = error {
                     DispatchQueue.main.async {
-                        let alert = showAlert(with: error as? String ?? "Error while communicating to the server")
-                        self?.present(alert, animated: true, completion: nil)
+                        Toast(with: error as? String ?? "Error while communicating to the server", color: DMSColors.orangeish.value).show(on: self?.view)
                         cell.progressBar.stopAnimating()
                         cell.loginButton.isUserInteractionEnabled = true
                     }
@@ -278,8 +277,7 @@ class LoginViewController: UIViewController, UICollectionViewDelegate, UICollect
                         let token = json["token"]
                         if let error = error {
                             DispatchQueue.main.async {
-                                let alert = showAlert(with: error)
-                                self?.present(alert, animated: true, completion: nil)
+                                Toast(with: error, color: DMSColors.orangeish.value).show(on: self?.view)
                                 cell.progressBar.stopAnimating()
                                 cell.loginButton.isUserInteractionEnabled = true
                             }
@@ -306,8 +304,7 @@ class LoginViewController: UIViewController, UICollectionViewDelegate, UICollect
                     } catch let err {
                         print("Error: ", err)
                         DispatchQueue.main.async {
-                            let alert = showAlert(with: "Server sent an invalid response")
-                            self?.present(alert, animated: true, completion: nil)
+                            Toast(with: "Server sent an invalid response", color: DMSColors.orangeish.value).show(on: self?.view)
                             cell.progressBar.stopAnimating()
                             cell.loginButton.isUserInteractionEnabled = true
                         }

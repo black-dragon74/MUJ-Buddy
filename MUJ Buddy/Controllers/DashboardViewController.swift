@@ -182,8 +182,7 @@ class DashboardViewController: UIViewController, UICollectionViewDelegate, UICol
             self.navigationController?.pushViewController(EventsViewController(collectionViewLayout: UICollectionViewFlowLayout()), animated: true)
             break
         case "Announcements":
-            let alert = showAlert(with: "Annnouncements are not available on the DMS as of now.")
-            present(alert, animated: true, completion: nil)
+            Toast(with: "Announcements not available").show(on: self.view)
             break
         case "Fee Details":
             self.navigationController?.pushViewController(FeesViewController(), animated: true)
@@ -226,14 +225,12 @@ class DashboardViewController: UIViewController, UICollectionViewDelegate, UICol
             let iText = Int(tf.text!) ?? -1
             if iText > 8 || iText <= 0 {
                 DispatchQueue.main.async {
-                    let alert = showAlert(with: "Invalid semester entered.")
-                    self?.present(alert, animated: true, completion: nil)
+                    Toast(with: "Invalid semester entered.").show(on: self?.view)
                 }
             } else {
                 setSemester(as: iText)
                 DispatchQueue.main.async {
-                    let alert = showAlert(with: "Semester updated as: \(iText). Refresh to fetch new details.")
-                    self?.present(alert, animated: true, completion: nil)
+                    Toast(with: "Semester updated", color: DMSColors.parrotGreen.value).show(on: self?.view)
                 }
             }
         }

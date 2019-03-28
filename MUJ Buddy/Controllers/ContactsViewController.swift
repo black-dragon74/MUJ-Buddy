@@ -80,23 +80,22 @@ class ContactsViewController: UITableViewController, UISearchControllerDelegate,
         searchController.delegate = self
 
         // Get faculty details
-        Service.shared.getFacultyDetails(token: getToken()) { (faculties, err) in
+        Service.shared.getFacultyDetails(token: getToken()) {[weak self] (faculties, err) in
             if err != nil {
                 DispatchQueue.main.async {
-                    self.indicator.stopAnimating()
-                    let alert = showAlert(with: "Unable to get faculty details.")
-                    self.present(alert, animated: true, completion: nil)
+                    self?.indicator.stopAnimating()
+                    Toast(with: "Unable to get faculty details.").show(on: self?.view)
                 }
                 return
             }
 
             if let facultie = faculties {
                 for f in facultie {
-                    self.facultyDetails.append(f)
+                    self?.facultyDetails.append(f)
                 }
                 DispatchQueue.main.async {
-                    self.indicator.stopAnimating()
-                    self.tableView.reloadData()
+                    self?.indicator.stopAnimating()
+                    self?.tableView.reloadData()
                 }
             }
         }
@@ -111,24 +110,23 @@ class ContactsViewController: UITableViewController, UISearchControllerDelegate,
     // MARK: - Refresh Control OBJC method
     @objc fileprivate func handleRefresh() {
         // Refresh
-        Service.shared.getFacultyDetails(token: getToken(), isRefresh: true) { (faculties, err) in
+        Service.shared.getFacultyDetails(token: getToken(), isRefresh: true) {[weak self] (faculties, err) in
             if err != nil {
                 DispatchQueue.main.async {
-                    self.rControl.endRefreshing()
-                    let alert = showAlert(with: "Unable to get faculty details.")
-                    self.present(alert, animated: true, completion: nil)
+                    self?.rControl.endRefreshing()
+                    Toast(with: "Unable to get faculty details.").show(on: self?.view)
                 }
                 return
             }
 
             if let facultie = faculties {
-                self.facultyDetails = []
+                self?.facultyDetails = []
                 for f in facultie {
-                    self.facultyDetails.append(f)
+                    self?.facultyDetails.append(f)
                 }
                 DispatchQueue.main.async {
-                    self.rControl.endRefreshing()
-                    self.tableView.reloadData()
+                    self?.rControl.endRefreshing()
+                    self?.tableView.reloadData()
                 }
             }
         }
@@ -164,6 +162,7 @@ class ContactsViewController: UITableViewController, UISearchControllerDelegate,
         let mailAction = UIContextualAction(style: .normal, title: "E-Mail") { (action, view, completion) in
             let mailAddress = self.isSearching() && !self.isSearchTextEmpty() ? self.filteredFacultyDetails[indexpath.row].email : self.facultyDetails[indexpath.row].email
             if mailAddress.isEmpty || mailAddress == "NA" {
+                Toast(with: "Email not available!", color: DMSColors.kindOfPurple.value).show(on: self.view)
                 completion(true)
                 return
             }
@@ -184,6 +183,7 @@ class ContactsViewController: UITableViewController, UISearchControllerDelegate,
         let callAction = UIContextualAction(style: .normal, title: "Call") { (action, view, completion) in
             let phoneNumber = self.isSearching() && !self.isSearchTextEmpty() ? self.filteredFacultyDetails[indexPath.row].phone : self.facultyDetails[indexPath.row].phone
             if phoneNumber.isEmpty || phoneNumber == "NA" {
+                Toast(with: "Phone not available!", color: DMSColors.parrotGreen.value).show(on: self.view)
                 completion(true)
                 return
             }

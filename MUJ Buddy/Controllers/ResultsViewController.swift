@@ -71,10 +71,8 @@ class ResultsViewController: UICollectionViewController, UICollectionViewDelegat
 
         if showSemesterDialog() {
             DispatchQueue.main.async {
-                let alert = showAlert(with: "Your predicted semester is: \(semester)\n Edit it by tapping the button on top")
-                self.present(alert, animated: true) {
-                    setShowSemesterDialog(as: false)
-                }
+                Toast(with: "Predicted semester as: \(semester)", color: DMSColors.parrotGreen.value).show(on: self.view)
+                setShowSemesterDialog(as: false)
             }
         }
 
@@ -83,8 +81,7 @@ class ResultsViewController: UICollectionViewController, UICollectionViewDelegat
                 print("Error: ", error)
                 DispatchQueue.main.async {
                     self?.indicator.stopAnimating()
-                    let alert = showAlert(with: "Error fetching results for semester: \(getSemester())")
-                    self?.present(alert, animated: true, completion: nil)
+                    Toast(with: "Error fetching marks").show(on: self?.view)
                 }
                 return
             }
@@ -139,22 +136,12 @@ class ResultsViewController: UICollectionViewController, UICollectionViewDelegat
     @objc fileprivate func handleResultsRefresh() {
         let semester = getSemester()  // Will contain the predicted semester
 
-        if showSemesterDialog() {
-            DispatchQueue.main.async {
-                let alert = showAlert(with: "Your predicted semester is: \(semester)\n Edit it by tapping the button on top")
-                self.present(alert, animated: true) {
-                    setShowSemesterDialog(as: false)
-                }
-            }
-        }
-
         Service.shared.fetchResults(token: getToken(), semester: semester, isRefresh: true) { [weak self] (results, error) in
             if let error = error {
                 print("Error: ", error)
                 DispatchQueue.main.async {
                     self?.rControl.endRefreshing()
-                    let alert = showAlert(with: "Error fetching results for semester: \(getSemester())")
-                    self?.present(alert, animated: true, completion: nil)
+                    Toast(with: "Error fetching results").show(on: self?.view)
                 }
                 return
             }
@@ -184,14 +171,12 @@ class ResultsViewController: UICollectionViewController, UICollectionViewDelegat
             let iText = Int(tf.text!) ?? -1
             if iText > 8 || iText <= 0 {
                 DispatchQueue.main.async {
-                    let alert = showAlert(with: "Invalid semester entered.")
-                    self?.present(alert, animated: true, completion: nil)
+                    Toast(with: "Invalid semester entered").show(on: self?.view)
                 }
             } else {
                 setSemester(as: iText)
                 DispatchQueue.main.async {
-                    let alert = showAlert(with: "Semester updated as: \(iText). Refresh to fetch new details.")
-                    self?.present(alert, animated: true, completion: nil)
+                    Toast(with: "Semester updated. Refresh now.", color: DMSColors.parrotGreen.value).show(on: self?.view)
                 }
             }
         }

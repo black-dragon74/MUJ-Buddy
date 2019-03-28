@@ -131,8 +131,7 @@ class FeesViewController: UIViewController {
                 print("Error: ", error)
                 DispatchQueue.main.async {
                     self?.indicator.stopAnimating()
-                    let alert = showAlert(with: "Error fetching fee details")
-                    self?.present(alert, animated: true, completion: nil)
+                    Toast(with: "Error fetching fee details").show(on: self?.view)
                 }
             }
 
@@ -203,8 +202,7 @@ class FeesViewController: UIViewController {
                 print("Error: ", error)
                 DispatchQueue.main.async {
                     self?.rControl.endRefreshing()
-                    let alert = showAlert(with: "Error fetching fee details")
-                    self?.present(alert, animated: true, completion: nil)
+                    Toast(with: "Error fetching fee details").show(on: self?.view)
                 }
             }
 
