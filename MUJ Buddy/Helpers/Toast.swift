@@ -70,6 +70,8 @@ class Toast {
     
     @objc fileprivate func handleAnimation(view: UIView) {
         
+        UINotificationFeedbackGenerator().notificationOccurred(.error)
+        
         UIView.animate(withDuration: 1, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
             self.topConstant[0].constant = 20
             view.layoutIfNeeded()
