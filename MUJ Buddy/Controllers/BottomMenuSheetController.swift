@@ -62,9 +62,10 @@ class BottomMenuSheetController: NSObject, UICollectionViewDataSource, UICollect
             collectionView.frame = CGRect(x: 0, y: window.frame.height, width: window.frame.width, height: height)
 
             // Animate
-            UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseOut, animations: { [weak self] in
+            UIView.animate(withDuration: 1, delay: 0, usingSpringWithDamping: 0.5, initialSpringVelocity: 0.5, options: .curveEaseOut, animations: { [weak self] in
                 self?.blackView.alpha = 0.5
                 self?.collectionView.frame = CGRect(x: 0, y: y, width: window.frame.width, height: height)
+                window.frame = CGRect(x: 0, y: 20, width: window.frame.width, height: window.frame.height)
             }, completion: nil)
         }
     }
@@ -75,6 +76,7 @@ class BottomMenuSheetController: NSObject, UICollectionViewDataSource, UICollect
         UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseOut, animations: { [weak self] in
             self?.blackView.alpha = 0
             self?.collectionView.frame = CGRect(x: 0, y: window.frame.height, width: window.frame.width, height: height)
+            window.frame = CGRect(x: 0, y: 0, width: window.frame.width, height: window.frame.height)
             }, completion: nil)
     }
 
@@ -99,6 +101,7 @@ class BottomMenuSheetController: NSObject, UICollectionViewDataSource, UICollect
         UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseOut, animations: { [weak self] in
             self?.blackView.alpha = 0
             self?.collectionView.frame = CGRect(x: 0, y: window.frame.height, width: window.frame.width, height: height)
+            window.frame = CGRect(x: 0, y: 0, width: window.frame.width, height: window.frame.height)
         }, completion: {[weak self] (Bool) in
             let cell = collectionView.cellForItem(at: indexPath) as! BottomMenuSheetCell
             let str = cell.title.text ?? "nil"

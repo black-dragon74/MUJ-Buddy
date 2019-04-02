@@ -24,6 +24,8 @@ let DMS_URL = "https://dms.jaipur.manipal.edu"
 //
 let FACULTY_CONTACT_KEY = "faculty_contacts"
 let TOKEN_KEY = "access_token"
+let USER_ID = "reg_no"
+let USER_TYPE = "c_type"
 let LOGGED_IN_KEY = "is_logged_in"
 let ATTENDANCE_KEY = "user_attendance"
 let DASHBOARD_KEY = "user_dashboard"

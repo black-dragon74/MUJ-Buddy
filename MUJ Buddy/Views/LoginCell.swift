@@ -12,6 +12,12 @@ class LoginCell: UICollectionViewCell {
 
     // Delegate
     weak var delegate: LoginDelegate?
+    
+    // The login button's title based on client type
+    private var loginTitle: String = "Student Login"
+    
+    // The client to login for
+    private var loginFor: String = "student"
 
     // Image view to contain the logo
     let logoView: UIImageView = {
@@ -19,6 +25,14 @@ class LoginCell: UICollectionViewCell {
         l.image = UIImage(named: "mu_logo")
         l.contentMode = .scaleAspectFit
         return l
+    }()
+    
+    // UI segmented control to select student or parent login
+    let loginSelector: UISegmentedControl = {
+        let lSelector = UISegmentedControl(items: ["Student", "Parent"])
+        lSelector.selectedSegmentIndex = 0
+        lSelector.tintColor = DMSColors.orangeish.value
+        return lSelector
     }()
 
     let userTextField: LeftPaddedTextField = {
@@ -32,9 +46,10 @@ class LoginCell: UICollectionViewCell {
 
     let passwordField: LeftPaddedTextField = {
         let p = LeftPaddedTextField()
-        p.placeholder = "Enter your password"
+        p.placeholder = "Enter your OTP"
         p.layer.borderColor = UIColor.lightGray.cgColor
         p.layer.borderWidth = 0.5
+        p.keyboardType = .numberPad
         p.isSecureTextEntry = true
         return p
     }()
@@ -71,12 +86,16 @@ class LoginCell: UICollectionViewCell {
 
         // Setup the views
         setupViews()
+        
+        // Call the selector manually for propagation of the values
+        handleSegmentWith(index: 0)
     }
 
     func setupViews() {
         // Add child views to the subviews
         addSubview(progressBar)
         addSubview(logoView)
+        addSubview(loginSelector)
         addSubview(userTextField)
         addSubview(passwordField)
         addSubview(loginButton)
@@ -86,19 +105,24 @@ class LoginCell: UICollectionViewCell {
         progressBar.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
         progressBar.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
 
-        _ = logoView.anchorWithConstantsToTop(top: centerYAnchor, right: nil, bottom: nil, left: nil, topConstant: -200, rightConstant: 0, bottomConstant: 0, leftConstant: 0, heightConstant: 150, widthConstant: 150)
+        _ = logoView.anchorWithConstantsToTop(top: centerYAnchor, right: nil, bottom: nil, left: nil, topConstant: -220, rightConstant: 0, bottomConstant: 0, leftConstant: 0, heightConstant: 150, widthConstant: 150)
         logoView.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
+        
+        loginSelector.anchorWithConstraints(top: logoView.bottomAnchor, right: rightAnchor, left: leftAnchor, topOffset: 20, rightOffset: 32, leftOffset: 32, height: 30)
 
-        _ = userTextField.anchorWithConstantsToTop(top: logoView.bottomAnchor, right: rightAnchor, bottom: nil, left: leftAnchor, topConstant: 16, rightConstant: 32, bottomConstant: 0, leftConstant: 32, heightConstant: 50, widthConstant: nil)
+        _ = userTextField.anchorWithConstantsToTop(top: loginSelector.bottomAnchor, right: rightAnchor, bottom: nil, left: leftAnchor, topConstant: 16, rightConstant: 32, bottomConstant: 0, leftConstant: 32, heightConstant: 50, widthConstant: nil)
 
         _ = passwordField.anchorWithConstantsToTop(top: userTextField.bottomAnchor, right: rightAnchor, bottom: nil, left: leftAnchor, topConstant: 6, rightConstant: 32, bottomConstant: 0, leftConstant: 32, heightConstant: 50, widthConstant: nil)
 
         _ = loginButton.anchorWithConstantsToTop(top: passwordField.bottomAnchor, right: rightAnchor, bottom: nil, left: leftAnchor, topConstant: 12, rightConstant: 32, bottomConstant: 0, leftConstant: 32, heightConstant: 50, widthConstant: nil)
 
         loginButton.addTarget(self, action: #selector(handleLogin), for: .touchUpInside)
+        loginSelector.addTarget(self, action: #selector(handleLoginSelector), for: .valueChanged)
         
         cpyLabel.anchorWithConstraints(bottom: safeAreaLayoutGuide.bottomAnchor, bottomOffset: 5)
         cpyLabel.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
+        
+        progressBar.layer.zPosition = 999
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -109,7 +133,24 @@ class LoginCell: UICollectionViewCell {
     @objc fileprivate func handleLogin() {
         endEditing(true)
         if let delegate = delegate {
-            delegate.handleLogin()
+            delegate.handleLogin(for: loginFor)
+        }
+    }
+    
+    // Handle switch
+    @objc fileprivate func handleLoginSelector(_ sender: UISegmentedControl) {
+        handleSegmentWith(index: sender.selectedSegmentIndex)
+    }
+    
+    // Function to update the title and the client based on segment's value
+    fileprivate func handleSegmentWith(index: Int) {
+        if index == 0 {
+            loginButton.setTitle("Student Login", for: .normal)
+            loginFor = "student"
+        }
+        else {
+            loginButton.setTitle("Parent Login", for: .normal)
+            loginFor = "parent"
         }
     }
 }

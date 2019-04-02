@@ -9,5 +9,5 @@
 import UIKit
 
 protocol LoginDelegate: AnyObject {
-    func handleLogin()
+    func handleLogin(for client: String)
 }

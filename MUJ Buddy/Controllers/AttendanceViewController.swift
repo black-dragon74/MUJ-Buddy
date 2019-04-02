@@ -83,7 +83,7 @@ class AttendanceViewController: UIViewController, UICollectionViewDelegate, UICo
         collectionView.anchorWithConstraints(top: view.safeAreaLayoutGuide.topAnchor, right: view.rightAnchor, bottom: view.bottomAnchor, left: view.leftAnchor, topOffset: 0, rightOffset: 0, bottomOffset: 0, leftOffset: 0, height: nil, width: nil)
 
         // Get attendance details
-        Service.shared.getAttendance(token: getToken()) {[weak self] (model, err) in
+        Service.shared.getAttendance(usertuple: getCredentialsFromDB()) {[weak self] (model, err) in
             if err != nil {
                 DispatchQueue.main.async {
                     self?.indicator.stopAnimating()
@@ -128,7 +128,7 @@ class AttendanceViewController: UIViewController, UICollectionViewDelegate, UICo
 
     @objc func handleAttendanceRefresh() {
         // Get attendance details
-        Service.shared.getAttendance(token: getToken(), isRefresh: true) {[weak self] (model, err) in
+        Service.shared.getAttendance(usertuple: getCredentialsFromDB(), isRefresh: true) {[weak self] (model, err) in
             if err != nil {
                 DispatchQueue.main.async {
                     self?.rControl.endRefreshing()

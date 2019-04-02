@@ -96,7 +96,7 @@ class EventsViewController: UICollectionViewController, UICollectionViewDelegate
         indicator.startAnimating()
 
         // MARK: - Fetch the data
-        Service.shared.fetchEvents(token: getToken()) {[weak self] (data, error) in
+        Service.shared.fetchEvents(usertuple: getCredentialsFromDB()) {[weak self] (data, error) in
             if error != nil {
                 DispatchQueue.main.async {
                     self?.indicator.stopAnimating()
@@ -168,7 +168,7 @@ class EventsViewController: UICollectionViewController, UICollectionViewDelegate
     }
 
     @objc fileprivate func handleEventsRefresh() {
-        Service.shared.fetchEvents(token: getToken(), isRefresh: true) {[weak self] (data, error) in
+        Service.shared.fetchEvents(usertuple: getCredentialsFromDB(), isRefresh: true) {[weak self] (data, error) in
             if error != nil {
                 DispatchQueue.main.async {
                     self?.rControl.endRefreshing()

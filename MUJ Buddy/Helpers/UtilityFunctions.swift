@@ -34,6 +34,29 @@ func purgeUserDefaults() {
 //
 //  Login related functions
 //
+func updateCredentials(forUserIDAs: String, forUserTypeAs: String) {
+    UserDefaults.standard.removeObject(forKey: USER_ID)
+    UserDefaults.standard.removeObject(forKey: USER_TYPE)
+    
+    UserDefaults.standard.set(forUserIDAs, forKey: USER_ID)
+    UserDefaults.standard.set(forUserTypeAs, forKey: USER_TYPE)
+    
+    UserDefaults.standard.synchronize()
+    
+    // Update the shared user defaults
+    guard let sharedUD = sharedUserDefaults else { return }
+    sharedUD.set(true, forKey: LOGGED_IN_KEY)
+    sharedUD.synchronize()
+}
+
+// Returns a named tuple with the userid and the user type
+func getCredentialsFromDB() -> (userid: String?, usertype: String?) {
+    let userid = UserDefaults.standard.object(forKey: USER_ID) as? String
+    let usertype = UserDefaults.standard.object(forKey: USER_TYPE) as? String
+    
+    return (userid, usertype)
+}
+
 func updateAndSetToken(to: String) {
     UserDefaults.standard.removeObject(forKey: TOKEN_KEY)
     UserDefaults.standard.set(to, forKey: TOKEN_KEY)

@@ -81,7 +81,7 @@ class InternalsViewController: UICollectionViewController, UICollectionViewDeleg
         }
 
         // Send the actual request
-        Service.shared.fetchInternals(token: getToken(), semester: semester) { [weak self] (data, err) in
+        Service.shared.fetchInternals(usertuple: getCredentialsFromDB(), semester: semester) { [weak self] (data, err) in
             if let err = err {
                 print("Error: ", err)
                 DispatchQueue.main.async {
@@ -149,7 +149,7 @@ class InternalsViewController: UICollectionViewController, UICollectionViewDeleg
         
         let semester = getSemester()
         
-        Service.shared.fetchInternals(token: getToken(), semester: semester, isRefresh: true) { [weak self] (data, err) in
+        Service.shared.fetchInternals(usertuple: getCredentialsFromDB(), semester: semester, isRefresh: true) { [weak self] (data, err) in
             if let err = err {
                 print("Error: ", err)
                 DispatchQueue.main.async {

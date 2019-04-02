@@ -118,7 +118,7 @@ class GPAViewController: UIViewController, UICollectionViewDelegate, UICollectio
         setupViews()
 
         // Test the functionality
-        Service.shared.fetchGPA(token: getToken()) { [weak self] (gpa, error) in
+        Service.shared.fetchGPA(usertuple: getCredentialsFromDB()) { [weak self] (gpa, error) in
             if let error = error {
                 // Alert and return
                 print("GPA Error: ", error)
@@ -183,7 +183,7 @@ class GPAViewController: UIViewController, UICollectionViewDelegate, UICollectio
 
     // MARK: - Function to handle refresh
     @objc fileprivate func handleGPARefresh() {
-        Service.shared.fetchGPA(token: getToken(), isRefresh: true) { [weak self] (gpa, error) in
+        Service.shared.fetchGPA(usertuple: getCredentialsFromDB(), isRefresh: true) { [weak self] (gpa, error) in
             if let error = error {
                 // Alert and return
                 print("GPA Error: ", error)

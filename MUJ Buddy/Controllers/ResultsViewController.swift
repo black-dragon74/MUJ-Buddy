@@ -76,7 +76,7 @@ class ResultsViewController: UICollectionViewController, UICollectionViewDelegat
             }
         }
 
-        Service.shared.fetchResults(token: getToken(), semester: semester) { [weak self] (results, error) in
+        Service.shared.fetchResults(usertuple: getCredentialsFromDB(), semester: semester) { [weak self] (results, error) in
             if let error = error {
                 print("Error: ", error)
                 DispatchQueue.main.async {
@@ -136,7 +136,7 @@ class ResultsViewController: UICollectionViewController, UICollectionViewDelegat
     @objc fileprivate func handleResultsRefresh() {
         let semester = getSemester()  // Will contain the predicted semester
 
-        Service.shared.fetchResults(token: getToken(), semester: semester, isRefresh: true) { [weak self] (results, error) in
+        Service.shared.fetchResults(usertuple: getCredentialsFromDB(), semester: semester, isRefresh: true) { [weak self] (results, error) in
             if let error = error {
                 print("Error: ", error)
                 DispatchQueue.main.async {

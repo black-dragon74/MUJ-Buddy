@@ -25,9 +25,12 @@ class Service {
     static var shared = Service()
 
     // Function to get dashboard details
-    func fetchDashDetails(token: String, isRefresh: Bool = false, completion: @escaping(DashboardModel?, Error?) -> Void) {
-        // We hate empty tokens, right?
-        if token == "nil" {
+    func fetchDashDetails(usertuple: (String?, String?), isRefresh: Bool = false, completion: @escaping(DashboardModel?, Error?) -> Void) {
+        
+        let userid = usertuple.0
+        let usertype = usertuple.1
+        
+        if userid == nil || usertype == nil {
             return
         }
 
@@ -46,7 +49,7 @@ class Service {
             }
         }
 
-        let u = API_URL + "dashboard?token=\(token)"
+        let u = API_URL + "dashboard?userid=\(userid!)&usertype=\(usertype!)"
         guard let url = URL(string: u) else { return }
         URLSession.shared.dataTask(with: url) {(data, _, error) in
             if let error = error {
@@ -76,13 +79,16 @@ class Service {
     }
 
     // Function to get contacts
-    func getFacultyDetails(token: String, isRefresh: Bool = false, uponFinishing: @escaping ([FacultyContactModel]?, Error?) -> Void) {
-        // We hate empty tokens, right?
-        if token == "nil" {
+    func getFacultyDetails(usertuple: (String?, String?), isRefresh: Bool = false, uponFinishing: @escaping ([FacultyContactModel]?, Error?) -> Void) {
+        
+        let userid = usertuple.0
+        let usertype = usertuple.1
+        
+        if userid == nil || usertype == nil {
             return
         }
-
-        let tURL = API_URL + "faculties?token=\(token)"
+        
+        let tURL = API_URL + "faculties?userid=\(userid!)&usertype=\(usertype!)"
 
         guard let url = URL(string: tURL) else { return }
 
@@ -132,9 +138,12 @@ class Service {
     }
 
     // Function to get Attendance
-    func getAttendance(token: String, isRefresh: Bool = false, completion: @escaping([AttendanceModel]?, Error?) -> Void) {
-        // We hate empty tokens, right?
-        if token == "nil" {
+    func getAttendance(usertuple: (String?, String?), isRefresh: Bool = false, completion: @escaping([AttendanceModel]?, Error?) -> Void) {
+        
+        let userid = usertuple.0
+        let usertype = usertuple.1
+        
+        if userid == nil || usertype == nil {
             return
         }
 
@@ -153,7 +162,7 @@ class Service {
             }
         }
 
-        let u = API_URL + "attendance?token=\(token)"
+        let u = API_URL + "attendance?userid=\(userid!)&usertype=\(usertype!)"
         guard let url = URL(string: u) else { return }
 
         // Start a URL session
@@ -183,14 +192,17 @@ class Service {
     }
 
     // Function to get Events
-    func fetchEvents(token: String, isRefresh: Bool = false, completion: @escaping([EventsModel]?, Error?) -> Void) {
-        // We hate empty tokens
-        if (token == "nil") {
+    func fetchEvents(usertuple: (String?, String?), isRefresh: Bool = false, completion: @escaping([EventsModel]?, Error?) -> Void) {
+        
+        let userid = usertuple.0
+        let usertype = usertuple.1
+        
+        if userid == nil || usertype == nil {
             return
         }
 
         // Form the URL
-        let tURL = API_URL + "events?token=\(token)"
+        let tURL = API_URL + "events?userid=\(userid!)&usertype=\(usertype!)"
         guard let url = URL(string: tURL) else { return }
 
         // If not refresh, means we have to return data from the DB. Check and return
@@ -241,8 +253,12 @@ class Service {
     }
 
     // Function to get GPA
-    func fetchGPA(token: String, isRefresh: Bool = false, completion: @escaping(GpaModel?, Error?) -> Void) {
-        if token == "nil" {
+    func fetchGPA(usertuple: (String?, String?), isRefresh: Bool = false, completion: @escaping(GpaModel?, Error?) -> Void) {
+        
+        let userid = usertuple.0
+        let usertype = usertuple.1
+        
+        if userid == nil || usertype == nil {
             return
         }
 
@@ -261,7 +277,7 @@ class Service {
         }
 
         // URL
-        let tURL = API_URL + "gpa?token=\(token)"
+        let tURL = API_URL + "gpa?userid=\(userid!)&usertype=\(usertype!)"
         guard let url = URL(string: tURL) else { return }
 
         // Send a data request
@@ -289,8 +305,12 @@ class Service {
     }
 
     // Function to fetch internals from the API
-    func fetchInternals(token: String, semester: Int, isRefresh: Bool = false, completion: @escaping([InternalsModel]?, Error?) -> Void) {
-        if token == "nil" {
+    func fetchInternals(usertuple: (String?, String?), semester: Int, isRefresh: Bool = false, completion: @escaping([InternalsModel]?, Error?) -> Void) {
+        
+        let userid = usertuple.0
+        let usertype = usertuple.1
+        
+        if userid == nil || usertype == nil {
             return
         }
 
@@ -310,7 +330,7 @@ class Service {
         }
 
         // Else send a URL request
-        let tURL = API_URL + "internals?token=\(token)&semester=\(semester)"
+        let tURL = API_URL + "internals?userid=\(userid!)&usertype=\(usertype!)&semester=\(semester)"
         guard let url = URL(string: tURL) else { return }
         URLSession.shared.dataTask(with: url) {(data, _, error) in
             if let error = error {
@@ -336,8 +356,12 @@ class Service {
     }
 
     // Function to fetch results from the API
-    func fetchResults(token: String, semester: Int, isRefresh: Bool = false, completion: @escaping([ResultsModel]?, Error?) -> Void) {
-        if token == "nil" {
+    func fetchResults(usertuple: (String?, String?), semester: Int, isRefresh: Bool = false, completion: @escaping([ResultsModel]?, Error?) -> Void) {
+        
+        let userid = usertuple.0
+        let usertype = usertuple.1
+        
+        if userid == nil || usertype == nil {
             return
         }
 
@@ -358,7 +382,7 @@ class Service {
         }
 
         // Else send a URL request
-        let tURL = API_URL + "results?token=\(token)&semester=\(semester)"
+        let tURL = API_URL + "results?userid=\(userid!)&usertype=\(usertype!)&semester=\(semester)"
         guard let url = URL(string: tURL) else { return }
         URLSession.shared.dataTask(with: url) {(data, _, error) in
             if let error = error {
@@ -385,8 +409,12 @@ class Service {
     }
 
     // Function to fetch fee details from the API
-    func fetchFeeDetails(token: String, isRefresh: Bool = false, completion: @escaping(FeeModel?, Error?) -> Void) {
-        if token == "nil" {
+    func fetchFeeDetails(usertuple: (String?, String?), isRefresh: Bool = false, completion: @escaping(FeeModel?, Error?) -> Void) {
+        
+        let userid = usertuple.0
+        let usertype = usertuple.1
+        
+        if userid == nil || usertype == nil {
             return
         }
 
@@ -406,7 +434,7 @@ class Service {
         }
 
         // Else send a URL request
-        let tURL = API_URL + "feedetails?token=\(token)"
+        let tURL = API_URL + "feedetails?userid=\(userid!)&usertype=\(usertype!)"
         guard let url = URL(string: tURL) else { return }
         URLSession.shared.dataTask(with: url) {(data, _, error) in
             if let error = error {

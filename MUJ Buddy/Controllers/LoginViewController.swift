@@ -232,7 +232,7 @@ class LoginViewController: UIViewController, UICollectionViewDelegate, UICollect
         return CGSize(width: view.frame.width, height: view.frame.height)
     }
 
-    func handleLogin() {
+    func handleLogin(for client: String) {
         // Call the login cell instance
         let cell = collectionView.cellForItem(at: IndexPath(item: pages.count, section: 0)) as! LoginCell
         let username = cell.userTextField.text
@@ -254,11 +254,10 @@ class LoginViewController: UIViewController, UICollectionViewDelegate, UICollect
             // Encrypt the password and the userrname
             cell.progressBar.startAnimating()
             cell.loginButton.isUserInteractionEnabled = false
-            let encUser = encryptDataWithRSA(withDataToEncrypt: username!)
-            let encPass = encryptDataWithRSA(withDataToEncrypt: password!)
 
             // Send a login request
-            let u = API_URL + "auth?userid=\(encUser)&password=\(encPass)"
+            guard let username = username else { return }
+            let u = API_URL + "auth?userid=\(username)&usertype=\(client)"
             guard let url = URL(string: u) else { return }
             URLSession.shared.dataTask(with: url) {[weak self] (data, _, error) in
                 if let error = error {
@@ -271,47 +270,37 @@ class LoginViewController: UIViewController, UICollectionViewDelegate, UICollect
                 }
 
                 if let data = data {
-                    do {
-                        let json = try JSONSerialization.jsonObject(with: data, options: []) as! [String: String]
-                        let error = json["error"]
-                        let token = json["token"]
-                        if let error = error {
-                            DispatchQueue.main.async {
-                                Toast(with: error, color: DMSColors.orangeish.value).show(on: self?.view)
-                                cell.progressBar.stopAnimating()
-                                cell.loginButton.isUserInteractionEnabled = true
-                            }
-                            return
-                        }
-
-                        if let token = token {
-                            DispatchQueue.main.async {
-                                // Stop progress bar
-                                cell.progressBar.stopAnimating()
-
-                                // Purge user defaults once again
-                                purgeUserDefaults()
-
-                                // We have the token, set it to user defaults and dismiss the login controller
-                                updateAndSetToken(to: token)
-                                setSemester(as: currSem)  // Update the semester in the DB if the login is successful
-                                let newController = UINavigationController(rootViewController: DashboardViewController())
-                                newController.modalTransitionStyle = .crossDissolve
-                                self?.present(newController, animated: true, completion: nil)
-                            }
-                            return
-                        }
-                    } catch let err {
-                        print("Error: ", err)
+                    guard let response = String(data: data, encoding: .utf8)?.replacingOccurrences(of: "\n", with: "") else { return }
+                    if response == "true" {
+                        // Purge the user defaults before proceeding
+                        purgeUserDefaults()
+                        
+                        // Update the current semester in the database
+                        setSemester(as: currSem)
+                        
+                        // Update the usertype and the user id in the database
+                        updateCredentials(forUserIDAs: username, forUserTypeAs: client)
+                        
+                        // Present the view
                         DispatchQueue.main.async {
-                            Toast(with: "Server sent an invalid response", color: DMSColors.orangeish.value).show(on: self?.view)
+                            cell.progressBar.stopAnimating()
+                            let newController = UINavigationController(rootViewController: DashboardViewController())
+                            newController.modalTransitionStyle = .crossDissolve
+                            self?.present(newController, animated: true, completion: nil)
+                        }
+                    }
+                    else {
+                        DispatchQueue.main.async {
+                            Toast(with: "Login failed!", color: DMSColors.orangeish.value).show(on: self?.view)
                             cell.progressBar.stopAnimating()
                             cell.loginButton.isUserInteractionEnabled = true
                         }
-                        return
                     }
                 }
             }.resume()
+        }
+        else {
+            Toast(with: "Fields cannot be empty!", color: DMSColors.orangeish.value).show(on: self.view)
         }
     }
 
