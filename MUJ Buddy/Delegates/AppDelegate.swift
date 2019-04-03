@@ -61,7 +61,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     // Perform the actual fetch
     func application(_ application: UIApplication, performFetchWithCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
-        if application.backgroundRefreshStatus == UIBackgroundRefreshStatus.available && getToken() != "nil" {
+        if application.backgroundRefreshStatus == UIBackgroundRefreshStatus.available && getCredentialsFromDB().userid != nil {
             Service.shared.getAttendance(usertuple: getCredentialsFromDB(), isRefresh: true) { (attendance, error) in
                 if let error = error {
                     print("Refresh error: ", error)
