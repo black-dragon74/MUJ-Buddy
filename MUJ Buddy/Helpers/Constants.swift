@@ -11,7 +11,7 @@
 //
 //  API URLs
 //
-let API_URL = "https://dragon.strangebits.co.in/"
+let API_URL = "https://dragon.sidsun.com/"
 //  let API_URL = "https://debug.dragon.strangebits.co.in/"   // Used for debugging only
 
 //
