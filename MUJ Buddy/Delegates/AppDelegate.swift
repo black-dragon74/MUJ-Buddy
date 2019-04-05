@@ -36,8 +36,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             launchedShortcutItem = selectedItem
         }
 
-        // Update attendance after an interval of 2 hours
-        let interval = 2 * getRefreshInterval()
+        // Get and set the update interval from the DB
+        let interval = 3600 * getRefreshInterval()
         UIApplication.shared.setMinimumBackgroundFetchInterval(Double(interval))
 
         // Ask permission for the notifications

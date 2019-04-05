@@ -48,10 +48,10 @@ class SettingsViewController: UITableViewController {
         currentSemLabel.text = "\(getSemester())"
         
         // Set the current refresh interval from the DB
-        refreshIntervalLabel.text = "\(getRefreshInterval()) Hours"
+        refreshIntervalLabel.text = "\(getRefreshInterval()) " + hrOrHrs(from: getRefreshInterval())
         
         // Set the current notification threshold from the DB
-        notificationThreshold.text = "\(getNotificationThresholdFromDB()) Hours"
+        notificationThreshold.text = "\(getNotificationThresholdFromDB()) " + hrOrHrs(from: getNotificationThresholdFromDB())
         
         // If can't use biometrics, disable the switch with an off state
         if !canUseBiometrics() {
@@ -130,12 +130,12 @@ class SettingsViewController: UITableViewController {
                     refreshTF.keyboardType = .numberPad
                     refreshTF.placeholder = "Max allowed value is 24 hours"
                 }
-                let okAction = UIAlertAction(title: "OK", style: .default) { (action) in
+                let okAction = UIAlertAction(title: "OK", style: .default) {[weak self] (action) in
                     if let tf = alertController.textFields?.first {
                         guard tf.text != "", Int(tf.text!)! <= 24 && Int(tf.text!)! > 0 else { return }
                         let val = tf.text!
                         setRefreshInterval(as: Int(val)!)
-                        self.refreshIntervalLabel.text = "\(val) Hours"
+                        self?.refreshIntervalLabel.text = "\(val) " + (self?.hrOrHrs(from: Int(val)!))!
                     }
                 }
                 let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
@@ -155,7 +155,7 @@ class SettingsViewController: UITableViewController {
                     valTF.placeholder = "Enter the value in hours"
                     valTF.keyboardType = .numberPad
                 }
-                let okAction = UIAlertAction(title: "OK", style: .default) { (_) in
+                let okAction = UIAlertAction(title: "OK", style: .default) {[weak self] (_) in
                     if let tf = tAlert.textFields?.first {
                         
                         guard tf.text != "", Int(tf.text!)! > 0  else { return }
@@ -167,7 +167,7 @@ class SettingsViewController: UITableViewController {
                         }
                         
                         setNotificationThreshold(to: newVal)
-                        self.notificationThreshold.text = "\(newVal) Hours"
+                        self?.notificationThreshold.text = "\(newVal) " + (self?.hrOrHrs(from: newVal))!
                     }
                 }
                 tAlert.addAction(okAction)
@@ -281,5 +281,9 @@ class SettingsViewController: UITableViewController {
                 completion(-1)
             }
         }.resume()
+    }
+    
+    fileprivate func hrOrHrs(from value: Int) -> String {
+        return value == 1 ? "Hour" : "Hours"
     }
 }
