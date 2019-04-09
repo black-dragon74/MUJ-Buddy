@@ -136,6 +136,7 @@ class SettingsViewController: UITableViewController {
                         let val = tf.text!
                         setRefreshInterval(as: Int(val)!)
                         self?.refreshIntervalLabel.text = "\(val) " + (self?.hrOrHrs(from: Int(val)!))!
+                        UIApplication.shared.setMinimumBackgroundFetchInterval(Double(val)!)
                     }
                 }
                 let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
