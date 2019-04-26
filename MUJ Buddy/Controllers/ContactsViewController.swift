@@ -80,7 +80,7 @@ class ContactsViewController: UITableViewController, UISearchControllerDelegate,
         searchController.delegate = self
 
         // Get faculty details
-        Service.shared.getFacultyDetails(usertuple: getCredentialsFromDB()) {[weak self] (faculties, err) in
+        Service.shared.getFacultyDetails(sessionID: getSessionID()) {[weak self] (faculties, err) in
             if err != nil {
                 DispatchQueue.main.async {
                     self?.indicator.stopAnimating()
@@ -110,7 +110,7 @@ class ContactsViewController: UITableViewController, UISearchControllerDelegate,
     // MARK: - Refresh Control OBJC method
     @objc fileprivate func handleRefresh() {
         // Refresh
-        Service.shared.getFacultyDetails(usertuple: getCredentialsFromDB(), isRefresh: true) {[weak self] (faculties, err) in
+        Service.shared.getFacultyDetails(sessionID: getSessionID(), isRefresh: true) {[weak self] (faculties, err) in
             if err != nil {
                 DispatchQueue.main.async {
                     self?.rControl.endRefreshing()

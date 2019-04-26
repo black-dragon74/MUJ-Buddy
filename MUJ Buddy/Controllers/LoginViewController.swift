@@ -233,74 +233,73 @@ class LoginViewController: UIViewController, UICollectionViewDelegate, UICollect
     }
 
     func handleLogin(for client: String) {
-        // Call the login cell instance
-        let cell = collectionView.cellForItem(at: IndexPath(item: pages.count, section: 0)) as! LoginCell
-        let username = cell.userTextField.text
-        let password = cell.passwordField.text
-        var currSem: Int = -1
-
-        // Calculate the semester from the userID
-        if let reg = username {
-            let regDate = admDateFrom(regNo: reg)
-            let monthSinceAdmission = regDate.monthsTillNow()
-
-            // Now we just have to divide the months by 6 and floor it away from zero to get current semester
-            let rawSem = (Float(monthSinceAdmission) / 6).rounded(.awayFromZero)
-            currSem = Int(rawSem)  // Cast to int to get the exact value
+        // Referene the cell
+        let cell = collectionView.cellForItem(at: IndexPath(row: pages.count, section: 0)) as! LoginCell
+        
+        // Unwrap the value
+        guard let userid = cell.userTextField.text else { return }
+        
+        if userid.isEmpty {
+            Toast(with: "UserID cannot be empty").show(on: self.view)
+            return
         }
-
-        if username != "" && password != "" {
-            // Perform login
-            // Encrypt the password and the userrname
-            cell.progressBar.startAnimating()
-            cell.loginButton.isUserInteractionEnabled = false
-
-            // Send a login request
-            guard let username = username else { return }
-            let u = API_URL + "auth?userid=\(username)&usertype=\(client)"
-            guard let url = URL(string: u) else { return }
-            URLSession.shared.dataTask(with: url) {[weak self] (data, _, error) in
-                if let error = error {
+        
+        // Send the request
+        disable(cell)
+        
+        Service.shared.sendOTPFor(userid: userid) {[weak self] (resp, error) in
+            if let error = error {
+                print("Error: ", error.localizedDescription)
+                self?.enable(cell)
+                return
+            }
+            
+            if let resp = resp {
+                // If sending the otp was not successful, show the message and return
+                if (!resp.success) {
+                    guard let errorMsg = resp.error else { return }
                     DispatchQueue.main.async {
-                        Toast(with: error as? String ?? "Error while communicating to the server", color: DMSColors.orangeish.value).show(on: self?.view)
-                        cell.progressBar.stopAnimating()
-                        cell.loginButton.isUserInteractionEnabled = true
+                        Toast(with: errorMsg).show(on: self?.view)
                     }
+                    self?.enable(cell)
                     return
                 }
-
-                if let data = data {
-                    guard let response = String(data: data, encoding: .utf8)?.replacingOccurrences(of: "\n", with: "") else { return }
-                    if response == "true" {
-                        // Purge the user defaults before proceeding
-                        purgeUserDefaults()
-                        
-                        // Update the current semester in the database
-                        setSemester(as: currSem)
-                        
-                        // Update the usertype and the user id in the database
-                        updateCredentials(forUserIDAs: username, forUserTypeAs: client)
-                        
-                        // Present the view
-                        DispatchQueue.main.async {
-                            cell.progressBar.stopAnimating()
-                            let newController = UINavigationController(rootViewController: DashboardViewController())
-                            newController.modalTransitionStyle = .crossDissolve
-                            self?.present(newController, animated: true, completion: nil)
-                        }
-                    }
-                    else {
-                        DispatchQueue.main.async {
-                            Toast(with: "Login failed!", color: DMSColors.orangeish.value).show(on: self?.view)
-                            cell.progressBar.stopAnimating()
-                            cell.loginButton.isUserInteractionEnabled = true
-                        }
-                    }
+                
+                
+                // Else, extract the values from the response
+                // Pass them to the OTP auth controller
+                // Present the OTP auth controller
+                let sid = resp.sid
+                guard let vs = resp.vs else { return }
+                guard let ev = resp.ev else { return }
+                
+                self?.enable(cell)
+                
+                // All the UIView items should must init on the main thread
+                DispatchQueue.main.async {
+                    let otpController = OTPAuthController()
+                    otpController.ev = ev
+                    otpController.vs = vs
+                    otpController.userID = userid
+                    otpController.sessionID = sid
+                    
+                    self?.present(otpController, animated: true, completion: nil)
                 }
-            }.resume()
+            }
         }
-        else {
-            Toast(with: "Fields cannot be empty!", color: DMSColors.orangeish.value).show(on: self.view)
+    }
+    
+    fileprivate func enable(_ cell: LoginCell) {
+        DispatchQueue.main.async {
+            cell.progressBar.stopAnimating()
+            cell.loginButton.isUserInteractionEnabled = true
+        }
+    }
+    
+    fileprivate func disable(_ cell: LoginCell) {
+        DispatchQueue.main.async {
+            cell.progressBar.startAnimating()
+            cell.loginButton.isUserInteractionEnabled = false
         }
     }
 

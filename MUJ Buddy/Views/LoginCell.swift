@@ -44,20 +44,10 @@ class LoginCell: UICollectionViewCell {
         return u
     }()
 
-    let passwordField: LeftPaddedTextField = {
-        let p = LeftPaddedTextField()
-        p.placeholder = "Enter your OTP"
-        p.layer.borderColor = UIColor.lightGray.cgColor
-        p.layer.borderWidth = 0.5
-        p.keyboardType = .numberPad
-        p.isSecureTextEntry = true
-        return p
-    }()
-
     let loginButton: UIButton = {
         let b = UIButton(type: .system)
         b.backgroundColor = .orange
-        b.setTitle("Log In", for: .normal)
+        b.setTitle("Send OTP", for: .normal)
         b.setTitleColor(.white, for: .normal)
         return b
     }()
@@ -97,7 +87,6 @@ class LoginCell: UICollectionViewCell {
         addSubview(logoView)
         addSubview(loginSelector)
         addSubview(userTextField)
-        addSubview(passwordField)
         addSubview(loginButton)
         addSubview(cpyLabel)
 
@@ -112,9 +101,8 @@ class LoginCell: UICollectionViewCell {
 
         _ = userTextField.anchorWithConstantsToTop(top: loginSelector.bottomAnchor, right: rightAnchor, bottom: nil, left: leftAnchor, topConstant: 16, rightConstant: 32, bottomConstant: 0, leftConstant: 32, heightConstant: 50, widthConstant: nil)
 
-        _ = passwordField.anchorWithConstantsToTop(top: userTextField.bottomAnchor, right: rightAnchor, bottom: nil, left: leftAnchor, topConstant: 6, rightConstant: 32, bottomConstant: 0, leftConstant: 32, heightConstant: 50, widthConstant: nil)
 
-        _ = loginButton.anchorWithConstantsToTop(top: passwordField.bottomAnchor, right: rightAnchor, bottom: nil, left: leftAnchor, topConstant: 12, rightConstant: 32, bottomConstant: 0, leftConstant: 32, heightConstant: 50, widthConstant: nil)
+        _ = loginButton.anchorWithConstantsToTop(top: userTextField.bottomAnchor, right: rightAnchor, bottom: nil, left: leftAnchor, topConstant: 12, rightConstant: 32, bottomConstant: 0, leftConstant: 32, heightConstant: 50, widthConstant: nil)
 
         loginButton.addTarget(self, action: #selector(handleLogin), for: .touchUpInside)
         loginSelector.addTarget(self, action: #selector(handleLoginSelector), for: .valueChanged)
@@ -145,13 +133,13 @@ class LoginCell: UICollectionViewCell {
     // Function to update the title and the client based on segment's value
     fileprivate func handleSegmentWith(index: Int) {
         if index == 0 {
-            loginButton.setTitle("Student Login", for: .normal)
+            loginButton.setTitle("Send OTP", for: .normal)
             loginFor = "student"
         }
-        else {
-            loginButton.setTitle("Parent Login", for: .normal)
-            loginFor = "parent"
-        }
+//        else {
+//            loginButton.setTitle("Parent Login", for: .normal)
+//            loginFor = "parent"
+//        }
     }
 }
 

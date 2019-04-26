@@ -34,46 +34,39 @@ func purgeUserDefaults() {
 //
 //  Login related functions
 //
-func updateCredentials(forUserIDAs: String, forUserTypeAs: String) {
+
+// Updates user id in the DB, used while reauth when session expires
+func setUserID(to: String) {
     UserDefaults.standard.removeObject(forKey: USER_ID)
-    UserDefaults.standard.removeObject(forKey: USER_TYPE)
-    
-    UserDefaults.standard.set(forUserIDAs, forKey: USER_ID)
-    UserDefaults.standard.set(forUserTypeAs, forKey: USER_TYPE)
-    
+    UserDefaults.standard.set(to, forKey: USER_ID)
     UserDefaults.standard.synchronize()
-    
-    // Update the shared user defaults
+}
+
+// Updates the session ID in the DB, used for all API requests
+func setSessionID(to: String) {
+    UserDefaults.standard.removeObject(forKey: SESSION_ID)
+    UserDefaults.standard.set(to, forKey: SESSION_ID)
+    UserDefaults.standard.synchronize()
+}
+
+// Updates the login state to the shaerd user defaults
+func setLoginState(to: Bool) {
     guard let sharedUD = sharedUserDefaults else { return }
-    sharedUD.set(true, forKey: LOGGED_IN_KEY)
+    sharedUD.set(to, forKey: LOGGED_IN_KEY)
     sharedUD.synchronize()
 }
 
-// Returns a named tuple with the userid and the user type
-func getCredentialsFromDB() -> (userid: String?, usertype: String?) {
-    let userid = UserDefaults.standard.object(forKey: USER_ID) as? String
-    let usertype = UserDefaults.standard.object(forKey: USER_TYPE) as? String
-    
-    return (userid, usertype)
+// Returns the userID
+func getUserID() -> String? {
+    return UserDefaults.standard.object(forKey: USER_ID) as? String
 }
 
-func updateAndSetToken(to: String) {
-    UserDefaults.standard.removeObject(forKey: TOKEN_KEY)
-    UserDefaults.standard.set(to, forKey: TOKEN_KEY)
-
-    // Update user login state
-    guard let sharedUD = sharedUserDefaults else { return }
-    sharedUD.set(true, forKey: LOGGED_IN_KEY)
+// Returns the session id
+func getSessionID() -> String {
+    return UserDefaults.standard.object(forKey: SESSION_ID) as? String ?? "NA"
 }
 
-func getToken() -> String {
-    if let token = UserDefaults.standard.object(forKey: TOKEN_KEY) as? String {
-        return token
-    } else {
-        return "nil"
-    }
-}
-
+// Returns if the user is loggen in or not
 func isLoggedIn() -> Bool {
     guard let sharedUD = sharedUserDefaults else { return false }
     return sharedUD.bool(forKey: LOGGED_IN_KEY)

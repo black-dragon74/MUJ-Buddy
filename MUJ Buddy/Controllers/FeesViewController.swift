@@ -126,7 +126,7 @@ class FeesViewController: UIViewController {
         setupViews()
 
         // MARK: - Fetch fee from API
-        Service.shared.fetchFeeDetails(usertuple: getCredentialsFromDB()) { [weak self] (fee, error) in
+        Service.shared.fetchFeeDetails(sessionID: getSessionID()) { [weak self] (fee, error) in
             if let error = error {
                 print("Error: ", error)
                 DispatchQueue.main.async {
@@ -197,7 +197,7 @@ class FeesViewController: UIViewController {
 
     // MARK: - Fee refresh
     @objc fileprivate func handleFeeRefresh() {
-        Service.shared.fetchFeeDetails(usertuple: getCredentialsFromDB(), isRefresh: true) { [weak self] (fee, error) in
+        Service.shared.fetchFeeDetails(sessionID: getSessionID(), isRefresh: true) { [weak self] (fee, error) in
             if let error = error {
                 print("Error: ", error)
                 DispatchQueue.main.async {

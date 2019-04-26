@@ -122,7 +122,7 @@ class DashboardViewController: UIViewController, UICollectionViewDelegate, UICol
         header.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(didTapHeader)))
         
         // Get the details from remote
-        Service.shared.fetchDashDetails(usertuple: getCredentialsFromDB()) {[weak self] (dash, err) in
+        Service.shared.fetchDashDetails(sessionID: getSessionID()) {[weak self] (dash, err) in
             if let err = err {
                 print(err)
                 return

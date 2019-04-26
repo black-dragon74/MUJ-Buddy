@@ -53,6 +53,8 @@
 		0168081C21FF7DD2007AA4DC /* AttendanceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0168081B21FF7DD2007AA4DC /* AttendanceViewController.swift */; };
 		0168081E21FF7E01007AA4DC /* AttendanceCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0168081D21FF7E01007AA4DC /* AttendanceCell.swift */; };
 		016D38CB220EC04200F12B0F /* app_pub in Resources */ = {isa = PBXBuildFile; fileRef = 016D38CA220EC04200F12B0F /* app_pub */; };
+		018CB3FC2272E12E00EBD0D8 /* LoginResponseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 018CB3FB2272E12E00EBD0D8 /* LoginResponseModel.swift */; };
+		018CB3FE2272E27A00EBD0D8 /* OTPAuthController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 018CB3FD2272E27A00EBD0D8 /* OTPAuthController.swift */; };
 		01A400AF220590A900D6E510 /* ResultsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01A400AE220590A900D6E510 /* ResultsViewController.swift */; };
 		01A400B1220591E300D6E510 /* ResultsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01A400B0220591E300D6E510 /* ResultsCell.swift */; };
 		01A82FA322044A4C002A13DF /* InternalsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01A82FA222044A4C002A13DF /* InternalsViewController.swift */; };
@@ -148,6 +150,8 @@
 		0168081B21FF7DD2007AA4DC /* AttendanceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttendanceViewController.swift; sourceTree = "<group>"; };
 		0168081D21FF7E01007AA4DC /* AttendanceCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttendanceCell.swift; sourceTree = "<group>"; };
 		016D38CA220EC04200F12B0F /* app_pub */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = app_pub; sourceTree = "<group>"; };
+		018CB3FB2272E12E00EBD0D8 /* LoginResponseModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginResponseModel.swift; sourceTree = "<group>"; };
+		018CB3FD2272E27A00EBD0D8 /* OTPAuthController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OTPAuthController.swift; sourceTree = "<group>"; };
 		01A400AE220590A900D6E510 /* ResultsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultsViewController.swift; sourceTree = "<group>"; };
 		01A400B0220591E300D6E510 /* ResultsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultsCell.swift; sourceTree = "<group>"; };
 		01A82FA222044A4C002A13DF /* InternalsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InternalsViewController.swift; sourceTree = "<group>"; };
@@ -298,6 +302,7 @@
 				014B8E952211F86B00C0296B /* StudentDetailedView.swift */,
 				01197BA2222A74E1002F1FC6 /* SettingsViewController.swift */,
 				01197BA6222AA5D5002F1FC6 /* AppInfoViewController.swift */,
+				018CB3FD2272E27A00EBD0D8 /* OTPAuthController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -316,6 +321,7 @@
 				0112A68F21F4884F00B269FA /* FacultyContactModel.swift */,
 				0168081721FF7C52007AA4DC /* MenuModel.swift */,
 				01483C4B2209CB5A0017E88A /* BottomMenuSheetModel.swift */,
+				018CB3FB2272E12E00EBD0D8 /* LoginResponseModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -530,6 +536,7 @@
 			files = (
 				01AFF686222815DA002403AF /* ShortcutsHelper.swift in Sources */,
 				013AE8E82203546A00A8831C /* GPACell.swift in Sources */,
+				018CB3FC2272E12E00EBD0D8 /* LoginResponseModel.swift in Sources */,
 				01483C4C2209CB5A0017E88A /* BottomMenuSheetModel.swift in Sources */,
 				01B4C95621F4CA0E004D0DB4 /* Encryptor.swift in Sources */,
 				0168081A21FF7C7B007AA4DC /* DashCell.swift in Sources */,
@@ -542,6 +549,7 @@
 				01E9623721F4DB40002C9899 /* Constants.swift in Sources */,
 				013AE8E6220348B800A8831C /* GPAViewController.swift in Sources */,
 				01CE4EC6224CDF8A001A4913 /* Toast.swift in Sources */,
+				018CB3FE2272E27A00EBD0D8 /* OTPAuthController.swift in Sources */,
 				01A82FA52204562D002A13DF /* InternalsCell.swift in Sources */,
 				013F512D220C8EE6007D1390 /* BiometricAuthController.swift in Sources */,
 				014B8E942211E4D600C0296B /* DashboardHeaderView.swift in Sources */,
