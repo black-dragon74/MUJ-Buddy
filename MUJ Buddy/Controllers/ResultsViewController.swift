@@ -76,7 +76,7 @@ class ResultsViewController: UICollectionViewController, UICollectionViewDelegat
             }
         }
 
-        Service.shared.fetchResults(sessionID: getSessionID(), semester: semester) { [weak self] (results, error) in
+        Service.shared.fetchResults(sessionID: getSessionID(), semester: semester) { [weak self] (results, reauth, error) in
             if let error = error {
                 print("Error: ", error)
                 DispatchQueue.main.async {
@@ -84,6 +84,25 @@ class ResultsViewController: UICollectionViewController, UICollectionViewDelegat
                     Toast(with: "Error fetching marks").show(on: self?.view)
                 }
                 return
+            }
+            
+            if let eMsg = reauth {
+                if eMsg.error == LOGIN_FAILED {
+                    // Time to present the OTP controller for the reauth
+                    DispatchQueue.main.async {
+                        self?.rControl.endRefreshing()
+                        self?.present(LoginViewController(), animated: true, completion: {
+                            NotificationCenter.default.post(name: .sessionExpired, object: nil, userInfo: [:])
+                        })
+                    }
+                }
+                else {
+                    DispatchQueue.main.async {
+                        self?.rControl.endRefreshing()
+                        self?.indicator.stopAnimating()
+                        Toast(with: eMsg.error).show(on: self?.view)
+                    }
+                }
             }
 
             if let data = results {
@@ -136,7 +155,7 @@ class ResultsViewController: UICollectionViewController, UICollectionViewDelegat
     @objc fileprivate func handleResultsRefresh() {
         let semester = getSemester()  // Will contain the predicted semester
 
-        Service.shared.fetchResults(sessionID: getSessionID(), semester: semester, isRefresh: true) { [weak self] (results, error) in
+        Service.shared.fetchResults(sessionID: getSessionID(), semester: semester, isRefresh: true) { [weak self] (results, reauth, error) in
             if let error = error {
                 print("Error: ", error)
                 DispatchQueue.main.async {
@@ -144,6 +163,25 @@ class ResultsViewController: UICollectionViewController, UICollectionViewDelegat
                     Toast(with: "Error fetching results").show(on: self?.view)
                 }
                 return
+            }
+            
+            if let eMsg = reauth {
+                if eMsg.error == LOGIN_FAILED {
+                    // Time to present the OTP controller for the reauth
+                    DispatchQueue.main.async {
+                        self?.rControl.endRefreshing()
+                        self?.present(LoginViewController(), animated: true, completion: {
+                            NotificationCenter.default.post(name: .sessionExpired, object: nil, userInfo: [:])
+                        })
+                    }
+                }
+                else {
+                    DispatchQueue.main.async {
+                        self?.rControl.endRefreshing()
+                        self?.indicator.stopAnimating()
+                        Toast(with: eMsg.error).show(on: self?.view)
+                    }
+                }
             }
 
             if let data = results {

@@ -176,7 +176,7 @@ func getLowAttendanceCount() -> Int {
 //  Attendance fetch interval related values
 //
 func getRefreshInterval() -> Int {
-    return UserDefaults.standard.object(forKey: REFRESH_INTERVAL) as? Int ?? 2  // Default fetch interval is 2 hours
+    return UserDefaults.standard.object(forKey: REFRESH_INTERVAL) as? Int ?? 15  // Default fetch interval is 15 minutes
 }
 
 func setRefreshInterval(as value: Int) {

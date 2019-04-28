@@ -43,3 +43,11 @@ let BIOMETRICS_KEY = "app_state"
 let PROFILE_IMG_KEY = "profile_image"
 let REFRESH_INTERVAL = "fetch_interval"
 let NOTIFICATION_THRESHOLD = "notification_threshold"
+let EVENT_STATE = "est"
+let VIEW_STATE = "vst"
+
+
+//
+//  Error messages
+//
+let LOGIN_FAILED = "Login failed"

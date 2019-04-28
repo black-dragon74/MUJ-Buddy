@@ -80,13 +80,32 @@ class ContactsViewController: UITableViewController, UISearchControllerDelegate,
         searchController.delegate = self
 
         // Get faculty details
-        Service.shared.getFacultyDetails(sessionID: getSessionID()) {[weak self] (faculties, err) in
+        Service.shared.getFacultyDetails(sessionID: getSessionID()) {[weak self] (faculties, reauth, err) in
             if err != nil {
                 DispatchQueue.main.async {
                     self?.indicator.stopAnimating()
                     Toast(with: "Unable to get faculty details.").show(on: self?.view)
                 }
                 return
+            }
+            
+            if let eMsg = reauth {
+                if eMsg.error == LOGIN_FAILED {
+                    // Time to present the OTP controller for the reauth
+                    DispatchQueue.main.async {
+                        self?.rControl.endRefreshing()
+                        self?.present(LoginViewController(), animated: true, completion: {
+                            NotificationCenter.default.post(name: .sessionExpired, object: nil, userInfo: [:])
+                        })
+                    }
+                }
+                else {
+                    DispatchQueue.main.async {
+                        self?.rControl.endRefreshing()
+                        self?.indicator.stopAnimating()
+                        Toast(with: eMsg.error).show(on: self?.view)
+                    }
+                }
             }
 
             if let facultie = faculties {
@@ -110,13 +129,32 @@ class ContactsViewController: UITableViewController, UISearchControllerDelegate,
     // MARK: - Refresh Control OBJC method
     @objc fileprivate func handleRefresh() {
         // Refresh
-        Service.shared.getFacultyDetails(sessionID: getSessionID(), isRefresh: true) {[weak self] (faculties, err) in
+        Service.shared.getFacultyDetails(sessionID: getSessionID(), isRefresh: true) {[weak self] (faculties, reauth, err) in
             if err != nil {
                 DispatchQueue.main.async {
                     self?.rControl.endRefreshing()
                     Toast(with: "Unable to get faculty details.").show(on: self?.view)
                 }
                 return
+            }
+            
+            if let eMsg = reauth {
+                if eMsg.error == LOGIN_FAILED {
+                    // Time to present the OTP controller for the reauth
+                    DispatchQueue.main.async {
+                        self?.rControl.endRefreshing()
+                        self?.present(LoginViewController(), animated: true, completion: {
+                            NotificationCenter.default.post(name: .sessionExpired, object: nil, userInfo: [:])
+                        })
+                    }
+                }
+                else {
+                    DispatchQueue.main.async {
+                        self?.rControl.endRefreshing()
+                        self?.indicator.stopAnimating()
+                        Toast(with: eMsg.error).show(on: self?.view)
+                    }
+                }
             }
 
             if let facultie = faculties {

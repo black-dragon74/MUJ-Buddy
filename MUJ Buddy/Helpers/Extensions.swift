@@ -176,6 +176,9 @@ extension Notification.Name {
     
     // This notification is posted whenever a reauth is needed. It is catched in the appropriate VCs
     static let isReauthRequired = NSNotification.Name("isReauthRequired")
+    
+    // This notification is observed in the login view controller and is shown on session expiry
+    static let sessionExpired = NSNotification.Name("MUJsessionExpired")
 }
 
 // Extension on string

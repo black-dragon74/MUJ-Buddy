@@ -37,6 +37,7 @@ class Toast {
         let l = UILabel()
         l.textColor = .white
         l.font = UIFont.boldSystemFont(ofSize: 17)
+        l.adjustsFontSizeToFitWidth = true
         l.translatesAutoresizingMaskIntoConstraints = false
         l.textAlignment = .center
         return l
@@ -61,7 +62,7 @@ class Toast {
         toastView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         label.centerXAnchor.constraint(equalTo: toastView.centerXAnchor).isActive = true
         label.centerYAnchor.constraint(equalTo: toastView.centerYAnchor).isActive = true
-        label.widthAnchor.constraint(equalToConstant: view.frame.width - 16).isActive = true
+        label.widthAnchor.constraint(equalToConstant: view.frame.width - 40).isActive = true
         
         view.layoutIfNeeded()
         

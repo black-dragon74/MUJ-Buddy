@@ -122,10 +122,26 @@ class DashboardViewController: UIViewController, UICollectionViewDelegate, UICol
         header.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(didTapHeader)))
         
         // Get the details from remote
-        Service.shared.fetchDashDetails(sessionID: getSessionID()) {[weak self] (dash, err) in
+        Service.shared.fetchDashDetails(sessionID: getSessionID()) {[weak self] (dash, reauth, err) in
             if let err = err {
                 print(err)
                 return
+            }
+            
+            if let eMsg = reauth {
+                if eMsg.error == LOGIN_FAILED {
+                    // Time to present the OTP controller for the reauth
+                    DispatchQueue.main.async {
+                        self?.present(LoginViewController(), animated: true, completion: {
+                            NotificationCenter.default.post(name: .sessionExpired, object: nil, userInfo: [:])
+                        })
+                    }
+                }
+                else {
+                    DispatchQueue.main.async {
+                        Toast(with: eMsg.error).show(on: self?.view)
+                    }
+                }
             }
             
             if let dash = dash {

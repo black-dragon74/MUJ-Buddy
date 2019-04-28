@@ -12,6 +12,9 @@ class LoginViewController: UIViewController, UICollectionViewDelegate, UICollect
 
     // Hold the keyboard state, in order to fix our view going out of bounds :P
     var isKbOpen: Bool = false
+    
+    // If view is being presented when session is expired, we work a bit differently
+    var isSessionExpired: Bool = false
 
     // Collection view that hold the pages
     lazy var collectionView: UICollectionView = {
@@ -72,6 +75,18 @@ class LoginViewController: UIViewController, UICollectionViewDelegate, UICollect
     var pControlBottomAnchor: NSLayoutConstraint?
     var sButtonTopAnchor: NSLayoutConstraint?
     var nButtonTopAnchor: NSLayoutConstraint?
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(sessionExpired), name: .sessionExpired, object: nil)
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        NotificationCenter.default.removeObserver(NSNotification.Name.sessionExpired)
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -282,6 +297,7 @@ class LoginViewController: UIViewController, UICollectionViewDelegate, UICollect
                     otpController.vs = vs
                     otpController.userID = userid
                     otpController.sessionID = sid
+                    otpController.isSessionExpired = self?.isSessionExpired
                     
                     self?.present(otpController, animated: true, completion: nil)
                 }
@@ -301,6 +317,19 @@ class LoginViewController: UIViewController, UICollectionViewDelegate, UICollect
             cell.progressBar.startAnimating()
             cell.loginButton.isUserInteractionEnabled = false
         }
+    }
+    
+    @objc fileprivate func sessionExpired() {
+        scrollToLogin()
+        perform(#selector(autoLogin), with: self, afterDelay: 1)
+    }
+    
+    @objc fileprivate func autoLogin() {
+        let cell = collectionView.cellForItem(at: IndexPath(row: pages.count, section: 0)) as! LoginCell
+        Toast(with: "Session expired. Logging in again").show(on: view)
+        isSessionExpired = true
+        cell.userTextField.text = getUserID()
+        handleLogin(for: "student")
     }
 
 }

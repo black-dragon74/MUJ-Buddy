@@ -83,13 +83,32 @@ class AttendanceViewController: UIViewController, UICollectionViewDelegate, UICo
         collectionView.anchorWithConstraints(top: view.safeAreaLayoutGuide.topAnchor, right: view.rightAnchor, bottom: view.bottomAnchor, left: view.leftAnchor, topOffset: 0, rightOffset: 0, bottomOffset: 0, leftOffset: 0, height: nil, width: nil)
 
         // Get attendance details
-        Service.shared.getAttendance(sessionID: getSessionID()) {[weak self] (model, err) in
+        Service.shared.getAttendance(sessionID: getSessionID()) {[weak self] (model, reauth, err) in
             if err != nil {
                 DispatchQueue.main.async {
                     self?.indicator.stopAnimating()
                     Toast(with: "Attendance not available").show(on: self?.view)
                 }
                 return
+            }
+            
+            if let eMsg = reauth {
+                if eMsg.error == LOGIN_FAILED {
+                    // Time to present the OTP controller for the reauth
+                    DispatchQueue.main.async {
+                        self?.rControl.endRefreshing()
+                        self?.present(LoginViewController(), animated: true, completion: {
+                            NotificationCenter.default.post(name: .sessionExpired, object: nil, userInfo: [:])
+                        })
+                    }
+                }
+                else {
+                    DispatchQueue.main.async {
+                        self?.rControl.endRefreshing()
+                        self?.indicator.stopAnimating()
+                        Toast(with: eMsg.error).show(on: self?.view)
+                    }
+                }
             }
 
             if let data = model {
@@ -128,13 +147,32 @@ class AttendanceViewController: UIViewController, UICollectionViewDelegate, UICo
 
     @objc func handleAttendanceRefresh() {
         // Get attendance details
-        Service.shared.getAttendance(sessionID: getSessionID(), isRefresh: true) {[weak self] (model, err) in
+        Service.shared.getAttendance(sessionID: getSessionID(), isRefresh: true) {[weak self] (model, reauth, err) in
             if err != nil {
                 DispatchQueue.main.async {
                     self?.rControl.endRefreshing()
                     Toast(with: "Attendance not available").show(on: self?.view)
                 }
                 return
+            }
+            
+            if let eMsg = reauth {
+                if eMsg.error == LOGIN_FAILED {
+                    // Time to present the OTP controller for the reauth
+                    DispatchQueue.main.async {
+                        self?.rControl.endRefreshing()
+                        self?.present(LoginViewController(), animated: true, completion: {
+                            NotificationCenter.default.post(name: .sessionExpired, object: nil, userInfo: [:])
+                        })
+                    }
+                }
+                else {
+                    DispatchQueue.main.async {
+                        self?.rControl.endRefreshing()
+                        self?.indicator.stopAnimating()
+                        Toast(with: eMsg.error).show(on: self?.view)
+                    }
+                }
             }
 
             if let data = model {

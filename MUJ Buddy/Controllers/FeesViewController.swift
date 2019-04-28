@@ -126,12 +126,31 @@ class FeesViewController: UIViewController {
         setupViews()
 
         // MARK: - Fetch fee from API
-        Service.shared.fetchFeeDetails(sessionID: getSessionID()) { [weak self] (fee, error) in
+        Service.shared.fetchFeeDetails(sessionID: getSessionID()) { [weak self] (fee, reauth, error) in
             if let error = error {
                 print("Error: ", error)
                 DispatchQueue.main.async {
                     self?.indicator.stopAnimating()
                     Toast(with: "Error fetching fee details").show(on: self?.view)
+                }
+            }
+            
+            if let eMsg = reauth {
+                if eMsg.error == LOGIN_FAILED {
+                    // Time to present the OTP controller for the reauth
+                    DispatchQueue.main.async {
+                        self?.rControl.endRefreshing()
+                        self?.present(LoginViewController(), animated: true, completion: {
+                            NotificationCenter.default.post(name: .sessionExpired, object: nil, userInfo: [:])
+                        })
+                    }
+                }
+                else {
+                    DispatchQueue.main.async {
+                        self?.rControl.endRefreshing()
+                        self?.indicator.stopAnimating()
+                        Toast(with: eMsg.error).show(on: self?.view)
+                    }
                 }
             }
 
@@ -197,12 +216,31 @@ class FeesViewController: UIViewController {
 
     // MARK: - Fee refresh
     @objc fileprivate func handleFeeRefresh() {
-        Service.shared.fetchFeeDetails(sessionID: getSessionID(), isRefresh: true) { [weak self] (fee, error) in
+        Service.shared.fetchFeeDetails(sessionID: getSessionID(), isRefresh: true) { [weak self] (fee, reauth, error) in
             if let error = error {
                 print("Error: ", error)
                 DispatchQueue.main.async {
                     self?.rControl.endRefreshing()
                     Toast(with: "Error fetching fee details").show(on: self?.view)
+                }
+            }
+            
+            if let eMsg = reauth {
+                if eMsg.error == LOGIN_FAILED {
+                    // Time to present the OTP controller for the reauth
+                    DispatchQueue.main.async {
+                        self?.rControl.endRefreshing()
+                        self?.present(LoginViewController(), animated: true, completion: {
+                            NotificationCenter.default.post(name: .sessionExpired, object: nil, userInfo: [:])
+                        })
+                    }
+                }
+                else {
+                    DispatchQueue.main.async {
+                        self?.rControl.endRefreshing()
+                        self?.indicator.stopAnimating()
+                        Toast(with: eMsg.error).show(on: self?.view)
+                    }
                 }
             }
 

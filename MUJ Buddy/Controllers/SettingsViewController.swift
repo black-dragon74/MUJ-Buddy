@@ -48,7 +48,7 @@ class SettingsViewController: UITableViewController {
         currentSemLabel.text = "\(getSemester())"
         
         // Set the current refresh interval from the DB
-        refreshIntervalLabel.text = "\(getRefreshInterval()) " + hrOrHrs(from: getRefreshInterval())
+        refreshIntervalLabel.text = "\(getRefreshInterval()) " + minOrMins(from: getRefreshInterval())
         
         // Set the current notification threshold from the DB
         notificationThreshold.text = "\(getNotificationThresholdFromDB()) " + hrOrHrs(from: getNotificationThresholdFromDB())
@@ -128,15 +128,15 @@ class SettingsViewController: UITableViewController {
                 let alertController = UIAlertController(title: "Change refresh interval", message: "Please enter the new interval value", preferredStyle: .alert)
                 alertController.addTextField { (refreshTF) in
                     refreshTF.keyboardType = .numberPad
-                    refreshTF.placeholder = "Max allowed value is 24 hours"
+                    refreshTF.placeholder = "Max allowed value is 15 minutes"
                 }
                 let okAction = UIAlertAction(title: "OK", style: .default) {[weak self] (action) in
                     if let tf = alertController.textFields?.first {
-                        guard tf.text != "", Int(tf.text!)! <= 24 && Int(tf.text!)! > 0 else { return }
+                        guard tf.text != "", Int(tf.text!)! <= 15 && Int(tf.text!)! > 0 else { return }
                         let val = tf.text!
                         setRefreshInterval(as: Int(val)!)
-                        self?.refreshIntervalLabel.text = "\(val) " + (self?.hrOrHrs(from: Int(val)!))!
-                        UIApplication.shared.setMinimumBackgroundFetchInterval(Double(val)!)
+                        self?.refreshIntervalLabel.text = "\(val) " + (self?.minOrMins(from: Int(val)!))!
+                        UIApplication.shared.setMinimumBackgroundFetchInterval(Double(val)! * 60)
                     }
                 }
                 let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
@@ -286,5 +286,9 @@ class SettingsViewController: UITableViewController {
     
     fileprivate func hrOrHrs(from value: Int) -> String {
         return value == 1 ? "Hour" : "Hours"
+    }
+    
+    fileprivate func minOrMins(from value: Int) -> String {
+        return value == 1 ? "Minute" : "Minutes"
     }
 }

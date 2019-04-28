@@ -96,13 +96,32 @@ class EventsViewController: UICollectionViewController, UICollectionViewDelegate
         indicator.startAnimating()
 
         // MARK: - Fetch the data
-        Service.shared.fetchEvents(sessionID: getSessionID()) {[weak self] (data, error) in
+        Service.shared.fetchEvents(sessionID: getSessionID()) {[weak self] (data, reauth, error) in
             if error != nil {
                 DispatchQueue.main.async {
                     self?.indicator.stopAnimating()
                     Toast(with: "Unable to fetch events.").show(on: self?.view)
                 }
                 return
+            }
+            
+            if let eMsg = reauth {
+                if eMsg.error == LOGIN_FAILED {
+                    // Time to present the OTP controller for the reauth
+                    DispatchQueue.main.async {
+                        self?.rControl.endRefreshing()
+                        self?.present(LoginViewController(), animated: true, completion: {
+                            NotificationCenter.default.post(name: .sessionExpired, object: nil, userInfo: [:])
+                        })
+                    }
+                }
+                else {
+                    DispatchQueue.main.async {
+                        self?.rControl.endRefreshing()
+                        self?.indicator.stopAnimating()
+                        Toast(with: eMsg.error).show(on: self?.view)
+                    }
+                }
             }
 
             if let data = data {
@@ -168,13 +187,32 @@ class EventsViewController: UICollectionViewController, UICollectionViewDelegate
     }
 
     @objc fileprivate func handleEventsRefresh() {
-        Service.shared.fetchEvents(sessionID: getSessionID(), isRefresh: true) {[weak self] (data, error) in
+        Service.shared.fetchEvents(sessionID: getSessionID(), isRefresh: true) {[weak self] (data, reauth, error) in
             if error != nil {
                 DispatchQueue.main.async {
                     self?.rControl.endRefreshing()
                     Toast(with: "Unable to fetch events.").show(on: self?.view)
                 }
                 return
+            }
+            
+            if let eMsg = reauth {
+                if eMsg.error == LOGIN_FAILED {
+                    // Time to present the OTP controller for the reauth
+                    DispatchQueue.main.async {
+                        self?.rControl.endRefreshing()
+                        self?.present(LoginViewController(), animated: true, completion: {
+                            NotificationCenter.default.post(name: .sessionExpired, object: nil, userInfo: [:])
+                        })
+                    }
+                }
+                else {
+                    DispatchQueue.main.async {
+                        self?.rControl.endRefreshing()
+                        self?.indicator.stopAnimating()
+                        Toast(with: eMsg.error).show(on: self?.view)
+                    }
+                }
             }
 
             if let data = data {

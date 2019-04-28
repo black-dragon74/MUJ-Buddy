@@ -118,7 +118,7 @@ class GPAViewController: UIViewController, UICollectionViewDelegate, UICollectio
         setupViews()
 
         // Test the functionality
-        Service.shared.fetchGPA(sessionID: getSessionID()) { [weak self] (gpa, error) in
+        Service.shared.fetchGPA(sessionID: getSessionID()) { [weak self] (gpa, reauth,  error) in
             if let error = error {
                 // Alert and return
                 print("GPA Error: ", error)
@@ -127,6 +127,25 @@ class GPAViewController: UIViewController, UICollectionViewDelegate, UICollectio
                     Toast.init(with: "Unable to fetch GPA details.").show(on: self?.view)
                 }
                 return
+            }
+            
+            if let eMsg = reauth {
+                if eMsg.error == LOGIN_FAILED {
+                    // Time to present the OTP controller for the reauth
+                    DispatchQueue.main.async {
+                        self?.rControl.endRefreshing()
+                        self?.present(LoginViewController(), animated: true, completion: {
+                            NotificationCenter.default.post(name: .sessionExpired, object: nil, userInfo: [:])
+                        })
+                    }
+                }
+                else {
+                    DispatchQueue.main.async {
+                        self?.rControl.endRefreshing()
+                        self?.indicator.stopAnimating()
+                        Toast(with: eMsg.error).show(on: self?.view)
+                    }
+                }
             }
 
             if let gpa = gpa {
@@ -183,7 +202,7 @@ class GPAViewController: UIViewController, UICollectionViewDelegate, UICollectio
 
     // MARK: - Function to handle refresh
     @objc fileprivate func handleGPARefresh() {
-        Service.shared.fetchGPA(sessionID: getSessionID(), isRefresh: true) { [weak self] (gpa, error) in
+        Service.shared.fetchGPA(sessionID: getSessionID(), isRefresh: true) { [weak self] (gpa, reauth, error) in
             if let error = error {
                 // Alert and return
                 print("GPA Error: ", error)
@@ -192,6 +211,25 @@ class GPAViewController: UIViewController, UICollectionViewDelegate, UICollectio
                     Toast.init(with: "Unable to fetch GPA details.").show(on: self?.view)
                 }
                 return
+            }
+            
+            if let eMsg = reauth {
+                if eMsg.error == LOGIN_FAILED {
+                    // Time to present the OTP controller for the reauth
+                    DispatchQueue.main.async {
+                        self?.rControl.endRefreshing()
+                        self?.present(LoginViewController(), animated: true, completion: {
+                            NotificationCenter.default.post(name: .sessionExpired, object: nil, userInfo: [:])
+                        })
+                    }
+                }
+                else {
+                    DispatchQueue.main.async {
+                        self?.rControl.endRefreshing()
+                        self?.indicator.stopAnimating()
+                        Toast(with: eMsg.error).show(on: self?.view)
+                    }
+                }
             }
 
             if let gpa = gpa {

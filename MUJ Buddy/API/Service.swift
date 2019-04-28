@@ -83,7 +83,7 @@ class Service {
     }
 
     // Function to get dashboard details
-    func fetchDashDetails(sessionID: String, isRefresh: Bool = false, completion: @escaping(DashboardModel?, Error?) -> Void) {
+    func fetchDashDetails(sessionID: String, isRefresh: Bool = false, completion: @escaping(DashboardModel?, ErrorModel?, Error?) -> Void) {
 
         if !isRefresh {
             if let datafromDB = getDashFromDB() {
@@ -91,10 +91,10 @@ class Service {
                 decoder.keyDecodingStrategy = .convertFromSnakeCase
                 do {
                     let json = try decoder.decode(DashboardModel.self, from: datafromDB)
-                    completion(json, nil)
+                    completion(json, nil, nil)
                     return
                 } catch let err {
-                    completion(nil, err)
+                    completion(nil, nil, err)
                     return
                 }
             }
@@ -105,7 +105,7 @@ class Service {
         URLSession.shared.dataTask(with: url) {(data, _, error) in
             if let error = error {
                 print("HTTP Error: ", error)
-                completion(nil, error)
+                completion(nil, nil, error)
                 return
             }
 
@@ -118,19 +118,28 @@ class Service {
                     let encoder = JSONEncoder()
                     let dashData = try? encoder.encode(json)
                     updateDashInDB(data: dashData)
-                    completion(json, nil)
+                    completion(json, nil, nil)
                     return
-                } catch let ex {
-                    print("JSON ERROR: ", ex)
-                    completion(nil, ex)
-                    return
+                } catch {
+                    // Try and see if the login has failed
+                    do {
+                        let errorMsg = try decoder.decode(ErrorModel.self, from: data)
+                        completion(nil, errorMsg, nil)
+                        return
+                    }
+                        
+                    catch let er {
+                        // This is the final error
+                        completion(nil, nil, er)
+                        return
+                    }
                 }
             }
             }.resume()
     }
 
     // Function to get contacts
-    func getFacultyDetails(sessionID: String, isRefresh: Bool = false, uponFinishing: @escaping ([FacultyContactModel]?, Error?) -> Void) {
+    func getFacultyDetails(sessionID: String, isRefresh: Bool = false, uponFinishing: @escaping ([FacultyContactModel]?, ErrorModel?, Error?) -> Void) {
         
         let tURL = API_URL + "faculties?sessionid=\(sessionID)"
 
@@ -142,11 +151,11 @@ class Service {
                 do {
                     let decoder = JSONDecoder()
                     let json =  try decoder.decode([FacultyContactModel].self, from: data)
-                    uponFinishing(json, nil)
+                    uponFinishing(json, nil, nil)
                     return
                 } catch let err {
                     print("JSON ERROR in user defaults, ", err)
-                    uponFinishing(nil, err)
+                    uponFinishing(nil, nil, err)
                     return
                 }
             }
@@ -156,25 +165,34 @@ class Service {
         URLSession.shared.dataTask(with: url) {(data, _, error) in
             if let error = error {
                 print("HTTP error: ", error)
-                uponFinishing(nil, error)
+                uponFinishing(nil, nil, error)
                 return
             }
 
             if let data = data {
+                let decoder = JSONDecoder()
                 // Try to decode
                 do {
-                    let decoder = JSONDecoder()
                     let json =  try decoder.decode([FacultyContactModel].self, from: data)
                     // Encode and save
                     let encoder = JSONEncoder()
                     let encodedData = try? encoder.encode(json)
                     UserDefaults.standard.removeObject(forKey: FACULTY_CONTACT_KEY)
                     UserDefaults.standard.set(encodedData, forKey: FACULTY_CONTACT_KEY)
-                    uponFinishing(json, nil)
-                } catch let err {
-                    print("JSON ERROR, ", err)
-                    uponFinishing(nil, err)
-                    return
+                    uponFinishing(json, nil, nil)
+                } catch {
+                    // Try and see if the login has failed
+                    do {
+                        let errorMsg = try decoder.decode(ErrorModel.self, from: data)
+                        uponFinishing(nil, errorMsg, nil)
+                        return
+                    }
+                        
+                    catch let er {
+                        // This is the final error
+                        uponFinishing(nil, nil, er)
+                        return
+                    }
                 }
             }
 
@@ -182,7 +200,7 @@ class Service {
     }
 
     // Function to get Attendance
-    func getAttendance(sessionID: String, isRefresh: Bool = false, completion: @escaping([AttendanceModel]?, Error?) -> Void) {
+    func getAttendance(sessionID: String, isRefresh: Bool = false, completion: @escaping([AttendanceModel]?, ErrorModel?, Error?) -> Void) {
 
         // Check if attendance is there in the DB, saves an extra call, but only when it is not a refresh request
         if !isRefresh {
@@ -190,10 +208,10 @@ class Service {
                 do {
                     let decoder = JSONDecoder()
                     let json = try decoder.decode([AttendanceModel].self, from: attendanceInDB)
-                    completion(json, nil)
+                    completion(json, nil, nil)
                     return
                 } catch let err {
-                    completion(nil, err)
+                    completion(nil, nil, err)
                     return
                 }
             }
@@ -205,7 +223,7 @@ class Service {
         // Start a URL session
         URLSession.shared.dataTask(with: url) {(data, _, error) in
             if let error = error {
-                completion(nil, error)
+                completion(nil, nil, error)
                 return
             }
 
@@ -217,19 +235,28 @@ class Service {
                     let encoder = JSONEncoder()
                     let attendanceData = try? encoder.encode(json) // If it is empty, nil value will be returned from the utility function
                     updateAttendanceInDB(attendance: attendanceData)
-                    completion(json, nil)
+                    completion(json, nil, nil)
                     return
-                } catch let err {
-                    print("JSON ERROR, ", err)
-                    completion(nil, err)
-                    return
+                } catch {
+                    // Try and see if the login has failed
+                    do {
+                        let errorMsg = try decoder.decode(ErrorModel.self, from: data)
+                        completion(nil, errorMsg, nil)
+                        return
+                    }
+                        
+                    catch let er {
+                        // This is the final error
+                        completion(nil, nil, er)
+                        return
+                    }
                 }
             }
             }.resume()
     }
 
     // Function to get Events
-    func fetchEvents(sessionID: String, isRefresh: Bool = false, completion: @escaping([EventsModel]?, Error?) -> Void) {
+    func fetchEvents(sessionID: String, isRefresh: Bool = false, completion: @escaping([EventsModel]?, ErrorModel?, Error?) -> Void) {
 
         // Form the URL
         let tURL = API_URL + "events?sessionid=\(sessionID)"
@@ -243,11 +270,11 @@ class Service {
                 do {
                     let json = try decoder.decode([EventsModel].self, from: dataFromDB)
                     // Return the data
-                    completion(json, nil)
+                    completion(json, nil, nil)
                     return
                 } catch let err {
                     print("Json error: ", err)
-                    completion(nil, err)
+                    completion(nil, nil, err)
                     return
                 }
             }
@@ -257,7 +284,7 @@ class Service {
         URLSession.shared.dataTask(with: url) {(data, _, error) in
             if let error = error {
                 print("HTTP error: ", error)
-                completion(nil, error)
+                completion(nil, nil, error)
                 return
             }
 
@@ -271,29 +298,38 @@ class Service {
                     let dataToSave = try? encoder.encode(json)
                     updateEventsInDB(events: dataToSave)
                     // Return with completion
-                    completion(json, nil)
+                    completion(json, nil, nil)
                     return
-                } catch let err {
-                    print("Json parse error: ", err)
-                    completion(nil, err)
-                    return
+                } catch {
+                    // Try and see if the login has failed
+                    do {
+                        let errorMsg = try decoder.decode(ErrorModel.self, from: data)
+                        completion(nil, errorMsg, nil)
+                        return
+                    }
+                        
+                    catch let er {
+                        // This is the final error
+                        completion(nil, nil, er)
+                        return
+                    }
                 }
             }
             }.resume()
     }
 
     // Function to get GPA
-    func fetchGPA(sessionID: String, isRefresh: Bool = false, completion: @escaping(GpaModel?, Error?) -> Void) {
+    func fetchGPA(sessionID: String, isRefresh: Bool = false, completion: @escaping(GpaModel?, ErrorModel?, Error?) -> Void) {
 
         if !isRefresh {
             if let data = getGPAFromDB() {
                 let decoder = JSONDecoder()
                 do {
                     let json = try decoder.decode(GpaModel.self, from: data)
-                    completion(json, nil)
+                    completion(json, nil, nil)
                     return
                 } catch let err {
-                    completion(nil, err)
+                    completion(nil, nil, err)
                     return
                 }
             }
@@ -306,7 +342,7 @@ class Service {
         // Send a data request
         URLSession.shared.dataTask(with: url) {(data, _, error) in
             if let error = error {
-                completion(nil, error)
+                completion(nil, nil, error)
                 return
             }
 
@@ -317,18 +353,28 @@ class Service {
                     let encoder = JSONEncoder()
                     let dataToSave = try? encoder.encode(json)
                     updateGPAInDB(gpa: dataToSave)
-                    completion(json, nil)
+                    completion(json, nil, nil)
                     return
-                } catch let err {
-                    completion(nil, err)
-                    return
+                } catch {
+                    // Try and see if the login has failed
+                    do {
+                        let errorMsg = try decoder.decode(ErrorModel.self, from: data)
+                        completion(nil, errorMsg, nil)
+                        return
+                    }
+                        
+                    catch let er {
+                        // This is the final error
+                        completion(nil, nil, er)
+                        return
+                    }
                 }
             }
             }.resume()
     }
 
     // Function to fetch internals from the API
-    func fetchInternals(sessionID: String, semester: Int, isRefresh: Bool = false, completion: @escaping([InternalsModel]?, Error?) -> Void) {
+    func fetchInternals(sessionID: String, semester: Int, isRefresh: Bool = false, completion: @escaping([InternalsModel]?, ErrorModel?, Error?) -> Void) {
 
         if !isRefresh {
             // Check if the data is there in the DB and return from there
@@ -336,10 +382,10 @@ class Service {
                 let decoder = JSONDecoder()
                 do {
                     let json = try decoder.decode([InternalsModel].self, from: data)
-                    completion(json, nil)
+                    completion(json, nil, nil)
                     return
                 } catch let err {
-                    completion(nil, err)
+                    completion(nil, nil, err)
                     return
                 }
             }
@@ -350,7 +396,7 @@ class Service {
         guard let url = URL(string: tURL) else { return }
         URLSession.shared.dataTask(with: url) {(data, _, error) in
             if let error = error {
-                completion(nil, error)
+                completion(nil, nil, error)
                 return
             }
 
@@ -361,18 +407,28 @@ class Service {
                     let encoder = JSONEncoder()
                     let dataToSave = try? encoder.encode(json)
                     updateInternalsInDB(internals: dataToSave)
-                    completion(json, nil)
+                    completion(json, nil, nil)
                     return
-                } catch let err {
-                    completion(nil, err)
-                    return
+                } catch {
+                    // Try and see if the login has failed
+                    do {
+                        let errorMsg = try decoder.decode(ErrorModel.self, from: data)
+                        completion(nil, errorMsg, nil)
+                        return
+                    }
+                        
+                    catch let er {
+                        // This is the final error
+                        completion(nil, nil, er)
+                        return
+                    }
                 }
             }
         }.resume()
     }
 
     // Function to fetch results from the API
-    func fetchResults(sessionID: String, semester: Int, isRefresh: Bool = false, completion: @escaping([ResultsModel]?, Error?) -> Void) {
+    func fetchResults(sessionID: String, semester: Int, isRefresh: Bool = false, completion: @escaping([ResultsModel]?, ErrorModel?, Error?) -> Void) {
 
         if !isRefresh {
             // Check if the data is there in the DB and return from there
@@ -381,10 +437,10 @@ class Service {
                 decoder.keyDecodingStrategy = .convertFromSnakeCase
                 do {
                     let json = try decoder.decode([ResultsModel].self, from: data)
-                    completion(json, nil)
+                    completion(json, nil, nil)
                     return
                 } catch let err {
-                    completion(nil, err)
+                    completion(nil, nil, err)
                     return
                 }
             }
@@ -395,7 +451,7 @@ class Service {
         guard let url = URL(string: tURL) else { return }
         URLSession.shared.dataTask(with: url) {(data, _, error) in
             if let error = error {
-                completion(nil, error)
+                completion(nil, nil, error)
                 return
             }
 
@@ -407,18 +463,28 @@ class Service {
                     let encoder = JSONEncoder()
                     let dataToSave = try? encoder.encode(json)
                     updateResultsInDB(results: dataToSave)
-                    completion(json, nil)
+                    completion(json, nil, nil)
                     return
-                } catch let err {
-                    completion(nil, err)
-                    return
+                } catch {
+                    // Try and see if the login has failed
+                    do {
+                        let errorMsg = try decoder.decode(ErrorModel.self, from: data)
+                        completion(nil, errorMsg, nil)
+                        return
+                    }
+                        
+                    catch let er {
+                        // This is the final error
+                        completion(nil, nil, er)
+                        return
+                    }
                 }
             }
             }.resume()
     }
 
     // Function to fetch fee details from the API
-    func fetchFeeDetails(sessionID: String, isRefresh: Bool = false, completion: @escaping(FeeModel?, Error?) -> Void) {
+    func fetchFeeDetails(sessionID: String, isRefresh: Bool = false, completion: @escaping(FeeModel?, ErrorModel?, Error?) -> Void) {
 
         if !isRefresh {
             // Check if the data is there in the DB and return from there
@@ -426,10 +492,10 @@ class Service {
                 let decoder = JSONDecoder()
                 do {
                     let json = try decoder.decode(FeeModel.self, from: data)
-                    completion(json, nil)
+                    completion(json, nil, nil)
                     return
                 } catch let err {
-                    completion(nil, err)
+                    completion(nil, nil, err)
                     return
                 }
             }
@@ -440,7 +506,7 @@ class Service {
         guard let url = URL(string: tURL) else { return }
         URLSession.shared.dataTask(with: url) {(data, _, error) in
             if let error = error {
-                completion(nil, error)
+                completion(nil, nil, error)
                 return
             }
 
@@ -452,11 +518,21 @@ class Service {
                     let encoder = JSONEncoder()
                     let dataToSave = try? encoder.encode(json)
                     updateFeeInDB(fee: dataToSave)
-                    completion(json, nil)
+                    completion(json, nil, nil)
                     return
-                } catch let err {
-                    completion(nil, err)
-                    return
+                } catch {
+                    // Try and see if the login has failed
+                    do {
+                        let errorMsg = try decoder.decode(ErrorModel.self, from: data)
+                        completion(nil, errorMsg, nil)
+                        return
+                    }
+                        
+                    catch let er {
+                        // This is the final error
+                        completion(nil, nil, er)
+                        return
+                    }
                 }
             }
             }.resume()

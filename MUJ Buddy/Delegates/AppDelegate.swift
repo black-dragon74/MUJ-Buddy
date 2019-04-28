@@ -37,7 +37,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
 
         // Get and set the update interval from the DB
-        let interval = 3600 * getRefreshInterval()
+        let interval = 60 * getRefreshInterval()
         UIApplication.shared.setMinimumBackgroundFetchInterval(Double(interval))
 
         // Ask permission for the notifications
@@ -62,7 +62,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     // Perform the actual fetch
     func application(_ application: UIApplication, performFetchWithCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
         if application.backgroundRefreshStatus == UIBackgroundRefreshStatus.available && getSessionID() != "NA" {
-            Service.shared.getAttendance(sessionID: getSessionID(), isRefresh: true) { (attendance, error) in
+            Service.shared.getAttendance(sessionID: getSessionID(), isRefresh: true) { (attendance, _, error) in
                 if let error = error {
                     print("Refresh error: ", error)
                     completionHandler(.failed)
