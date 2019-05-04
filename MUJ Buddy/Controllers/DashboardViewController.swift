@@ -216,13 +216,13 @@ class DashboardViewController: UIViewController, UICollectionViewDelegate, UICol
         case "Events":
             self.navigationController?.pushViewController(EventsViewController(collectionViewLayout: UICollectionViewFlowLayout()), animated: true)
             break
-        case "Announcements":
+        case "Notifications":
             Toast(with: "Notifications not available").show(on: self.view)
             break
         case "Fee Details":
             self.navigationController?.pushViewController(FeesViewController(), animated: true)
             break
-        case "Faculty Contacts":
+        case "Contacts":
             self.navigationController?.pushViewController(ContactsViewController(), animated: true)
             break
         case "StudentDetails":

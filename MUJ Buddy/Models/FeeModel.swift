@@ -19,7 +19,8 @@ struct FeeModel: Codable {
     struct unpaid: Codable {
         let total: String?
     }
-
+    
+    let success: Bool
     let paid: paid?
     let unpaid: unpaid?
 }

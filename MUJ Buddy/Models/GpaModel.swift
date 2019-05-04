@@ -10,6 +10,7 @@ import UIKit
 
 //TODO:- Implement it in a better way, update API to return array
 struct GpaModel: Codable {
+    let success: Bool
     let semester_1: String?
     let semester_2: String?
     let semester_3: String?
