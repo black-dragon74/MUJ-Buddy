@@ -162,7 +162,7 @@ class StudentDetailedView: UIViewController, UIImagePickerControllerDelegate, UI
     let parentCard: UIView = {
         let pCard = UIView()
         pCard.dropShadow()
-        pCard.backgroundColor = DMSColors.kindOfPurple.value
+        pCard.backgroundColor = .navyBlue
         pCard.translatesAutoresizingMaskIntoConstraints = false
         pCard.heightAnchor.constraint(equalToConstant: 120).isActive = true
         return pCard
@@ -199,7 +199,7 @@ class StudentDetailedView: UIViewController, UIImagePickerControllerDelegate, UI
         super.viewDidLoad()
         
         navigationItem.title = "Student Details"
-        view.backgroundColor = DMSColors.primaryLighter.value
+        view.backgroundColor = .primaryLighter
         
         setupViews()
         

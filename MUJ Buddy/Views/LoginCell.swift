@@ -31,7 +31,7 @@ class LoginCell: UICollectionViewCell {
     let loginSelector: UISegmentedControl = {
         let lSelector = UISegmentedControl(items: ["Student", "Parent"])
         lSelector.selectedSegmentIndex = 0
-        lSelector.tintColor = DMSColors.orangeish.value
+        lSelector.tintColor = .mujTheme
         return lSelector
     }()
 

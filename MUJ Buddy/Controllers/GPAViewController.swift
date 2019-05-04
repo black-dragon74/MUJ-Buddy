@@ -70,7 +70,7 @@ class GPAViewController: UIViewController, UICollectionViewDelegate, UICollectio
         let c = UICollectionView(frame: .zero, collectionViewLayout: layout)
         c.delegate = self
         c.dataSource = self
-        c.backgroundColor = DMSColors.primaryLighter.value
+        c.backgroundColor = .primaryLighter
         return c
     }()
 
@@ -112,7 +112,7 @@ class GPAViewController: UIViewController, UICollectionViewDelegate, UICollectio
         super.viewDidLoad()
 
         navigationItem.title = "GPA Details"
-        view.backgroundColor = DMSColors.primaryLighter.value
+        view.backgroundColor = .primaryLighter
 
         // Setup additional views
         setupViews()
@@ -134,6 +134,7 @@ class GPAViewController: UIViewController, UICollectionViewDelegate, UICollectio
                     // Time to present the OTP controller for the reauth
                     DispatchQueue.main.async {
                         self?.rControl.endRefreshing()
+                        self?.indicator.stopAnimating()
                         self?.present(LoginViewController(), animated: true, completion: {
                             NotificationCenter.default.post(name: .sessionExpired, object: nil, userInfo: [:])
                         })
@@ -218,6 +219,7 @@ class GPAViewController: UIViewController, UICollectionViewDelegate, UICollectio
                     // Time to present the OTP controller for the reauth
                     DispatchQueue.main.async {
                         self?.rControl.endRefreshing()
+                        self?.indicator.stopAnimating()
                         self?.present(LoginViewController(), animated: true, completion: {
                             NotificationCenter.default.post(name: .sessionExpired, object: nil, userInfo: [:])
                         })

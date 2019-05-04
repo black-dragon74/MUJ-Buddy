@@ -14,65 +14,44 @@ class DashboardHeaderView: UICollectionReusableView {
     var dashDetails: DashboardModel? {
         didSet {
             guard let dash = dashDetails else { return }
-            nameTF.text = dash.admDetails.name
-            acadTF.text = dash.admDetails.acadYear
-            programTF.text = dash.admDetails.program.replacingOccurrences(of: "Bachelor of", with: "B.").replacingOccurrences(of: "Applications", with: "App.")
+            nameTF.text = dash.admDetails.name.capitalized(with: nil)
         }
     }
     
+    let poppins = UIFont(name: "Poppins", size: 30)
+    let poppinsBold = UIFont(name: "Futura", size: 30)?.bold()
+    
     // Name
-    let nameLabel: UILabel = {
+    lazy var nameLabel: UILabel = {
         let n = UILabel()
-        n.text = "Name: "
+        n.text = "Welcome,"
         n.textColor = .white
-        n.font = UIFont.systemFont(ofSize: 17, weight: .bold)
+        n.font = self.poppins
+        n.translatesAutoresizingMaskIntoConstraints = false
         return  n
     }()
     
-    let nameTF: UILabel = {
-        let n = UILabel()
-        n.text = "Loading..."
-        n.textColor = .white
-        return  n
-    }()
-    
-    // Program
-    let programLabel: UILabel = {
-        let n = UILabel()
-        n.text = "Program: "
-        n.textColor = .white
-        n.font = UIFont.systemFont(ofSize: 17, weight: .bold)
-        return  n
-    }()
-    
-    let programTF: UILabel = {
+    lazy var nameTF: UILabel = {
         let n = UILabel()
         n.text = "Loading..."
         n.textColor = .white
-        n.lineBreakMode = .byTruncatingTail
+        n.font = self.poppinsBold
+        n.translatesAutoresizingMaskIntoConstraints = false
         return  n
     }()
     
-    // Acad Year
-    let acadLabel: UILabel = {
-        let n = UILabel()
-        n.text = "Acad Year: "
-        n.textColor = .white
-        n.font = UIFont.systemFont(ofSize: 17, weight: .bold)
-        return  n
-    }()
-    
-    let acadTF: UILabel = {
-        let n = UILabel()
-        n.text = "Loading..."
-        n.textColor = .white
-        return  n
-    }()
-    
-    let containerView: UIView = {
-        let cView = UIView()
-        cView.backgroundColor = DMSColors.kindOfPurple.value
+    let mujImgview: UIImageView = {
+        let cView = UIImageView()
+        cView.backgroundColor = .navyBlue
+        cView.image = UIImage(named: "manipal")
         return cView
+    }()
+    
+    let blackView: UIView = {
+        let bView = UIView()
+        bView.backgroundColor = .black
+        bView.alpha = 0.7
+        return bView
     }()
     
     let rightChevron: UIImageView = {
@@ -87,34 +66,29 @@ class DashboardHeaderView: UICollectionReusableView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        backgroundColor = .white
         
         setupHeader()
     }
     
     fileprivate func setupHeader() {
-        addSubview(containerView)
-        containerView.addSubview(nameLabel)
-        containerView.addSubview(nameTF)
-        containerView.addSubview(programLabel)
-        containerView.addSubview(programTF)
-        containerView.addSubview(acadLabel)
-        containerView.addSubview(acadTF)
-        containerView.addSubview(rightChevron)
+        addSubview(mujImgview)
+        addSubview(blackView)
+        addSubview(nameLabel)
+        addSubview(nameTF)
+        addSubview(rightChevron)
         
-        containerView.anchorWithConstraints(top: topAnchor, right: rightAnchor, bottom: bottomAnchor, left: leftAnchor, topOffset: 0, rightOffset: 8, bottomOffset: 0, leftOffset: 8, height: nil, width: nil)
+        mujImgview.anchorWithConstraints(top: topAnchor, right: rightAnchor, bottom: bottomAnchor, left: leftAnchor, rightOffset: 8, leftOffset: 8)
         
-        nameLabel.anchorWithConstraints(top: containerView.topAnchor, left: containerView.leftAnchor, topOffset: 12, leftOffset: 10)
-        nameTF.anchorWithConstraints(top: containerView.topAnchor, left: nameLabel.rightAnchor, topOffset: 12, leftOffset: 4)
+        blackView.anchorWithConstraints(top: topAnchor, right: rightAnchor, bottom: bottomAnchor, left: leftAnchor, rightOffset: 8, leftOffset: 8)
         
-        programLabel.anchorWithConstraints(top: nameLabel.bottomAnchor, left: containerView.leftAnchor, topOffset: 4, leftOffset: 10)
-        programTF.anchorWithConstraints(top: nameLabel.bottomAnchor, left: programLabel.rightAnchor, topOffset: 4, leftOffset: 4)
+        nameLabel.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
+        nameLabel.centerYAnchor.constraint(equalTo: self.centerYAnchor, constant: -20).isActive = true
         
-        acadLabel.anchorWithConstraints(top: programLabel.bottomAnchor, left: containerView.leftAnchor, topOffset: 4, leftOffset: 10)
-        acadTF.anchorWithConstraints(top: programLabel.bottomAnchor, left: acadLabel.rightAnchor, topOffset: 4, leftOffset: 4)
+        nameTF.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
+        nameTF.centerYAnchor.constraint(equalTo: self.centerYAnchor, constant: 20).isActive = true
         
-        rightChevron.centerYAnchor.constraint(equalTo: containerView.centerYAnchor).isActive = true
-        rightChevron.rightAnchor.constraint(equalTo: containerView.rightAnchor, constant: -5).isActive = true
+        rightChevron.centerYAnchor.constraint(equalTo: mujImgview.centerYAnchor).isActive = true
+        rightChevron.rightAnchor.constraint(equalTo: mujImgview.rightAnchor, constant: -5).isActive = true
     }
     
     required init?(coder aDecoder: NSCoder) {

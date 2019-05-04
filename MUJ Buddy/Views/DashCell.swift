@@ -14,15 +14,13 @@ class DashCell: UICollectionViewCell {
         didSet {
             guard let item = items else { return }
             tLabel.text = item.title
-            sLabel.text = item.subtitle
             cellIcon.image = UIImage(named: item.image)
         }
     }
-
+    
     // Parent controller
     let cellUIView: UIView = {
         let c = UIView()
-//      c.clipsToBounds = true //TODO:- Fix overlap in a better way on iPhone 5s
         return c
     }()
 
@@ -30,52 +28,42 @@ class DashCell: UICollectionViewCell {
     let cellIcon: UIImageView = {
         let c = UIImageView()
         c.clipsToBounds = true
-        c.layer.masksToBounds = true
-        c.contentMode = .scaleAspectFill
+        c.translatesAutoresizingMaskIntoConstraints = false
+        c.heightAnchor.constraint(equalToConstant: 90).isActive = true
+        c.widthAnchor.constraint(equalToConstant: 90).isActive = true
+        c.contentMode = .scaleAspectFit
         return c
     }()
 
     // Title Label
     let tLabel: UILabel = {
         let l = UILabel()
-        l.font = UIFont.systemFont(ofSize: 14, weight: .bold)
+        l.font = UIFont(name: "Poppins", size: 17)?.bold()
+        l.textColor = .white
         return l
-    }()
-
-    // Subtitle label
-    let sLabel: UILabel = {
-        let s = UILabel()
-        s.textColor = .darkGray
-        return s
     }()
 
     override init(frame: CGRect) {
         super.init(frame: frame)
+        
+        self.layer.cornerRadius = 10
+        self.dropShadow()
 
         addSubview(cellUIView)
         cellUIView.addSubview(cellIcon)
         cellUIView.addSubview(tLabel)
-        cellUIView.addSubview(sLabel)
 
         // Root container
-        cellUIView.anchorWithConstraints(top: topAnchor, right: rightAnchor, bottom: bottomAnchor, left: leftAnchor, topOffset: 8, rightOffset: 8, bottomOffset: 8, leftOffset: 8, height: nil, width: nil)
+        cellUIView.anchorWithConstraints(top: topAnchor, right: rightAnchor, bottom: bottomAnchor, left: leftAnchor, topOffset: 8, rightOffset: 8, bottomOffset: 8, leftOffset: 8)
 
         // The icon
-        cellIcon.translatesAutoresizingMaskIntoConstraints = false
-        cellIcon.heightAnchor.constraint(equalToConstant: 90).isActive = true
-        cellIcon.widthAnchor.constraint(equalToConstant: 90).isActive = true
         cellIcon.centerXAnchor.constraint(equalTo: cellUIView.centerXAnchor).isActive = true
-        cellIcon.centerYAnchor.constraint(equalTo: cellUIView.centerYAnchor).isActive = true
+        cellIcon.centerYAnchor.constraint(equalTo: cellUIView.centerYAnchor, constant: -5).isActive = true
 
         // For the title label
         tLabel.translatesAutoresizingMaskIntoConstraints = false
-        tLabel.topAnchor.constraint(equalTo: cellIcon.bottomAnchor, constant: 4).isActive = true
+        tLabel.topAnchor.constraint(equalTo: cellIcon.bottomAnchor, constant: 6).isActive = true
         tLabel.centerXAnchor.constraint(equalTo: cellUIView.centerXAnchor).isActive = true
-
-        // For the subtitle label
-        sLabel.translatesAutoresizingMaskIntoConstraints = false
-        sLabel.topAnchor.constraint(equalTo: tLabel.bottomAnchor).isActive = true
-        sLabel.centerXAnchor.constraint(equalTo: cellUIView.centerXAnchor).isActive = true
 
     }
 

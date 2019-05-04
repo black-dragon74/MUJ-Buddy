@@ -164,7 +164,7 @@ class FacultyContactViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        view.backgroundColor = DMSColors.primaryLighter.value
+        view.backgroundColor = .primaryLighter
         self.title = "Details"
 
         setupViews()

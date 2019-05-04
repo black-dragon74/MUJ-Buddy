@@ -7,6 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		01039723227E2090007288AD /* Poppins-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0103971F227E2090007288AD /* Poppins-BoldItalic.ttf */; };
+		01039724227E2090007288AD /* Poppins-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 01039720227E2090007288AD /* Poppins-Italic.ttf */; };
+		01039725227E2090007288AD /* Poppins-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 01039721227E2090007288AD /* Poppins-Regular.ttf */; };
+		01039726227E2090007288AD /* Poppins-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 01039722227E2090007288AD /* Poppins-Bold.ttf */; };
+		01039728227E2115007288AD /* Poppins-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 01039727227E2115007288AD /* Poppins-SemiBold.ttf */; };
 		01106DC8220601FB00C0DA40 /* FeesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01106DC7220601FB00C0DA40 /* FeesViewController.swift */; };
 		0110BB2E21F32B5500E6546A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0110BB2D21F32B5500E6546A /* AppDelegate.swift */; };
 		0110BB3021F32B5500E6546A /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0110BB2F21F32B5500E6546A /* LoginViewController.swift */; };
@@ -23,7 +28,7 @@
 		01197BA7222AA5D5002F1FC6 /* AppInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01197BA6222AA5D5002F1FC6 /* AppInfoViewController.swift */; };
 		01255054220E05FA008926A6 /* SessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01255053220E05FA008926A6 /* SessionManager.swift */; };
 		01261C992201F7CF00E6EB63 /* EventsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01261C982201F7CF00E6EB63 /* EventsViewController.swift */; };
-		01261C9B2201FEDA00E6EB63 /* Enumerators.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01261C9A2201FEDA00E6EB63 /* Enumerators.swift */; };
+		01261C9B2201FEDA00E6EB63 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01261C9A2201FEDA00E6EB63 /* Colors.swift */; };
 		01261C9D220200B300E6EB63 /* EventsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01261C9C220200B300E6EB63 /* EventsCell.swift */; };
 		013AE8E6220348B800A8831C /* GPAViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 013AE8E5220348B800A8831C /* GPAViewController.swift */; };
 		013AE8E82203546A00A8831C /* GPACell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 013AE8E72203546A00A8831C /* GPACell.swift */; };
@@ -103,6 +108,11 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		0103971F227E2090007288AD /* Poppins-BoldItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Poppins-BoldItalic.ttf"; sourceTree = "<group>"; };
+		01039720227E2090007288AD /* Poppins-Italic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Poppins-Italic.ttf"; sourceTree = "<group>"; };
+		01039721227E2090007288AD /* Poppins-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Poppins-Regular.ttf"; sourceTree = "<group>"; };
+		01039722227E2090007288AD /* Poppins-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Poppins-Bold.ttf"; sourceTree = "<group>"; };
+		01039727227E2115007288AD /* Poppins-SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Poppins-SemiBold.ttf"; sourceTree = "<group>"; };
 		01106DC7220601FB00C0DA40 /* FeesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeesViewController.swift; sourceTree = "<group>"; };
 		0110BB2A21F32B5500E6546A /* MUJ Buddy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "MUJ Buddy.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		0110BB2D21F32B5500E6546A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -121,7 +131,7 @@
 		01197BA6222AA5D5002F1FC6 /* AppInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppInfoViewController.swift; sourceTree = "<group>"; };
 		01255053220E05FA008926A6 /* SessionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionManager.swift; sourceTree = "<group>"; };
 		01261C982201F7CF00E6EB63 /* EventsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsViewController.swift; sourceTree = "<group>"; };
-		01261C9A2201FEDA00E6EB63 /* Enumerators.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Enumerators.swift; sourceTree = "<group>"; };
+		01261C9A2201FEDA00E6EB63 /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 		01261C9C220200B300E6EB63 /* EventsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsCell.swift; sourceTree = "<group>"; };
 		013AE8E5220348B800A8831C /* GPAViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GPAViewController.swift; sourceTree = "<group>"; };
 		013AE8E72203546A00A8831C /* GPACell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GPACell.swift; sourceTree = "<group>"; };
@@ -196,6 +206,18 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0103971E227E206B007288AD /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				01039727227E2115007288AD /* Poppins-SemiBold.ttf */,
+				01039722227E2090007288AD /* Poppins-Bold.ttf */,
+				0103971F227E2090007288AD /* Poppins-BoldItalic.ttf */,
+				01039720227E2090007288AD /* Poppins-Italic.ttf */,
+				01039721227E2090007288AD /* Poppins-Regular.ttf */,
+			);
+			path = Fonts;
+			sourceTree = "<group>";
+		};
 		0110BB2121F32B5500E6546A = {
 			isa = PBXGroup;
 			children = (
@@ -227,6 +249,7 @@
 				01505C1921F33FB9005D7971 /* Controllers */,
 				0110BB4221F33D0400E6546A /* Views */,
 				0110BB3F21F32D9500E6546A /* Helpers */,
+				0103971E227E206B007288AD /* Fonts */,
 				0110BB3421F32B5600E6546A /* Assets.xcassets */,
 				0110BB3621F32B5600E6546A /* LaunchScreen.storyboard */,
 				0110BB3921F32B5600E6546A /* Info.plist */,
@@ -241,7 +264,7 @@
 				01B4C95521F4CA0E004D0DB4 /* Encryptor.swift */,
 				01E9623621F4DB40002C9899 /* Constants.swift */,
 				01E9623821F4F48F002C9899 /* UtilityFunctions.swift */,
-				01261C9A2201FEDA00E6EB63 /* Enumerators.swift */,
+				01261C9A2201FEDA00E6EB63 /* Colors.swift */,
 				01483C51220A0DD50017E88A /* NotificationHelper.swift */,
 				013F512A220C79BE007D1390 /* BiometricsHelper.swift */,
 				01AFF685222815DA002403AF /* ShortcutsHelper.swift */,
@@ -467,10 +490,15 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				01039724227E2090007288AD /* Poppins-Italic.ttf in Resources */,
 				016D38CB220EC04200F12B0F /* app_pub in Resources */,
+				01039725227E2090007288AD /* Poppins-Regular.ttf in Resources */,
+				01039726227E2090007288AD /* Poppins-Bold.ttf in Resources */,
 				0110BB3821F32B5600E6546A /* LaunchScreen.storyboard in Resources */,
 				0110BB3521F32B5600E6546A /* Assets.xcassets in Resources */,
+				01039728227E2115007288AD /* Poppins-SemiBold.ttf in Resources */,
 				01197BA5222A8030002F1FC6 /* Settings.storyboard in Resources */,
+				01039723227E2090007288AD /* Poppins-BoldItalic.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -577,7 +605,7 @@
 				01197BA3222A74E1002F1FC6 /* SettingsViewController.swift in Sources */,
 				01197BA7222AA5D5002F1FC6 /* AppInfoViewController.swift in Sources */,
 				013AE8EB2203682900A8831C /* Service.swift in Sources */,
-				01261C9B2201FEDA00E6EB63 /* Enumerators.swift in Sources */,
+				01261C9B2201FEDA00E6EB63 /* Colors.swift in Sources */,
 				014512C721F79E8000407B91 /* ResultsModel.swift in Sources */,
 				01106DC8220601FB00C0DA40 /* FeesViewController.swift in Sources */,
 				0112A68A21F4607000B269FA /* ContactsViewController.swift in Sources */,

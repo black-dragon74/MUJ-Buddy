@@ -15,15 +15,28 @@ class DashboardViewController: UIViewController, UICollectionViewDelegate, UICol
     var dashToSend: DashboardModel?
 
     let items: [MenuItems] = {
-        let cell1 = MenuItems(image: "attendance_vector", title: "Attendance", subtitle: "Your Attendance")
-        let cell2 = MenuItems(image: "assessment_vector", title: "Internals", subtitle: "Assessment Marks")
-        let cell3 = MenuItems(image: "results_vector", title: "Results", subtitle: "Semester Results")
-        let cell4 = MenuItems(image: "gpa_vector", title: "GPA", subtitle: "Your CGPA")
-        let cell5 = MenuItems(image: "events_vector", title: "Events", subtitle: "At University")
-        let cell6 = MenuItems(image: "announcements_vector", title: "Announcements", subtitle: "For Events")
-        let cell7 = MenuItems(image: "fees_vector", title: "Fee Details", subtitle: "Paid / Unpaid")
-        let cell8 = MenuItems(image: "contacts_vector", title: "Faculty Contacts", subtitle: "At University")
+        let cell1 = MenuItems(image: "attendance_vector", title: "Attendance")
+        let cell2 = MenuItems(image: "assessment_vector", title: "Internals")
+        let cell3 = MenuItems(image: "results_vector", title: "Results")
+        let cell4 = MenuItems(image: "gpa_vector", title: "GPA")
+        let cell5 = MenuItems(image: "events_vector", title: "Events")
+        let cell6 = MenuItems(image: "announcements_vector", title: "Notifications")
+        let cell7 = MenuItems(image: "fees_vector", title: "Fee Details")
+        let cell8 = MenuItems(image: "contacts_vector", title: "Contacts")
         return [cell1, cell2, cell3, cell4, cell5, cell6, cell7, cell8]
+    }()
+    
+    let colors: [[UIColor]] = {
+        return [
+            [#colorLiteral(red: 0.9654200673, green: 0.1590853035, blue: 0.2688751221, alpha: 1),#colorLiteral(red: 0.7559037805, green: 0.1139892414, blue: 0.1577021778, alpha: 1)],
+            [#colorLiteral(red: 0.9338900447, green: 0.4315618277, blue: 0.2564975619, alpha: 1),#colorLiteral(red: 0.8518816233, green: 0.1738803983, blue: 0.01849062555, alpha: 1)],
+            [#colorLiteral(red: 0.9953531623, green: 0.54947716, blue: 0.1281470656, alpha: 1),#colorLiteral(red: 0.9409626126, green: 0.7209432721, blue: 0.1315650344, alpha: 1)],
+            [#colorLiteral(red: 0.3796315193, green: 0.7958304286, blue: 0.2592983842, alpha: 1),#colorLiteral(red: 0.2060100436, green: 0.6006633639, blue: 0.09944178909, alpha: 1)],
+            [#colorLiteral(red: 0.2761503458, green: 0.824685812, blue: 0.7065336704, alpha: 1),#colorLiteral(red: 0, green: 0.6422213912, blue: 0.568986237, alpha: 1)],
+            [#colorLiteral(red: 0.4613699913, green: 0.3118675947, blue: 0.8906354308, alpha: 1),#colorLiteral(red: 0.3018293083, green: 0.1458326578, blue: 0.7334778905, alpha: 1)],
+            [#colorLiteral(red: 0.7080290914, green: 0.3073516488, blue: 0.8653779626, alpha: 1),#colorLiteral(red: 0.5031493902, green: 0.1100070402, blue: 0.6790940762, alpha: 1)],
+            [#colorLiteral(red: 0.9495453238, green: 0.4185881019, blue: 0.6859942079, alpha: 1),#colorLiteral(red: 0.8123683333, green: 0.1657164991, blue: 0.5003474355, alpha: 1)]
+        ]
     }()
 
     // A collection view that will contain our cells with the images
@@ -111,6 +124,8 @@ class DashboardViewController: UIViewController, UICollectionViewDelegate, UICol
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! DashCell
         cell.items = items[indexPath.item]
+        let gradientColor = indexPath.row > colors.count - 1 ? colors[0] : colors[indexPath.row]
+        cell.linearGradient(from: gradientColor[0], to: gradientColor[1])
         return cell
     }
     
@@ -157,13 +172,17 @@ class DashboardViewController: UIViewController, UICollectionViewDelegate, UICol
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-        return CGSize(width: view.frame.width, height: 90)
+        return CGSize(width: view.frame.width, height: (view.frame.height * 0.18))
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let width = collectionView.bounds.width / 2
+        let width = (collectionView.bounds.width / 2) - 16
         let height = width // Maintains 1:1 ratio
         return CGSize(width: width, height: height)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+        return UIEdgeInsets(top: 10, left: 8, bottom: 10, right: 8)
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
@@ -171,7 +190,7 @@ class DashboardViewController: UIViewController, UICollectionViewDelegate, UICol
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return 0
+        return 10
     }
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
@@ -183,7 +202,7 @@ class DashboardViewController: UIViewController, UICollectionViewDelegate, UICol
     fileprivate func selectAndPushViewController(using viewControllerName: String) {
         switch viewControllerName {
         case "Attendance":
-            self.navigationController?.pushViewController(AttendanceViewController(), animated: true)
+            self.navigationController?.pushViewController(AttendanceViewController(collectionViewLayout: UICollectionViewFlowLayout()), animated: true)
             break
         case "Internals":
             self.navigationController?.pushViewController(InternalsViewController(collectionViewLayout: UICollectionViewFlowLayout()), animated: true)
@@ -198,7 +217,7 @@ class DashboardViewController: UIViewController, UICollectionViewDelegate, UICol
             self.navigationController?.pushViewController(EventsViewController(collectionViewLayout: UICollectionViewFlowLayout()), animated: true)
             break
         case "Announcements":
-            Toast(with: "Announcements not available").show(on: self.view)
+            Toast(with: "Notifications not available").show(on: self.view)
             break
         case "Fee Details":
             self.navigationController?.pushViewController(FeesViewController(), animated: true)
@@ -246,7 +265,7 @@ class DashboardViewController: UIViewController, UICollectionViewDelegate, UICol
             } else {
                 setSemester(as: iText)
                 DispatchQueue.main.async {
-                    Toast(with: "Semester updated", color: DMSColors.parrotGreen.value).show(on: self?.view)
+                    Toast(with: "Semester updated", color: .parrotGreen).show(on: self?.view)
                 }
             }
         }

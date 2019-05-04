@@ -139,7 +139,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         switch item.type {
         case MUJShortcuts.attendance.value:
-            vcToPush = AttendanceViewController()
+            vcToPush = AttendanceViewController(collectionViewLayout: UICollectionViewFlowLayout())
         case MUJShortcuts.contacts.value:
             vcToPush = ContactsViewController()
         case MUJShortcuts.internals.value:
@@ -156,5 +156,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         
         return handled
+    }
+}
+
+extension UIApplication {
+    var statusBarView: UIView? {
+        return value(forKey: "statusBar") as? UIView
     }
 }

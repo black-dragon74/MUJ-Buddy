@@ -49,7 +49,7 @@ class OTPAuthController: UIViewController {
     
     let verifyButton: UIButton = {
         let vBtn = UIButton()
-        vBtn.backgroundColor = DMSColors.orangeish.value
+        vBtn.backgroundColor = .mujTheme
         vBtn.setTitle("Verify OTP", for: .normal)
         return vBtn
     }()

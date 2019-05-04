@@ -69,7 +69,7 @@ class EventsViewController: UICollectionViewController, UICollectionViewDelegate
         super.viewDidLoad()
 
         // Basic config
-        collectionView.backgroundColor = DMSColors.primaryLighter.value
+        collectionView.backgroundColor = .primaryLighter
         self.navigationItem.title = "Events"
         collectionView.delegate = self
         collectionView.dataSource = self
@@ -110,6 +110,7 @@ class EventsViewController: UICollectionViewController, UICollectionViewDelegate
                     // Time to present the OTP controller for the reauth
                     DispatchQueue.main.async {
                         self?.rControl.endRefreshing()
+                        self?.indicator.stopAnimating()
                         self?.present(LoginViewController(), animated: true, completion: {
                             NotificationCenter.default.post(name: .sessionExpired, object: nil, userInfo: [:])
                         })
@@ -201,6 +202,7 @@ class EventsViewController: UICollectionViewController, UICollectionViewDelegate
                     // Time to present the OTP controller for the reauth
                     DispatchQueue.main.async {
                         self?.rControl.endRefreshing()
+                        self?.indicator.stopAnimating()
                         self?.present(LoginViewController(), animated: true, completion: {
                             NotificationCenter.default.post(name: .sessionExpired, object: nil, userInfo: [:])
                         })

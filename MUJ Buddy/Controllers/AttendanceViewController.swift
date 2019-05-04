@@ -8,16 +8,8 @@
 
 import UIKit
 
-class AttendanceViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UICollectionViewDataSource {
-
-    // This view is also a collection view controller with elems for each subject
-    let collectionView: UICollectionView = {
-        let layout = UICollectionViewFlowLayout()
-        let c = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        c.backgroundColor = DMSColors.primaryLighter.value
-        return c
-    }()
-
+class AttendanceViewController: UICollectionViewController, UICollectionViewDelegateFlowLayout {
+    
     // Indicator
     let indicator: UIActivityIndicatorView = {
         let i = UIActivityIndicatorView()
@@ -56,10 +48,17 @@ class AttendanceViewController: UIViewController, UICollectionViewDelegate, UICo
         NotificationCenter.default.removeObserver(self, name: .isReauthRequired, object: nil)
     }
     
+    override init(collectionViewLayout layout: UICollectionViewLayout) {
+        super.init(collectionViewLayout: layout)
+        
+        let layout = UICollectionViewFlowLayout()
+        collectionView.collectionViewLayout = layout
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.title = "Attendance"
-        view.backgroundColor = .lightGray
+        collectionView.backgroundColor = .primaryLighter
 
         setupViews()
     }
@@ -80,8 +79,6 @@ class AttendanceViewController: UIViewController, UICollectionViewDelegate, UICo
         indicator.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
         indicator.startAnimating()
 
-        collectionView.anchorWithConstraints(top: view.safeAreaLayoutGuide.topAnchor, right: view.rightAnchor, bottom: view.bottomAnchor, left: view.leftAnchor, topOffset: 0, rightOffset: 0, bottomOffset: 0, leftOffset: 0, height: nil, width: nil)
-
         // Get attendance details
         Service.shared.getAttendance(sessionID: getSessionID()) {[weak self] (model, reauth, err) in
             if err != nil {
@@ -97,6 +94,7 @@ class AttendanceViewController: UIViewController, UICollectionViewDelegate, UICo
                     // Time to present the OTP controller for the reauth
                     DispatchQueue.main.async {
                         self?.rControl.endRefreshing()
+                        self?.indicator.stopAnimating()
                         self?.present(LoginViewController(), animated: true, completion: {
                             NotificationCenter.default.post(name: .sessionExpired, object: nil, userInfo: [:])
                         })
@@ -125,12 +123,12 @@ class AttendanceViewController: UIViewController, UICollectionViewDelegate, UICo
     }
 
     // MARK: - CV Delegate
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return attendanceDetails.count
     }
 
     // MARK: - CV Data Source
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+    override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellID, for: indexPath) as! AttendanceCell
         cell.attendance = attendanceDetails[indexPath.row]
         return cell
@@ -161,6 +159,7 @@ class AttendanceViewController: UIViewController, UICollectionViewDelegate, UICo
                     // Time to present the OTP controller for the reauth
                     DispatchQueue.main.async {
                         self?.rControl.endRefreshing()
+                        self?.indicator.stopAnimating()
                         self?.present(LoginViewController(), animated: true, completion: {
                             NotificationCenter.default.post(name: .sessionExpired, object: nil, userInfo: [:])
                         })
@@ -187,5 +186,9 @@ class AttendanceViewController: UIViewController, UICollectionViewDelegate, UICo
                 }
             }
         }
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
 }

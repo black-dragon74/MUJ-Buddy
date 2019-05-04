@@ -103,11 +103,12 @@ extension UIView {
     func dropShadow(scale: Bool = true) {
         layer.masksToBounds = false
         layer.shadowColor = UIColor.black.cgColor
-        layer.shadowOpacity = 0.5
+        layer.shadowOpacity = 0.2
         layer.shadowOffset = CGSize(width: -1, height: 1)
         layer.shadowRadius = 1
 
         layer.shadowPath = UIBezierPath(rect: bounds).cgPath
+        layer.shadowRadius = self.layer.cornerRadius
         layer.shouldRasterize = true
         layer.rasterizationScale = scale ? UIScreen.main.scale : 1
     }
@@ -130,6 +131,19 @@ extension UIView {
         UIView.animate(withDuration: 2, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
             self.backgroundColor = color
         }, completion: nil)
+    }
+    
+    // Function to add a diagonal gradient that starts from the bottom center and ends at top center
+    func linearGradient(from: UIColor, to: UIColor) {
+        let gradientLayer = CAGradientLayer()
+        gradientLayer.frame = bounds
+        gradientLayer.colors = [from.cgColor, to.cgColor]
+        gradientLayer.startPoint = CGPoint(x: 0.0, y: 0.0)
+        gradientLayer.endPoint = CGPoint(x: 1.0, y: 1.0)
+        gradientLayer.locations = [0.0, 1.0]
+        gradientLayer.cornerRadius = layer.cornerRadius
+        
+        layer.insertSublayer(gradientLayer, at: 0)
     }
 }
 
@@ -214,5 +228,13 @@ extension UINavigationItem {
         stackView.frame = CGRect(x: 0, y: 0, width: width, height: 35)
         
         self.titleView = stackView
+    }
+}
+
+// Extension to return a bold font
+extension UIFont {
+    func bold() -> UIFont {
+        guard let descriptor = self.fontDescriptor.withSymbolicTraits(.traitBold) else { return UIFont.boldSystemFont(ofSize: 17) }
+        return UIFont(descriptor: descriptor, size: 0)
     }
 }

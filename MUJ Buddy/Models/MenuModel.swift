@@ -11,5 +11,4 @@ import UIKit
 struct MenuItems {
     let image: String
     let title: String
-    let subtitle: String
 }

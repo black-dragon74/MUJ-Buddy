@@ -94,6 +94,7 @@ class ContactsViewController: UITableViewController, UISearchControllerDelegate,
                     // Time to present the OTP controller for the reauth
                     DispatchQueue.main.async {
                         self?.rControl.endRefreshing()
+                        self?.indicator.stopAnimating()
                         self?.present(LoginViewController(), animated: true, completion: {
                             NotificationCenter.default.post(name: .sessionExpired, object: nil, userInfo: [:])
                         })
@@ -143,6 +144,7 @@ class ContactsViewController: UITableViewController, UISearchControllerDelegate,
                     // Time to present the OTP controller for the reauth
                     DispatchQueue.main.async {
                         self?.rControl.endRefreshing()
+                        self?.indicator.stopAnimating()
                         self?.present(LoginViewController(), animated: true, completion: {
                             NotificationCenter.default.post(name: .sessionExpired, object: nil, userInfo: [:])
                         })
@@ -200,7 +202,7 @@ class ContactsViewController: UITableViewController, UISearchControllerDelegate,
         let mailAction = UIContextualAction(style: .normal, title: "E-Mail") { (action, view, completion) in
             let mailAddress = self.isSearching() && !self.isSearchTextEmpty() ? self.filteredFacultyDetails[indexpath.row].email : self.facultyDetails[indexpath.row].email
             if mailAddress.isEmpty || mailAddress == "NA" {
-                Toast(with: "Email not available!", color: DMSColors.kindOfPurple.value).show(on: self.view)
+                Toast(with: "Email not available!", color: .navyBlue).show(on: self.view)
                 completion(true)
                 return
             }
@@ -211,7 +213,7 @@ class ContactsViewController: UITableViewController, UISearchControllerDelegate,
             }
             completion(true)
         }
-        mailAction.backgroundColor = DMSColors.kindOfPurple.value
+        mailAction.backgroundColor = .navyBlue
         mailAction.image = UIImage(named: "ios_mail")
         return mailAction
     }
@@ -221,7 +223,7 @@ class ContactsViewController: UITableViewController, UISearchControllerDelegate,
         let callAction = UIContextualAction(style: .normal, title: "Call") { (action, view, completion) in
             let phoneNumber = self.isSearching() && !self.isSearchTextEmpty() ? self.filteredFacultyDetails[indexPath.row].phone : self.facultyDetails[indexPath.row].phone
             if phoneNumber.isEmpty || phoneNumber == "NA" {
-                Toast(with: "Phone not available!", color: DMSColors.parrotGreen.value).show(on: self.view)
+                Toast(with: "Phone not available!", color: .parrotGreen).show(on: self.view)
                 completion(true)
                 return
             }
@@ -232,7 +234,7 @@ class ContactsViewController: UITableViewController, UISearchControllerDelegate,
             }
             completion(true)
         }
-        callAction.backgroundColor = DMSColors.parrotGreen.value
+        callAction.backgroundColor = .parrotGreen
         callAction.image = UIImage(named: "ios_phone")
         return callAction
     }

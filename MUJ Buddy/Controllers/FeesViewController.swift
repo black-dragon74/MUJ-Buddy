@@ -38,7 +38,7 @@ class FeesViewController: UIViewController {
     let scrollView: UIScrollView = {
         let m = UIScrollView()
         m.alwaysBounceVertical = true
-        m.backgroundColor = DMSColors.kindOfPurple.value
+        m.backgroundColor = .navyBlue
         return m
     }()
 
@@ -140,6 +140,7 @@ class FeesViewController: UIViewController {
                     // Time to present the OTP controller for the reauth
                     DispatchQueue.main.async {
                         self?.rControl.endRefreshing()
+                        self?.indicator.stopAnimating()
                         self?.present(LoginViewController(), animated: true, completion: {
                             NotificationCenter.default.post(name: .sessionExpired, object: nil, userInfo: [:])
                         })
@@ -230,6 +231,7 @@ class FeesViewController: UIViewController {
                     // Time to present the OTP controller for the reauth
                     DispatchQueue.main.async {
                         self?.rControl.endRefreshing()
+                        self?.indicator.stopAnimating()
                         self?.present(LoginViewController(), animated: true, completion: {
                             NotificationCenter.default.post(name: .sessionExpired, object: nil, userInfo: [:])
                         })

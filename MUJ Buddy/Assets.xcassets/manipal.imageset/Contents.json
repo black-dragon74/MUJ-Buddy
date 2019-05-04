@@ -2,11 +2,11 @@
   "images" : [
     {
       "idiom" : "universal",
-      "filename" : "icons8-test-passed-filled-100.png",
       "scale" : "1x"
     },
     {
       "idiom" : "universal",
+      "filename" : "manipal.png",
       "scale" : "2x"
     },
     {

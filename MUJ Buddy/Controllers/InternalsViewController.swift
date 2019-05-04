@@ -63,7 +63,7 @@ class InternalsViewController: UICollectionViewController, UICollectionViewDeleg
         super.viewDidLoad()
 
         navigationItem.title = "Internals Marks"
-        collectionView.backgroundColor = DMSColors.primaryLighter.value
+        collectionView.backgroundColor = .primaryLighter
         collectionView.refreshControl = rControl
         indicator.startAnimating()
 
@@ -75,7 +75,7 @@ class InternalsViewController: UICollectionViewController, UICollectionViewDeleg
 
         if showSemesterDialog() {
             DispatchQueue.main.async {
-                Toast(with: "Predicted semester as: \(semester)", color: DMSColors.parrotGreen.value).show(on: self.view)
+                Toast(with: "Predicted semester as: \(semester)", color: .parrotGreen).show(on: self.view)
                 setShowSemesterDialog(as: false)
             }
         }
@@ -87,6 +87,26 @@ class InternalsViewController: UICollectionViewController, UICollectionViewDeleg
                 DispatchQueue.main.async {
                     self?.indicator.stopAnimating()
                     Toast(with: "Error fetching marks").show(on: self?.view)
+                }
+            }
+            
+            if let eMsg = reauth {
+                if eMsg.error == LOGIN_FAILED {
+                    // Time to present the OTP controller for the reauth
+                    DispatchQueue.main.async {
+                        self?.rControl.endRefreshing()
+                        self?.indicator.stopAnimating()
+                        self?.present(LoginViewController(), animated: true, completion: {
+                            NotificationCenter.default.post(name: .sessionExpired, object: nil, userInfo: [:])
+                        })
+                    }
+                }
+                else {
+                    DispatchQueue.main.async {
+                        self?.rControl.endRefreshing()
+                        self?.indicator.stopAnimating()
+                        Toast(with: eMsg.error).show(on: self?.view)
+                    }
                 }
             }
 
@@ -157,6 +177,26 @@ class InternalsViewController: UICollectionViewController, UICollectionViewDeleg
                     Toast(with: "Error fetching marks").show(on: self?.view)
                 }
             }
+            
+            if let eMsg = reauth {
+                if eMsg.error == LOGIN_FAILED {
+                    // Time to present the OTP controller for the reauth
+                    DispatchQueue.main.async {
+                        self?.rControl.endRefreshing()
+                        self?.indicator.stopAnimating()
+                        self?.present(LoginViewController(), animated: true, completion: {
+                            NotificationCenter.default.post(name: .sessionExpired, object: nil, userInfo: [:])
+                        })
+                    }
+                }
+                else {
+                    DispatchQueue.main.async {
+                        self?.rControl.endRefreshing()
+                        self?.indicator.stopAnimating()
+                        Toast(with: eMsg.error).show(on: self?.view)
+                    }
+                }
+            }
 
             if let data = data {
                 self?.internalsArray = []
@@ -188,7 +228,7 @@ class InternalsViewController: UICollectionViewController, UICollectionViewDeleg
             } else {
                 setSemester(as: iText)
                 DispatchQueue.main.async {
-                    Toast(with: "Semester updated. Refresh now.", color: DMSColors.parrotGreen.value).show(on: self?.view)
+                    Toast(with: "Semester updated. Refresh now.", color: .parrotGreen).show(on: self?.view)
                 }
             }
         }

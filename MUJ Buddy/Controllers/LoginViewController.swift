@@ -321,7 +321,7 @@ class LoginViewController: UIViewController, UICollectionViewDelegate, UICollect
     
     @objc fileprivate func sessionExpired() {
         scrollToLogin()
-        perform(#selector(autoLogin), with: self, afterDelay: 1)
+        perform(#selector(autoLogin), with: self, afterDelay: 0.5)
     }
     
     @objc fileprivate func autoLogin() {

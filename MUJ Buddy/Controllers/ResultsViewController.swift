@@ -71,7 +71,7 @@ class ResultsViewController: UICollectionViewController, UICollectionViewDelegat
 
         if showSemesterDialog() {
             DispatchQueue.main.async {
-                Toast(with: "Predicted semester as: \(semester)", color: DMSColors.parrotGreen.value).show(on: self.view)
+                Toast(with: "Predicted semester as: \(semester)", color: .parrotGreen).show(on: self.view)
                 setShowSemesterDialog(as: false)
             }
         }
@@ -91,6 +91,7 @@ class ResultsViewController: UICollectionViewController, UICollectionViewDelegat
                     // Time to present the OTP controller for the reauth
                     DispatchQueue.main.async {
                         self?.rControl.endRefreshing()
+                        self?.indicator.stopAnimating()
                         self?.present(LoginViewController(), animated: true, completion: {
                             NotificationCenter.default.post(name: .sessionExpired, object: nil, userInfo: [:])
                         })
@@ -124,7 +125,7 @@ class ResultsViewController: UICollectionViewController, UICollectionViewDelegat
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        collectionView.backgroundColor = DMSColors.primaryLighter.value
+        collectionView.backgroundColor = .primaryLighter
         navigationItem.title = "Results"
         collectionView.register(ResultsCell.self, forCellWithReuseIdentifier: cellID)
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .compose, target: self, action: #selector(handleSemesterChange))
@@ -170,6 +171,7 @@ class ResultsViewController: UICollectionViewController, UICollectionViewDelegat
                     // Time to present the OTP controller for the reauth
                     DispatchQueue.main.async {
                         self?.rControl.endRefreshing()
+                        self?.indicator.stopAnimating()
                         self?.present(LoginViewController(), animated: true, completion: {
                             NotificationCenter.default.post(name: .sessionExpired, object: nil, userInfo: [:])
                         })
@@ -214,7 +216,7 @@ class ResultsViewController: UICollectionViewController, UICollectionViewDelegat
             } else {
                 setSemester(as: iText)
                 DispatchQueue.main.async {
-                    Toast(with: "Semester updated. Refresh now.", color: DMSColors.parrotGreen.value).show(on: self?.view)
+                    Toast(with: "Semester updated. Refresh now.", color: .parrotGreen).show(on: self?.view)
                 }
             }
         }
