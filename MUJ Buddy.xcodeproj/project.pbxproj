@@ -19,7 +19,6 @@
 		0110BB4421F33D1A00E6546A /* LoginPageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0110BB4321F33D1A00E6546A /* LoginPageCell.swift */; };
 		0112A68621F4605200B269FA /* DashboardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0112A68521F4605200B269FA /* DashboardViewController.swift */; };
 		0112A68A21F4607000B269FA /* ContactsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0112A68921F4607000B269FA /* ContactsViewController.swift */; };
-		0112A68C21F4607E00B269FA /* AboutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0112A68B21F4607E00B269FA /* AboutViewController.swift */; };
 		0112A69021F4884F00B269FA /* FacultyContactModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0112A68F21F4884F00B269FA /* FacultyContactModel.swift */; };
 		01197BA3222A74E1002F1FC6 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01197BA2222A74E1002F1FC6 /* SettingsViewController.swift */; };
 		01197BA5222A8030002F1FC6 /* Settings.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 01197BA4222A8030002F1FC6 /* Settings.storyboard */; };
@@ -81,7 +80,6 @@
 		01E9623721F4DB40002C9899 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01E9623621F4DB40002C9899 /* Constants.swift */; };
 		01E9623921F4F48F002C9899 /* UtilityFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01E9623821F4F48F002C9899 /* UtilityFunctions.swift */; };
 		01FD5A7522008F3D00ECDF3E /* LoginDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01FD5A7422008F3D00ECDF3E /* LoginDelegate.swift */; };
-		890109C6982CC14354E641F8 /* Pods_MUJ_Buddy.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BCFC1217EBE133AD5012E206 /* Pods_MUJ_Buddy.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -123,7 +121,6 @@
 		0110BB4321F33D1A00E6546A /* LoginPageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginPageCell.swift; sourceTree = "<group>"; };
 		0112A68521F4605200B269FA /* DashboardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardViewController.swift; sourceTree = "<group>"; };
 		0112A68921F4607000B269FA /* ContactsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactsViewController.swift; sourceTree = "<group>"; };
-		0112A68B21F4607E00B269FA /* AboutViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutViewController.swift; sourceTree = "<group>"; };
 		0112A68F21F4884F00B269FA /* FacultyContactModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FacultyContactModel.swift; sourceTree = "<group>"; };
 		01197BA2222A74E1002F1FC6 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		01197BA4222A8030002F1FC6 /* Settings.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Settings.storyboard; sourceTree = "<group>"; };
@@ -183,9 +180,6 @@
 		01E9623621F4DB40002C9899 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		01E9623821F4F48F002C9899 /* UtilityFunctions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UtilityFunctions.swift; sourceTree = "<group>"; };
 		01FD5A7422008F3D00ECDF3E /* LoginDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginDelegate.swift; sourceTree = "<group>"; };
-		55CB5F7C880ACE96728787BA /* Pods-MUJ Buddy.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MUJ Buddy.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MUJ Buddy/Pods-MUJ Buddy.debug.xcconfig"; sourceTree = "<group>"; };
-		BCFC1217EBE133AD5012E206 /* Pods_MUJ_Buddy.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MUJ_Buddy.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		BE30A9571057720BD343ED4A /* Pods-MUJ Buddy.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MUJ Buddy.release.xcconfig"; path = "Pods/Target Support Files/Pods-MUJ Buddy/Pods-MUJ Buddy.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -193,7 +187,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				890109C6982CC14354E641F8 /* Pods_MUJ_Buddy.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -226,7 +219,6 @@
 				0110BB2C21F32B5500E6546A /* MUJ Buddy */,
 				01AFF68E22282D3F002403AF /* Attendance Widget */,
 				0110BB2B21F32B5500E6546A /* Products */,
-				8AC9AEA5B10147567FE81D7D /* Pods */,
 				DCCD3990B2122B3DA2DFEFD2 /* Frameworks */,
 			);
 			sourceTree = "<group>";
@@ -317,7 +309,6 @@
 				0110BB2F21F32B5500E6546A /* LoginViewController.swift */,
 				0112A68521F4605200B269FA /* DashboardViewController.swift */,
 				0112A68921F4607000B269FA /* ContactsViewController.swift */,
-				0112A68B21F4607E00B269FA /* AboutViewController.swift */,
 				0168081B21FF7DD2007AA4DC /* AttendanceViewController.swift */,
 				0143EB6E21F5FDA3006B39F2 /* FacultyContactViewController.swift */,
 				01261C982201F7CF00E6EB63 /* EventsViewController.swift */,
@@ -377,19 +368,9 @@
 			path = Delegates;
 			sourceTree = "<group>";
 		};
-		8AC9AEA5B10147567FE81D7D /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				55CB5F7C880ACE96728787BA /* Pods-MUJ Buddy.debug.xcconfig */,
-				BE30A9571057720BD343ED4A /* Pods-MUJ Buddy.release.xcconfig */,
-			);
-			name = Pods;
-			sourceTree = "<group>";
-		};
 		DCCD3990B2122B3DA2DFEFD2 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				BCFC1217EBE133AD5012E206 /* Pods_MUJ_Buddy.framework */,
 				01AFF68C22282D3F002403AF /* NotificationCenter.framework */,
 			);
 			name = Frameworks;
@@ -402,11 +383,9 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 0110BB3C21F32B5600E6546A /* Build configuration list for PBXNativeTarget "MUJ Buddy" */;
 			buildPhases = (
-				30CC4A7E9BD83566DA430F92 /* [CP] Check Pods Manifest.lock */,
 				0110BB2621F32B5500E6546A /* Sources */,
 				0110BB2721F32B5500E6546A /* Frameworks */,
 				0110BB2821F32B5500E6546A /* Resources */,
-				E5BD6149FE42DA89E937C745 /* [CP] Embed Pods Frameworks */,
 				01AFF69B22282D3F002403AF /* Embed App Extensions */,
 			);
 			buildRules = (
@@ -516,53 +495,6 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
-/* Begin PBXShellScriptBuildPhase section */
-		30CC4A7E9BD83566DA430F92 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-MUJ Buddy-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		E5BD6149FE42DA89E937C745 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-MUJ Buddy/Pods-MUJ Buddy-frameworks.sh",
-				"${BUILT_PRODUCTS_DIR}/SwiftyRSA/SwiftyRSA.framework",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyRSA.framework",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-MUJ Buddy/Pods-MUJ Buddy-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-/* End PBXShellScriptBuildPhase section */
-
 /* Begin PBXSourcesBuildPhase section */
 		0110BB2621F32B5500E6546A /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -578,7 +510,6 @@
 				01474B53220AC8470073EBF6 /* AttendanceNotificationDelegate.swift in Sources */,
 				0168081C21FF7DD2007AA4DC /* AttendanceViewController.swift in Sources */,
 				01483C52220A0DD50017E88A /* NotificationHelper.swift in Sources */,
-				0112A68C21F4607E00B269FA /* AboutViewController.swift in Sources */,
 				0110BB3021F32B5500E6546A /* LoginViewController.swift in Sources */,
 				01E9623721F4DB40002C9899 /* Constants.swift in Sources */,
 				013AE8E6220348B800A8831C /* GPAViewController.swift in Sources */,
@@ -720,7 +651,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -775,7 +706,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -787,7 +718,6 @@
 		};
 		0110BB3D21F32B5600E6546A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 55CB5F7C880ACE96728787BA /* Pods-MUJ Buddy.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -809,7 +739,6 @@
 		};
 		0110BB3E21F32B5600E6546A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = BE30A9571057720BD343ED4A /* Pods-MUJ Buddy.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;

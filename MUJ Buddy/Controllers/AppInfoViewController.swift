@@ -41,6 +41,7 @@ class AppInfoViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        navigationItem.largeTitleDisplayMode = .never
         
         let appName = Bundle.main.infoDictionary?["CFBundleName"] as! String
         let appversion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as! String
