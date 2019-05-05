@@ -29,7 +29,6 @@ class ResultsViewController: UICollectionViewController, UICollectionViewDelegat
     let rControl: UIRefreshControl = {
         let r = UIRefreshControl()
         r.tintColor = .red
-        r.addTarget(self, action: #selector(handleResultsRefresh), for: .valueChanged)
         return r
     }()
     
@@ -58,6 +57,7 @@ class ResultsViewController: UICollectionViewController, UICollectionViewDelegat
         indicator.startAnimating()
 
         setupViews()
+        rControl.addTarget(self, action: #selector(handleResultsRefresh), for: .valueChanged)
     }
 
     fileprivate func setupViews() {
@@ -138,11 +138,15 @@ class ResultsViewController: UICollectionViewController, UICollectionViewDelegat
 
     // MARK: - Collection view delegate flow layout
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: view.frame.width - 32, height: 140)
+        return CGSize(width: view.frame.width - 20, height: 100)
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        return UIEdgeInsets(top: 16, left: 16, bottom: 16, right: 16)
+        return UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        return 10
     }
 
     // MARK: - Collection view data source

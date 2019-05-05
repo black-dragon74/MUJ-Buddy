@@ -67,6 +67,7 @@ class DashboardViewController: UIViewController, UICollectionViewDelegate, UICol
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationItem.title = "Dashboard"
+        self.navigationController?.navigationBar.prefersLargeTitles = true
         view.backgroundColor = .white
         view.snapshotView(afterScreenUpdates: true)
 
@@ -211,7 +212,7 @@ class DashboardViewController: UIViewController, UICollectionViewDelegate, UICol
             self.navigationController?.pushViewController(ResultsViewController(collectionViewLayout: UICollectionViewFlowLayout()), animated: true)
             break
         case "GPA":
-            self.navigationController?.pushViewController(GPAViewController(), animated: true)
+            self.navigationController?.pushViewController(GPAViewController(collectionViewLayout: UICollectionViewFlowLayout()), animated: true)
             break
         case "Events":
             self.navigationController?.pushViewController(EventsViewController(collectionViewLayout: UICollectionViewFlowLayout()), animated: true)

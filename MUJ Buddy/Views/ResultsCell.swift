@@ -15,7 +15,6 @@ class ResultsCell: UICollectionViewCell {
             guard let curr = currentSubjectForResult else { return }
             subjectLabel.text = curr.courseName
             courseCodeTF.text = curr.courseCode
-            sessionTF.text = curr.academicSession
             creditsTF.text = curr.credits
             setValueAndColorTo(grade: curr.grade)
         }
@@ -24,71 +23,54 @@ class ResultsCell: UICollectionViewCell {
     // Subject label
     let subjectLabel: UILabel = {
         let s = UILabel()
-        s.text = "NA"
-        s.font = UIFont.systemFont(ofSize: 18, weight: .bold)
+        s.text = "Not Available"
+        s.font = .titleFont
+        s.textColor = .textPrimary
         s.adjustsFontSizeToFitWidth = true
         return s
-    }()
-
-    // Grade View
-    let gradeView: UIView = {
-        let g = UIView()
-        g.backgroundColor = .clear
-        g.translatesAutoresizingMaskIntoConstraints = false
-        g.heightAnchor.constraint(equalToConstant: 100).isActive = true
-        g.widthAnchor.constraint(equalToConstant: 100).isActive = true
-        return g
     }()
 
     // Grade Label
     let gradeLabel: UILabel = {
         let g = UILabel()
-        g.font = UIFont.systemFont(ofSize: 50, weight: .heavy)
-        g.textAlignment = .center
-        g.textColor = .green
-        g.text = "NA"
+        g.font = .subtitleFont
+        g.textColor = .textPrimaryLighter
+        g.text = "Grade"
         return g
+    }()
+    
+    let gradeTF: UILabel = {
+        let a = UILabel()
+        a.text = "00"
+        a.textAlignment = .center
+        a.font = .scoreFontBolder
+        return a
     }()
 
     // Course Code
-    let courseCodeLabel: UILabel = {
-        let a = UILabel()
-        a.text = "Course Code:"
-        a.font = UIFont.systemFont(ofSize: 17, weight: .bold)
-        return a
-    }()
-
     let courseCodeTF: UILabel = {
         let a = UILabel()
-        a.text = "NA"
-        return a
-    }()
-
-    // Academic Session
-    let sessionLabel: UILabel = {
-       let a = UILabel()
-        a.text = "Session:"
-        a.font = UIFont.systemFont(ofSize: 17, weight: .bold)
-        return a
-    }()
-
-    let sessionTF: UILabel = {
-        let a = UILabel()
-        a.text = "NA"
+        a.text = "Unknown"
+        a.textColor = .textPrimaryLighter
+        a.font = .subtitleFont
         return a
     }()
 
     //Credits
     let creditsLabel: UILabel = {
         let a = UILabel()
-        a.text = "Credits:"
-        a.font = UIFont.systemFont(ofSize: 17, weight: .bold)
+        a.text = "Credits"
+        a.font = .subtitleFont
+        a.textColor = .textPrimaryLighter
         return a
     }()
 
     let creditsTF: UILabel = {
         let a = UILabel()
-        a.text = "NA"
+        a.text = "00"
+        a.textAlignment = .center
+        a.textColor = .textPrimaryDarker
+        a.font = .scoreFontBolder
         return a
     }()
 
@@ -96,6 +78,7 @@ class ResultsCell: UICollectionViewCell {
         super.init(frame: frame)
 
         backgroundColor = .white
+        layer.cornerRadius = 17
         dropShadow()
 
         setupViews()
@@ -103,32 +86,23 @@ class ResultsCell: UICollectionViewCell {
 
     fileprivate func setupViews() {
         addSubview(subjectLabel)
-
-        addSubview(courseCodeLabel)
         addSubview(courseCodeTF)
-
-        addSubview(sessionLabel)
-        addSubview(sessionTF)
-
+        
+        addSubview(gradeLabel)
+        addSubview(gradeTF)
+        
         addSubview(creditsLabel)
         addSubview(creditsTF)
-
-        addSubview(gradeView)
-        gradeView.addSubview(gradeLabel)
-
-        subjectLabel.anchorWithConstraints(top: topAnchor, right: rightAnchor, left: leftAnchor, topOffset: 10, rightOffset: 10, leftOffset: 10)
-
-        courseCodeLabel.anchorWithConstraints(top: subjectLabel.bottomAnchor, left: leftAnchor, topOffset: 14, leftOffset: 10)
-        courseCodeTF.anchorWithConstraints(top: subjectLabel.bottomAnchor, left: courseCodeLabel.rightAnchor, topOffset: 14, leftOffset: 5)
-
-        sessionLabel.anchorWithConstraints(top: courseCodeLabel.bottomAnchor, left: leftAnchor, topOffset: 10, leftOffset: 10)
-        sessionTF.anchorWithConstraints(top: courseCodeLabel.bottomAnchor, left: sessionLabel.rightAnchor, topOffset: 10, leftOffset: 5)
-
-        creditsLabel.anchorWithConstraints(top: sessionLabel.bottomAnchor, left: leftAnchor, topOffset: 10, leftOffset: 10)
-        creditsTF.anchorWithConstraints(top: sessionLabel.bottomAnchor, left: creditsLabel.rightAnchor, topOffset: 10, leftOffset: 5)
-
-        gradeView.anchorWithConstraints(top: subjectLabel.bottomAnchor, right: rightAnchor, topOffset: 5, rightOffset: 5)
-        gradeLabel.anchorWithConstraints(top: gradeView.topAnchor, right: gradeView.rightAnchor, bottom: gradeView.bottomAnchor, left: gradeView.leftAnchor)
+        
+        subjectLabel.anchorWithConstraints(top: topAnchor, right: rightAnchor, left: leftAnchor, topOffset: 12, rightOffset: 12, leftOffset: 12)
+        courseCodeTF.anchorWithConstraints(top: subjectLabel.bottomAnchor, left: leftAnchor, topOffset: 2, leftOffset: 12)
+        
+        gradeLabel.anchorWithConstraints(right: rightAnchor, bottom: bottomAnchor, rightOffset: 12, bottomOffset: 12)
+        gradeTF.anchorWithConstraints(right: gradeLabel.rightAnchor, bottom: gradeLabel.topAnchor, left: gradeLabel.leftAnchor)
+        
+        creditsLabel.anchorWithConstraints(right: gradeLabel.leftAnchor, bottom: bottomAnchor, rightOffset: 20, bottomOffset: 12)
+        creditsTF.anchorWithConstraints(right: creditsLabel.rightAnchor, bottom: creditsLabel.topAnchor, left: creditsLabel.leftAnchor)
+        
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -138,46 +112,46 @@ class ResultsCell: UICollectionViewCell {
     fileprivate func setValueAndColorTo(grade: String) {
         switch grade {
         case "":
-            gradeLabel.textColor = .black
-            gradeLabel.text = "NA"
+            gradeTF.textColor = .textPrimaryDarker
+            gradeTF.text = "NA"
         case "A+":
-            gradeLabel.textColor = .green
-            gradeLabel.text = grade
+            gradeTF.textColor = .textSuccess
+            gradeTF.text = grade
         case "A":
-            gradeLabel.textColor = .green
-            gradeLabel.text = grade
+            gradeTF.textColor = .textSuccess
+            gradeTF.text = grade
         case "B+":
-            gradeLabel.textColor = .green
-            gradeLabel.text = grade
+            gradeTF.textColor = .textSuccess
+            gradeTF.text = grade
         case "B":
-            gradeLabel.textColor = .green
-            gradeLabel.text = grade
+            gradeTF.textColor = .textSuccess
+            gradeTF.text = grade
         case "C+":
-            gradeLabel.textColor = .yellow
-            gradeLabel.text = grade
+            gradeTF.textColor = .textWarning
+            gradeTF.text = grade
         case "C":
-            gradeLabel.textColor = .yellow
-            gradeLabel.text = grade
+            gradeTF.textColor = .textWarning
+            gradeTF.text = grade
         case "D+":
-            gradeLabel.textColor = .yellow
-            gradeLabel.text = grade
+            gradeTF.textColor = .textWarning
+            gradeTF.text = grade
         case "D":
-            gradeLabel.textColor = .yellow
-            gradeLabel.text = grade
+            gradeTF.textColor = .textWarning
+            gradeTF.text = grade
         case "E+":
-            gradeLabel.textColor = .red
-            gradeLabel.text = grade
+            gradeTF.textColor = .textDanger
+            gradeTF.text = grade
         case "E":
-            gradeLabel.textColor = .red
-            gradeLabel.text = grade
+            gradeTF.textColor = .textDanger
+            gradeTF.text = grade
         case "F+":
-            gradeLabel.textColor = .red
-            gradeLabel.text = grade
+            gradeTF.textColor = .textDanger
+            gradeTF.text = grade
         case "F":
-            gradeLabel.textColor = .red
-            gradeLabel.text = grade
+            gradeTF.textColor = .textDanger
+            gradeTF.text = grade
         default:
-            gradeLabel.text = grade
+            gradeTF.text = grade
         }
     }
 }

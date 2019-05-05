@@ -23,7 +23,6 @@ class AttendanceViewController: UICollectionViewController, UICollectionViewDele
     // Refresh control
     let rControl: UIRefreshControl = {
         let r = UIRefreshControl()
-        r.addTarget(self, action: #selector(handleAttendanceRefresh), for: .valueChanged)
         r.tintColor = .red
         return r
     }()
@@ -61,6 +60,8 @@ class AttendanceViewController: UICollectionViewController, UICollectionViewDele
         collectionView.backgroundColor = .primaryLighter
 
         setupViews()
+        
+        rControl.addTarget(self, action: #selector(handleAttendanceRefresh), for: .valueChanged)
     }
 
     func setupViews() {
@@ -136,11 +137,15 @@ class AttendanceViewController: UICollectionViewController, UICollectionViewDele
 
     // MARK: - CV Delegate Flow Layout
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: view.frame.width - 32, height: 180)
+        return CGSize(width: view.frame.width - 20, height: 100)
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        return UIEdgeInsets(top: 16, left: 16, bottom: 16, right: 16)
+        return UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        return 10
     }
 
     @objc func handleAttendanceRefresh() {

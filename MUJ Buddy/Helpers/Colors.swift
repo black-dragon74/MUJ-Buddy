@@ -27,7 +27,7 @@ extension UIColor {
     static var parrotGreen: UIColor { return UIColor(r: 89, g: 193, b: 71) }
     
     // Lighter colors
-    static var primaryLighter: UIColor { return UIColor(r: 238, g: 239, b: 243) }
+    static var primaryLighter: UIColor { return UIColor(r: 243, g: 235, b: 235) }
     static var skyBlueLighter: UIColor { return UIColor(r: 216, g: 241, b: 241) }
     static var babyPinkLighter: UIColor { return UIColor(r: 254, g: 235, b: 238) }
     static var indigoLighter: UIColor { return UIColor(r: 235, g: 218, b: 255) }
@@ -36,6 +36,7 @@ extension UIColor {
     static var tealLighter: UIColor { return UIColor(r: 176, g: 244, b: 235) }
     static var warmPurpleLighter: UIColor { return UIColor(r: 226, g: 211, b: 236) }
     static var brickRedLighter: UIColor { return UIColor(r: 256, g: 239, b: 234) }
+    static var shadowColor: UIColor { return UIColor(r: 150, g: 143, b: 143, alpha: 0.5) }
 }
 
 func randomGradientColor() -> [UIColor] {

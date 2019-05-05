@@ -27,6 +27,8 @@ class DashboardHeaderView: UICollectionReusableView {
         n.text = "Welcome,"
         n.textColor = .white
         n.font = self.poppins
+        n.adjustsFontSizeToFitWidth = true
+        n.textAlignment = .center
         n.translatesAutoresizingMaskIntoConstraints = false
         return  n
     }()
@@ -36,6 +38,8 @@ class DashboardHeaderView: UICollectionReusableView {
         n.text = "Loading..."
         n.textColor = .white
         n.font = self.poppinsBold
+        n.adjustsFontSizeToFitWidth = true
+        n.textAlignment = .center
         n.translatesAutoresizingMaskIntoConstraints = false
         return  n
     }()
@@ -75,20 +79,20 @@ class DashboardHeaderView: UICollectionReusableView {
         addSubview(blackView)
         addSubview(nameLabel)
         addSubview(nameTF)
-        addSubview(rightChevron)
+//        addSubview(rightChevron)
         
         mujImgview.anchorWithConstraints(top: topAnchor, right: rightAnchor, bottom: bottomAnchor, left: leftAnchor, rightOffset: 8, leftOffset: 8)
         
         blackView.anchorWithConstraints(top: topAnchor, right: rightAnchor, bottom: bottomAnchor, left: leftAnchor, rightOffset: 8, leftOffset: 8)
         
-        nameLabel.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
+        nameLabel.anchorWithConstraints(right: rightAnchor, left: leftAnchor, rightOffset: 12, leftOffset: 12)
         nameLabel.centerYAnchor.constraint(equalTo: self.centerYAnchor, constant: -20).isActive = true
         
-        nameTF.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
+        nameTF.anchorWithConstraints(right: rightAnchor, left: leftAnchor, rightOffset: 12, leftOffset: 12)
         nameTF.centerYAnchor.constraint(equalTo: self.centerYAnchor, constant: 20).isActive = true
         
-        rightChevron.centerYAnchor.constraint(equalTo: mujImgview.centerYAnchor).isActive = true
-        rightChevron.rightAnchor.constraint(equalTo: mujImgview.rightAnchor, constant: -5).isActive = true
+//        rightChevron.centerYAnchor.constraint(equalTo: mujImgview.centerYAnchor).isActive = true
+//        rightChevron.rightAnchor.constraint(equalTo: mujImgview.rightAnchor, constant: -5).isActive = true
     }
     
     required init?(coder aDecoder: NSCoder) {

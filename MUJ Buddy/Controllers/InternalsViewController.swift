@@ -20,7 +20,6 @@ class InternalsViewController: UICollectionViewController, UICollectionViewDeleg
     let rControl: UIRefreshControl = {
         let r = UIRefreshControl()
         r.tintColor = .red
-        r.addTarget(self, action: #selector(handleRefreshForInternals), for: .valueChanged)
         return r
     }()
 
@@ -69,6 +68,7 @@ class InternalsViewController: UICollectionViewController, UICollectionViewDeleg
 
         // Additional setups are handled separately
         setupViews()
+        rControl.addTarget(self, action: #selector(handleRefreshForInternals), for: .valueChanged)
 
         // MARK: - Fetch data from the API
         let semester = getSemester()  // Will contain the predicted semester
@@ -150,11 +150,15 @@ class InternalsViewController: UICollectionViewController, UICollectionViewDeleg
 
     // MARK: - Delegate flow layout
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: view.frame.width - 32, height: 150)
+        return CGSize(width: view.frame.width - 20, height: 180)
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        return UIEdgeInsets(top: 16, left: 16, bottom: 16, right: 16)
+        return UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        return 10
     }
 
     // MARK: - Collection view data source

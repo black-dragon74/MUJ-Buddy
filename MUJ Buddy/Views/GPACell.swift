@@ -12,23 +12,16 @@ class GPACell: UICollectionViewCell {
 
     let semLabel: UILabel = {
         let s = UILabel()
-        s.font = UIFont.systemFont(ofSize: 17, weight: .bold)
+        s.font = .titleFont
+        s.textColor = .textPrimary
         return s
     }()
 
     let gpaLabel: UILabel = {
         let g = UILabel()
-        g.textColor = .red
-        g.font = UIFont.systemFont(ofSize: 20, weight: .bold)
+        g.textColor = .textDanger
+        g.font = .scoreFontBolder
         return g
-    }()
-
-    let separator: UIView = {
-        let s = UIView()
-        s.backgroundColor = UIColor(white: 0.2, alpha: 0.5)
-        s.translatesAutoresizingMaskIntoConstraints = false
-        s.heightAnchor.constraint(equalToConstant: 1).isActive = true
-        return s
     }()
 
     var currentGPA: [String: String]? {
@@ -43,20 +36,19 @@ class GPACell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
 
-        dropShadow()
         backgroundColor = .white
+        layer.cornerRadius = 17
+        dropShadow()
 
         setupViews()
     }
 
     fileprivate func setupViews() {
         addSubview(semLabel)
-        addSubview(separator)
         addSubview(gpaLabel)
-
-        semLabel.anchorWithConstraints(top: topAnchor, left: leftAnchor, topOffset: 16, leftOffset: 16)
-        separator.anchorWithConstraints(top: semLabel.bottomAnchor, right: rightAnchor, left: leftAnchor, topOffset: 5)
-        gpaLabel.anchorWithConstraints(top: separator.bottomAnchor, left: leftAnchor, topOffset: 8, leftOffset: 16)
+        
+        semLabel.anchorWithConstraints(top: topAnchor, right: rightAnchor, left: leftAnchor, topOffset: 12, rightOffset: 12, leftOffset: 12)
+        gpaLabel.anchorWithConstraints(right: rightAnchor, bottom: bottomAnchor, rightOffset: 12, bottomOffset: 12)
     }
 
     required init?(coder aDecoder: NSCoder) {

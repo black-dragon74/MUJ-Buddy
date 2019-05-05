@@ -8,7 +8,7 @@
 
 import UIKit
 
-class GPAViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+class GPAViewController: UICollectionViewController, UICollectionViewDelegateFlowLayout {
 
     var GPADetails: GpaModel? {
         didSet {
@@ -64,20 +64,9 @@ class GPAViewController: UIViewController, UICollectionViewDelegate, UICollectio
     // Cell reuse identifier
     let cellID = "cellID"
 
-    // Collection View to contain our cards
-    lazy var collectionView: UICollectionView = {
-        let layout = UICollectionViewFlowLayout()
-        let c = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        c.delegate = self
-        c.dataSource = self
-        c.backgroundColor = .primaryLighter
-        return c
-    }()
-
     // Refresh control
     let rControl: UIRefreshControl = {
         let r = UIRefreshControl()
-        r.addTarget(self, action: #selector(handleGPARefresh), for: .valueChanged)
         r.tintColor = .red
         return r
     }()
@@ -91,6 +80,17 @@ class GPAViewController: UIViewController, UICollectionViewDelegate, UICollectio
         i.translatesAutoresizingMaskIntoConstraints = false
         return i
     }()
+    
+    override init(collectionViewLayout layout: UICollectionViewLayout) {
+        super.init(collectionViewLayout: layout)
+        
+        let newLayout = UICollectionViewFlowLayout()
+        collectionView.collectionViewLayout = newLayout
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -113,8 +113,13 @@ class GPAViewController: UIViewController, UICollectionViewDelegate, UICollectio
 
         navigationItem.title = "GPA Details"
         view.backgroundColor = .primaryLighter
+        
+        
+        collectionView.dataSource = self
+        collectionView.delegate = self
 
         // Setup additional views
+        rControl.addTarget(self, action: #selector(handleGPARefresh), for: .valueChanged)
         setupViews()
 
         // Test the functionality
@@ -165,37 +170,39 @@ class GPAViewController: UIViewController, UICollectionViewDelegate, UICollectio
 
     // MARK: - Setup Views function
     fileprivate func setupViews() {
+        collectionView.backgroundColor = .primaryLighter
         collectionView.register(GPACell.self, forCellWithReuseIdentifier: cellID)
         collectionView.refreshControl = rControl
 
         // Add subviews
-        view.addSubview(collectionView)
         view.addSubview(indicator)
 
         // Add constraints
         indicator.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         indicator.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
         indicator.startAnimating()
-
-        collectionView.anchorWithConstraints(top: view.safeAreaLayoutGuide.topAnchor, right: view.rightAnchor, bottom: view.bottomAnchor, left: view.leftAnchor)
     }
 
     // MARK: - Collection view delegate
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return gpaArray.count
     }
 
     // MARK: - Collection view flow delegate
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        return UIEdgeInsets(top: 16, left: 16, bottom: 16, right: 16)
+        return UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: view.frame.width - 32, height: 80)
+        return CGSize(width: view.frame.width - 20, height: 100)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        return 10
     }
 
     // MARK: - Collection view data source
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+    override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellID, for: indexPath) as! GPACell
         cell.currentGPA = gpaArray[indexPath.item]
         return cell

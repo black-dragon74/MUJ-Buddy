@@ -21,7 +21,6 @@ class EventsViewController: UICollectionViewController, UICollectionViewDelegate
     let rControl: UIRefreshControl = {
         let r = UIRefreshControl()
         r.tintColor = .red
-        r.addTarget(self, action: #selector(handleEventsRefresh), for: .valueChanged)
         return r
     }()
 
@@ -73,8 +72,8 @@ class EventsViewController: UICollectionViewController, UICollectionViewDelegate
         self.navigationItem.title = "Events"
         collectionView.delegate = self
         collectionView.dataSource = self
-        // collectionView.refreshControl = rControl doesn't work when the controller is UICollectionViewController
-        collectionView.addSubview(rControl) // This somehow works
+        collectionView.refreshControl = rControl
+//        collectionView.addSubview(rControl) // This somehow works
 
         self.navigationItem.searchController = searchController
         searchController.delegate = self
@@ -84,6 +83,7 @@ class EventsViewController: UICollectionViewController, UICollectionViewDelegate
 
         // Handle rest of the config separately
         setupViews()
+        rControl.addTarget(self, action: #selector(handleEventsRefresh), for: .valueChanged)
     }
 
     fileprivate func setupViews() {

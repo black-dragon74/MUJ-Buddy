@@ -12,6 +12,9 @@ class FeesViewController: UIViewController {
 
     // Cell reuse identifier
     let cellID = "cellID"
+    
+    let green = [#colorLiteral(red: 0.3796315193, green: 0.7958304286, blue: 0.2592983842, alpha: 1),#colorLiteral(red: 0.2060100436, green: 0.6006633639, blue: 0.09944178909, alpha: 1)]
+    let red = [#colorLiteral(red: 0.9654200673, green: 0.1590853035, blue: 0.2688751221, alpha: 1),#colorLiteral(red: 0.7559037805, green: 0.1139892414, blue: 0.1577021778, alpha: 1)]
 
     // Start value for animation
     let startValue: Double = 0
@@ -20,7 +23,7 @@ class FeesViewController: UIViewController {
     let indicator: UIActivityIndicatorView = {
         let i = UIActivityIndicatorView()
         i.style = .whiteLarge
-        i.color = .white
+        i.color = .red
         i.hidesWhenStopped = true
         i.translatesAutoresizingMaskIntoConstraints = false
         return i
@@ -29,8 +32,7 @@ class FeesViewController: UIViewController {
     // Refresh control
     let rControl: UIRefreshControl = {
         let r = UIRefreshControl()
-        r.tintColor = .white
-        r.addTarget(self, action: #selector(handleFeeRefresh), for: .valueChanged)
+        r.tintColor = .red
         return r
     }()
 
@@ -38,65 +40,62 @@ class FeesViewController: UIViewController {
     let scrollView: UIScrollView = {
         let m = UIScrollView()
         m.alwaysBounceVertical = true
-        m.backgroundColor = .navyBlue
+        m.backgroundColor = .primaryLighter
         return m
     }()
 
     // Paid fee details card
     let paidFeeView: UIView = {
         let p = UIView()
-        p.backgroundColor = .white
         p.translatesAutoresizingMaskIntoConstraints = false
-        p.layer.masksToBounds = true
-        p.dropShadow(scale: false)
-        p.layer.cornerRadius = 8
+        p.heightAnchor.constraint(equalToConstant: 100).isActive = true
+        p.layer.cornerRadius = 17
+        p.backgroundColor = .white
+        return p
+    }()
+    
+    let paidLabel: UILabel = {
+        let p = UILabel()
+        p.textColor = .textPrimary
+        p.font = .scoreFontBolder
+        p.text = "PAID"
         return p
     }()
 
-    let paidLabel: UILabel = {
+    let paidTF: UILabel = {
         let l = UILabel()
         l.text = "₹ Loading..."
-        l.font = UIFont.systemFont(ofSize: 25, weight: .bold)
+        l.font = .scoreFontBolder
         l.textAlignment = .center
+        l.textColor = .textSuccess
         return l
-    }()
-
-    let paidImage: UIImageView = {
-        let i = UIImageView()
-        i.image = UIImage(named: "paid")
-        i.contentMode = .scaleAspectFill
-        i.translatesAutoresizingMaskIntoConstraints = false
-        i.heightAnchor.constraint(equalToConstant: 100).isActive = true
-        i.widthAnchor.constraint(equalToConstant: 100).isActive = true
-        return i
     }()
 
     // Unpaid fee details card
     let unpaidFeeView: UIView = {
         let u = UIView()
-        u.backgroundColor = .white
         u.translatesAutoresizingMaskIntoConstraints = false
-        u.layer.masksToBounds = true
-        u.layer.cornerRadius = 8
+        u.layer.cornerRadius = 17
+        u.backgroundColor = .white
+        u.heightAnchor.constraint(equalToConstant: 100).isActive = true
         return u
     }()
-
+    
     let unpaidLabel: UILabel = {
-        let l = UILabel()
-        l.text = "₹ Loading..."
-        l.font = UIFont.systemFont(ofSize: 25, weight: .bold)
-        l.textAlignment = .center
-        return l
+        let p = UILabel()
+        p.textColor = .textPrimary
+        p.font = .scoreFontBolder
+        p.text = "UNPAID"
+        return p
     }()
 
-    let unpaidImage: UIImageView = {
-        let i = UIImageView()
-        i.image = UIImage(named: "unpaid")
-        i.contentMode = .scaleAspectFill
-        i.translatesAutoresizingMaskIntoConstraints = false
-        i.heightAnchor.constraint(equalToConstant: 100).isActive = true
-        i.widthAnchor.constraint(equalToConstant: 100).isActive = true
-        return i
+    let unpaidTF: UILabel = {
+        let l = UILabel()
+        l.text = "₹ Loading..."
+        l.font = .scoreFontBolder
+        l.textColor = .textDanger
+        l.textAlignment = .center
+        return l
     }()
 
     let startTime = Date()
@@ -124,6 +123,7 @@ class FeesViewController: UIViewController {
         indicator.startAnimating()
 
         setupViews()
+        rControl.addTarget(self, action: #selector(handleFeeRefresh), for: .valueChanged)
 
         // MARK: - Fetch fee from API
         Service.shared.fetchFeeDetails(sessionID: getSessionID()) { [weak self] (fee, reauth, error) in
@@ -160,13 +160,13 @@ class FeesViewController: UIViewController {
                     self?.indicator.stopAnimating()
 
                     if let totalPaid = fee.paid?.total {
-                        self?.paidLabel.text = "₹ \(totalPaid)"
+                        self?.paidTF.text = "₹ \(totalPaid)"
                     }
 
                     if let totalUnpaid = fee.unpaid?.total {
-                        self?.unpaidLabel.text = "₹ \(totalUnpaid)"
+                        self?.unpaidTF.text = "₹ \(totalUnpaid)"
                     } else {
-                        self?.unpaidLabel.text = "₹ 0.0"
+                        self?.unpaidTF.text = "₹ 0.0"
                     }
                 }
             }
@@ -183,27 +183,29 @@ class FeesViewController: UIViewController {
         // Add subviews
         scrollView.refreshControl = rControl
         scrollView.anchorWithConstraints(top: view.topAnchor, right: view.rightAnchor, bottom: view.bottomAnchor, left: view.leftAnchor)
+        
         scrollView.addSubview(paidFeeView)
+        
         scrollView.addSubview(unpaidFeeView)
 
         // Paid fee views
         paidFeeView.addSubview(paidLabel)
-        paidFeeView.addSubview(paidImage)
+        paidFeeView.addSubview(paidTF)
 
         // Unaid fee views
+        unpaidFeeView.addSubview(unpaidTF)
         unpaidFeeView.addSubview(unpaidLabel)
-        unpaidFeeView.addSubview(unpaidImage)
 
         // Add constraints
-        paidFeeView.anchorWithConstraints(top: scrollView.topAnchor, right: view.rightAnchor, left: view.leftAnchor, topOffset: 16, rightOffset: 16, leftOffset: 16, height: 160)
-        paidLabel.anchorWithConstraints(top: paidFeeView.topAnchor, right: paidFeeView.rightAnchor, left: paidFeeView.leftAnchor, topOffset: 16, rightOffset: 16, leftOffset: 16)
-        paidImage.centerXAnchor.constraint(equalTo: paidFeeView.centerXAnchor).isActive = true
-        paidImage.centerYAnchor.constraint(equalTo: paidFeeView.centerYAnchor, constant: 25).isActive = true
+        paidFeeView.anchorWithConstraints(top: scrollView.topAnchor, right: view.rightAnchor, left: view.leftAnchor, topOffset: 10, rightOffset: 10, leftOffset: 10)
+        paidLabel.anchorWithConstraints(top: paidFeeView.topAnchor, right: paidFeeView.rightAnchor, left: paidFeeView.leftAnchor, topOffset: 12, rightOffset: 12, leftOffset: 12)
+        paidTF.anchorWithConstraints(right: paidFeeView.rightAnchor, bottom: paidFeeView.bottomAnchor, rightOffset: 12, bottomOffset: 12)
+       
 
-        unpaidFeeView.anchorWithConstraints(top: paidFeeView.bottomAnchor, right: view.rightAnchor, left: view.leftAnchor, topOffset: 20, rightOffset: 16, leftOffset: 16, height: 160)
-        unpaidLabel.anchorWithConstraints(top: unpaidFeeView.topAnchor, right: unpaidFeeView.rightAnchor, left: unpaidFeeView.leftAnchor, topOffset: 16, rightOffset: 16, leftOffset: 16)
-        unpaidImage.centerXAnchor.constraint(equalTo: unpaidFeeView.centerXAnchor).isActive = true
-        unpaidImage.centerYAnchor.constraint(equalTo: unpaidFeeView.centerYAnchor, constant: 25).isActive = true
+        unpaidFeeView.anchorWithConstraints(top: paidFeeView.bottomAnchor, right: view.rightAnchor, left: view.leftAnchor, topOffset: 10, rightOffset: 10, leftOffset: 10)
+        unpaidLabel.anchorWithConstraints(top: unpaidFeeView.topAnchor, right: unpaidFeeView.rightAnchor, left: unpaidFeeView.leftAnchor, topOffset: 12, rightOffset: 12, leftOffset: 12)
+        unpaidTF.anchorWithConstraints(right: unpaidFeeView.rightAnchor, bottom: unpaidFeeView.bottomAnchor, rightOffset: 12, bottomOffset: 12)
+       
 
         indicator.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor).isActive = true
         indicator.centerYAnchor.constraint(equalTo: view.bottomAnchor, constant: -40).isActive = true
@@ -213,6 +215,9 @@ class FeesViewController: UIViewController {
         super.viewDidLayoutSubviews()
 
         scrollView.frame = view.bounds
+        
+        paidFeeView.dropShadow()
+        unpaidFeeView.dropShadow()
     }
 
     // MARK: - Fee refresh
@@ -251,13 +256,13 @@ class FeesViewController: UIViewController {
                     self?.rControl.endRefreshing()
 
                     if let totalPaid = fee.paid?.total {
-                        self?.paidLabel.text = "₹ \(totalPaid)"
+                        self?.paidTF.text = "₹ \(totalPaid)"
                     }
 
                     if let totalUnpaid = fee.unpaid?.total {
-                        self?.unpaidLabel.text = "₹ \(totalUnpaid)"
+                        self?.unpaidTF.text = "₹ \(totalUnpaid)"
                     } else {
-                        self?.unpaidLabel.text = "₹ 0.0"
+                        self?.unpaidTF.text = "₹ 0.0"
                     }
                 }
             }
@@ -270,12 +275,12 @@ class FeesViewController: UIViewController {
         let endValue: Double = 10000
         let elapsed = now.timeIntervalSince(startTime)
         if elapsed > animationDuration {
-            paidLabel.text = "₹ \(Int(endValue))"
+            paidTF.text = "₹ \(Int(endValue))"
         } else {
             let percent = elapsed / animationDuration
             let value =  startValue + percent * (endValue - startValue)
             let roundValue = Int(value)
-            paidLabel.text = "₹ \(roundValue)"
+            paidTF.text = "₹ \(roundValue)"
         }
     }
 }

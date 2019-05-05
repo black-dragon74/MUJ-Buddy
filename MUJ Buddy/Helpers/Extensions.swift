@@ -102,7 +102,7 @@ extension UIView {
     // This adds a basic shadow
     func dropShadow(scale: Bool = true) {
         layer.masksToBounds = false
-        layer.shadowColor = UIColor.black.cgColor
+        layer.shadowColor = UIColor(r: 150, g: 143, b: 143, alpha: 0.5).cgColor
         layer.shadowOpacity = 0.2
         layer.shadowOffset = CGSize(width: -1, height: 1)
         layer.shadowRadius = 1
@@ -231,8 +231,9 @@ extension UINavigationItem {
     }
 }
 
-// Extension to return a bold font
+// Extensions to customize fonts
 extension UIFont {
+    // Bold Font
     func bold() -> UIFont {
         guard let descriptor = self.fontDescriptor.withSymbolicTraits(.traitBold) else { return UIFont.boldSystemFont(ofSize: 17) }
         return UIFont(descriptor: descriptor, size: 0)
