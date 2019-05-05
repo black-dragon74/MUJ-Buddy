@@ -26,20 +26,13 @@ class LoginCell: UICollectionViewCell {
         l.contentMode = .scaleAspectFit
         return l
     }()
-    
-    // UI segmented control to select student or parent login
-    let loginSelector: UISegmentedControl = {
-        let lSelector = UISegmentedControl(items: ["Student", "Parent"])
-        lSelector.selectedSegmentIndex = 0
-        lSelector.tintColor = .mujTheme
-        return lSelector
-    }()
 
     let userTextField: LeftPaddedTextField = {
         let u = LeftPaddedTextField()
         u.placeholder = "Enter DMS userid"
         u.layer.borderColor = UIColor.lightGray.cgColor
         u.layer.borderWidth = 1
+        u.layer.cornerRadius = 20
         u.keyboardType = .numberPad
         return u
     }()
@@ -85,7 +78,6 @@ class LoginCell: UICollectionViewCell {
         // Add child views to the subviews
         addSubview(progressBar)
         addSubview(logoView)
-        addSubview(loginSelector)
         addSubview(userTextField)
         addSubview(loginButton)
         addSubview(cpyLabel)
@@ -96,16 +88,14 @@ class LoginCell: UICollectionViewCell {
 
         _ = logoView.anchorWithConstantsToTop(top: centerYAnchor, right: nil, bottom: nil, left: nil, topConstant: -220, rightConstant: 0, bottomConstant: 0, leftConstant: 0, heightConstant: 150, widthConstant: 150)
         logoView.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
-        
-        loginSelector.anchorWithConstraints(top: logoView.bottomAnchor, right: rightAnchor, left: leftAnchor, topOffset: 20, rightOffset: 32, leftOffset: 32, height: 30)
 
-        _ = userTextField.anchorWithConstantsToTop(top: loginSelector.bottomAnchor, right: rightAnchor, bottom: nil, left: leftAnchor, topConstant: 16, rightConstant: 32, bottomConstant: 0, leftConstant: 32, heightConstant: 50, widthConstant: nil)
+        _ = userTextField.anchorWithConstantsToTop(top: logoView.bottomAnchor, right: rightAnchor, bottom: nil, left: leftAnchor, topConstant: 24, rightConstant: 32, bottomConstant: 0, leftConstant: 32, heightConstant: 50, widthConstant: nil)
 
 
-        _ = loginButton.anchorWithConstantsToTop(top: userTextField.bottomAnchor, right: rightAnchor, bottom: nil, left: leftAnchor, topConstant: 12, rightConstant: 32, bottomConstant: 0, leftConstant: 32, heightConstant: 50, widthConstant: nil)
+        _ = loginButton.anchorWithConstantsToTop(top: userTextField.bottomAnchor, right: rightAnchor, bottom: nil, left: leftAnchor, topConstant: 24, rightConstant: 32, bottomConstant: 0, leftConstant: 32, heightConstant: 50, widthConstant: nil)
 
         loginButton.addTarget(self, action: #selector(handleLogin), for: .touchUpInside)
-        loginSelector.addTarget(self, action: #selector(handleLoginSelector), for: .valueChanged)
+//        loginSelector.addTarget(self, action: #selector(handleLoginSelector), for: .valueChanged)
         
         cpyLabel.anchorWithConstraints(bottom: safeAreaLayoutGuide.bottomAnchor, bottomOffset: 5)
         cpyLabel.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
@@ -115,6 +105,16 @@ class LoginCell: UICollectionViewCell {
 
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        
+        loginButton.layer.cornerRadius = 20
+        loginButton.dropShadow()
+        loginButton.linearGradient(from: #colorLiteral(red: 0.9953531623, green: 0.54947716, blue: 0.1281470656, alpha: 1), to: #colorLiteral(red: 0.9409626126, green: 0.7209432721, blue: 0.1315650344, alpha: 1))
+        
+        userTextField.dropShadow()
     }
 
     // Handle login

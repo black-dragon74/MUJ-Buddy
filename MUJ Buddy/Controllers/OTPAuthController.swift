@@ -141,6 +141,21 @@ class OTPAuthController: UIViewController {
         dismiss(animated: true, completion: nil)
     }
     
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        
+        otpTF.layer.cornerRadius = 20
+        otpTF.dropShadow()
+        
+        verifyButton.layer.cornerRadius = 20
+        verifyButton.dropShadow()
+        verifyButton.linearGradient(from: #colorLiteral(red: 0.3796315193, green: 0.7958304286, blue: 0.2592983842, alpha: 1), to: #colorLiteral(red: 0.2060100436, green: 0.6006633639, blue: 0.09944178909, alpha: 1))
+        
+        dismissButton.layer.cornerRadius = 20
+        dismissButton.dropShadow()
+        dismissButton.linearGradient(from: #colorLiteral(red: 0.9654200673, green: 0.1590853035, blue: 0.2688751221, alpha: 1), to: #colorLiteral(red: 0.7559037805, green: 0.1139892414, blue: 0.1577021778, alpha: 1))
+    }
+    
     // Prevent view hijacking
     fileprivate func preventViewHijack() {
         guard sessionID != nil,

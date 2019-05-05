@@ -21,13 +21,15 @@ class LoginPageCell: UICollectionViewCell {
             imageView.image = UIImage(named: page.image)
 
             // Set the text with attributes
-            let color = UIColor(white: 0.3, alpha: 1)
-            let attributedText = NSMutableAttributedString(string: page.title, attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 24, weight: UIFont.Weight.medium), NSAttributedString.Key.foregroundColor: color])
-            attributedText.append(NSAttributedString(string: "\n\n\(page.subtitle)", attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 18), NSAttributedString.Key.foregroundColor: color]))
+            let attributedText = NSMutableAttributedString(string: page.title, attributes: [NSAttributedString.Key.font: UIFont.scoreFontBolder, NSAttributedString.Key.foregroundColor: UIColor.textPrimary])
+            
+            attributedText.append(NSAttributedString(string: "\n\(page.subtitle)", attributes: [NSAttributedString.Key.font: UIFont.scoreFont, NSAttributedString.Key.foregroundColor: UIColor.textPrimaryDarker]))
+            
             let pStyle = NSMutableParagraphStyle()
             pStyle.alignment = .center
             let len = attributedText.string.count
             attributedText.addAttribute(NSAttributedString.Key.paragraphStyle, value: pStyle, range: NSRange(location: 0, length: len))
+            
             textView.attributedText = attributedText
         }
     }
