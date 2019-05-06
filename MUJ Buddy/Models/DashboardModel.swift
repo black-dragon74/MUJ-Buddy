@@ -34,9 +34,9 @@ struct DashboardModel: Codable {
     struct parentDetails: Codable {
         let mother: String
         let father: String
-        let email: String
-        let mobileNo: String
-        let emergencyContact: String
+        let email: String?
+        let mobileNo: String?
+        let emergencyContact: String?
     }
 
     // Real structure
