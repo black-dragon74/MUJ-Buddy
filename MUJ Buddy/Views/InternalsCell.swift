@@ -233,7 +233,6 @@ class InternalsCell: UICollectionViewCell {
         animation.toValue = [1.0, 0.0]
         animation.duration = 3
         animation.repeatCount = .infinity
-        animation.autoreverses = true
         gradient.add(animation, forKey: nil)
         separatorView.layer.insertSublayer(gradient, at: 0)
     }
