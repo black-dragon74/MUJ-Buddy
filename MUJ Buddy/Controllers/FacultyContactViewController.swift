@@ -166,6 +166,7 @@ class FacultyContactViewController: UIViewController {
 
         view.backgroundColor = .primaryLighter
         self.title = "Details"
+        navigationItem.largeTitleDisplayMode = .never
 
         setupViews()
     }
