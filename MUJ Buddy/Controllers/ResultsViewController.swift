@@ -36,6 +36,11 @@ class ResultsViewController: UICollectionViewController, UICollectionViewDelegat
         super.viewWillAppear(animated)
         
         NotificationCenter.default.addObserver(self, selector: #selector(handleBiometricAuth), name: .isReauthRequired, object: nil)
+        
+        if UIApplication.shared.isInDarkMode {
+            view.backgroundColor = .darkBackgroundColor
+            collectionView.backgroundColor = .darkBackgroundColor
+        }
     }
     
     @objc fileprivate func handleBiometricAuth() {
@@ -153,6 +158,7 @@ class ResultsViewController: UICollectionViewController, UICollectionViewDelegat
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellID, for: indexPath) as! ResultsCell
         cell.currentSubjectForResult = resultsArray[indexPath.item]
+        cell.isDark = UIApplication.shared.isInDarkMode
         return cell
     }
 

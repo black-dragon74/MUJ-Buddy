@@ -112,6 +112,19 @@ extension UIView {
         layer.shouldRasterize = true
         layer.rasterizationScale = scale ? UIScreen.main.scale : 1
     }
+    
+    func darkDropShadow() {
+        layer.masksToBounds = false
+        layer.shadowColor = UIColor(r: 0, g: 0, b: 0, alpha: 0.5).cgColor
+        layer.shadowOpacity = 0.2
+        layer.shadowOffset = CGSize(width: -1, height: 1)
+        layer.shadowRadius = 1
+        
+        layer.shadowPath = UIBezierPath(rect: bounds).cgPath
+        layer.shadowRadius = self.layer.cornerRadius
+        layer.shouldRasterize = true
+        layer.rasterizationScale = UIScreen.main.scale
+    }
 
     // This can be initialized with configuration options
     func dropShadow(color: UIColor, opacity: Float = 0.5, offSet: CGSize, radius: CGFloat = 1, scale: Bool = true) {

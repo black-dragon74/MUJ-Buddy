@@ -19,6 +19,21 @@ class ResultsCell: UICollectionViewCell {
             setValueAndColorTo(grade: curr.grade)
         }
     }
+    
+    var isDark: Bool? {
+        didSet {
+            guard let isDark = isDark else { return }
+            
+            if isDark {
+                subjectLabel.textColor = .darkTextPrimary
+                courseCodeTF.textColor = .darkTextPrimaryLighter
+                creditsLabel.textColor = .darkTextPrimaryLighter
+                gradeLabel.textColor = .darkTextPrimaryLighter
+                creditsTF.textColor = .darkTextPrimaryDarker
+                backgroundColor = .darkCardBackgroundColor
+            }
+        }
+    }
 
     // Subject label
     let subjectLabel: UILabel = {
@@ -79,7 +94,14 @@ class ResultsCell: UICollectionViewCell {
 
         backgroundColor = .white
         layer.cornerRadius = 17
-        dropShadow()
+        if let isDark = isDark {
+            if isDark {
+                darkDropShadow()
+            }
+            else {
+                dropShadow()
+            }
+        }
 
         setupViews()
     }

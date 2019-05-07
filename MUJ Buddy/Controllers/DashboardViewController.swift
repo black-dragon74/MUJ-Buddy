@@ -62,6 +62,36 @@ class DashboardViewController: UIViewController, UICollectionViewDelegate, UICol
         
         // Add observer for biometry
         NotificationCenter.default.addObserver(self, selector: #selector(handleReauth), name: .isReauthRequired, object: nil)
+        
+        // Dark mode setup
+        if UIApplication.shared.isInDarkMode {
+            navigationController?.navigationBar.tintColor = .darkBarTintColor
+            navigationController?.navigationBar.barTintColor = .darkBarColor
+            navigationController?.navigationBar.isTranslucent = false
+            navigationController?.navigationBar.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
+            navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
+            self.navigationItem.rightBarButtonItem?.tintColor = .white
+            self.navigationController?.navigationBar.barStyle = .black
+            self.collectionView.backgroundColor = .darkBackgroundColor
+            self.view.backgroundColor = .darkBackgroundColor
+        }
+        else {
+            navigationController?.navigationBar.tintColor = .systemTintColor
+            navigationController?.navigationBar.barTintColor = .white
+            navigationController?.navigationBar.isTranslucent = true
+            navigationController?.navigationBar.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.black]
+            navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.black]
+            self.navigationItem.rightBarButtonItem?.tintColor = .black
+            self.navigationController?.navigationBar.barStyle = .default
+            self.collectionView.backgroundColor = .primaryLighter
+            self.view.backgroundColor = .primaryLighter
+        }
+        
+        setNeedsStatusBarAppearanceUpdate()
+    }
+    
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .lightContent
     }
 
     override func viewDidLoad() {
@@ -70,11 +100,11 @@ class DashboardViewController: UIViewController, UICollectionViewDelegate, UICol
         self.navigationController?.navigationBar.prefersLargeTitles = true
         view.backgroundColor = .white
         view.snapshotView(afterScreenUpdates: true)
+        setNeedsStatusBarAppearanceUpdate()
 
         // Logout button
         let btnImage = UIImage(named: "ios_more")
         let logoutButton = UIBarButtonItem(image: btnImage, style: .plain, target: self, action: #selector(handleSettingsShow))
-        logoutButton.tintColor = .black
         self.navigationItem.rightBarButtonItem = logoutButton
 
         view.addSubview(collectionView)
@@ -84,7 +114,7 @@ class DashboardViewController: UIViewController, UICollectionViewDelegate, UICol
         
         collectionView.register(DashboardHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: headerID)
 
-        collectionView.anchorWithConstraints(top: view.safeAreaLayoutGuide.topAnchor, right: view.rightAnchor, bottom: view.bottomAnchor, left: view.leftAnchor)
+        collectionView.anchorWithConstraints(top: view.safeAreaLayoutGuide.topAnchor, right: view.rightAnchor, bottom: view.bottomAnchor, left: view.leftAnchor, topOffset: 10)
 
         // If background service is disabled, prompt the user
         // But only once coz respect Apple Terms :P

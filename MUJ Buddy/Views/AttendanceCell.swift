@@ -20,6 +20,22 @@ class AttendanceCell: UICollectionViewCell {
             percentTF.text = att.percentage.isEmpty ? "00" : att.percentage
         }
     }
+    
+    var isDark: Bool? {
+        didSet {
+            guard let isDark = isDark else { return }
+            
+            if isDark {
+                subjectLabel.textColor = .darkTextPrimary
+                totalTF.textColor = .darkTextPrimaryLighter
+                presentLabel.textColor = .darkTextPrimaryLighter
+                absentLabel.textColor = .darkTextPrimaryLighter
+                percentLabel.textColor = .darkTextPrimaryLighter
+                absentTF.textColor = .darkTextPrimaryDarker
+                backgroundColor = .darkCardBackgroundColor
+            }
+        }
+    }
 
     // Subject label
     let subjectLabel: UILabel = {
@@ -105,7 +121,15 @@ class AttendanceCell: UICollectionViewCell {
         
         self.backgroundColor = .white
         self.layer.cornerRadius = 17
-        self.dropShadow()
+        
+        if let isDark = isDark {
+            if isDark {
+                darkDropShadow()
+            }
+            else {
+                dropShadow()
+            }
+        }
 
         setupViews()
     }

@@ -350,3 +350,16 @@ func setProfileImage(image: Data) {
     UserDefaults.standard.set(image, forKey: PROFILE_IMG_KEY)
     UserDefaults.standard.synchronize()
 }
+
+//
+//  Dark theme helper functions
+//
+func shoudUseDarkMode() -> Bool {
+    return UserDefaults.standard.object(forKey: DARK_MODE) as? Bool ?? false
+}
+
+func setDarkMode(to: Bool) {
+    UserDefaults.standard.removeObject(forKey: DARK_MODE)
+    UserDefaults.standard.set(to, forKey: DARK_MODE)
+    UserDefaults.standard.synchronize()
+}

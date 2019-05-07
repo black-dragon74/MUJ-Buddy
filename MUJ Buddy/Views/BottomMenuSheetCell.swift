@@ -12,9 +12,14 @@ class BottomMenuSheetCell: UICollectionViewCell {
 
     override var isHighlighted: Bool {
         didSet {
-            backgroundColor = isHighlighted ? .lightGray : .white
-            cellImage.tintColor = isHighlighted ? .white : .black
-            title.textColor = isHighlighted ? .white : .black
+            if !UIApplication.shared.isInDarkMode {
+                backgroundColor = isHighlighted ? .lightGray : .white
+                cellImage.tintColor = isHighlighted ? .white : .black
+                title.textColor = isHighlighted ? .white : .black
+            }
+            else {
+                backgroundColor = isHighlighted ? .darkCardBackgroundColor : .darkBackgroundColor
+            }
         }
     }
 
@@ -23,6 +28,17 @@ class BottomMenuSheetCell: UICollectionViewCell {
             guard let c = currentCell else { return }
             cellImage.image = UIImage(named: c.image)?.withRenderingMode(.alwaysTemplate)
             title.text = c.title
+        }
+    }
+    
+    var isDark: Bool? {
+        didSet {
+            guard let isDark = isDark else { return }
+            
+            if isDark {
+                cellImage.tintColor = .white
+                title.textColor = .white
+            }
         }
     }
 
@@ -36,7 +52,7 @@ class BottomMenuSheetCell: UICollectionViewCell {
 
     let title: UILabel = {
         let t = UILabel()
-        t.font = UIFont.boldSystemFont(ofSize: 17)
+        t.font = .titleFont
         return t
     }()
 

@@ -48,6 +48,7 @@ class DashboardHeaderView: UICollectionReusableView {
         let cView = UIImageView()
         cView.backgroundColor = .navyBlue
         cView.image = UIImage(named: "manipal")
+        cView.layer.cornerRadius = 17
         return cView
     }()
     
@@ -55,6 +56,7 @@ class DashboardHeaderView: UICollectionReusableView {
         let bView = UIView()
         bView.backgroundColor = .black
         bView.alpha = 0.7
+        bView.layer.cornerRadius = 17
         return bView
     }()
     
@@ -70,6 +72,8 @@ class DashboardHeaderView: UICollectionReusableView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
+        
+        layer.cornerRadius = 17
         
         setupHeader()
     }

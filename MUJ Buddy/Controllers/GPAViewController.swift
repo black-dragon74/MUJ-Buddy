@@ -96,6 +96,11 @@ class GPAViewController: UICollectionViewController, UICollectionViewDelegateFlo
         super.viewWillAppear(animated)
         
         NotificationCenter.default.addObserver(self, selector: #selector(handleBiometricAuth), name: .isReauthRequired, object: nil)
+        
+        if UIApplication.shared.isInDarkMode {
+            view.backgroundColor = .darkBackgroundColor
+            collectionView.backgroundColor = .darkBackgroundColor
+        }
     }
     
     @objc fileprivate func handleBiometricAuth() {
@@ -205,6 +210,7 @@ class GPAViewController: UICollectionViewController, UICollectionViewDelegateFlo
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellID, for: indexPath) as! GPACell
         cell.currentGPA = gpaArray[indexPath.item]
+        cell.isDark = UIApplication.shared.isInDarkMode
         return cell
     }
 

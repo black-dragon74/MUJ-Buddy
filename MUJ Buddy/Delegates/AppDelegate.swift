@@ -163,4 +163,12 @@ extension UIApplication {
     var statusBarView: UIView? {
         return value(forKey: "statusBar") as? UIView
     }
+    
+    var isInDarkMode: Bool {
+        get {
+            return shoudUseDarkMode()
+        }
+        
+        set { /* Just so the app can write to it */ }
+    }
 }

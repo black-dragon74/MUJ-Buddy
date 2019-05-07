@@ -35,6 +35,9 @@ class AttendanceViewController: UICollectionViewController, UICollectionViewDele
         super.viewWillAppear(animated)
         
         NotificationCenter.default.addObserver(self, selector: #selector(handleBiometricAuth), name: .isReauthRequired, object: nil)
+        
+        view.backgroundColor = UIApplication.shared.isInDarkMode ? .darkBackgroundColor : .primaryLighter
+        collectionView.backgroundColor = UIApplication.shared.isInDarkMode ? .darkBackgroundColor : .primaryLighter
     }
     
     @objc fileprivate func handleBiometricAuth() {
@@ -132,6 +135,7 @@ class AttendanceViewController: UICollectionViewController, UICollectionViewDele
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellID, for: indexPath) as! AttendanceCell
         cell.attendance = attendanceDetails[indexPath.row]
+        cell.isDark = UIApplication.shared.isInDarkMode
         return cell
     }
 

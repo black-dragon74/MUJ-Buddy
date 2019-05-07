@@ -24,7 +24,6 @@ class BottomMenuSheetController: NSObject, UICollectionViewDataSource, UICollect
     lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         let c = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        c.backgroundColor = .white
         c.dataSource = self
         c.isScrollEnabled = false
         c.delegate = self
@@ -51,6 +50,8 @@ class BottomMenuSheetController: NSObject, UICollectionViewDataSource, UICollect
 
     // Function to show settings
     func showSettings() {
+        collectionView.backgroundColor = UIApplication.shared.isInDarkMode ? .darkBackgroundColor : .white
+        collectionView.reloadData()
         if let window = UIApplication.shared.keyWindow {
             let height: CGFloat = cellHeight * CGFloat(menuItems.count) + 40
             let y = window.frame.height - height
@@ -85,6 +86,8 @@ class BottomMenuSheetController: NSObject, UICollectionViewDataSource, UICollect
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellID, for: indexPath) as! BottomMenuSheetCell
         cell.currentCell = menuItems[indexPath.item]
+        cell.backgroundColor = UIApplication.shared.isInDarkMode ? .darkBackgroundColor : .white
+        cell.isDark = UIApplication.shared.isInDarkMode
         return cell
     }
 

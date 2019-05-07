@@ -24,8 +24,31 @@ class InternalsCell: UICollectionViewCell {
         }
     }
     
-    // Colors for gradient
-    private let separatorColor = [UIColor(r: 234, g: 12, b: 12), UIColor(r: 73, g: 46, b: 202)]
+    var isDark: Bool? {
+        didSet {
+            guard let isDark = isDark else { return }
+            
+            if isDark {
+                subjectLabel.textColor = .darkTextPrimary
+                
+                // Row 1
+                mte1Text.textColor = .darkTextPrimaryDarker
+                mte2Text.textColor = .darkTextPrimaryDarker
+                cwsText.textColor = .darkTextPrimaryDarker
+                mte1Label.textColor = .darkTextPrimaryLighter
+                mte2Label.textColor = .darkTextPrimaryLighter
+                cwsLabel.textColor = .darkTextPrimaryLighter
+                
+                // Row 2
+                prsLabel.textColor = .darkTextPrimaryLighter
+                resessLabel.textColor = .darkTextPrimaryLighter
+                totalLabel.textColor = .darkTextPrimaryLighter
+                
+                // Update the view color
+                backgroundColor = .darkCardBackgroundColor
+            }
+        }
+    }
 
     // Subject Label
     let subjectLabel: UILabel = {
@@ -162,7 +185,14 @@ class InternalsCell: UICollectionViewCell {
 
         backgroundColor = .white
         layer.cornerRadius = 17
-        dropShadow()
+        if let isDark = isDark {
+            if isDark {
+                darkDropShadow()
+            }
+            else {
+                dropShadow()
+            }
+        }
 
         // Handle additional views
         setupViews()
@@ -222,6 +252,9 @@ class InternalsCell: UICollectionViewCell {
         
         // Easter egg, gradient changes it's colors
         let gradient = CAGradientLayer()
+        
+        // Colors for gradient
+        let  separatorColor = isDark ?? false ? [UIColor(r: 234, g: 12, b: 12), UIColor(r: 73, g: 46, b: 202)] : [UIColor(r: 161, g: 160, b: 160), .white]
         gradient.colors = [separatorColor[0].cgColor, separatorColor[1].cgColor]
         gradient.startPoint = .init(x: 0, y: 0)
         gradient.endPoint = .init(x: 1, y: 1)
@@ -231,7 +264,7 @@ class InternalsCell: UICollectionViewCell {
         let animation = CABasicAnimation(keyPath: "locations")
         animation.fromValue = [0.0, 1.0]
         animation.toValue = [1.0, 0.0]
-        animation.duration = 3
+        animation.duration = 5
         animation.repeatCount = .infinity
         gradient.add(animation, forKey: nil)
         separatorView.layer.insertSublayer(gradient, at: 0)

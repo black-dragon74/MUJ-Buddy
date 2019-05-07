@@ -104,6 +104,16 @@ class FeesViewController: UIViewController {
         super.viewWillAppear(animated)
         
         NotificationCenter.default.addObserver(self, selector: #selector(handleBiometricAuth), name: .isReauthRequired, object: nil)
+        
+        if UIApplication.shared.isInDarkMode {
+            view.backgroundColor = .darkBackgroundColor
+            scrollView.backgroundColor = .darkBackgroundColor
+            paidFeeView.backgroundColor = .darkCardBackgroundColor
+            unpaidFeeView.backgroundColor = .darkCardBackgroundColor
+            
+            paidLabel.textColor = .darkTextPrimary
+            unpaidLabel.textColor = .darkTextPrimary
+        }
     }
     
     @objc fileprivate func handleBiometricAuth() {
@@ -216,8 +226,14 @@ class FeesViewController: UIViewController {
 
         scrollView.frame = view.bounds
         
-        paidFeeView.dropShadow()
-        unpaidFeeView.dropShadow()
+        if UIApplication.shared.isInDarkMode {
+            paidFeeView.darkDropShadow()
+            unpaidFeeView.darkDropShadow()
+        }
+        else {
+            paidFeeView.dropShadow()
+            unpaidFeeView.dropShadow()
+        }
     }
 
     // MARK: - Fee refresh

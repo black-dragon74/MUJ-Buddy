@@ -32,13 +32,31 @@ class GPACell: UICollectionViewCell {
             gpaLabel.text = gpa[key]
         }
     }
+    
+    var isDark: Bool? {
+        didSet {
+            guard let isDark = isDark else { return }
+            
+            if isDark {
+                semLabel.textColor = .darkTextPrimary
+                backgroundColor = .darkCardBackgroundColor
+            }
+        }
+    }
 
     override init(frame: CGRect) {
         super.init(frame: frame)
 
         backgroundColor = .white
         layer.cornerRadius = 17
-        dropShadow()
+        if let isDark = isDark {
+            if isDark {
+                darkDropShadow()
+            }
+            else {
+                dropShadow()
+            }
+        }
 
         setupViews()
     }

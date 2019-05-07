@@ -30,6 +30,10 @@ extension UIColor {
     static var textPrimaryDarker: UIColor { return UIColor(r: 76, g: 76, b: 76) }
     static var textPrimaryLighter: UIColor { return UIColor(r: 130, g: 130, b: 130) }
     
+    static var darkTextPrimary: UIColor { return .white }
+    static var darkTextPrimaryDarker: UIColor { return .white }
+    static var darkTextPrimaryLighter: UIColor { return UIColor(r: 203, g: 203, b: 203) }
+    
     static var textInfo: UIColor { return UIColor(r: 87, g: 167, b: 255) }
     static var textSuccess: UIColor { return UIColor(r: 53, g: 205, b: 150) }
     static var textWarning: UIColor { return UIColor(r: 255, g: 177, b: 11) }
