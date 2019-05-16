@@ -36,11 +36,21 @@ class LoginCell: UICollectionViewCell {
         u.keyboardType = .numberPad
         return u
     }()
+    
+    let passwordField: LeftPaddedTextField = {
+        let u = LeftPaddedTextField()
+        u.placeholder = "Enter DMS password"
+        u.layer.borderColor = UIColor.lightGray.cgColor
+        u.layer.borderWidth = 1
+        u.layer.cornerRadius = 20
+        u.isSecureTextEntry = true
+        return u
+    }()
 
     let loginButton: UIButton = {
         let b = UIButton(type: .system)
         b.backgroundColor = .orange
-        b.setTitle("Login Using DMS", for: .normal)
+        b.setTitle("Complete login on DMS", for: .normal)
         b.setTitleColor(.white, for: .normal)
         return b
     }()
@@ -60,7 +70,7 @@ class LoginCell: UICollectionViewCell {
         let cLabel = UILabel()
         cLabel.textColor = .darkGray
         cLabel.text = "Crafted with love by Nick"
-        cLabel.font = UIFont.systemFont(ofSize: 12)
+        cLabel.font = .subtitleFont
         return cLabel
     }()
 
@@ -79,6 +89,7 @@ class LoginCell: UICollectionViewCell {
         addSubview(progressBar)
         addSubview(logoView)
         addSubview(userTextField)
+        addSubview(passwordField)
         addSubview(loginButton)
         addSubview(cpyLabel)
 
@@ -90,9 +101,11 @@ class LoginCell: UICollectionViewCell {
         logoView.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
 
         _ = userTextField.anchorWithConstantsToTop(top: logoView.bottomAnchor, right: rightAnchor, bottom: nil, left: leftAnchor, topConstant: 24, rightConstant: 32, bottomConstant: 0, leftConstant: 32, heightConstant: 50, widthConstant: nil)
+        
+        passwordField.anchorWithConstraints(top: userTextField.bottomAnchor, right: rightAnchor, left: leftAnchor, topOffset: 12, rightOffset: 32, leftOffset: 32, height: 50)
 
 
-        _ = loginButton.anchorWithConstantsToTop(top: userTextField.bottomAnchor, right: rightAnchor, bottom: nil, left: leftAnchor, topConstant: 24, rightConstant: 32, bottomConstant: 0, leftConstant: 32, heightConstant: 50, widthConstant: nil)
+        _ = loginButton.anchorWithConstantsToTop(top: passwordField.bottomAnchor, right: rightAnchor, bottom: nil, left: leftAnchor, topConstant: 24, rightConstant: 32, bottomConstant: 0, leftConstant: 32, heightConstant: 50, widthConstant: nil)
 
         loginButton.addTarget(self, action: #selector(handleLogin), for: .touchUpInside)
 //        loginSelector.addTarget(self, action: #selector(handleLoginSelector), for: .valueChanged)
@@ -115,6 +128,7 @@ class LoginCell: UICollectionViewCell {
         loginButton.linearGradient(from: #colorLiteral(red: 0.9953531623, green: 0.54947716, blue: 0.1281470656, alpha: 1), to: #colorLiteral(red: 0.9409626126, green: 0.7209432721, blue: 0.1315650344, alpha: 1))
         
         userTextField.dropShadow()
+        passwordField.dropShadow()
     }
 
     // Handle login
@@ -133,7 +147,7 @@ class LoginCell: UICollectionViewCell {
     // Function to update the title and the client based on segment's value
     fileprivate func handleSegmentWith(index: Int) {
         if index == 0 {
-            loginButton.setTitle("Login Using DMS", for: .normal)
+            loginButton.setTitle("Complete login on DMS", for: .normal)
             loginFor = "student"
         }
 //        else {

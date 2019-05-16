@@ -42,6 +42,13 @@ func setUserID(to: String) {
     UserDefaults.standard.synchronize()
 }
 
+// Updates password in the DB
+func setPassword(to: String) {
+    UserDefaults.standard.removeObject(forKey: PASSWORD)
+    UserDefaults.standard.set(to, forKey: PASSWORD)
+    UserDefaults.standard.synchronize()
+}
+
 // Updates the session ID in the DB, used for all API requests
 func setSessionID(to: String) {
     UserDefaults.standard.removeObject(forKey: SESSION_ID)
@@ -59,6 +66,11 @@ func setLoginState(to: Bool) {
 // Returns the userID
 func getUserID() -> String? {
     return UserDefaults.standard.object(forKey: USER_ID) as? String
+}
+
+// Returns the password
+func getPassword() -> String? {
+    return UserDefaults.standard.object(forKey: PASSWORD) as? String
 }
 
 // Returns the session id

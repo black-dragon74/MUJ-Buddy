@@ -30,6 +30,10 @@ class WebAuthController: UIViewController {
         CONF_URL
     ]
     
+    // Variables that will be set optionally by the instantiating VC
+    var userID: String?
+    var password: String?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -92,6 +96,19 @@ extension WebAuthController: WKNavigationDelegate {
     //TODO:- Catch the success url in the navigation action to reduce login time
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
         guard let url = webView.url?.absoluteString else { return }
+        
+        if url == LOGIN_URL {
+            // Fill in the userid automatically
+            if let userid = userID {
+                webView.evaluateJavaScript("document.getElementById('txtUserid').value = '\(userid)'", completionHandler: nil)
+            }
+            
+            // Fill in the password automatically
+            if let password = password {
+                print(password)
+                webView.evaluateJavaScript("document.getElementById('txtpassword').value = '\(password)'", completionHandler: nil)
+            }
+        }
         
         if url == CONF_URL {
             webView.getSessionID {[weak self] (session) in

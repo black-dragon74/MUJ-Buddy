@@ -260,10 +260,13 @@ class LoginViewController: UIViewController, UICollectionViewDelegate, UICollect
         // Referene the cell
         let cell = collectionView.cellForItem(at: IndexPath(row: pages.count, section: 0)) as! LoginCell
         
-        // Check that the user id is not empty
+        // Check that the user id and password are not empty
+        let userID = cell.userTextField.text ?? ""
+        let password = cell.passwordField.text ?? ""
+        
         //TODO:- Predict the current semester asynchronously
-        if cell.userTextField.text == "" || cell.userTextField.text == nil {
-            Toast(with: "UserID cannot be empty").show(on: self.view)
+        if userID == "" || password == "" {
+            Toast(with: "ID/Password cannot be empty").show(on: self.view)
             return
         }
         
@@ -273,6 +276,8 @@ class LoginViewController: UIViewController, UICollectionViewDelegate, UICollect
         // Present the WebAuthController contained in a UINavigationController
         let webAuthController = WebAuthController()
         let navWeb = UINavigationController(rootViewController: webAuthController)
+        webAuthController.password = password
+        webAuthController.userID = userID
         present(navWeb, animated: true, completion: nil)
     }
     
@@ -297,9 +302,9 @@ class LoginViewController: UIViewController, UICollectionViewDelegate, UICollect
     
     @objc fileprivate func autoLogin() {
         let cell = collectionView.cellForItem(at: IndexPath(row: pages.count, section: 0)) as! LoginCell
-        Toast(with: "Session expired. Logging in again").show(on: view)
         isSessionExpired = true
         cell.userTextField.text = getUserID()
+        cell.passwordField.text = getPassword()
         handleLogin(for: "student")
     }
     
@@ -331,6 +336,7 @@ class LoginViewController: UIViewController, UICollectionViewDelegate, UICollect
         authBeingHandled = true
         
         let userid = cell.userTextField.text!
+        let password = cell.passwordField.text!
         
         // Else, we proceed and take care of stuffs
         if let userInfo = notification.userInfo as? [String:String] {
@@ -354,6 +360,7 @@ class LoginViewController: UIViewController, UICollectionViewDelegate, UICollect
                 
                 // Update the credentials in the DB
                 setUserID(to: userid)
+                setPassword(to: password)
                 setSessionID(to: sessionID)
                 
                 // Update the login state
