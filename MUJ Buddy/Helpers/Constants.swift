@@ -18,6 +18,8 @@ let API_URL = "https://dragon.sidsun.com/"
 //  DMS website URL for status check
 //
 let DMS_URL = "https://dms.jaipur.manipal.edu"
+let LOGIN_URL = "https://dms.jaipur.manipal.edu/loginForm.aspx"
+let CONF_URL = "https://dms.jaipur.manipal.edu/studentProfile.aspx"
 
 //
 //  UserDefault Keys
@@ -49,3 +51,8 @@ let DARK_MODE = "dark_mode"
 //  Error messages
 //
 let LOGIN_FAILED = "Login failed"
+
+//
+//  Cookie names
+//
+let SESSION_COOKIE = "ASP.NET_SessionId"

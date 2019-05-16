@@ -38,6 +38,13 @@ class ContactsViewController: UITableViewController, UISearchControllerDelegate,
         super.viewWillAppear(animated)
         
         NotificationCenter.default.addObserver(self, selector: #selector(handleBiometricAuth), name: .isReauthRequired, object: nil)
+        
+        let isDarkMode = UIApplication.shared.isInDarkMode
+        
+        searchController.searchBar.keyboardAppearance = isDarkMode ? .dark : .light
+        searchController.searchBar.tintColor = isDarkMode ? .darkBarTintColor : .systemTintColor
+        view.backgroundColor = isDarkMode ? .darkBackgroundColor : .primaryLighter
+        tableView.backgroundColor = isDarkMode ? .darkBackgroundColor : .primaryLighter
     }
     
     @objc fileprivate func handleBiometricAuth() {
@@ -182,6 +189,12 @@ class ContactsViewController: UITableViewController, UISearchControllerDelegate,
         let fView = FacultyContactViewController()
         fView.currentFaculty = selectedItem
         self.navigationController?.pushViewController(fView, animated: true)
+    }
+    
+    override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        cell.textLabel?.textColor = UIApplication.shared.isInDarkMode ? .white : .black
+        cell.detailTextLabel?.textColor = UIApplication.shared.isInDarkMode ? .darkTextPrimaryLighter : .black
+        cell.backgroundColor = UIApplication.shared.isInDarkMode ? .darkBarColor : .white
     }
     
     // For leading swipe action

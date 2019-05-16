@@ -206,6 +206,12 @@ extension Notification.Name {
     
     // This notification is observed in the login view controller and is shown on session expiry
     static let sessionExpired = NSNotification.Name("MUJsessionExpired")
+    
+    // This notification is observed in the login view controller and is fired when login is cancelled
+    static let loginCancelled = NSNotification.Name(rawValue: "MUJLoginCancelled")
+    
+    // This notification is observed in the login view controller and is fired when login is successful
+    static let loginSuccessful = NSNotification.Name(rawValue: "MUJLoginSuccess")
 }
 
 // Extension on string

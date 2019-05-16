@@ -23,6 +23,7 @@
 		01197BA3222A74E1002F1FC6 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01197BA2222A74E1002F1FC6 /* SettingsViewController.swift */; };
 		01197BA5222A8030002F1FC6 /* Settings.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 01197BA4222A8030002F1FC6 /* Settings.storyboard */; };
 		01197BA7222AA5D5002F1FC6 /* AppInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01197BA6222AA5D5002F1FC6 /* AppInfoViewController.swift */; };
+		011DE71D228CAA8F00FCB106 /* WebAuthController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 011DE71C228CAA8F00FCB106 /* WebAuthController.swift */; };
 		01255054220E05FA008926A6 /* SessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01255053220E05FA008926A6 /* SessionManager.swift */; };
 		01261C992201F7CF00E6EB63 /* EventsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01261C982201F7CF00E6EB63 /* EventsViewController.swift */; };
 		01261C9B2201FEDA00E6EB63 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01261C9A2201FEDA00E6EB63 /* Colors.swift */; };
@@ -125,6 +126,7 @@
 		01197BA2222A74E1002F1FC6 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		01197BA4222A8030002F1FC6 /* Settings.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Settings.storyboard; sourceTree = "<group>"; };
 		01197BA6222AA5D5002F1FC6 /* AppInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppInfoViewController.swift; sourceTree = "<group>"; };
+		011DE71C228CAA8F00FCB106 /* WebAuthController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebAuthController.swift; sourceTree = "<group>"; };
 		01255053220E05FA008926A6 /* SessionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionManager.swift; sourceTree = "<group>"; };
 		01261C982201F7CF00E6EB63 /* EventsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsViewController.swift; sourceTree = "<group>"; };
 		01261C9A2201FEDA00E6EB63 /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
@@ -322,6 +324,7 @@
 				01197BA2222A74E1002F1FC6 /* SettingsViewController.swift */,
 				01197BA6222AA5D5002F1FC6 /* AppInfoViewController.swift */,
 				018CB3FD2272E27A00EBD0D8 /* OTPAuthController.swift */,
+				011DE71C228CAA8F00FCB106 /* WebAuthController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -522,6 +525,7 @@
 				0110BB4121F32DA600E6546A /* Extensions.swift in Sources */,
 				0168081E21FF7E01007AA4DC /* AttendanceCell.swift in Sources */,
 				0168081821FF7C52007AA4DC /* MenuModel.swift in Sources */,
+				011DE71D228CAA8F00FCB106 /* WebAuthController.swift in Sources */,
 				014B8E962211F86B00C0296B /* StudentDetailedView.swift in Sources */,
 				0143EB6F21F5FDA3006B39F2 /* FacultyContactViewController.swift in Sources */,
 				01505C1C21F34265005D7971 /* LoginPage.swift in Sources */,

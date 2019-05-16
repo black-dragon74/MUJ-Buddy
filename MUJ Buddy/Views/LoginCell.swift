@@ -40,7 +40,7 @@ class LoginCell: UICollectionViewCell {
     let loginButton: UIButton = {
         let b = UIButton(type: .system)
         b.backgroundColor = .orange
-        b.setTitle("Send OTP", for: .normal)
+        b.setTitle("Login Using DMS", for: .normal)
         b.setTitleColor(.white, for: .normal)
         return b
     }()
@@ -133,7 +133,7 @@ class LoginCell: UICollectionViewCell {
     // Function to update the title and the client based on segment's value
     fileprivate func handleSegmentWith(index: Int) {
         if index == 0 {
-            loginButton.setTitle("Send OTP", for: .normal)
+            loginButton.setTitle("Login Using DMS", for: .normal)
             loginFor = "student"
         }
 //        else {

@@ -11,10 +11,13 @@ import UIKit
 class LoginViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, LoginDelegate {
 
     // Hold the keyboard state, in order to fix our view going out of bounds :P
-    var isKbOpen: Bool = false
+    fileprivate var isKbOpen: Bool = false
     
     // If view is being presented when session is expired, we work a bit differently
-    var isSessionExpired: Bool = false
+    fileprivate var isSessionExpired: Bool = false
+    
+    // Prevent the notification being catched twice
+    fileprivate var authBeingHandled: Bool = false
 
     // Collection view that hold the pages
     lazy var collectionView: UICollectionView = {
@@ -80,12 +83,18 @@ class LoginViewController: UIViewController, UICollectionViewDelegate, UICollect
         super.viewWillAppear(animated)
         
         NotificationCenter.default.addObserver(self, selector: #selector(sessionExpired), name: .sessionExpired, object: nil)
+        
+        // Login cancelled and successful listeners
+        NotificationCenter.default.addObserver(self, selector: #selector(loginCancelled), name: .loginCancelled, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(loginSuccessful(_:)), name: .loginSuccessful, object: nil)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
         NotificationCenter.default.removeObserver(NSNotification.Name.sessionExpired)
+        NotificationCenter.default.removeObserver(NSNotification.Name.loginCancelled)
+        NotificationCenter.default.removeObserver(NSNotification.Name.loginSuccessful)
     }
 
     override func viewDidLoad() {
@@ -251,58 +260,20 @@ class LoginViewController: UIViewController, UICollectionViewDelegate, UICollect
         // Referene the cell
         let cell = collectionView.cellForItem(at: IndexPath(row: pages.count, section: 0)) as! LoginCell
         
-        // Unwrap the value
-        guard let userid = cell.userTextField.text else { return }
-        
-        if userid.isEmpty {
+        // Check that the user id is not empty
+        //TODO:- Predict the current semester asynchronously
+        if cell.userTextField.text == "" || cell.userTextField.text == nil {
             Toast(with: "UserID cannot be empty").show(on: self.view)
             return
         }
         
-        // Send the request
+        // Disable the cell
         disable(cell)
         
-        Service.shared.sendOTPFor(userid: userid) {[weak self] (resp, error) in
-            if let error = error {
-                print("Error: ", error.localizedDescription)
-                self?.enable(cell)
-                return
-            }
-            
-            if let resp = resp {
-                // If sending the otp was not successful, show the message and return
-                if (!resp.success) {
-                    guard let errorMsg = resp.error else { return }
-                    DispatchQueue.main.async {
-                        Toast(with: errorMsg).show(on: self?.view)
-                    }
-                    self?.enable(cell)
-                    return
-                }
-                
-                
-                // Else, extract the values from the response
-                // Pass them to the OTP auth controller
-                // Present the OTP auth controller
-                let sid = resp.sid
-                guard let vs = resp.vs else { return }
-                guard let ev = resp.ev else { return }
-                
-                self?.enable(cell)
-                
-                // All the UIView items should must init on the main thread
-                DispatchQueue.main.async {
-                    let otpController = OTPAuthController()
-                    otpController.ev = ev
-                    otpController.vs = vs
-                    otpController.userID = userid
-                    otpController.sessionID = sid
-                    otpController.isSessionExpired = self?.isSessionExpired
-                    
-                    self?.present(otpController, animated: true, completion: nil)
-                }
-            }
-        }
+        // Present the WebAuthController contained in a UINavigationController
+        let webAuthController = WebAuthController()
+        let navWeb = UINavigationController(rootViewController: webAuthController)
+        present(navWeb, animated: true, completion: nil)
     }
     
     fileprivate func enable(_ cell: LoginCell) {
@@ -330,6 +301,78 @@ class LoginViewController: UIViewController, UICollectionViewDelegate, UICollect
         isSessionExpired = true
         cell.userTextField.text = getUserID()
         handleLogin(for: "student")
+    }
+    
+    @objc fileprivate func loginCancelled() {
+        //  Enable the cell
+        let cell = collectionView.cellForItem(at: IndexPath(row: pages.count, section: 0)) as! LoginCell
+        enable(cell)
+        
+        // Say that the login has failed
+        let alert = UIAlertController(title: "Authentication Failed", message: "The login request was cancelled.", preferredStyle: .alert)
+        let dismiss = UIAlertAction(title: "Dismiss", style: .cancel, handler: nil)
+        alert.addAction(dismiss)
+        
+        // Auth being handled is false now
+        authBeingHandled = false
+        
+        self.present(alert, animated: true, completion: nil)
+    }
+    
+    @objc fileprivate func loginSuccessful(_ notification: NSNotification) {
+        // Enable the cell
+        let cell = collectionView.cellForItem(at: IndexPath(row: pages.count, section: 0)) as! LoginCell
+        enable(cell)
+        
+        // If handled, return
+        if authBeingHandled { return }
+        
+        // Set the flag as the auth being handled
+        authBeingHandled = true
+        
+        let userid = cell.userTextField.text!
+        
+        // Else, we proceed and take care of stuffs
+        if let userInfo = notification.userInfo as? [String:String] {
+            let sessionID = userInfo["sessionID"]!
+            
+            if (!isSessionExpired) {
+                // Predict the semester
+                var currSem: Int = -1
+                let regDate = admDateFrom(regNo: userid)
+                let monthSinceAdmission = regDate.monthsTillNow()
+                
+                // Now we just have to divide the months by 6 and floor it away from zero to get current semester
+                let rawSem = (Float(monthSinceAdmission) / 6).rounded(.awayFromZero)
+                currSem = Int(rawSem)  // Cast to int to get the exact value
+                
+                // Purge User Defaults
+                purgeUserDefaults()
+                
+                // Set semester in the DB
+                setSemester(as: currSem)
+                
+                // Update the credentials in the DB
+                setUserID(to: userid)
+                setSessionID(to: sessionID)
+                
+                // Update the login state
+                setLoginState(to: true)
+                
+            }
+            else {
+                // Just update the session ID in the database
+                setSessionID(to: sessionID)
+            }
+        }
+        
+        // Now is the time to dismiss this controller and present the new dashboard controller
+        let newController = UINavigationController(rootViewController: DashboardViewController())
+        newController.modalTransitionStyle = .crossDissolve
+        self.present(newController, animated: true, completion: nil)
+        
+        // Exit
+        return
     }
 
 }
