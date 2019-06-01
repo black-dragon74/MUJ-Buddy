@@ -55,6 +55,8 @@ class EventsViewController: UICollectionViewController, UICollectionViewDelegate
         
         view.backgroundColor = UIApplication.shared.isInDarkMode ? .darkBackgroundColor : .primaryLighter
         collectionView.backgroundColor = UIApplication.shared.isInDarkMode ? .darkBackgroundColor : .primaryLighter
+        searchController.searchBar.keyboardAppearance = UIApplication.shared.isInDarkMode ? .dark : .light
+        searchController.searchBar.tintColor = UIApplication.shared.isInDarkMode ? .darkBarTintColor : .systemTintColor
     }
     
     @objc fileprivate func handleBiometricAuth() {
