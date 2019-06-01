@@ -9,6 +9,8 @@
 import UIKit
 
 class FacultyContactViewController: UIViewController {
+    
+    var darkMode = UIApplication.shared.isInDarkMode
 
     var currentFaculty: FacultyContactModel? {
         didSet {
@@ -65,7 +67,7 @@ class FacultyContactViewController: UIViewController {
     // Name label
     let nameLabel: UILabel = {
         let n = UILabel()
-        n.font = UIFont.systemFont(ofSize: 17, weight: .bold)
+        n.font = .titleFont
         return n
     }()
 
@@ -73,6 +75,7 @@ class FacultyContactViewController: UIViewController {
     let designationLabel: UILabel = {
         let n = UILabel()
         n.textColor = .darkGray
+        n.font = .titleFont
         n.adjustsFontSizeToFitWidth = true
         return n
     }()
@@ -99,7 +102,7 @@ class FacultyContactViewController: UIViewController {
     let phoneLabel: UILabel = {
         let p = UILabel()
         p.text = "+91-123456789"
-        p.font = UIFont.systemFont(ofSize: 15, weight: .bold)
+        p.font = .titleFont
         p.isUserInteractionEnabled = true
         return p
     }()
@@ -119,7 +122,7 @@ class FacultyContactViewController: UIViewController {
     let emailLabel: UILabel = {
         let p = UILabel()
         p.text = "someone@extralongemailaddress.com"
-        p.font = UIFont.systemFont(ofSize: 15, weight: .bold)
+        p.font = .titleFont
         p.adjustsFontSizeToFitWidth = true
         p.isUserInteractionEnabled = true
         return p
@@ -140,7 +143,7 @@ class FacultyContactViewController: UIViewController {
     let departmentLabel: UILabel = {
         let p = UILabel()
         p.text = "Dept. of science and what not"
-        p.font = UIFont.systemFont(ofSize: 15, weight: .bold)
+        p.font = .titleFont
         p.adjustsFontSizeToFitWidth = true
         return p
     }()
@@ -149,6 +152,15 @@ class FacultyContactViewController: UIViewController {
         super.viewWillAppear(animated)
         
         NotificationCenter.default.addObserver(self, selector: #selector(handleBiometricAuth), name: .isReauthRequired, object: nil)
+        
+        view.backgroundColor = darkMode ? .darkBackgroundColor : .primaryLighter
+        nameTitleView.backgroundColor = darkMode ? .darkCardBackgroundColor : .white
+        detailedView.backgroundColor = darkMode ? .darkCardBackgroundColor : .white
+        nameLabel.textColor = darkMode ? .darkTextPrimary : .textPrimary
+        designationLabel.textColor = darkMode ? .darkTextPrimaryLighter : .textPrimaryLighter
+        phoneLabel.textColor = darkMode ? .darkTextPrimary : .textPrimary
+        emailLabel.textColor = darkMode ? .darkTextPrimary : .textPrimary
+        departmentLabel.textColor = darkMode ? .darkTextPrimary : .textPrimary
     }
     
     @objc fileprivate func handleBiometricAuth() {
@@ -164,7 +176,6 @@ class FacultyContactViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        view.backgroundColor = .primaryLighter
         self.title = "Details"
         navigationItem.largeTitleDisplayMode = .never
 

@@ -22,7 +22,7 @@ class EventsCell: UICollectionViewCell {
     // Label to show the dates
     let dateLabel: UILabel = {
         let d = UILabel()
-        d.backgroundColor = .red
+        d.backgroundColor = .textDanger
         d.text = "  30 Jul 2019  "
         d.textColor = .white
         d.font = UIFont.systemFont(ofSize: 17, weight: .bold)
@@ -36,7 +36,7 @@ class EventsCell: UICollectionViewCell {
     let eventNameLabel: UILabel = {
         let e = UILabel()
         e.numberOfLines = 3
-        e.font = UIFont.systemFont(ofSize: 14, weight: .bold)
+        e.font = .titleFont
         e.text = "Branch Change Application for 1st Year B.Tech Starts"
         return e
     }()
@@ -44,8 +44,10 @@ class EventsCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
 
-        self.backgroundColor = .white
-        self.dropShadow()
+        self.backgroundColor = UIApplication.shared.isInDarkMode ? .darkCardBackgroundColor : .white
+        UIApplication.shared.isInDarkMode ? self.darkDropShadow() : self.dropShadow()
+        eventNameLabel.textColor = UIApplication.shared.isInDarkMode ? .darkTextPrimary : .textPrimary
+        self.layer.cornerRadius = 17
 
         // Setup additional views
         setupViews()

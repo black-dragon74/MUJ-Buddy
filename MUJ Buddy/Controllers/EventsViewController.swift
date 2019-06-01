@@ -52,6 +52,9 @@ class EventsViewController: UICollectionViewController, UICollectionViewDelegate
         super.viewWillAppear(animated)
         
         NotificationCenter.default.addObserver(self, selector: #selector(handleBiometricAuth), name: .isReauthRequired, object: nil)
+        
+        view.backgroundColor = UIApplication.shared.isInDarkMode ? .darkBackgroundColor : .primaryLighter
+        collectionView.backgroundColor = UIApplication.shared.isInDarkMode ? .darkBackgroundColor : .primaryLighter
     }
     
     @objc fileprivate func handleBiometricAuth() {
@@ -68,7 +71,6 @@ class EventsViewController: UICollectionViewController, UICollectionViewDelegate
         super.viewDidLoad()
 
         // Basic config
-        collectionView.backgroundColor = .primaryLighter
         self.navigationItem.title = "Events"
         collectionView.delegate = self
         collectionView.dataSource = self
@@ -144,11 +146,11 @@ class EventsViewController: UICollectionViewController, UICollectionViewDelegate
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: view.frame.width - 32, height: 120)
+        return CGSize(width: view.frame.width - 20, height: 100)
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        return UIEdgeInsets(top: 16, left: 16, bottom: 16, right: 16)
+        return UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
     }
 
     // MARK: - Collection view data source

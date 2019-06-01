@@ -105,7 +105,6 @@ extension WebAuthController: WKNavigationDelegate {
             
             // Fill in the password automatically
             if let password = password {
-                print(password)
                 webView.evaluateJavaScript("document.getElementById('txtpassword').value = '\(password)'", completionHandler: nil)
             }
         }
