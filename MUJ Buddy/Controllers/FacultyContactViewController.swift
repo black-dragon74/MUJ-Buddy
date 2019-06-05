@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Contacts
 
 class FacultyContactViewController: UIViewController {
     
@@ -229,11 +230,14 @@ class FacultyContactViewController: UIViewController {
         departmentLabel.anchorWithConstraints(left: departmentIcon.rightAnchor, leftOffset: 16)
         departmentLabel.centerYAnchor.constraint(equalTo: departmentIcon.centerYAnchor).isActive = true
         departmentLabel.widthAnchor.constraint(equalToConstant: (view.frame.width - 72)).isActive = true
+        
+        // Add the bar button item to share the contact
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "ios_share"), style: .plain, target: self, action: #selector(handleContactShare))
 
     }
 
     // MARK: - OBJC Fuctions
-    @objc func callPhone() {
+    @objc fileprivate func callPhone() {
         if let phoneNumber = phoneLabel.text {
             if phoneNumber == "NA"{
                 return
@@ -245,7 +249,7 @@ class FacultyContactViewController: UIViewController {
         }
     }
 
-    @objc func sendEmail() {
+    @objc fileprivate func sendEmail() {
         if let emailAddress = emailLabel.text {
             if emailAddress == "NA"{
                 return
@@ -255,5 +259,65 @@ class FacultyContactViewController: UIViewController {
                 UIApplication.shared.open(url, options: [:], completionHandler: nil)
             }
         }
+    }
+    
+    //MARK:- Contacts share
+    
+    // Calls to the helper function
+    @objc fileprivate func handleContactShare() {
+        guard let faculty = currentFaculty else { return }
+        generateVCFAndShare(faculty: faculty)
+    }
+    
+    // Return a CN contact object from the passed faculty object
+    fileprivate func generateCNContactFrom(faculty: FacultyContactModel) -> CNContact {
+        let contact = CNMutableContact()
+        contact.givenName = faculty.name
+        contact.imageData = self.facultyImage.image?.pngData()
+        contact.departmentName = faculty.department
+        contact.jobTitle = faculty.designation
+        
+        // Only add the phone field if it is not empty
+        if !faculty.phone.isEmpty {
+            contact.phoneNumbers = [CNLabeledValue(label: CNLabelWork, value: CNPhoneNumber(stringValue: "+91-\(faculty.phone)"))]
+        }
+        
+        // Only add the email field if it is not empty
+        if !faculty.email.isEmpty {
+            contact.emailAddresses = [CNLabeledValue(label: CNLabelWork, value: faculty.email as NSString)]
+        }
+        
+        return contact
+    }
+    
+    // Generats the VCF and shares the contact using UIACtivityView
+    fileprivate func generateVCFAndShare(faculty: FacultyContactModel) {
+        // Get the contact representation of the faculty
+        let contact = generateCNContactFrom(faculty: faculty)
+        
+        // Get the cache directory URL
+        guard let cahceDirectoryURL = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).first else { return }
+        
+        // Create the file name
+        let fileName = contact.givenName.components(separatedBy: " ").joined(separator: "")
+        
+        // The URL to which we will be writing to
+        let fileURL = cahceDirectoryURL.appendingPathComponent(fileName).appendingPathExtension("vcf")
+        
+        // Create a VCF representation of the contact
+        do {
+            let data = try CNContactVCardSerialization.data(with: [contact])
+            
+            try data.write(to: fileURL, options: .atomicWrite)
+        }
+        
+        catch let ex {
+            print("Contact share init error: \(ex.localizedDescription)")
+            return
+        }
+        
+        // Now all we need to do is share the URL of the VCF file
+        let shareSheet = UIActivityViewController(activityItems: [fileURL], applicationActivities: nil)
+        present(shareSheet, animated: true, completion: nil)
     }
 }
