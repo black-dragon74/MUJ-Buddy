@@ -100,8 +100,8 @@ class FacultyContactViewController: UIViewController {
     }()
 
     // Phone Label
-    let phoneLabel: UILabel = {
-        let p = UILabel()
+    let phoneLabel: UICopiableLabel = {
+        let p = UICopiableLabel()
         p.text = "+91-123456789"
         p.font = .titleFont
         p.isUserInteractionEnabled = true
@@ -120,8 +120,8 @@ class FacultyContactViewController: UIViewController {
     }()
 
     // Email Label
-    let emailLabel: UILabel = {
-        let p = UILabel()
+    let emailLabel: UICopiableLabel = {
+        let p = UICopiableLabel()
         p.text = "someone@extralongemailaddress.com"
         p.font = .titleFont
         p.adjustsFontSizeToFitWidth = true
@@ -201,7 +201,9 @@ class FacultyContactViewController: UIViewController {
 
         // MARK: - Gesture recognizers
         phoneLabel.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(callPhone)))
+        phoneLabel.addGestureRecognizer(UILongPressGestureRecognizer(target: self, action: #selector(longPressedNumber(_:))))
         emailLabel.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(sendEmail)))
+        emailLabel.addGestureRecognizer(UILongPressGestureRecognizer(target: self, action: #selector(longPressedEmail(_:))))
 
         indicator.startAnimating()
 
@@ -233,7 +235,6 @@ class FacultyContactViewController: UIViewController {
         
         // Add the bar button item to share the contact
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "ios_share"), style: .plain, target: self, action: #selector(handleContactShare))
-
     }
 
     // MARK: - OBJC Fuctions
@@ -248,6 +249,20 @@ class FacultyContactViewController: UIViewController {
             }
         }
     }
+    
+    @objc fileprivate func longPressedNumber(_ sender: UILongPressGestureRecognizer) {
+        if sender.state == .began {
+            let controller = UIMenuController()
+            controller.menuItems = [UIMenuItem(title: "Copy Number", action: #selector(copyNumber))]
+            controller.setTargetRect(phoneLabel.bounds, in: phoneLabel)
+            controller.setMenuVisible(true, animated: true)
+        }
+    }
+    
+    @objc fileprivate func copyNumber() {
+        guard let phoneNumber = phoneLabel.text, phoneNumber != "NA" else { return }
+        UIPasteboard.general.string = phoneNumber
+    }
 
     @objc fileprivate func sendEmail() {
         if let emailAddress = emailLabel.text {
@@ -259,6 +274,20 @@ class FacultyContactViewController: UIViewController {
                 UIApplication.shared.open(url, options: [:], completionHandler: nil)
             }
         }
+    }
+    
+    @objc fileprivate func longPressedEmail(_ sender: UILongPressGestureRecognizer) {
+        if sender.state == .began {
+            let controller = UIMenuController()
+            controller.menuItems = [UIMenuItem(title: "Copy Email", action: #selector(copyEmail))]
+            controller.setTargetRect(emailLabel.bounds, in: emailLabel)
+            controller.setMenuVisible(true, animated: true)
+        }
+    }
+    
+    @objc fileprivate func copyEmail() {
+        guard let email = emailLabel.text, email != "NA" else { return }
+        UIPasteboard.general.string = email
     }
     
     //MARK:- Contacts share
@@ -319,5 +348,20 @@ class FacultyContactViewController: UIViewController {
         // Now all we need to do is share the URL of the VCF file
         let shareSheet = UIActivityViewController(activityItems: [fileURL], applicationActivities: nil)
         present(shareSheet, animated: true, completion: nil)
+    }
+}
+
+class UICopiableLabel: UILabel {
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        becomeFirstResponder()
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    override var canBecomeFirstResponder: Bool {
+        return true
     }
 }
