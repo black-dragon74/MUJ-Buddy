@@ -18,6 +18,9 @@ class LoginViewController: UIViewController, UICollectionViewDelegate, UICollect
     
     // Prevent the notification being catched twice
     fileprivate var authBeingHandled: Bool = false
+    
+    // Status bar height, lazily instantiated after view is loaded
+    fileprivate lazy var navBtnOffset = UIApplication.shared.statusBarFrame.height
 
     // Collection view that hold the pages
     lazy var collectionView: UICollectionView = {
@@ -115,9 +118,9 @@ class LoginViewController: UIViewController, UICollectionViewDelegate, UICollect
 
         pControlBottomAnchor = pControl.anchorWithConstantsToTop(top: nil, right: view.rightAnchor, bottom: view.bottomAnchor, left: view.leftAnchor, topConstant: 0, rightConstant: 0, bottomConstant: 25, leftConstant: 0, heightConstant: 30)[1]
 
-        sButtonTopAnchor = skipButton.anchorWithConstantsToTop(top: view.topAnchor, right: nil, bottom: nil, left: view.leftAnchor, topConstant: 16, rightConstant: 0, bottomConstant: 0, leftConstant: 0, heightConstant: 40, widthConstant: 60)[0]
+        sButtonTopAnchor = skipButton.anchorWithConstantsToTop(top: view.topAnchor, right: nil, bottom: nil, left: view.leftAnchor, topConstant: navBtnOffset, rightConstant: 0, bottomConstant: 0, leftConstant: 0, heightConstant: 40, widthConstant: 60)[0]
 
-        nButtonTopAnchor = nextButton.anchorWithConstantsToTop(top: view.topAnchor, right: view.rightAnchor, bottom: nil, left: nil, topConstant: 16, rightConstant: 0, bottomConstant: 0, leftConstant: 0, heightConstant: 40, widthConstant: 60)[0]
+        nButtonTopAnchor = nextButton.anchorWithConstantsToTop(top: view.topAnchor, right: view.rightAnchor, bottom: nil, left: nil, topConstant: navBtnOffset, rightConstant: 0, bottomConstant: 0, leftConstant: 0, heightConstant: 40, widthConstant: 60)[0]
 
         // Listen for keyboard events
         listenForKeyboard()
@@ -217,8 +220,8 @@ class LoginViewController: UIViewController, UICollectionViewDelegate, UICollect
         } else {
             // Change the constant
             pControlBottomAnchor?.constant = -25
-            nButtonTopAnchor?.constant = 16
-            sButtonTopAnchor?.constant = 16
+            nButtonTopAnchor?.constant = navBtnOffset
+            sButtonTopAnchor?.constant = navBtnOffset
         }
 
         // Animate the constraint changes
