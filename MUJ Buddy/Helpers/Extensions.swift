@@ -258,3 +258,28 @@ extension UIFont {
         return UIFont(descriptor: descriptor, size: 0)
     }
 }
+
+// Extension on Equatable array types to remove duplicates
+extension Array where Element: Equatable {
+    /// Returns the same object after removing duplicate values from it.
+    mutating func removeDuplicates() {
+        var temp = [Element]()
+        for s in self {
+            if !temp.contains(s) {
+                temp.append(s)
+            }
+        }
+        self = temp
+    }
+    
+    /// Returns a new instance of the object with duplicate values removed.
+    func removingDuplicates() -> [Element] {
+        var temp = [Element]()
+        for s in self {
+            if !temp.contains(s) {
+                temp.append(s)
+            }
+        }
+        return temp
+    }
+}
