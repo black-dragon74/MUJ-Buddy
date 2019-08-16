@@ -212,6 +212,9 @@ extension Notification.Name {
     
     // This notification is observed in the login view controller and is fired when login is successful
     static let loginSuccessful = NSNotification.Name(rawValue: "MUJLoginSuccess")
+    
+    // This notification is observed in each VC where the session might expire and a reauth is required
+    static let triggerRefresh = NSNotification.Name(rawValue: "MUJReloadTBCV")
 }
 
 // Extension on string

@@ -52,6 +52,7 @@ class EventsViewController: UICollectionViewController, UICollectionViewDelegate
         super.viewWillAppear(animated)
         
         NotificationCenter.default.addObserver(self, selector: #selector(handleBiometricAuth), name: .isReauthRequired, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(handleEventsRefresh), name: .triggerRefresh, object: nil)
         
         view.backgroundColor = UIApplication.shared.isInDarkMode ? .darkBackgroundColor : .primaryLighter
         collectionView.backgroundColor = UIApplication.shared.isInDarkMode ? .darkBackgroundColor : .primaryLighter
@@ -67,6 +68,7 @@ class EventsViewController: UICollectionViewController, UICollectionViewDelegate
         super.viewWillDisappear(animated)
         
         NotificationCenter.default.removeObserver(self, name: .isReauthRequired, object: nil)
+        NotificationCenter.default.removeObserver(self, name: .triggerRefresh, object: nil)
     }
 
     override func viewDidLoad() {
@@ -192,6 +194,9 @@ class EventsViewController: UICollectionViewController, UICollectionViewDelegate
     }
 
     @objc fileprivate func handleEventsRefresh() {
+        // Will be used after a trigger refresh notification is fired
+        rControl.beginRefreshing()
+        
         Service.shared.fetchEvents(sessionID: getSessionID(), isRefresh: true) {[weak self] (data, reauth, error) in
             if error != nil {
                 DispatchQueue.main.async {

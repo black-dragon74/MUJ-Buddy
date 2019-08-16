@@ -44,6 +44,7 @@ class InternalsViewController: UICollectionViewController, UICollectionViewDeleg
         super.viewWillAppear(animated)
         
         NotificationCenter.default.addObserver(self, selector: #selector(handleBiometricAuth), name: .isReauthRequired, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(handleRefreshForInternals), name: .triggerRefresh, object: nil)
         
         if UIApplication.shared.isInDarkMode {
             view.backgroundColor = .darkBackgroundColor
@@ -59,6 +60,7 @@ class InternalsViewController: UICollectionViewController, UICollectionViewDeleg
         super.viewWillDisappear(animated)
         
         NotificationCenter.default.removeObserver(self, name: .isReauthRequired, object: nil)
+        NotificationCenter.default.removeObserver(self, name: .triggerRefresh, object: nil)
     }
 
     // Override viewDidLoad and handle rest of the operations
@@ -176,6 +178,8 @@ class InternalsViewController: UICollectionViewController, UICollectionViewDeleg
 
     // MARK: - OBJC Refresh func
     @objc fileprivate func handleRefreshForInternals() {
+        // Will be used after a trigger refresh notification is fired
+        rControl.beginRefreshing()
         
         let semester = getSemester()
         

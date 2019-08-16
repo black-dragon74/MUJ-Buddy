@@ -104,6 +104,7 @@ class FeesViewController: UIViewController {
         super.viewWillAppear(animated)
         
         NotificationCenter.default.addObserver(self, selector: #selector(handleBiometricAuth), name: .isReauthRequired, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(handleFeeRefresh), name: .triggerRefresh, object: nil)
         
         if UIApplication.shared.isInDarkMode {
             view.backgroundColor = .darkBackgroundColor
@@ -124,6 +125,7 @@ class FeesViewController: UIViewController {
         super.viewWillDisappear(animated)
         
         NotificationCenter.default.removeObserver(self, name: .isReauthRequired, object: nil)
+        NotificationCenter.default.removeObserver(self, name: .triggerRefresh, object: nil)
     }
 
     override func viewDidLoad() {
@@ -238,6 +240,9 @@ class FeesViewController: UIViewController {
 
     // MARK: - Fee refresh
     @objc fileprivate func handleFeeRefresh() {
+        // Will be used after a trigger refresh notification is fired
+        rControl.beginRefreshing()
+        
         Service.shared.fetchFeeDetails(sessionID: getSessionID(), isRefresh: true) { [weak self] (fee, reauth, error) in
             if let error = error {
                 print("Error: ", error)

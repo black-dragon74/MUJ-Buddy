@@ -38,6 +38,7 @@ class ContactsViewController: UITableViewController, UISearchControllerDelegate,
         super.viewWillAppear(animated)
         
         NotificationCenter.default.addObserver(self, selector: #selector(handleBiometricAuth), name: .isReauthRequired, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(triggerRefresh), name: .triggerRefresh, object: nil)
         
         let isDarkMode = UIApplication.shared.isInDarkMode
         
@@ -55,6 +56,7 @@ class ContactsViewController: UITableViewController, UISearchControllerDelegate,
         super.viewWillDisappear(animated)
         
         NotificationCenter.default.removeObserver(self, name: .isReauthRequired, object: nil)
+        NotificationCenter.default.removeObserver(self, name: .triggerRefresh, object: nil)
     }
 
     override func viewDidLoad() {
@@ -136,6 +138,9 @@ class ContactsViewController: UITableViewController, UISearchControllerDelegate,
 
     // MARK: - Refresh Control OBJC method
     @objc fileprivate func handleRefresh() {
+        // Will be used after a trigger refresh notification is fired
+        rControl.beginRefreshing()
+        
         // Refresh
         Service.shared.getFacultyDetails(sessionID: getSessionID(), isRefresh: true) {[weak self] (faculties, reauth, err) in
             if err != nil {
@@ -177,6 +182,10 @@ class ContactsViewController: UITableViewController, UISearchControllerDelegate,
                 }
             }
         }
+    }
+    
+    @objc fileprivate func triggerRefresh() {
+        handleRefresh()
     }
 
     // MARK: - Table view delegate

@@ -300,7 +300,8 @@ class LoginViewController: UIViewController, UICollectionViewDelegate, UICollect
     
     @objc fileprivate func sessionExpired() {
         scrollToLogin()
-        perform(#selector(autoLogin), with: self, afterDelay: 0.5)
+        Toast(with: "Session expired. Logging in again...").show(on: self.view)
+        perform(#selector(autoLogin), with: self, afterDelay: 0.8)
     }
     
     @objc fileprivate func autoLogin() {
@@ -379,7 +380,15 @@ class LoginViewController: UIViewController, UICollectionViewDelegate, UICollect
         // Now is the time to dismiss this controller and present the new dashboard controller
         let newController = UINavigationController(rootViewController: DashboardViewController())
         newController.modalTransitionStyle = .crossDissolve
-        self.present(newController, animated: true, completion: nil)
+        
+        if !isSessionExpired {
+            self.present(newController, animated: true, completion: nil)
+        }
+        else {
+            dismiss(animated: true) {
+                NotificationCenter.default.post(name: .triggerRefresh, object: nil)
+            }
+        }
         
         // Exit
         return

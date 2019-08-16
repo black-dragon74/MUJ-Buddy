@@ -35,6 +35,7 @@ class AttendanceViewController: UICollectionViewController, UICollectionViewDele
         super.viewWillAppear(animated)
         
         NotificationCenter.default.addObserver(self, selector: #selector(handleBiometricAuth), name: .isReauthRequired, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(handleAttendanceRefresh), name: .triggerRefresh, object: nil)
         
         view.backgroundColor = UIApplication.shared.isInDarkMode ? .darkBackgroundColor : .primaryLighter
         collectionView.backgroundColor = UIApplication.shared.isInDarkMode ? .darkBackgroundColor : .primaryLighter
@@ -48,6 +49,7 @@ class AttendanceViewController: UICollectionViewController, UICollectionViewDele
         super.viewWillDisappear(animated)
         
         NotificationCenter.default.removeObserver(self, name: .isReauthRequired, object: nil)
+        NotificationCenter.default.removeObserver(self, name: .triggerRefresh, object: nil)
     }
     
     override init(collectionViewLayout layout: UICollectionViewLayout) {
@@ -153,6 +155,9 @@ class AttendanceViewController: UICollectionViewController, UICollectionViewDele
     }
 
     @objc func handleAttendanceRefresh() {
+        // Will be used after a trigger refresh notification is fired
+        rControl.beginRefreshing()
+        
         // Get attendance details
         Service.shared.getAttendance(sessionID: getSessionID(), isRefresh: true) {[weak self] (model, reauth, err) in
             if err != nil {

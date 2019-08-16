@@ -96,6 +96,7 @@ class GPAViewController: UICollectionViewController, UICollectionViewDelegateFlo
         super.viewWillAppear(animated)
         
         NotificationCenter.default.addObserver(self, selector: #selector(handleBiometricAuth), name: .isReauthRequired, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(handleGPARefresh), name: .triggerRefresh, object: nil)
         
         if UIApplication.shared.isInDarkMode {
             view.backgroundColor = .darkBackgroundColor
@@ -111,6 +112,7 @@ class GPAViewController: UICollectionViewController, UICollectionViewDelegateFlo
         super.viewWillDisappear(animated)
         
         NotificationCenter.default.removeObserver(self, name: .isReauthRequired, object: nil)
+        NotificationCenter.default.removeObserver(self, name: .triggerRefresh, object: nil)
     }
 
     override func viewDidLoad() {
@@ -216,6 +218,9 @@ class GPAViewController: UICollectionViewController, UICollectionViewDelegateFlo
 
     // MARK: - Function to handle refresh
     @objc fileprivate func handleGPARefresh() {
+        // Will be used after a trigger refresh notification is fired
+        rControl.beginRefreshing()
+        
         Service.shared.fetchGPA(sessionID: getSessionID(), isRefresh: true) { [weak self] (gpa, reauth, error) in
             if let error = error {
                 // Alert and return

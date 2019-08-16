@@ -36,6 +36,7 @@ class ResultsViewController: UICollectionViewController, UICollectionViewDelegat
         super.viewWillAppear(animated)
         
         NotificationCenter.default.addObserver(self, selector: #selector(handleBiometricAuth), name: .isReauthRequired, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(handleResultsRefresh), name: .triggerRefresh, object: nil)
         
         if UIApplication.shared.isInDarkMode {
             view.backgroundColor = .darkBackgroundColor
@@ -51,6 +52,7 @@ class ResultsViewController: UICollectionViewController, UICollectionViewDelegat
         super.viewWillDisappear(animated)
         
         NotificationCenter.default.removeObserver(self, name: .isReauthRequired, object: nil)
+        NotificationCenter.default.removeObserver(self, name: .triggerRefresh, object: nil)
     }
 
     override init(collectionViewLayout layout: UICollectionViewLayout) {
@@ -164,6 +166,9 @@ class ResultsViewController: UICollectionViewController, UICollectionViewDelegat
 
     // MARK: - OBJC Refresh function
     @objc fileprivate func handleResultsRefresh() {
+        // Will be used after a trigger refresh notification is fired
+        rControl.beginRefreshing()
+        
         let semester = getSemester()  // Will contain the predicted semester
 
         Service.shared.fetchResults(sessionID: getSessionID(), semester: semester, isRefresh: true) { [weak self] (results, reauth, error) in
