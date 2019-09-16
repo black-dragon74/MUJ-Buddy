@@ -174,7 +174,7 @@ func getLowAttendanceCount() -> Int {
     do {
         let data = try decoder.decode([AttendanceModel].self, from: attendance)
         for d in data {
-            if (Int(d.percentage.isEmpty ? "75" : d.percentage)! < 75) {  //TODO:- Implement it in a better way
+            if (Float(d.percentage.isEmpty ? "75" : d.percentage) ?? 0 < 75) {
                 count += 1
             }
         }
