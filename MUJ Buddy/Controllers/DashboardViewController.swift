@@ -270,7 +270,10 @@ class DashboardViewController: UIViewController, UICollectionViewDelegate, UICol
         purgeUserDefaults()
         let dc = LoginViewController()
         dc.modalTransitionStyle = .flipHorizontal
-        present(dc, animated: true, completion: nil)
+        dc.modalPresentationStyle = .fullScreen
+        present(dc, animated: true) {
+            self.removeFromParent()
+        }
     }
 
     @objc fileprivate func handleSettingsShow() {

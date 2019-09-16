@@ -382,7 +382,10 @@ class LoginViewController: UIViewController, UICollectionViewDelegate, UICollect
         newController.modalTransitionStyle = .crossDissolve
         
         if !isSessionExpired {
-            self.present(newController, animated: true, completion: nil)
+            newController.modalPresentationStyle = .fullScreen
+            self.present(newController, animated: true) {
+                self.removeFromParent()
+            }
         }
         else {
             dismiss(animated: true) {

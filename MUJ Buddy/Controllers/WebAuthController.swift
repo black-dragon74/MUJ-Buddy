@@ -25,6 +25,9 @@ class WebAuthController: UIViewController {
         return p
     }()
     
+    // Variable to control the login successful state
+    private lazy var loginSuccessful: Bool = false
+    
     let whitelistedURLs: [String] = [
         LOGIN_URL,
         CONF_URL
@@ -57,6 +60,14 @@ class WebAuthController: UIViewController {
         webView.addObserver(self, forKeyPath: #keyPath(WKWebView.estimatedProgress), options: .new, context: nil)
         
         
+    }
+    
+    //MARK:- View did disappear
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        
+        // If login is not successful and still the view is being dismissed, means user has cancelled the login request
+        if (!loginSuccessful) { NotificationCenter.default.post(name: .loginCancelled, object: nil) }
     }
     
     // Handles the dismissal of the webview
@@ -114,6 +125,7 @@ extension WebAuthController: WKNavigationDelegate {
                 if session != "nil" {
                     DispatchQueue.main.async {
                         webView.removeFromSuperview()
+                        self?.loginSuccessful = true
                         self?.dismiss(animated: true, completion: {
                             NotificationCenter.default.post(name: .loginSuccessful, object: nil, userInfo: ["sessionID": session])
                         })
