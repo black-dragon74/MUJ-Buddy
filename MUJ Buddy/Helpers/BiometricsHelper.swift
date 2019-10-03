@@ -40,5 +40,7 @@ func setBiometricsState(to: Bool) {
 //  Functions for the biometrics events
 //
 func takeBiometricAction(navController: UINavigationController) {
-    navController.present(BiometricAuthController(), animated: true, completion: nil)
+    let biometryController = BiometricAuthController()
+    biometryController.modalPresentationStyle = .fullScreen
+    navController.present(biometryController, animated: true, completion: nil)
 }

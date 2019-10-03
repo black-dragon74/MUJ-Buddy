@@ -43,7 +43,7 @@ class SettingsViewController: UITableViewController {
     }
     
     @objc fileprivate func handleBiometricAuth() {
-        self.navigationController?.present(BiometricAuthController(), animated: true, completion: nil)
+        takeBiometricAction(navController: navigationController ?? UINavigationController(rootViewController: self))
     }
     
     override func viewWillDisappear(_ animated: Bool) {

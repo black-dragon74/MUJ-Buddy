@@ -347,7 +347,7 @@ class DashboardViewController: UIViewController, UICollectionViewDelegate, UICol
     }
     
     @objc fileprivate func handleReauth() {
-        navigationController?.present(BiometricAuthController(), animated: true, completion: nil)
+        takeBiometricAction(navController: navigationController ?? UINavigationController(rootViewController: self))
     }
     
     @objc fileprivate func didTapHeader() {
