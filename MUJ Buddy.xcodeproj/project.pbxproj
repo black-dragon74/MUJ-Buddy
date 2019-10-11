@@ -57,6 +57,19 @@
 		0168081E21FF7E01007AA4DC /* AttendanceCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0168081D21FF7E01007AA4DC /* AttendanceCell.swift */; };
 		016D38CB220EC04200F12B0F /* app_pub in Resources */ = {isa = PBXBuildFile; fileRef = 016D38CA220EC04200F12B0F /* app_pub */; };
 		017BF29F227654B900983ED0 /* ErrorModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 017BF29E227654B900983ED0 /* ErrorModel.swift */; };
+		018312872345BE7700A0CE2B /* Interface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 018312852345BE7700A0CE2B /* Interface.storyboard */; };
+		018312892345BE7900A0CE2B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 018312882345BE7900A0CE2B /* Assets.xcassets */; };
+		018312902345BE7900A0CE2B /* Watch Buddy Extension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 0183128F2345BE7900A0CE2B /* Watch Buddy Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		018312952345BE7900A0CE2B /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 018312942345BE7900A0CE2B /* MainView.swift */; };
+		018312972345BE7900A0CE2B /* HostingController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 018312962345BE7900A0CE2B /* HostingController.swift */; };
+		018312992345BE7900A0CE2B /* ExtensionDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 018312982345BE7900A0CE2B /* ExtensionDelegate.swift */; };
+		0183129B2345BE7A00A0CE2B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0183129A2345BE7A00A0CE2B /* Assets.xcassets */; };
+		0183129E2345BE7A00A0CE2B /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0183129D2345BE7A00A0CE2B /* Preview Assets.xcassets */; };
+		018312A22345BE7A00A0CE2B /* Watch Buddy.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = 018312832345BE7700A0CE2B /* Watch Buddy.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		018312B02345C0E900A0CE2B /* UserNotLoggedInView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 018312AF2345C0E900A0CE2B /* UserNotLoggedInView.swift */; };
+		018312B32345C12400A0CE2B /* SwiftUIHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 018312B22345C12400A0CE2B /* SwiftUIHelpers.swift */; };
+		018312B62345C40500A0CE2B /* AttendanceNotAvailableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 018312B52345C40500A0CE2B /* AttendanceNotAvailableView.swift */; };
+		018312B82345C58E00A0CE2B /* AttendanceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 018312B72345C58E00A0CE2B /* AttendanceView.swift */; };
 		018CB3FC2272E12E00EBD0D8 /* LoginResponseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 018CB3FB2272E12E00EBD0D8 /* LoginResponseModel.swift */; };
 		018CB3FE2272E27A00EBD0D8 /* OTPAuthController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 018CB3FD2272E27A00EBD0D8 /* OTPAuthController.swift */; };
 		019297C0227F2709000EACD1 /* Font.swift in Sources */ = {isa = PBXBuildFile; fileRef = 019297BF227F2709000EACD1 /* Font.swift */; };
@@ -77,6 +90,15 @@
 		01AFF6A122283766002403AF /* AttendanceModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 014512BE21F79E8000407B91 /* AttendanceModel.swift */; };
 		01AFF6A222283779002403AF /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0110BB4021F32DA600E6546A /* Extensions.swift */; };
 		01B4C95621F4CA0E004D0DB4 /* Encryptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01B4C95521F4CA0E004D0DB4 /* Encryptor.swift */; };
+		01C29A27234B9E10001AFD75 /* DataProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01C29A26234B9E10001AFD75 /* DataProvider.swift */; };
+		01C29A28234B9E48001AFD75 /* AttendanceModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 014512BE21F79E8000407B91 /* AttendanceModel.swift */; };
+		01C29A29234B9EDD001AFD75 /* UtilityFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01E9623821F4F48F002C9899 /* UtilityFunctions.swift */; };
+		01C29A2A234B9EED001AFD75 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01E9623621F4DB40002C9899 /* Constants.swift */; };
+		01C29A2D234B9F4A001AFD75 /* DateHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01C29A2C234B9F4A001AFD75 /* DateHelper.swift */; };
+		01C29A2E234B9F4A001AFD75 /* DateHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01C29A2C234B9F4A001AFD75 /* DateHelper.swift */; };
+		01C29A2F234B9F70001AFD75 /* DateHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01C29A2C234B9F4A001AFD75 /* DateHelper.swift */; };
+		01C29A32234BA14B001AFD75 /* WCSessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01C29A31234BA14B001AFD75 /* WCSessionManager.swift */; };
+		01C29A33234BA14B001AFD75 /* WCSessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01C29A31234BA14B001AFD75 /* WCSessionManager.swift */; };
 		01CE4EC6224CDF8A001A4913 /* Toast.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01CE4EC5224CDF8A001A4913 /* Toast.swift */; };
 		01E9623721F4DB40002C9899 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01E9623621F4DB40002C9899 /* Constants.swift */; };
 		01E9623921F4F48F002C9899 /* UtilityFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01E9623821F4F48F002C9899 /* UtilityFunctions.swift */; };
@@ -84,6 +106,20 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		018312912345BE7900A0CE2B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0110BB2221F32B5500E6546A /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 0183128E2345BE7900A0CE2B;
+			remoteInfo = "Watch Buddy Extension";
+		};
+		018312A02345BE7A00A0CE2B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0110BB2221F32B5500E6546A /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 018312822345BE7700A0CE2B;
+			remoteInfo = "Watch Buddy";
+		};
 		01AFF69522282D3F002403AF /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 0110BB2221F32B5500E6546A /* Project object */;
@@ -94,6 +130,28 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
+		018312A32345BE7A00A0CE2B /* Embed Watch Content */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "$(CONTENTS_FOLDER_PATH)/Watch";
+			dstSubfolderSpec = 16;
+			files = (
+				018312A22345BE7A00A0CE2B /* Watch Buddy.app in Embed Watch Content */,
+			);
+			name = "Embed Watch Content";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		018312A62345BE7A00A0CE2B /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				018312902345BE7900A0CE2B /* Watch Buddy Extension.appex in Embed App Extensions */,
+			);
+			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		01AFF69B22282D3F002403AF /* Embed App Extensions */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -160,6 +218,21 @@
 		0168081D21FF7E01007AA4DC /* AttendanceCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttendanceCell.swift; sourceTree = "<group>"; };
 		016D38CA220EC04200F12B0F /* app_pub */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = app_pub; sourceTree = "<group>"; };
 		017BF29E227654B900983ED0 /* ErrorModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorModel.swift; sourceTree = "<group>"; };
+		018312832345BE7700A0CE2B /* Watch Buddy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Watch Buddy.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		018312862345BE7700A0CE2B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Interface.storyboard; sourceTree = "<group>"; };
+		018312882345BE7900A0CE2B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		0183128A2345BE7900A0CE2B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		0183128F2345BE7900A0CE2B /* Watch Buddy Extension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "Watch Buddy Extension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
+		018312942345BE7900A0CE2B /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
+		018312962345BE7900A0CE2B /* HostingController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HostingController.swift; sourceTree = "<group>"; };
+		018312982345BE7900A0CE2B /* ExtensionDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionDelegate.swift; sourceTree = "<group>"; };
+		0183129A2345BE7A00A0CE2B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		0183129D2345BE7A00A0CE2B /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		0183129F2345BE7A00A0CE2B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		018312AF2345C0E900A0CE2B /* UserNotLoggedInView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserNotLoggedInView.swift; sourceTree = "<group>"; };
+		018312B22345C12400A0CE2B /* SwiftUIHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftUIHelpers.swift; sourceTree = "<group>"; };
+		018312B52345C40500A0CE2B /* AttendanceNotAvailableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttendanceNotAvailableView.swift; sourceTree = "<group>"; };
+		018312B72345C58E00A0CE2B /* AttendanceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttendanceView.swift; sourceTree = "<group>"; };
 		018CB3FB2272E12E00EBD0D8 /* LoginResponseModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginResponseModel.swift; sourceTree = "<group>"; };
 		018CB3FD2272E27A00EBD0D8 /* OTPAuthController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OTPAuthController.swift; sourceTree = "<group>"; };
 		019297BF227F2709000EACD1 /* Font.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Font.swift; sourceTree = "<group>"; };
@@ -178,6 +251,9 @@
 		01AFF6A3222839B0002403AF /* MUJ Buddy.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "MUJ Buddy.entitlements"; sourceTree = "<group>"; };
 		01AFF6A4222839DC002403AF /* Attendance Widget.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Attendance Widget.entitlements"; sourceTree = "<group>"; };
 		01B4C95521F4CA0E004D0DB4 /* Encryptor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Encryptor.swift; sourceTree = "<group>"; };
+		01C29A26234B9E10001AFD75 /* DataProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataProvider.swift; sourceTree = "<group>"; };
+		01C29A2C234B9F4A001AFD75 /* DateHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateHelper.swift; sourceTree = "<group>"; };
+		01C29A31234BA14B001AFD75 /* WCSessionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WCSessionManager.swift; sourceTree = "<group>"; };
 		01CE4EC5224CDF8A001A4913 /* Toast.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Toast.swift; sourceTree = "<group>"; };
 		01E9623621F4DB40002C9899 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		01E9623821F4F48F002C9899 /* UtilityFunctions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UtilityFunctions.swift; sourceTree = "<group>"; };
@@ -186,6 +262,13 @@
 
 /* Begin PBXFrameworksBuildPhase section */
 		0110BB2721F32B5500E6546A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		0183128C2345BE7900A0CE2B /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -218,8 +301,11 @@
 		0110BB2121F32B5500E6546A = {
 			isa = PBXGroup;
 			children = (
+				01C29A30234BA12E001AFD75 /* WatchConnectivity */,
 				0110BB2C21F32B5500E6546A /* MUJ Buddy */,
 				01AFF68E22282D3F002403AF /* Attendance Widget */,
+				018312842345BE7700A0CE2B /* Watch Buddy */,
+				018312932345BE7900A0CE2B /* Watch Buddy Extension */,
 				0110BB2B21F32B5500E6546A /* Products */,
 				DCCD3990B2122B3DA2DFEFD2 /* Frameworks */,
 			);
@@ -230,6 +316,8 @@
 			children = (
 				0110BB2A21F32B5500E6546A /* MUJ Buddy.app */,
 				01AFF68B22282D3F002403AF /* Attendance Widget.appex */,
+				018312832345BE7700A0CE2B /* Watch Buddy.app */,
+				0183128F2345BE7900A0CE2B /* Watch Buddy Extension.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -266,6 +354,7 @@
 				01AFF685222815DA002403AF /* ShortcutsHelper.swift */,
 				01CE4EC5224CDF8A001A4913 /* Toast.swift */,
 				019297BF227F2709000EACD1 /* Font.swift */,
+				01C29A2C234B9F4A001AFD75 /* DateHelper.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -349,6 +438,74 @@
 			path = Models;
 			sourceTree = "<group>";
 		};
+		018312842345BE7700A0CE2B /* Watch Buddy */ = {
+			isa = PBXGroup;
+			children = (
+				018312852345BE7700A0CE2B /* Interface.storyboard */,
+				018312882345BE7900A0CE2B /* Assets.xcassets */,
+				0183128A2345BE7900A0CE2B /* Info.plist */,
+			);
+			path = "Watch Buddy";
+			sourceTree = "<group>";
+		};
+		018312932345BE7900A0CE2B /* Watch Buddy Extension */ = {
+			isa = PBXGroup;
+			children = (
+				018312B42345C13600A0CE2B /* Helpers */,
+				018312AC2345C06B00A0CE2B /* Views */,
+				018312AD2345C0BD00A0CE2B /* Controllers */,
+				018312AE2345C0CC00A0CE2B /* Delegates */,
+				0183129A2345BE7A00A0CE2B /* Assets.xcassets */,
+				0183129F2345BE7A00A0CE2B /* Info.plist */,
+				0183129C2345BE7A00A0CE2B /* Preview Content */,
+			);
+			path = "Watch Buddy Extension";
+			sourceTree = "<group>";
+		};
+		0183129C2345BE7A00A0CE2B /* Preview Content */ = {
+			isa = PBXGroup;
+			children = (
+				0183129D2345BE7A00A0CE2B /* Preview Assets.xcassets */,
+			);
+			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		018312AC2345C06B00A0CE2B /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				018312942345BE7900A0CE2B /* MainView.swift */,
+				018312AF2345C0E900A0CE2B /* UserNotLoggedInView.swift */,
+				018312B52345C40500A0CE2B /* AttendanceNotAvailableView.swift */,
+				018312B72345C58E00A0CE2B /* AttendanceView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		018312AD2345C0BD00A0CE2B /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				018312962345BE7900A0CE2B /* HostingController.swift */,
+				01C29A26234B9E10001AFD75 /* DataProvider.swift */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
+		018312AE2345C0CC00A0CE2B /* Delegates */ = {
+			isa = PBXGroup;
+			children = (
+				018312982345BE7900A0CE2B /* ExtensionDelegate.swift */,
+			);
+			path = Delegates;
+			sourceTree = "<group>";
+		};
+		018312B42345C13600A0CE2B /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				018312B22345C12400A0CE2B /* SwiftUIHelpers.swift */,
+			);
+			path = Helpers;
+			sourceTree = "<group>";
+		};
 		01AFF68E22282D3F002403AF /* Attendance Widget */ = {
 			isa = PBXGroup;
 			children = (
@@ -358,6 +515,14 @@
 				01AFF69422282D3F002403AF /* Info.plist */,
 			);
 			path = "Attendance Widget";
+			sourceTree = "<group>";
+		};
+		01C29A30234BA12E001AFD75 /* WatchConnectivity */ = {
+			isa = PBXGroup;
+			children = (
+				01C29A31234BA14B001AFD75 /* WCSessionManager.swift */,
+			);
+			path = WatchConnectivity;
 			sourceTree = "<group>";
 		};
 		01FD5A7322008F1C00ECDF3E /* Delegates */ = {
@@ -390,16 +555,52 @@
 				0110BB2721F32B5500E6546A /* Frameworks */,
 				0110BB2821F32B5500E6546A /* Resources */,
 				01AFF69B22282D3F002403AF /* Embed App Extensions */,
+				018312A32345BE7A00A0CE2B /* Embed Watch Content */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 				01AFF69622282D3F002403AF /* PBXTargetDependency */,
+				018312A12345BE7A00A0CE2B /* PBXTargetDependency */,
 			);
 			name = "MUJ Buddy";
 			productName = "MUJ Buddy";
 			productReference = 0110BB2A21F32B5500E6546A /* MUJ Buddy.app */;
 			productType = "com.apple.product-type.application";
+		};
+		018312822345BE7700A0CE2B /* Watch Buddy */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 018312AA2345BE7A00A0CE2B /* Build configuration list for PBXNativeTarget "Watch Buddy" */;
+			buildPhases = (
+				018312812345BE7700A0CE2B /* Resources */,
+				018312A62345BE7A00A0CE2B /* Embed App Extensions */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				018312922345BE7900A0CE2B /* PBXTargetDependency */,
+			);
+			name = "Watch Buddy";
+			productName = "Watch Buddy";
+			productReference = 018312832345BE7700A0CE2B /* Watch Buddy.app */;
+			productType = "com.apple.product-type.application.watchapp2";
+		};
+		0183128E2345BE7900A0CE2B /* Watch Buddy Extension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 018312A92345BE7A00A0CE2B /* Build configuration list for PBXNativeTarget "Watch Buddy Extension" */;
+			buildPhases = (
+				0183128B2345BE7900A0CE2B /* Sources */,
+				0183128C2345BE7900A0CE2B /* Frameworks */,
+				0183128D2345BE7900A0CE2B /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Watch Buddy Extension";
+			productName = "Watch Buddy Extension";
+			productReference = 0183128F2345BE7900A0CE2B /* Watch Buddy Extension.appex */;
+			productType = "com.apple.product-type.watchkit2-extension";
 		};
 		01AFF68A22282D3F002403AF /* Attendance Widget */ = {
 			isa = PBXNativeTarget;
@@ -424,7 +625,7 @@
 		0110BB2221F32B5500E6546A /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 1010;
+				LastSwiftUpdateCheck = 1100;
 				LastUpgradeCheck = 1010;
 				ORGANIZATIONNAME = Nick;
 				TargetAttributes = {
@@ -439,6 +640,12 @@
 								enabled = 1;
 							};
 						};
+					};
+					018312822345BE7700A0CE2B = {
+						CreatedOnToolsVersion = 11.0;
+					};
+					0183128E2345BE7900A0CE2B = {
+						CreatedOnToolsVersion = 11.0;
 					};
 					01AFF68A22282D3F002403AF = {
 						CreatedOnToolsVersion = 10.1;
@@ -466,6 +673,8 @@
 			targets = (
 				0110BB2921F32B5500E6546A /* MUJ Buddy */,
 				01AFF68A22282D3F002403AF /* Attendance Widget */,
+				018312822345BE7700A0CE2B /* Watch Buddy */,
+				0183128E2345BE7900A0CE2B /* Watch Buddy Extension */,
 			);
 		};
 /* End PBXProject section */
@@ -484,6 +693,24 @@
 				019297C4227F2996000EACD1 /* Poppins-Medium.ttf in Resources */,
 				01039728227E2115007288AD /* Poppins-SemiBold.ttf in Resources */,
 				01197BA5222A8030002F1FC6 /* Settings.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		018312812345BE7700A0CE2B /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				018312892345BE7900A0CE2B /* Assets.xcassets in Resources */,
+				018312872345BE7700A0CE2B /* Interface.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		0183128D2345BE7900A0CE2B /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0183129E2345BE7A00A0CE2B /* Preview Assets.xcassets in Resources */,
+				0183129B2345BE7A00A0CE2B /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -512,6 +739,7 @@
 				0110BB4421F33D1A00E6546A /* LoginPageCell.swift in Sources */,
 				01474B53220AC8470073EBF6 /* AttendanceNotificationDelegate.swift in Sources */,
 				0168081C21FF7DD2007AA4DC /* AttendanceViewController.swift in Sources */,
+				01C29A2D234B9F4A001AFD75 /* DateHelper.swift in Sources */,
 				01483C52220A0DD50017E88A /* NotificationHelper.swift in Sources */,
 				0110BB3021F32B5500E6546A /* LoginViewController.swift in Sources */,
 				01E9623721F4DB40002C9899 /* Constants.swift in Sources */,
@@ -520,6 +748,7 @@
 				017BF29F227654B900983ED0 /* ErrorModel.swift in Sources */,
 				018CB3FE2272E27A00EBD0D8 /* OTPAuthController.swift in Sources */,
 				01A82FA52204562D002A13DF /* InternalsCell.swift in Sources */,
+				01C29A32234BA14B001AFD75 /* WCSessionManager.swift in Sources */,
 				013F512D220C8EE6007D1390 /* BiometricAuthController.swift in Sources */,
 				014B8E942211E4D600C0296B /* DashboardHeaderView.swift in Sources */,
 				0110BB4121F32DA600E6546A /* Extensions.swift in Sources */,
@@ -562,6 +791,26 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		0183128B2345BE7900A0CE2B /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				018312B02345C0E900A0CE2B /* UserNotLoggedInView.swift in Sources */,
+				01C29A2A234B9EED001AFD75 /* Constants.swift in Sources */,
+				018312972345BE7900A0CE2B /* HostingController.swift in Sources */,
+				01C29A27234B9E10001AFD75 /* DataProvider.swift in Sources */,
+				018312B82345C58E00A0CE2B /* AttendanceView.swift in Sources */,
+				01C29A28234B9E48001AFD75 /* AttendanceModel.swift in Sources */,
+				018312952345BE7900A0CE2B /* MainView.swift in Sources */,
+				018312B32345C12400A0CE2B /* SwiftUIHelpers.swift in Sources */,
+				018312B62345C40500A0CE2B /* AttendanceNotAvailableView.swift in Sources */,
+				01C29A2E234B9F4A001AFD75 /* DateHelper.swift in Sources */,
+				01C29A29234B9EDD001AFD75 /* UtilityFunctions.swift in Sources */,
+				01C29A33234BA14B001AFD75 /* WCSessionManager.swift in Sources */,
+				018312992345BE7900A0CE2B /* ExtensionDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		01AFF68722282D3F002403AF /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -569,6 +818,7 @@
 				01AFF6A222283779002403AF /* Extensions.swift in Sources */,
 				01AFF6A122283766002403AF /* AttendanceModel.swift in Sources */,
 				01AFF6A022283756002403AF /* UtilityFunctions.swift in Sources */,
+				01C29A2F234B9F70001AFD75 /* DateHelper.swift in Sources */,
 				01AFF69022282D3F002403AF /* TodayViewController.swift in Sources */,
 				01AFF69F22283756002403AF /* Constants.swift in Sources */,
 			);
@@ -577,6 +827,16 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		018312922345BE7900A0CE2B /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 0183128E2345BE7900A0CE2B /* Watch Buddy Extension */;
+			targetProxy = 018312912345BE7900A0CE2B /* PBXContainerItemProxy */;
+		};
+		018312A12345BE7A00A0CE2B /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 018312822345BE7700A0CE2B /* Watch Buddy */;
+			targetProxy = 018312A02345BE7A00A0CE2B /* PBXContainerItemProxy */;
+		};
 		01AFF69622282D3F002403AF /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 01AFF68A22282D3F002403AF /* Attendance Widget */;
@@ -591,6 +851,14 @@
 				0110BB3721F32B5600E6546A /* Base */,
 			);
 			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+		018312852345BE7700A0CE2B /* Interface.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				018312862345BE7700A0CE2B /* Base */,
+			);
+			name = Interface.storyboard;
 			sourceTree = "<group>";
 		};
 		01AFF69122282D3F002403AF /* MainInterface.storyboard */ = {
@@ -762,6 +1030,92 @@
 			};
 			name = Release;
 		};
+		018312A42345BE7A00A0CE2B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = LUPK75PW6Q;
+				IBSC_MODULE = Watch_Buddy_Extension;
+				INFOPLIST_FILE = "Watch Buddy/Info.plist";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.black-dragon74.MUJ-Buddy.watchkitapp";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 6.0;
+			};
+			name = Debug;
+		};
+		018312A52345BE7A00A0CE2B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = LUPK75PW6Q;
+				IBSC_MODULE = Watch_Buddy_Extension;
+				INFOPLIST_FILE = "Watch Buddy/Info.plist";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.black-dragon74.MUJ-Buddy.watchkitapp";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 6.0;
+			};
+			name = Release;
+		};
+		018312A72345BE7A00A0CE2B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_COMPLICATION_NAME = Complication;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_ASSET_PATHS = "\"Watch Buddy Extension/Preview Content\"";
+				DEVELOPMENT_TEAM = LUPK75PW6Q;
+				ENABLE_PREVIEWS = YES;
+				INFOPLIST_FILE = "Watch Buddy Extension/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.black-dragon74.MUJ-Buddy.watchkitapp.watchkitextension";
+				PRODUCT_NAME = "${TARGET_NAME}";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 6.0;
+			};
+			name = Debug;
+		};
+		018312A82345BE7A00A0CE2B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_COMPLICATION_NAME = Complication;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_ASSET_PATHS = "\"Watch Buddy Extension/Preview Content\"";
+				DEVELOPMENT_TEAM = LUPK75PW6Q;
+				ENABLE_PREVIEWS = YES;
+				INFOPLIST_FILE = "Watch Buddy Extension/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.black-dragon74.MUJ-Buddy.watchkitapp.watchkitextension";
+				PRODUCT_NAME = "${TARGET_NAME}";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 6.0;
+			};
+			name = Release;
+		};
 		01AFF69922282D3F002403AF /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -821,6 +1175,24 @@
 			buildConfigurations = (
 				0110BB3D21F32B5600E6546A /* Debug */,
 				0110BB3E21F32B5600E6546A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		018312A92345BE7A00A0CE2B /* Build configuration list for PBXNativeTarget "Watch Buddy Extension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				018312A72345BE7A00A0CE2B /* Debug */,
+				018312A82345BE7A00A0CE2B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		018312AA2345BE7A00A0CE2B /* Build configuration list for PBXNativeTarget "Watch Buddy" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				018312A42345BE7A00A0CE2B /* Debug */,
+				018312A52345BE7A00A0CE2B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

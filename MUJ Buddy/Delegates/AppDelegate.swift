@@ -8,11 +8,13 @@
 
 import UIKit
 import UserNotifications
+import WatchConnectivity
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
+    var watchSession = WCSessionManager.shared
     let notificationDelegate = AttendanceNotificationDelegate()
     private var launchedShortcutItem: UIApplicationShortcutItem? = nil
 
@@ -54,6 +56,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 print("Got the permission to display notifications")
             }
         }
+        
+        // Start the session for the watch connectivity
+        WCSessionManager.shared.startSession()
+        
+        watchSession.iOSDelegate = self
 
         // Required
         return true
@@ -170,5 +177,24 @@ extension UIApplication {
         }
         
         set { /* Just so the app can write to it */ }
+    }
+}
+
+extension AppDelegate: iOSDelegate {
+    func messageReceived(tuple: MessageReceived) {
+        
+        guard let reply = tuple.replyHandler else { return }
+        
+        if !isLoggedIn() {
+            reply(["error": "notloggedin"])
+            return
+        }
+        
+        if let attendanceFromDB = getAttendanceFromDB() {
+            reply(["success": attendanceFromDB])
+        }
+        else {
+            reply(["error": "atnotavail"])
+        }
     }
 }
