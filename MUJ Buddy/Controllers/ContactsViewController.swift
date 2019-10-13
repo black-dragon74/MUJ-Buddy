@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ContactsViewController: UITableViewController, UISearchControllerDelegate, UISearchResultsUpdating, UIViewControllerPreviewingDelegate {
+class ContactsViewController: UITableViewController, UISearchControllerDelegate, UISearchResultsUpdating {
 
     // Faculty details that will be fetched
     var facultyDetails = [FacultyContactModel]()
@@ -64,9 +64,6 @@ class ContactsViewController: UITableViewController, UISearchControllerDelegate,
 
         // Setup the views
         setupViews()
-        
-        // Register for 3D touch
-        registerForPreviewing(with: self, sourceView: tableView)
         
         self.tableView.rowHeight = 50
     }
@@ -298,17 +295,28 @@ class ContactsViewController: UITableViewController, UISearchControllerDelegate,
         return text.isEmpty
     }
     
-    //MARK:- Preview delegates
-    func previewingContext(_ previewingContext: UIViewControllerPreviewing, viewControllerForLocation location: CGPoint) -> UIViewController? {
-        guard let indexPath = tableView.indexPathForRow(at: location) else { return nil }
-        let selectedItem = filteredFacultyDetails.count == 0 ? facultyDetails[indexPath.row] : filteredFacultyDetails[indexPath.row]
-        let fView = FacultyContactViewController()
-        fView.currentFaculty = selectedItem
-        return fView
+    //MARK:- Context menu interaction delegate
+    @available (iOS 13.0, *)
+    override func tableView(_ tableView: UITableView, contextMenuConfigurationForRowAt indexPath: IndexPath, point: CGPoint) -> UIContextMenuConfiguration? {
+        let identifier = NSString(string: "\(indexPath.row)")
+        return UIContextMenuConfiguration(identifier: identifier, previewProvider: { [unowned self] in
+            let preview = FacultyContactViewController()
+            preview.currentFaculty = self.facultyDetails[indexPath.row]
+            return preview
+        }) { (action) -> UIMenu? in
+            // TODO:- Implement calling and emailing as context menu actions
+            return nil
+        }
     }
     
-    func previewingContext(_ previewingContext: UIViewControllerPreviewing, commit viewControllerToCommit: UIViewController) {
-        navigationController?.pushViewController(viewControllerToCommit, animated: true)
+    @available (iOS 13.0, *)
+    override func tableView(_ tableView: UITableView, willPerformPreviewActionForMenuWith configuration: UIContextMenuConfiguration, animator: UIContextMenuInteractionCommitAnimating) {
+        animator.addCompletion { [unowned self] in
+            guard let identifier = configuration.identifier as? String else { return }
+            let currentFaculty = self.facultyDetails[Int(identifier) ?? 0]
+            let destination = FacultyContactViewController()
+            destination.currentFaculty = currentFaculty
+            self.show(destination, sender: self)
+        }
     }
-
 }

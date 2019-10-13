@@ -24,7 +24,7 @@ struct MainView: View {
                             .font(.title)
                         Text("Refresh")
                     }
-                })
+                    })
             })
         }
 

@@ -182,7 +182,7 @@ class FacultyContactViewController: UIViewController {
 
         setupViews()
     }
-
+    
     fileprivate func setupViews() {
         view.addSubview(facultyImage)
         facultyImage.addSubview(indicator)
