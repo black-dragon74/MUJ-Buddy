@@ -61,13 +61,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         WCSessionManager.shared.startSession()
         
         watchSession.iOSDelegate = self
-        
-        // Set them bars back to old school style, the way I like them
-        if #available(iOS 13.0, *) {
-            let sbAppearance = UINavigationBarAppearance()
-            sbAppearance.configureWithDefaultBackground()
-            UINavigationBar.appearance().scrollEdgeAppearance = sbAppearance
-        }
 
         // Required
         return true

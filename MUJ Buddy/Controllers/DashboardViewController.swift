@@ -67,7 +67,7 @@ class DashboardViewController: UIViewController, UICollectionViewDelegate, UICol
         if UIApplication.shared.isInDarkMode {
             navigationController?.navigationBar.tintColor = .darkBarTintColor
             navigationController?.navigationBar.barTintColor = .darkBarColor
-            navigationController?.navigationBar.isTranslucent = false
+            navigationController?.navigationBar.isTranslucent = true
             navigationController?.navigationBar.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
             navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
             self.navigationItem.rightBarButtonItem?.tintColor = .white
