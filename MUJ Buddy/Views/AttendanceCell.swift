@@ -20,29 +20,13 @@ class AttendanceCell: UICollectionViewCell {
             percentTF.text = att.percentage.isEmpty ? "00" : att.percentage
         }
     }
-    
-    var isDark: Bool? {
-        didSet {
-            guard let isDark = isDark else { return }
-            
-            if isDark {
-                subjectLabel.textColor = .darkTextPrimary
-                totalTF.textColor = .darkTextPrimaryLighter
-                presentLabel.textColor = .darkTextPrimaryLighter
-                absentLabel.textColor = .darkTextPrimaryLighter
-                percentLabel.textColor = .darkTextPrimaryLighter
-                absentTF.textColor = .darkTextPrimaryDarker
-                backgroundColor = .darkCardBackgroundColor
-            }
-        }
-    }
 
     // Subject label
     let subjectLabel: UILabel = {
         let s = UILabel()
         s.text = "Subject Name"
         s.font = .titleFont
-        s.textColor = .textPrimary
+        s.textColor = UIColor(named: "textPrimary")
         s.adjustsFontSizeToFitWidth = true
         return s
     }()
@@ -52,7 +36,7 @@ class AttendanceCell: UICollectionViewCell {
         let s = UILabel()
         s.text = "Present"
         s.font = .subtitleFont
-        s.textColor = .textPrimaryLighter
+        s.textColor = UIColor(named: "textPrimaryLighter")
         s.textAlignment = .center
         return s
     }()
@@ -72,7 +56,7 @@ class AttendanceCell: UICollectionViewCell {
         let s = UILabel()
         s.text = "Absent"
         s.font = .subtitleFont
-        s.textColor = .textPrimaryLighter
+        s.textColor = UIColor(named: "textPrimaryLighter")
         s.textAlignment = .center
         return s
     }()
@@ -82,7 +66,7 @@ class AttendanceCell: UICollectionViewCell {
         let s = UILabel()
         s.text = "00"
         s.font = .scoreFont
-        s.textColor = .textPrimaryDarker
+        s.textColor = UIColor(named: "textPrimaryDarker")
         s.textAlignment = .center
         return s
     }()
@@ -91,7 +75,7 @@ class AttendanceCell: UICollectionViewCell {
     let totalTF: UILabel = {
         let s = UILabel()
         s.font = .subtitleFont
-        s.textColor = .textPrimaryLighter
+        s.textColor = UIColor(named: "textPrimaryLighter")
         s.text = "00"
         return s
     }()
@@ -100,7 +84,7 @@ class AttendanceCell: UICollectionViewCell {
     let percentLabel: UILabel = {
         let p = UILabel()
         p.font = .subtitleFont
-        p.textColor = .textPrimaryLighter
+        p.textColor = UIColor(named: "textPrimaryLighter")
         p.text = "Percent"
         p.textAlignment = .center
         p.translatesAutoresizingMaskIntoConstraints = false
@@ -119,17 +103,10 @@ class AttendanceCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        self.backgroundColor = .white
+        self.backgroundColor = UIColor(named: "cardBackgroundColor")
         self.layer.cornerRadius = 17
         
-        if let isDark = isDark {
-            if isDark {
-                darkDropShadow()
-            }
-            else {
-                dropShadow()
-            }
-        }
+        dropShadow()
 
         setupViews()
     }

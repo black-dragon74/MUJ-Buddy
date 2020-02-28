@@ -37,11 +37,6 @@ class ResultsViewController: UICollectionViewController, UICollectionViewDelegat
         
         NotificationCenter.default.addObserver(self, selector: #selector(handleBiometricAuth), name: .isReauthRequired, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(handleResultsRefresh), name: .triggerRefresh, object: nil)
-        
-        if UIApplication.shared.isInDarkMode {
-            view.backgroundColor = .darkBackgroundColor
-            collectionView.backgroundColor = .darkBackgroundColor
-        }
     }
     
     @objc fileprivate func handleBiometricAuth() {
@@ -132,7 +127,7 @@ class ResultsViewController: UICollectionViewController, UICollectionViewDelegat
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        collectionView.backgroundColor = .primaryLighter
+        collectionView.backgroundColor = UIColor(named: "primaryLighter")
         navigationItem.title = "Results"
         collectionView.register(ResultsCell.self, forCellWithReuseIdentifier: cellID)
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .compose, target: self, action: #selector(handleSemesterChange))
@@ -160,7 +155,6 @@ class ResultsViewController: UICollectionViewController, UICollectionViewDelegat
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellID, for: indexPath) as! ResultsCell
         cell.currentSubjectForResult = resultsArray[indexPath.item]
-        cell.isDark = UIApplication.shared.isInDarkMode
         return cell
     }
 

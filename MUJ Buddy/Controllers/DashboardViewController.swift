@@ -43,7 +43,7 @@ class DashboardViewController: UIViewController, UICollectionViewDelegate, UICol
     lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        cv.backgroundColor = .white
+        cv.backgroundColor = UIColor(named: "primaryLighter")
         cv.dataSource = self
         cv.delegate = self
         cv.showsVerticalScrollIndicator = false // Gande ho ji tum
@@ -63,42 +63,14 @@ class DashboardViewController: UIViewController, UICollectionViewDelegate, UICol
         // Add observer for biometry
         NotificationCenter.default.addObserver(self, selector: #selector(handleReauth), name: .isReauthRequired, object: nil)
         
-        // Dark mode setup
-        if UIApplication.shared.isInDarkMode {
-            navigationController?.navigationBar.tintColor = .darkBarTintColor
-            navigationController?.navigationBar.barTintColor = .darkBarColor
-            navigationController?.navigationBar.isTranslucent = true
-            navigationController?.navigationBar.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
-            navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
-            self.navigationItem.rightBarButtonItem?.tintColor = .white
-            self.navigationController?.navigationBar.barStyle = .black
-            self.collectionView.backgroundColor = .darkBackgroundColor
-            self.view.backgroundColor = .darkBackgroundColor
-        }
-        else {
-            navigationController?.navigationBar.tintColor = .systemTintColor
-            navigationController?.navigationBar.barTintColor = .white
-            navigationController?.navigationBar.isTranslucent = true
-            navigationController?.navigationBar.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.black]
-            navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.black]
-            self.navigationItem.rightBarButtonItem?.tintColor = .black
-            self.navigationController?.navigationBar.barStyle = .default
-            self.collectionView.backgroundColor = .primaryLighter
-            self.view.backgroundColor = .primaryLighter
-        }
-        
-        setNeedsStatusBarAppearanceUpdate()
-    }
-    
-    override var preferredStatusBarStyle: UIStatusBarStyle {
-        return .lightContent
+        self.navigationItem.rightBarButtonItem?.tintColor = UIColor(named: "textPrimary")
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationItem.title = "Dashboard"
         self.navigationController?.navigationBar.prefersLargeTitles = true
-        view.backgroundColor = .white
+        view.backgroundColor = UIColor(named: "primaryLighter")
         view.snapshotView(afterScreenUpdates: true)
         setNeedsStatusBarAppearanceUpdate()
 

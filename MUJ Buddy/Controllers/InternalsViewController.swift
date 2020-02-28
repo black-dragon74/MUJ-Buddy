@@ -45,11 +45,6 @@ class InternalsViewController: UICollectionViewController, UICollectionViewDeleg
         
         NotificationCenter.default.addObserver(self, selector: #selector(handleBiometricAuth), name: .isReauthRequired, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(handleRefreshForInternals), name: .triggerRefresh, object: nil)
-        
-        if UIApplication.shared.isInDarkMode {
-            view.backgroundColor = .darkBackgroundColor
-            collectionView.backgroundColor = .darkBackgroundColor
-        }
     }
     
     @objc fileprivate func handleBiometricAuth() {
@@ -69,7 +64,7 @@ class InternalsViewController: UICollectionViewController, UICollectionViewDeleg
         super.viewDidLoad()
 
         navigationItem.title = "Internals Marks"
-        collectionView.backgroundColor = .primaryLighter
+        collectionView.backgroundColor = UIColor(named: "primaryLighter")
         collectionView.refreshControl = rControl
         indicator.startAnimating()
 
@@ -172,7 +167,6 @@ class InternalsViewController: UICollectionViewController, UICollectionViewDeleg
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellID, for: indexPath) as! InternalsCell
         cell.internalData = internalsArray[indexPath.item]
-        cell.isDark = UIApplication.shared.isInDarkMode
         return cell
     }
 

@@ -23,39 +23,13 @@ class InternalsCell: UICollectionViewCell {
             resessText.text = internals.resession == "" ? "00.00" : "\(internals.resession ?? "00.00")"
         }
     }
-    
-    var isDark: Bool? {
-        didSet {
-            guard let isDark = isDark else { return }
-            
-            if isDark {
-                subjectLabel.textColor = .darkTextPrimary
-                
-                // Row 1
-                mte1Text.textColor = .darkTextPrimaryDarker
-                mte2Text.textColor = .darkTextPrimaryDarker
-                cwsText.textColor = .darkTextPrimaryDarker
-                mte1Label.textColor = .darkTextPrimaryLighter
-                mte2Label.textColor = .darkTextPrimaryLighter
-                cwsLabel.textColor = .darkTextPrimaryLighter
-                
-                // Row 2
-                prsLabel.textColor = .darkTextPrimaryLighter
-                resessLabel.textColor = .darkTextPrimaryLighter
-                totalLabel.textColor = .darkTextPrimaryLighter
-                
-                // Update the view color
-                backgroundColor = .darkCardBackgroundColor
-            }
-        }
-    }
 
     // Subject Label
     let subjectLabel: UILabel = {
         let s = UILabel()
         s.font = .titleFont
         s.adjustsFontSizeToFitWidth = true
-        s.textColor = .textPrimary
+        s.textColor = UIColor(named: "textPrimary")
         s.text = "I am a subject"
         return s
     }()
@@ -65,7 +39,7 @@ class InternalsCell: UICollectionViewCell {
         let m = UILabel()
         m.text = "MTE - 1"
         m.font = .subtitleFont
-        m.textColor = .textPrimaryLighter
+        m.textColor = UIColor(named: "textPrimaryLighter")
         m.textAlignment = .center
         return m
     }()
@@ -75,7 +49,7 @@ class InternalsCell: UICollectionViewCell {
         let m = UILabel()
         m.text = "10.00"
         m.font = .scoreFontBolder
-        m.textColor = .textPrimaryDarker
+        m.textColor = UIColor(named: "textPrimaryDarker")
         return m
     }()
 
@@ -84,7 +58,7 @@ class InternalsCell: UICollectionViewCell {
         let m = UILabel()
         m.text = "MTE - 2"
         m.font = .subtitleFont
-        m.textColor = .textPrimaryLighter
+        m.textColor = UIColor(named: "textPrimaryLighter")
         m.textAlignment = .center
         return m
     }()
@@ -95,7 +69,7 @@ class InternalsCell: UICollectionViewCell {
         m.text = "10.00"
         m.translatesAutoresizingMaskIntoConstraints = false
         m.font = .scoreFontBolder
-        m.textColor = .textPrimaryDarker
+        m.textColor = UIColor(named: "textPrimaryDarker")
         return m
     }()
 
@@ -104,7 +78,7 @@ class InternalsCell: UICollectionViewCell {
         let m = UILabel()
         m.text = "CWS"
         m.font = .subtitleFont
-        m.textColor = .textPrimaryLighter
+        m.textColor = UIColor(named: "textPrimaryLighter")
         m.textAlignment = .center
         return m
     }()
@@ -114,7 +88,7 @@ class InternalsCell: UICollectionViewCell {
         let c = UILabel()
         c.text = "10.00"
         c.font = .scoreFontBolder
-        c.textColor = .textPrimaryDarker
+        c.textColor = UIColor(named: "textPrimaryDarker")
         return c
     }()
 
@@ -123,7 +97,7 @@ class InternalsCell: UICollectionViewCell {
         let m = UILabel()
         m.text = "PRS"
         m.font = .subtitleFont
-        m.textColor = .textPrimaryLighter
+        m.textColor = UIColor(named: "textPrimaryLighter")
         m.textAlignment = .center
         return m
     }()
@@ -152,7 +126,7 @@ class InternalsCell: UICollectionViewCell {
         m.text = "Re Exam"
         m.font = .subtitleFont
         m.textAlignment = .center
-        m.textColor = .textPrimaryLighter
+        m.textColor = UIColor(named: "textPrimaryLighter")
         return m
     }()
 
@@ -170,7 +144,7 @@ class InternalsCell: UICollectionViewCell {
         m.text = "Total"
         m.font = .subtitleFont
         m.textAlignment = .center
-        m.textColor = .textPrimaryLighter
+        m.textColor = UIColor(named: "textPrimaryLighter")
         return m
     }()
     
@@ -183,16 +157,9 @@ class InternalsCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
 
-        backgroundColor = .white
+        backgroundColor = UIColor(named: "cardBackgroundColor")
         layer.cornerRadius = 17
-        if let isDark = isDark {
-            if isDark {
-                darkDropShadow()
-            }
-            else {
-                dropShadow()
-            }
-        }
+        dropShadow()
 
         // Handle additional views
         setupViews()
@@ -254,7 +221,7 @@ class InternalsCell: UICollectionViewCell {
         let gradient = CAGradientLayer()
         
         // Colors for gradient
-        let  separatorColor = isDark ?? false ? [UIColor(r: 234, g: 12, b: 12), UIColor(r: 73, g: 46, b: 202)] : [UIColor(r: 161, g: 160, b: 160), .white]
+        let  separatorColor = [UIColor(r: 234, g: 12, b: 12), UIColor(r: 73, g: 46, b: 202)]
         gradient.colors = [separatorColor[0].cgColor, separatorColor[1].cgColor]
         gradient.startPoint = .init(x: 0, y: 0)
         gradient.endPoint = .init(x: 1, y: 1)

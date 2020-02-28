@@ -49,6 +49,9 @@ class DashboardHeaderView: UICollectionReusableView {
         cView.backgroundColor = .navyBlue
         cView.image = UIImage(named: "manipal")
         cView.layer.cornerRadius = 17
+        cView.clipsToBounds = true
+        cView.layer.masksToBounds = true
+        cView.contentMode = .scaleAspectFit
         return cView
     }()
     
@@ -57,6 +60,8 @@ class DashboardHeaderView: UICollectionReusableView {
         bView.backgroundColor = .black
         bView.alpha = 0.7
         bView.layer.cornerRadius = 17
+        bView.layer.masksToBounds = true
+        bView.clipsToBounds = true
         return bView
     }()
     
@@ -74,6 +79,8 @@ class DashboardHeaderView: UICollectionReusableView {
         super.init(frame: frame)
         
         layer.cornerRadius = 17
+        self.clipsToBounds = true
+        self.layer.masksToBounds = true
         
         setupHeader()
     }

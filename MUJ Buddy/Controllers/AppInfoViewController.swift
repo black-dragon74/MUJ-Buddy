@@ -27,12 +27,13 @@ class AppInfoViewController: UIViewController {
         tView.textAlignment = .justified
         tView.numberOfLines = 10
         tView.text = "This is just a hobby project and also my very first iOS App.\n\n\n\nNo external libraries have been used in creating this app."
+        tView.textColor = UIColor(named: "textPrimary")
         return tView
     }()
     
     let copyrightLabel: UILabel = {
         let cLabel = UILabel()
-        cLabel.textColor = .darkGray
+        cLabel.textColor = UIColor(named: "textPrimaryLighter")
         cLabel.text = "Crafted with love by Nick"
         cLabel.translatesAutoresizingMaskIntoConstraints = false
         cLabel.font = UIFont.systemFont(ofSize: 12)
@@ -48,7 +49,7 @@ class AppInfoViewController: UIViewController {
         
         navigationItem.setHeader(title: appName, subtitle: "Version "+appversion)
         
-        view.backgroundColor = .white
+        view.backgroundColor = UIColor(named: "primaryLighter")
         
         setupAdditionalViews()
     }

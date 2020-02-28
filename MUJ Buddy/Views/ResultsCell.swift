@@ -19,28 +19,13 @@ class ResultsCell: UICollectionViewCell {
             setValueAndColorTo(grade: curr.grade)
         }
     }
-    
-    var isDark: Bool? {
-        didSet {
-            guard let isDark = isDark else { return }
-            
-            if isDark {
-                subjectLabel.textColor = .darkTextPrimary
-                courseCodeTF.textColor = .darkTextPrimaryLighter
-                creditsLabel.textColor = .darkTextPrimaryLighter
-                gradeLabel.textColor = .darkTextPrimaryLighter
-                creditsTF.textColor = .darkTextPrimaryDarker
-                backgroundColor = .darkCardBackgroundColor
-            }
-        }
-    }
 
     // Subject label
     let subjectLabel: UILabel = {
         let s = UILabel()
         s.text = "Not Available"
         s.font = .titleFont
-        s.textColor = .textPrimary
+        s.textColor = UIColor(named: "textPrimary")
         s.adjustsFontSizeToFitWidth = true
         return s
     }()
@@ -49,7 +34,7 @@ class ResultsCell: UICollectionViewCell {
     let gradeLabel: UILabel = {
         let g = UILabel()
         g.font = .subtitleFont
-        g.textColor = .textPrimaryLighter
+        g.textColor = UIColor(named: "textPrimaryLighter")
         g.text = "Grade"
         return g
     }()
@@ -66,7 +51,7 @@ class ResultsCell: UICollectionViewCell {
     let courseCodeTF: UILabel = {
         let a = UILabel()
         a.text = "Unknown"
-        a.textColor = .textPrimaryLighter
+        a.textColor = UIColor(named: "textPrimaryLighter")
         a.font = .subtitleFont
         return a
     }()
@@ -76,7 +61,7 @@ class ResultsCell: UICollectionViewCell {
         let a = UILabel()
         a.text = "Credits"
         a.font = .subtitleFont
-        a.textColor = .textPrimaryLighter
+        a.textColor = UIColor(named: "textPrimaryLighter")
         return a
     }()
 
@@ -84,7 +69,7 @@ class ResultsCell: UICollectionViewCell {
         let a = UILabel()
         a.text = "00"
         a.textAlignment = .center
-        a.textColor = .textPrimaryDarker
+        a.textColor = UIColor(named: "textPrimaryDarker")
         a.font = .scoreFontBolder
         return a
     }()
@@ -92,16 +77,9 @@ class ResultsCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
 
-        backgroundColor = .white
+        backgroundColor = UIColor(named: "cardBackgroundColor")
         layer.cornerRadius = 17
-        if let isDark = isDark {
-            if isDark {
-                darkDropShadow()
-            }
-            else {
-                dropShadow()
-            }
-        }
+        dropShadow()
 
         setupViews()
     }
@@ -134,7 +112,7 @@ class ResultsCell: UICollectionViewCell {
     fileprivate func setValueAndColorTo(grade: String) {
         switch grade {
         case "":
-            gradeTF.textColor = .textPrimaryDarker
+            gradeTF.textColor = UIColor(named: "textPrimaryDarker")
             gradeTF.text = "NA"
         case "A+":
             gradeTF.textColor = .textSuccess

@@ -50,7 +50,7 @@ class BottomMenuSheetController: NSObject, UICollectionViewDataSource, UICollect
 
     // Function to show settings
     func showSettings() {
-        collectionView.backgroundColor = UIApplication.shared.isInDarkMode ? .darkBackgroundColor : .white
+        collectionView.backgroundColor = UIColor(named: "primaryLighter")
         collectionView.reloadData()
         if let window = UIApplication.shared.keyWindow {
             let height: CGFloat = cellHeight * CGFloat(menuItems.count) + 40
@@ -86,8 +86,7 @@ class BottomMenuSheetController: NSObject, UICollectionViewDataSource, UICollect
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellID, for: indexPath) as! BottomMenuSheetCell
         cell.currentCell = menuItems[indexPath.item]
-        cell.backgroundColor = UIApplication.shared.isInDarkMode ? .darkBackgroundColor : .white
-        cell.isDark = UIApplication.shared.isInDarkMode
+        cell.backgroundColor = UIColor(named: "primaryLighter")
         return cell
     }
 

@@ -40,12 +40,8 @@ class ContactsViewController: UITableViewController, UISearchControllerDelegate,
         NotificationCenter.default.addObserver(self, selector: #selector(handleBiometricAuth), name: .isReauthRequired, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(triggerRefresh), name: .triggerRefresh, object: nil)
         
-        let isDarkMode = UIApplication.shared.isInDarkMode
-        
-        searchController.searchBar.keyboardAppearance = isDarkMode ? .dark : .light
-        searchController.searchBar.tintColor = isDarkMode ? .darkBarTintColor : .systemTintColor
-        view.backgroundColor = isDarkMode ? .darkBackgroundColor : .primaryLighter
-        tableView.backgroundColor = isDarkMode ? .darkBackgroundColor : .primaryLighter
+        searchController.searchBar.tintColor = UIColor(named: "barTintColor")
+        view.backgroundColor = UIColor(named: "cardBackgroundColor")
     }
     
     @objc fileprivate func handleBiometricAuth() {
@@ -197,12 +193,6 @@ class ContactsViewController: UITableViewController, UISearchControllerDelegate,
         self.navigationController?.pushViewController(fView, animated: true)
     }
     
-    override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        cell.textLabel?.textColor = UIApplication.shared.isInDarkMode ? .white : .black
-        cell.detailTextLabel?.textColor = UIApplication.shared.isInDarkMode ? .darkTextPrimaryLighter : .black
-        cell.backgroundColor = UIApplication.shared.isInDarkMode ? .darkBarColor : .white
-    }
-    
     // For leading swipe action
     override func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let callAction = callPhone(at: indexPath)
@@ -213,6 +203,11 @@ class ContactsViewController: UITableViewController, UISearchControllerDelegate,
     override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let mailAction = sendMail(at: indexPath)
         return UISwipeActionsConfiguration(actions: [mailAction])
+    }
+    
+    override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        cell.backgroundColor = UIColor(named: "cardBackgroundColor")
+        cell.detailTextLabel?.textColor = UIColor(named: "textPrimaryLighter")!
     }
     
     //MARK:- Swipe function and configs

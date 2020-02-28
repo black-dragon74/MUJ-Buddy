@@ -40,7 +40,7 @@ class FeesViewController: UIViewController {
     let scrollView: UIScrollView = {
         let m = UIScrollView()
         m.alwaysBounceVertical = true
-        m.backgroundColor = .primaryLighter
+        m.backgroundColor = UIColor(named: "primaryLighter")
         return m
     }()
 
@@ -50,13 +50,13 @@ class FeesViewController: UIViewController {
         p.translatesAutoresizingMaskIntoConstraints = false
         p.heightAnchor.constraint(equalToConstant: 100).isActive = true
         p.layer.cornerRadius = 17
-        p.backgroundColor = .white
+        p.backgroundColor = UIColor(named: "cardBackgroundColor")
         return p
     }()
     
     let paidLabel: UILabel = {
         let p = UILabel()
-        p.textColor = .textPrimary
+        p.textColor = UIColor(named: "textPrimary")
         p.font = .scoreFontBolder
         p.text = "PAID"
         return p
@@ -76,14 +76,14 @@ class FeesViewController: UIViewController {
         let u = UIView()
         u.translatesAutoresizingMaskIntoConstraints = false
         u.layer.cornerRadius = 17
-        u.backgroundColor = .white
+        u.backgroundColor = UIColor(named: "cardBackgroundColor")
         u.heightAnchor.constraint(equalToConstant: 100).isActive = true
         return u
     }()
     
     let unpaidLabel: UILabel = {
         let p = UILabel()
-        p.textColor = .textPrimary
+        p.textColor = UIColor(named: "textPrimary")
         p.font = .scoreFontBolder
         p.text = "UNPAID"
         return p
@@ -105,16 +105,6 @@ class FeesViewController: UIViewController {
         
         NotificationCenter.default.addObserver(self, selector: #selector(handleBiometricAuth), name: .isReauthRequired, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(handleFeeRefresh), name: .triggerRefresh, object: nil)
-        
-        if UIApplication.shared.isInDarkMode {
-            view.backgroundColor = .darkBackgroundColor
-            scrollView.backgroundColor = .darkBackgroundColor
-            paidFeeView.backgroundColor = .darkCardBackgroundColor
-            unpaidFeeView.backgroundColor = .darkCardBackgroundColor
-            
-            paidLabel.textColor = .darkTextPrimary
-            unpaidLabel.textColor = .darkTextPrimary
-        }
     }
     
     @objc fileprivate func handleBiometricAuth() {
@@ -228,14 +218,8 @@ class FeesViewController: UIViewController {
 
         scrollView.frame = view.bounds
         
-        if UIApplication.shared.isInDarkMode {
-            paidFeeView.darkDropShadow()
-            unpaidFeeView.darkDropShadow()
-        }
-        else {
-            paidFeeView.dropShadow()
-            unpaidFeeView.dropShadow()
-        }
+        paidFeeView.dropShadow()
+        unpaidFeeView.dropShadow()
     }
 
     // MARK: - Fee refresh

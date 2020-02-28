@@ -54,10 +54,9 @@ class EventsViewController: UICollectionViewController, UICollectionViewDelegate
         NotificationCenter.default.addObserver(self, selector: #selector(handleBiometricAuth), name: .isReauthRequired, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(handleEventsRefresh), name: .triggerRefresh, object: nil)
         
-        view.backgroundColor = UIApplication.shared.isInDarkMode ? .darkBackgroundColor : .primaryLighter
-        collectionView.backgroundColor = UIApplication.shared.isInDarkMode ? .darkBackgroundColor : .primaryLighter
-        searchController.searchBar.keyboardAppearance = UIApplication.shared.isInDarkMode ? .dark : .light
-        searchController.searchBar.tintColor = UIApplication.shared.isInDarkMode ? .darkBarTintColor : .systemTintColor
+        view.backgroundColor = UIColor(named: "primaryLighter")
+        collectionView.backgroundColor = UIColor(named: "primaryLighter")
+        searchController.searchBar.tintColor = UIColor(named: "barTintColor")
     }
     
     @objc fileprivate func handleBiometricAuth() {

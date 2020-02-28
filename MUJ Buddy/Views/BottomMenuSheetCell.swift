@@ -12,14 +12,7 @@ class BottomMenuSheetCell: UICollectionViewCell {
 
     override var isHighlighted: Bool {
         didSet {
-            if !UIApplication.shared.isInDarkMode {
-                backgroundColor = isHighlighted ? .lightGray : .white
-                cellImage.tintColor = isHighlighted ? .white : .black
-                title.textColor = isHighlighted ? .white : .black
-            }
-            else {
-                backgroundColor = isHighlighted ? .darkCardBackgroundColor : .darkBackgroundColor
-            }
+            backgroundColor = isHighlighted ? UIColor(named: "textPrimaryLighter") : nil
         }
     }
 
@@ -30,22 +23,11 @@ class BottomMenuSheetCell: UICollectionViewCell {
             title.text = c.title
         }
     }
-    
-    var isDark: Bool? {
-        didSet {
-            guard let isDark = isDark else { return }
-            
-            if isDark {
-                cellImage.tintColor = .white
-                title.textColor = .white
-            }
-        }
-    }
 
     let cellImage: UIImageView = {
         let c = UIImageView()
         c.contentMode = .scaleAspectFill
-        c.tintColor = .black
+        c.tintColor = UIColor(named: "textPrimary")
         c.translatesAutoresizingMaskIntoConstraints = false
         return c
     }()

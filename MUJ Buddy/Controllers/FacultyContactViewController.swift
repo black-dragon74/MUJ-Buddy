@@ -10,8 +10,6 @@ import UIKit
 import Contacts
 
 class FacultyContactViewController: UIViewController {
-    
-    var darkMode = UIApplication.shared.isInDarkMode
 
     var currentFaculty: FacultyContactModel? {
         didSet {
@@ -154,14 +152,14 @@ class FacultyContactViewController: UIViewController {
         
         NotificationCenter.default.addObserver(self, selector: #selector(handleBiometricAuth), name: .isReauthRequired, object: nil)
         
-        view.backgroundColor = darkMode ? .darkBackgroundColor : .primaryLighter
-        nameTitleView.backgroundColor = darkMode ? .darkCardBackgroundColor : .white
-        detailedView.backgroundColor = darkMode ? .darkCardBackgroundColor : .white
-        nameLabel.textColor = darkMode ? .darkTextPrimary : .textPrimary
-        designationLabel.textColor = darkMode ? .darkTextPrimaryLighter : .textPrimaryLighter
-        phoneLabel.textColor = darkMode ? .darkTextPrimary : .textPrimary
-        emailLabel.textColor = darkMode ? .darkTextPrimary : .textPrimary
-        departmentLabel.textColor = darkMode ? .darkTextPrimary : .textPrimary
+        view.backgroundColor = UIColor(named: "primaryLighter")
+        nameTitleView.backgroundColor = UIColor(named: "cardBackgroundColor")
+        detailedView.backgroundColor = UIColor(named: "cardBackgroundColor")
+        nameLabel.textColor = UIColor(named: "textPrimary")
+        designationLabel.textColor = UIColor(named: "textPrimaryLighter")
+        phoneLabel.textColor = UIColor(named: "textPrimary")
+        emailLabel.textColor = UIColor(named: "textPrimary")
+        departmentLabel.textColor = UIColor(named: "textPrimary")
     }
     
     @objc fileprivate func handleBiometricAuth() {

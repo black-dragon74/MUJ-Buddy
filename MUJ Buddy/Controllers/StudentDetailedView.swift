@@ -199,7 +199,7 @@ class StudentDetailedView: UIViewController, UIImagePickerControllerDelegate, UI
         super.viewDidLoad()
         
         navigationItem.title = "Student Details"
-        view.backgroundColor = .primaryLighter
+        view.backgroundColor = UIColor(named: "primaryLighter")
         
         setupViews()
         

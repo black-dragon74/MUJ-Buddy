@@ -15,31 +15,21 @@ class SettingsViewController: UITableViewController {
     @IBOutlet weak var refreshIntervalLabel: UILabel!
     @IBOutlet weak var lowAttendanceSwitch: UISwitch!
     @IBOutlet weak var biometrySwitch: UISwitch!
-    @IBOutlet weak var themeSwitch: UISwitch!
     @IBOutlet weak var apiStatusView: UIView!
     @IBOutlet weak var dmsStatusView: UIView!
     @IBOutlet weak var notificationThreshold: UILabel!
     
-    // Static custom cell weak outlets
-    @IBOutlet weak var l1: UILabel!
-    @IBOutlet weak var l2: UILabel!
-    @IBOutlet weak var l3: UILabel!
-    @IBOutlet weak var l4: UILabel!
-    @IBOutlet weak var l5: UILabel!
-    
     // Array of the whitelisted cells that should show the selection indicator
     let whitelistedCells: [IndexPath] = [
-        IndexPath(row: 1, section: 3)
+        IndexPath(row: 0, section: 3)
     ]
-    
-    var cellColor: UIColor = UIApplication.shared.isInDarkMode ? .darkCardBackgroundColor : .white
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
         NotificationCenter.default.addObserver(self, selector: #selector(handleBiometricAuth), name: .isReauthRequired, object: nil)
         
-        view.backgroundColor = UIApplication.shared.isInDarkMode ? .darkBackgroundColor : .primaryLighter
+        view.backgroundColor = UIColor(named: "primaryLighter")
     }
     
     @objc fileprivate func handleBiometricAuth() {
@@ -96,10 +86,6 @@ class SettingsViewController: UITableViewController {
         // Hide that pesky warning related to ambiguous height
         // Could have also been done by using heightForRowAtIndexPath but hey! it works :P
         self.tableView.rowHeight = 44
-        
-        // Set dark theme switch status based on preference
-        themeSwitch.isOn = UIApplication.shared.isInDarkMode
-        themeSwitch.addTarget(self, action: #selector(handleThemeSwitch), for: .valueChanged)
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -200,18 +186,6 @@ class SettingsViewController: UITableViewController {
         if indexPath == whitelistedCells[0] {
             self.navigationController?.pushViewController(AppInfoViewController(), animated: true)
         }
-    }
-    
-    override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        cell.backgroundColor = cellColor
-        let color: UIColor = UIApplication.shared.isInDarkMode ? .white : .black
-        cell.textLabel?.textColor = color
-        cell.detailTextLabel?.textColor = color
-        l1.textColor = color
-        l2.textColor = color
-        l3.textColor = color
-        l4.textColor = color
-        l5.textColor = color
     }
     
     override func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {
@@ -317,52 +291,6 @@ class SettingsViewController: UITableViewController {
     
     fileprivate func minOrMins(from value: Int) -> String {
         return value == 1 ? "Minute" : "Minutes"
-    }
-    
-    @objc fileprivate func handleThemeSwitch() {
-        // Theme state
-        let themeState = themeSwitch.isOn
-        
-        // Set the state in the DB
-        setDarkMode(to: themeState)
-        
-        // Set the theme state in UIApplication runtime variable
-        UIApplication.shared.isInDarkMode = themeState
-        
-        if (themeState) {
-            enableDarkMode()
-        }
-        else {
-            disableDarkMode()
-        }
-    }
-    
-    fileprivate func enableDarkMode() {
-        self.tableView.backgroundColor = .darkBackgroundColor
-        navigationController?.navigationBar.tintColor = .darkBarTintColor
-        navigationController?.navigationBar.barTintColor = .darkBarColor
-        navigationController?.navigationBar.isTranslucent = true
-        navigationController?.navigationBar.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
-        navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
-        self.navigationItem.rightBarButtonItem?.tintColor = .white
-        self.navigationController?.navigationBar.barStyle = .black
-        self.view.backgroundColor = .darkBackgroundColor
-        self.cellColor = .darkCardBackgroundColor
-        tableView.reloadData()
-    }
-    
-    fileprivate func disableDarkMode() {
-        self.tableView.backgroundColor = .primaryLighter
-        navigationController?.navigationBar.tintColor = .systemTintColor
-        navigationController?.navigationBar.barTintColor = .white
-        navigationController?.navigationBar.isTranslucent = true
-        navigationController?.navigationBar.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.black]
-        navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.black]
-        self.navigationItem.rightBarButtonItem?.tintColor = .black
-        self.navigationController?.navigationBar.barStyle = .default
-        self.view.backgroundColor = .primaryLighter
-        self.cellColor = .white
-        tableView.reloadData()
     }
 }
 

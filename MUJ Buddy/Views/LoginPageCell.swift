@@ -21,9 +21,9 @@ class LoginPageCell: UICollectionViewCell {
             imageView.image = UIImage(named: page.image)
 
             // Set the text with attributes
-            let attributedText = NSMutableAttributedString(string: page.title, attributes: [.font: UIFont.scoreFontBolder, .foregroundColor: UIColor.textPrimary])
+            let attributedText = NSMutableAttributedString(string: page.title, attributes: [.font: UIFont.scoreFontBolder, .foregroundColor: UIColor(named: "textPrimary")!])
             
-            attributedText.append(NSAttributedString(string: "\n\(page.subtitle)", attributes: [.font: UIFont.scoreFont, .foregroundColor: UIColor.textPrimaryDarker]))
+            attributedText.append(NSAttributedString(string: "\n\(page.subtitle)", attributes: [.font: UIFont.scoreFont, .foregroundColor: UIColor(named: "textPrimaryDarker")!]))
             
             let pStyle = NSMutableParagraphStyle()
             pStyle.alignment = .center
@@ -60,6 +60,8 @@ class LoginPageCell: UICollectionViewCell {
 
     override init(frame: CGRect) {
         super.init(frame: frame)
+        backgroundColor = UIColor(named: "primaryLighter")
+        textView.backgroundColor = UIColor(named: "primaryLighter")
 
         setupViews()
     }

@@ -30,6 +30,7 @@ class LoginCell: UICollectionViewCell {
     let userTextField: LeftPaddedTextField = {
         let u = LeftPaddedTextField()
         u.placeholder = "Enter DMS userid"
+        u.textColor = UIColor(named: "textPrimary")
         u.layer.borderColor = UIColor.lightGray.cgColor
         u.layer.borderWidth = 1
         u.layer.cornerRadius = 20
@@ -40,6 +41,7 @@ class LoginCell: UICollectionViewCell {
     let passwordField: LeftPaddedTextField = {
         let u = LeftPaddedTextField()
         u.placeholder = "Enter DMS password"
+        u.textColor = UIColor(named: "textPrimary")
         u.layer.borderColor = UIColor.lightGray.cgColor
         u.layer.borderWidth = 1
         u.layer.cornerRadius = 20
@@ -68,7 +70,7 @@ class LoginCell: UICollectionViewCell {
     // Info label
     let cpyLabel: UILabel = {
         let cLabel = UILabel()
-        cLabel.textColor = .darkGray
+        cLabel.textColor = UIColor(named: "textPrimaryLighter")
         cLabel.text = "Crafted with love by Nick"
         cLabel.font = .subtitleFont
         return cLabel
@@ -85,6 +87,7 @@ class LoginCell: UICollectionViewCell {
     }
 
     func setupViews() {
+        backgroundColor = UIColor(named: "primaryLighter")
         // Add child views to the subviews
         addSubview(progressBar)
         addSubview(logoView)

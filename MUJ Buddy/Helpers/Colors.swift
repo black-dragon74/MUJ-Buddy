@@ -13,9 +13,6 @@ import UIKit
 //
 
 extension UIColor {
-    // General theme colors
-    static var systemTintColor: UIColor { return UIColor(r: 0, g: 122, b: 255) }
-    
     // Darker colors
     static var skyBlue: UIColor { return UIColor(r: 48, g: 205, b: 196) }
     static var babyPink: UIColor { return UIColor(r: 244, g: 145, b: 162) }
@@ -30,7 +27,6 @@ extension UIColor {
     static var parrotGreen: UIColor { return UIColor(r: 89, g: 193, b: 71) }
     
     // Lighter colors
-    static var primaryLighter: UIColor { return UIColor(r: 243, g: 235, b: 235) }
     static var skyBlueLighter: UIColor { return UIColor(r: 216, g: 241, b: 241) }
     static var babyPinkLighter: UIColor { return UIColor(r: 254, g: 235, b: 238) }
     static var indigoLighter: UIColor { return UIColor(r: 235, g: 218, b: 255) }
@@ -43,9 +39,6 @@ extension UIColor {
     
     // Dark theme related colors
     static var darkBarColor: UIColor { return UIColor(r: 24, g: 24, b: 24) }
-    static var darkBarTintColor: UIColor { return UIColor(r: 251, g: 156, b: 46) }
-    static var darkBackgroundColor: UIColor { return UIColor(r: 23, g: 23, b: 23) }
-    static var darkCardBackgroundColor: UIColor { return UIColor(r: 28, g: 28, b: 29) }
 }
 
 func randomGradientColor() -> [UIColor] {

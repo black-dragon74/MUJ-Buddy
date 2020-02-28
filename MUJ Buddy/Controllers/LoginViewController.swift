@@ -90,6 +90,17 @@ class LoginViewController: UIViewController, UICollectionViewDelegate, UICollect
         // Login cancelled and successful listeners
         NotificationCenter.default.addObserver(self, selector: #selector(loginCancelled), name: .loginCancelled, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(loginSuccessful(_:)), name: .loginSuccessful, object: nil)
+        
+        view.backgroundColor = UIColor(named: "primaryLighter")
+    }
+    
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        if #available(iOS 13.0, *) {
+            return .darkContent
+        }
+        else {
+            return .lightContent
+        }
     }
     
     override func viewWillDisappear(_ animated: Bool) {

@@ -21,7 +21,7 @@ class WebAuthController: UIViewController {
     // The progress bar
     let pBar: UIProgressView = {
         let p = UIProgressView()
-        p.tintColor = .systemTintColor
+        p.tintColor = UIColor(named: "barTintColor")
         return p
     }()
     
@@ -43,7 +43,7 @@ class WebAuthController: UIViewController {
         // Basic thingies
         navigationItem.title = "Login to DMS"
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Dismiss", style: .plain, target: self, action: #selector(handleCancel))
-        view.backgroundColor = .primaryLighter
+        view.backgroundColor = UIColor(named: "primaryLighter")
         
         // Configure the webview
         webView.load(URLRequest(url: URL(string: whitelistedURLs[0])!))

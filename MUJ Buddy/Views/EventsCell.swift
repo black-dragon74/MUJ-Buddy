@@ -44,9 +44,9 @@ class EventsCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
 
-        self.backgroundColor = UIApplication.shared.isInDarkMode ? .darkCardBackgroundColor : .white
-        UIApplication.shared.isInDarkMode ? self.darkDropShadow() : self.dropShadow()
-        eventNameLabel.textColor = UIApplication.shared.isInDarkMode ? .darkTextPrimary : .textPrimary
+        self.backgroundColor = UIColor(named: "cardBackgroundColor")
+        self.dropShadow()
+        eventNameLabel.textColor = UIColor(named: "textPrimary")
         self.layer.cornerRadius = 17
 
         // Setup additional views
