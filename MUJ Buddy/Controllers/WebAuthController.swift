@@ -118,6 +118,15 @@ extension WebAuthController: WKNavigationDelegate {
             if let password = password {
                 webView.evaluateJavaScript("document.getElementById('txtpassword').value = '\(password)'", completionHandler: nil)
             }
+            
+            // Special case; Use the bypass when the login limit has been exceeded
+            webView.evaluateJavaScript("document.getElementById('labelerror').innerHTML === 'Your daily login attempt exceded'") {[weak self] (res, _) in
+                guard let result = res as? Int else { return }
+                
+                if (result == 1) {
+                    webView.load(URLRequest(url: URL(string: (self?.whitelistedURLs[1])!)!))
+                }
+            }
         }
         
         if url == CONF_URL {
