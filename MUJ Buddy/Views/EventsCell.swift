@@ -9,7 +9,6 @@
 import UIKit
 
 class EventsCell: UICollectionViewCell {
-
     // Handle the updation of the cell's values
     var currentEvent: EventsModel? {
         didSet {
@@ -44,16 +43,16 @@ class EventsCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
 
-        self.backgroundColor = UIColor(named: "cardBackgroundColor")
-        self.dropShadow()
+        backgroundColor = UIColor(named: "cardBackgroundColor")
+        dropShadow()
         eventNameLabel.textColor = UIColor(named: "textPrimary")
-        self.layer.cornerRadius = 17
+        layer.cornerRadius = 17
 
         // Setup additional views
         setupViews()
     }
 
-    required init?(coder aDecoder: NSCoder) {
+    required init?(coder _: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 

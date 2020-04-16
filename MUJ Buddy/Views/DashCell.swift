@@ -9,7 +9,6 @@
 import UIKit
 
 class DashCell: UICollectionViewCell {
-
     var items: MenuItems? {
         didSet {
             guard let item = items else { return }
@@ -17,7 +16,7 @@ class DashCell: UICollectionViewCell {
             cellIcon.image = UIImage(named: item.image)
         }
     }
-    
+
     // Parent controller
     let cellUIView: UIView = {
         let c = UIView()
@@ -45,9 +44,9 @@ class DashCell: UICollectionViewCell {
 
     override init(frame: CGRect) {
         super.init(frame: frame)
-        
-        self.layer.cornerRadius = 10
-        self.dropShadow()
+
+        layer.cornerRadius = 10
+        dropShadow()
 
         addSubview(cellUIView)
         cellUIView.addSubview(cellIcon)
@@ -64,11 +63,9 @@ class DashCell: UICollectionViewCell {
         tLabel.translatesAutoresizingMaskIntoConstraints = false
         tLabel.topAnchor.constraint(equalTo: cellIcon.bottomAnchor, constant: 6).isActive = true
         tLabel.centerXAnchor.constraint(equalTo: cellUIView.centerXAnchor).isActive = true
-
     }
 
-    required init?(coder aDecoder: NSCoder) {
+    required init?(coder _: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-
 }

@@ -9,7 +9,6 @@
 import UIKit
 
 struct DashboardModel: Codable {
-
     // For the basic info
     struct admDetails: Codable {
         let name: String
@@ -29,7 +28,7 @@ struct DashboardModel: Codable {
         let grade: String
         let institution: String
     }
-    
+
     // For parent details
     struct parentDetails: Codable {
         let mother: String

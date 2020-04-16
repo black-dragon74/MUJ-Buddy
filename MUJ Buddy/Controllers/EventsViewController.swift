@@ -9,7 +9,6 @@
 import UIKit
 
 class EventsViewController: UICollectionViewController, UICollectionViewDelegateFlowLayout, UISearchControllerDelegate, UISearchResultsUpdating {
-
     // Cell reuse identifier
     let cellID = "cellID"
 
@@ -44,28 +43,28 @@ class EventsViewController: UICollectionViewController, UICollectionViewDelegate
         collectionView.collectionViewLayout = newLayout
     }
 
-    required init?(coder aDecoder: NSCoder) {
+    required init?(coder _: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
+
         NotificationCenter.default.addObserver(self, selector: #selector(handleBiometricAuth), name: .isReauthRequired, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(handleEventsRefresh), name: .triggerRefresh, object: nil)
-        
+
         view.backgroundColor = UIColor(named: "primaryLighter")
         collectionView.backgroundColor = UIColor(named: "primaryLighter")
         searchController.searchBar.tintColor = UIColor(named: "barTintColor")
     }
-    
+
     @objc fileprivate func handleBiometricAuth() {
         takeBiometricAction(navController: navigationController ?? UINavigationController(rootViewController: self))
     }
-    
+
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        
+
         NotificationCenter.default.removeObserver(self, name: .isReauthRequired, object: nil)
         NotificationCenter.default.removeObserver(self, name: .triggerRefresh, object: nil)
     }
@@ -74,17 +73,17 @@ class EventsViewController: UICollectionViewController, UICollectionViewDelegate
         super.viewDidLoad()
 
         // Basic config
-        self.navigationItem.title = "Events"
+        navigationItem.title = "Events"
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.refreshControl = rControl
 //        collectionView.addSubview(rControl) // This somehow works
 
-        self.navigationItem.searchController = searchController
+        navigationItem.searchController = searchController
         searchController.delegate = self
         searchController.searchResultsUpdater = self
         searchController.obscuresBackgroundDuringPresentation = false
-        self.definesPresentationContext = true
+        definesPresentationContext = true
 
         // Handle rest of the config separately
         setupViews()
@@ -101,7 +100,8 @@ class EventsViewController: UICollectionViewController, UICollectionViewDelegate
         indicator.startAnimating()
 
         // MARK: - Fetch the data
-        Service.shared.fetchEvents(sessionID: getSessionID()) {[weak self] (data, reauth, error) in
+
+        Service.shared.fetchEvents(sessionID: getSessionID()) { [weak self] data, reauth, error in
             if error != nil {
                 DispatchQueue.main.async {
                     self?.indicator.stopAnimating()
@@ -109,7 +109,7 @@ class EventsViewController: UICollectionViewController, UICollectionViewDelegate
                 }
                 return
             }
-            
+
             if let eMsg = reauth {
                 if eMsg.error == LOGIN_FAILED {
                     // Time to present the OTP controller for the reauth
@@ -120,8 +120,7 @@ class EventsViewController: UICollectionViewController, UICollectionViewDelegate
                             NotificationCenter.default.post(name: .sessionExpired, object: nil, userInfo: [:])
                         })
                     }
-                }
-                else {
+                } else {
                     DispatchQueue.main.async {
                         self?.rControl.endRefreshing()
                         self?.indicator.stopAnimating()
@@ -144,19 +143,21 @@ class EventsViewController: UICollectionViewController, UICollectionViewDelegate
     }
 
     // MARK: - Collection view delegate
-    override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return isSearching() && !isSearchTextEmpty() ? filteredEventsArray.count : eventsArray.count
+
+    override func collectionView(_: UICollectionView, numberOfItemsInSection _: Int) -> Int {
+        isSearching() && !isSearchTextEmpty() ? filteredEventsArray.count : eventsArray.count
     }
 
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: view.frame.width - 20, height: 100)
+    func collectionView(_: UICollectionView, layout _: UICollectionViewLayout, sizeForItemAt _: IndexPath) -> CGSize {
+        CGSize(width: view.frame.width - 20, height: 100)
     }
 
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        return UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
+    func collectionView(_: UICollectionView, layout _: UICollectionViewLayout, insetForSectionAt _: Int) -> UIEdgeInsets {
+        UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
     }
 
     // MARK: - Collection view data source
+
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellID, for: indexPath) as! EventsCell
         cell.currentEvent = isSearching() && !isSearchTextEmpty() ? filteredEventsArray[indexPath.item] : eventsArray[indexPath.item]
@@ -164,12 +165,13 @@ class EventsViewController: UICollectionViewController, UICollectionViewDelegate
     }
 
     // MARK: - Search controller functions
+
     fileprivate func isSearching() -> Bool {
-        return self.searchController.isActive
+        searchController.isActive
     }
 
     fileprivate func isSearchTextEmpty() -> Bool {
-        guard let text = self.searchController.searchBar.text else { return false }
+        guard let text = searchController.searchBar.text else { return false }
         return text.isEmpty
     }
 
@@ -179,15 +181,16 @@ class EventsViewController: UICollectionViewController, UICollectionViewDelegate
         if searchText.isEmpty {
             filteredEventsArray = []
         } else {
-            filteredEventsArray = eventsArray.filter({ (model) -> Bool in
-                return model.name.lowercased().contains(searchText.lowercased())
-            })
+            filteredEventsArray = eventsArray.filter { (model) -> Bool in
+                model.name.lowercased().contains(searchText.lowercased())
+            }
         }
 
         perform(#selector(refreshCollectionView), with: self, afterDelay: 0.02)
     }
 
     // MARK: - OBJC Functions
+
     @objc func refreshCollectionView() {
         collectionView.reloadData()
     }
@@ -195,8 +198,8 @@ class EventsViewController: UICollectionViewController, UICollectionViewDelegate
     @objc fileprivate func handleEventsRefresh() {
         // Will be used after a trigger refresh notification is fired
         rControl.beginRefreshing()
-        
-        Service.shared.fetchEvents(sessionID: getSessionID(), isRefresh: true) {[weak self] (data, reauth, error) in
+
+        Service.shared.fetchEvents(sessionID: getSessionID(), isRefresh: true) { [weak self] data, reauth, error in
             if error != nil {
                 DispatchQueue.main.async {
                     self?.rControl.endRefreshing()
@@ -204,7 +207,7 @@ class EventsViewController: UICollectionViewController, UICollectionViewDelegate
                 }
                 return
             }
-            
+
             if let eMsg = reauth {
                 if eMsg.error == LOGIN_FAILED {
                     // Time to present the OTP controller for the reauth
@@ -215,8 +218,7 @@ class EventsViewController: UICollectionViewController, UICollectionViewDelegate
                             NotificationCenter.default.post(name: .sessionExpired, object: nil, userInfo: [:])
                         })
                     }
-                }
-                else {
+                } else {
                     DispatchQueue.main.async {
                         self?.rControl.endRefreshing()
                         self?.indicator.stopAnimating()
@@ -226,7 +228,6 @@ class EventsViewController: UICollectionViewController, UICollectionViewDelegate
             }
 
             if let data = data {
-
                 self?.eventsArray = []
 
                 for d in data {

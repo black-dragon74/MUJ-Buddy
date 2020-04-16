@@ -9,7 +9,6 @@
 import UIKit
 
 class BottomMenuSheetController: NSObject, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
-
     var delegate: BottomSheetDelegate?
 
     // Black view that overlays on the whole window
@@ -79,8 +78,8 @@ class BottomMenuSheetController: NSObject, UICollectionViewDataSource, UICollect
             }, completion: nil)
     }
 
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return menuItems.count
+    func collectionView(_: UICollectionView, numberOfItemsInSection _: Int) -> Int {
+        menuItems.count
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -90,8 +89,8 @@ class BottomMenuSheetController: NSObject, UICollectionViewDataSource, UICollect
         return cell
     }
 
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        return UIEdgeInsets(top: 10, left: 0, bottom: 0, right: 0)
+    func collectionView(_: UICollectionView, layout _: UICollectionViewLayout, insetForSectionAt _: Int) -> UIEdgeInsets {
+        UIEdgeInsets(top: 10, left: 0, bottom: 0, right: 0)
     }
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
@@ -101,10 +100,10 @@ class BottomMenuSheetController: NSObject, UICollectionViewDataSource, UICollect
         UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseOut, animations: { [weak self] in
             self?.blackView.alpha = 0
             self?.collectionView.frame = CGRect(x: 0, y: window.frame.height, width: window.frame.width, height: height)
-        }, completion: {[weak self] (Bool) in
+        }, completion: { [weak self] _ in
             let cell = collectionView.cellForItem(at: indexPath) as! BottomMenuSheetCell
             let str = cell.title.text ?? "nil"
-            
+
             // We'll call the delegate and ask it to perform the required actions
             if let delegate = self?.delegate {
                 delegate.handleMenuSelect(forItem: str)
@@ -112,11 +111,11 @@ class BottomMenuSheetController: NSObject, UICollectionViewDataSource, UICollect
         })
     }
 
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-        return 4
+    func collectionView(_: UICollectionView, layout _: UICollectionViewLayout, minimumInteritemSpacingForSectionAt _: Int) -> CGFloat {
+        4
     }
 
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: collectionView.frame.width, height: 50)
+    func collectionView(_ collectionView: UICollectionView, layout _: UICollectionViewLayout, sizeForItemAt _: IndexPath) -> CGSize {
+        CGSize(width: collectionView.frame.width, height: 50)
     }
 }

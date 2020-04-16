@@ -10,26 +10,24 @@ import UIKit
 
 // Defines the layout of the cell on the login page
 class LoginPageCell: UICollectionViewCell {
-
     var page: LoginPage? {
         didSet {
-
             // Verify that the value being set in an instance of Page
-            guard let page = page else {return}
+            guard let page = page else { return }
 
             // Set the image
             imageView.image = UIImage(named: page.image)
 
             // Set the text with attributes
             let attributedText = NSMutableAttributedString(string: page.title, attributes: [.font: UIFont.scoreFontBolder, .foregroundColor: UIColor(named: "textPrimary")!])
-            
+
             attributedText.append(NSAttributedString(string: "\n\(page.subtitle)", attributes: [.font: UIFont.scoreFont, .foregroundColor: UIColor(named: "textPrimaryDarker")!]))
-            
+
             let pStyle = NSMutableParagraphStyle()
             pStyle.alignment = .center
             let len = attributedText.string.count
             attributedText.addAttribute(.paragraphStyle, value: pStyle, range: NSRange(location: 0, length: len))
-            
+
             textView.attributedText = attributedText
         }
     }
@@ -80,7 +78,7 @@ class LoginPageCell: UICollectionViewCell {
         separator.heightAnchor.constraint(equalToConstant: 2).isActive = true
     }
 
-    required init?(coder aDecoder: NSCoder) {
+    required init?(coder _: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 }

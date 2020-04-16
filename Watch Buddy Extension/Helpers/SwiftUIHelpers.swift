@@ -11,7 +11,7 @@ import SwiftUI
 struct RoundedTextWithColor: ViewModifier {
     // Can be overridden whilst initializing
     var color: Color = .gray
-    
+
     // Return the content with the modifiers applied
     func body(content: Content) -> some View {
         content
@@ -19,5 +19,25 @@ struct RoundedTextWithColor: ViewModifier {
             .font(.system(.subheadline, design: .rounded))
             .lineLimit(nil)
             .multilineTextAlignment(.center)
+    }
+}
+
+struct WithTapToRefresh: ViewModifier {
+    @EnvironmentObject var dataProvider: DataProvider
+
+    func body(content: Content) -> some View {
+        content
+            .overlay(dataProvider.isFetchingData ? LoaderView() : nil)
+            .contextMenu {
+                Button(action: {
+                    self.dataProvider.syncWithiPhone()
+                }, label: {
+                    VStack {
+                        Image(systemName: "arrow.clockwise")
+                            .font(.title)
+                        Text("Refresh")
+                    }
+            })
+            }
     }
 }

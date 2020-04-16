@@ -9,7 +9,6 @@
 import UIKit
 
 class AttendanceCell: UICollectionViewCell {
-
     var attendance: AttendanceModel? {
         didSet {
             guard let att = attendance else { return }
@@ -90,7 +89,7 @@ class AttendanceCell: UICollectionViewCell {
         p.translatesAutoresizingMaskIntoConstraints = false
         return p
     }()
-    
+
     let percentTF: UILabel = {
         let s = UILabel()
         s.text = "00"
@@ -102,10 +101,10 @@ class AttendanceCell: UICollectionViewCell {
 
     override init(frame: CGRect) {
         super.init(frame: frame)
-        
-        self.backgroundColor = UIColor(named: "cardBackgroundColor")
-        self.layer.cornerRadius = 17
-        
+
+        backgroundColor = UIColor(named: "cardBackgroundColor")
+        layer.cornerRadius = 17
+
         dropShadow()
 
         setupViews()
@@ -115,29 +114,28 @@ class AttendanceCell: UICollectionViewCell {
         // Add the views
         addSubview(subjectLabel)
         addSubview(totalTF)
-        
+
         addSubview(presentLabel)
         addSubview(absentLabel)
         addSubview(percentLabel)
-        
+
         addSubview(presentTF)
         addSubview(absentTF)
         addSubview(percentTF)
-        
+
         subjectLabel.anchorWithConstraints(top: topAnchor, right: rightAnchor, left: leftAnchor, topOffset: 12, rightOffset: 12, leftOffset: 12)
         totalTF.anchorWithConstraints(top: subjectLabel.bottomAnchor, left: leftAnchor, topOffset: 2, leftOffset: 12)
-        
+
         percentLabel.anchorWithConstraints(right: rightAnchor, bottom: bottomAnchor, rightOffset: 12, bottomOffset: 12)
         absentLabel.anchorWithConstraints(right: percentLabel.leftAnchor, bottom: bottomAnchor, rightOffset: 20, bottomOffset: 12)
         presentLabel.anchorWithConstraints(right: absentLabel.leftAnchor, bottom: bottomAnchor, rightOffset: 20, bottomOffset: 12)
-        
+
         presentTF.anchorWithConstraints(right: presentLabel.rightAnchor, bottom: presentLabel.topAnchor, left: presentLabel.leftAnchor)
         absentTF.anchorWithConstraints(right: absentLabel.rightAnchor, bottom: absentLabel.topAnchor, left: absentLabel.leftAnchor)
         percentTF.anchorWithConstraints(right: percentLabel.rightAnchor, bottom: percentLabel.topAnchor, left: percentLabel.leftAnchor)
-        
     }
 
-    required init?(coder aDecoder: NSCoder) {
+    required init?(coder _: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 }

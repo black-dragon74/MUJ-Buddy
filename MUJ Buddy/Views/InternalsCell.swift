@@ -9,16 +9,15 @@
 import UIKit
 
 class InternalsCell: UICollectionViewCell {
-
     // Var to handle this cell's operations
     var internalData: InternalsModel? {
         didSet {
             guard let internals = internalData else { return }
             subjectLabel.text = internals.subject_codes == "" ? "00.00" : internals.subject_codes
-            mte1Text.text = internals.mte_1 == "" ? "00.00" : internals.mte_1  ?? "00.00"
-            mte2Text.text = internals.mte_2 == "" ? "00.00" : internals.mte_2  ?? "00.00"
-            cwsText.text = internals.cws == "" ? "00.00" : internals.cws  ?? "00.00"
-            prsText.text = internals.prs == "" ? "00.00" : internals.prs  ?? "00.00"
+            mte1Text.text = internals.mte_1 == "" ? "00.00" : internals.mte_1 ?? "00.00"
+            mte2Text.text = internals.mte_2 == "" ? "00.00" : internals.mte_2 ?? "00.00"
+            cwsText.text = internals.cws == "" ? "00.00" : internals.cws ?? "00.00"
+            prsText.text = internals.prs == "" ? "00.00" : internals.prs ?? "00.00"
             totalText.text = internals.total == "" ? "00.00" : "\(internals.total ?? "00.00")"
             resessText.text = internals.resession == "" ? "00.00" : "\(internals.resession ?? "00.00")"
         }
@@ -110,7 +109,7 @@ class InternalsCell: UICollectionViewCell {
         c.textColor = .textInfo
         return c
     }()
-    
+
     // ReSessional text
     let resessText: UILabel = {
         let rsLabel = UILabel()
@@ -120,7 +119,7 @@ class InternalsCell: UICollectionViewCell {
         rsLabel.translatesAutoresizingMaskIntoConstraints = false
         return rsLabel
     }()
-    
+
     let resessLabel: UILabel = {
         let m = UILabel()
         m.text = "Re Exam"
@@ -138,7 +137,7 @@ class InternalsCell: UICollectionViewCell {
         t.textColor = .textSuccess
         return t
     }()
-    
+
     let totalLabel: UILabel = {
         let m = UILabel()
         m.text = "Total"
@@ -147,7 +146,7 @@ class InternalsCell: UICollectionViewCell {
         m.textColor = UIColor(named: "textPrimaryLighter")
         return m
     }()
-    
+
     lazy var separatorView: UIView = {
         let sView = UIView()
         sView.translatesAutoresizingMaskIntoConstraints = false
@@ -166,10 +165,11 @@ class InternalsCell: UICollectionViewCell {
     }
 
     // MARK: - Handle additional views setup
+
     fileprivate func setupViews() {
         addSubview(separatorView)
         addSubview(subjectLabel)
-        
+
         // First row add to view
         addSubview(mte1Text)
         addSubview(mte2Text)
@@ -177,7 +177,7 @@ class InternalsCell: UICollectionViewCell {
         addSubview(mte1Label)
         addSubview(mte2Label)
         addSubview(cwsLabel)
-        
+
         // Second row add to view
         addSubview(prsText)
         addSubview(resessText)
@@ -185,49 +185,48 @@ class InternalsCell: UICollectionViewCell {
         addSubview(prsLabel)
         addSubview(resessLabel)
         addSubview(totalLabel)
-        
+
         subjectLabel.anchorWithConstraints(top: topAnchor, right: rightAnchor, left: leftAnchor, topOffset: 12, rightOffset: 12, leftOffset: 12)
-        
+
         // First row constraints
         mte1Text.anchorWithConstraints(top: subjectLabel.bottomAnchor, left: leftAnchor, topOffset: 10, leftOffset: 12)
         mte1Label.anchorWithConstraints(top: mte1Text.bottomAnchor, right: mte1Text.rightAnchor, left: mte1Text.leftAnchor)
-        
+
         mte2Text.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
         mte2Text.centerYAnchor.constraint(equalTo: mte1Text.centerYAnchor).isActive = true
         mte2Label.anchorWithConstraints(top: mte2Text.bottomAnchor, right: mte2Text.rightAnchor, left: mte2Text.leftAnchor)
-        
+
         cwsText.anchorWithConstraints(top: subjectLabel.bottomAnchor, right: rightAnchor, topOffset: 10, rightOffset: 12)
         cwsLabel.anchorWithConstraints(top: cwsText.bottomAnchor, right: cwsText.rightAnchor, left: cwsText.leftAnchor)
-        
+
         // Separator is 4px from both rows
         separatorView.anchorWithConstraints(top: mte1Label.bottomAnchor, right: rightAnchor, left: leftAnchor, topOffset: 4, rightOffset: 12, leftOffset: 12, height: 1)
-        
+
         // Second row constraints
         prsText.anchorWithConstraints(top: separatorView.bottomAnchor, left: leftAnchor, topOffset: 4, leftOffset: 12)
         prsLabel.anchorWithConstraints(top: prsText.bottomAnchor, right: prsText.rightAnchor, left: prsText.leftAnchor)
-        
+
         resessText.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
         resessText.centerYAnchor.constraint(equalTo: prsText.centerYAnchor).isActive = true
         resessLabel.anchorWithConstraints(top: resessText.bottomAnchor, right: resessText.rightAnchor, left: resessText.leftAnchor)
-        
+
         totalText.anchorWithConstraints(top: separatorView.bottomAnchor, right: rightAnchor, topOffset: 4, rightOffset: 12)
         totalLabel.anchorWithConstraints(top: totalText.bottomAnchor, right: totalText.rightAnchor, left: totalText.leftAnchor)
-        
-        
+
         // Force layout and add gradient
         layoutIfNeeded()
-        
+
         // Easter egg, gradient changes it's colors
         let gradient = CAGradientLayer()
-        
+
         // Colors for gradient
-        let  separatorColor = [UIColor(r: 234, g: 12, b: 12), UIColor(r: 73, g: 46, b: 202)]
+        let separatorColor = [UIColor(r: 234, g: 12, b: 12), UIColor(r: 73, g: 46, b: 202)]
         gradient.colors = [separatorColor[0].cgColor, separatorColor[1].cgColor]
         gradient.startPoint = .init(x: 0, y: 0)
         gradient.endPoint = .init(x: 1, y: 1)
         gradient.locations = [0.0, 1.0]
         gradient.frame = separatorView.bounds
-        
+
         let animation = CABasicAnimation(keyPath: "locations")
         animation.fromValue = [0.0, 1.0]
         animation.toValue = [1.0, 0.0]
@@ -236,8 +235,8 @@ class InternalsCell: UICollectionViewCell {
         gradient.add(animation, forKey: nil)
         separatorView.layer.insertSublayer(gradient, at: 0)
     }
-    
-    required init?(coder aDecoder: NSCoder) {
+
+    required init?(coder _: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 }

@@ -8,9 +8,8 @@
 
 import UIKit
 
-//TODO:- Get hold of proper fee model
+// TODO: - Get hold of proper fee model
 struct FeeModel: Codable {
-
     struct paid: Codable {
         let semester1: String?
         let total: String?
@@ -19,7 +18,7 @@ struct FeeModel: Codable {
     struct unpaid: Codable {
         let total: String?
     }
-    
+
     let success: Bool
     let paid: paid?
     let unpaid: unpaid?

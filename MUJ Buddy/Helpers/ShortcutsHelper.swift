@@ -13,7 +13,7 @@ enum MUJShortcuts: String {
     case contacts
     case internals
     case results
-    
+
     var value: String {
         switch self {
         case .attendance:

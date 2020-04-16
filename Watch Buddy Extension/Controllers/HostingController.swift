@@ -9,8 +9,12 @@
 import Foundation
 import SwiftUI
 
-class HostingController: WKHostingController<MainView> {
-    override var body: MainView {
-        return MainView()
+class HostingController: WKHostingController<AnyView> {
+    override var body: AnyView {
+        let envObj = DataProvider.shared
+        return AnyView(
+            DashboardView()
+                .environmentObject(envObj)
+        )
     }
 }

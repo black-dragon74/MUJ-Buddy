@@ -19,7 +19,7 @@ private let sharedUserDefaults = UserDefaults(suiteName: "group.mujbuddy.shared"
 
 // Returns a dictionary with key and value
 func valueAsDict(withKey key: String, value: String) -> [String: String] {
-    return [key: value]
+    [key: value]
 }
 
 // Function to purge the Userdefaults
@@ -65,17 +65,17 @@ func setLoginState(to: Bool) {
 
 // Returns the userID
 func getUserID() -> String? {
-    return UserDefaults.standard.object(forKey: USER_ID) as? String
+    UserDefaults.standard.object(forKey: USER_ID) as? String
 }
 
 // Returns the password
 func getPassword() -> String? {
-    return UserDefaults.standard.object(forKey: PASSWORD) as? String
+    UserDefaults.standard.object(forKey: PASSWORD) as? String
 }
 
 // Returns the session id
 func getSessionID() -> String {
-    return UserDefaults.standard.object(forKey: SESSION_ID) as? String ?? "NA"
+    UserDefaults.standard.object(forKey: SESSION_ID) as? String ?? "NA"
 }
 
 // Returns if the user is loggen in or not
@@ -126,7 +126,7 @@ func getAttendanceFromDB() -> Data? {
 //  Attendance notification related utility functions
 //
 func userHasAllowedNotification() -> Bool {
-    return UserDefaults.standard.object(forKey: USER_NOTIFICATION_PREFERENCE) as? Bool ?? true  // Defaulting to true
+    UserDefaults.standard.object(forKey: USER_NOTIFICATION_PREFERENCE) as? Bool ?? true // Defaulting to true
 }
 
 func userHasAllowedNotification(value: Bool) {
@@ -136,7 +136,7 @@ func userHasAllowedNotification(value: Bool) {
 }
 
 func getNotificationThresholdFromDB() -> Int {
-    return UserDefaults.standard.object(forKey: NOTIFICATION_THRESHOLD) as? Int ?? 24
+    UserDefaults.standard.object(forKey: NOTIFICATION_THRESHOLD) as? Int ?? 24
 }
 
 func setNotificationThreshold(to value: Int) {
@@ -148,7 +148,7 @@ func setNotificationThreshold(to value: Int) {
 func shouldShowAttendanceNotification() -> Bool {
     // As of now, if the last notification for attendance was shown within the past 24 hours
     // We will not show the notification for the same. Else, we will then issue the notification
-    guard let lastNotificationDate = getLastAttendanceNotificationDate() else { return true }  // Return true if the last date is not set
+    guard let lastNotificationDate = getLastAttendanceNotificationDate() else { return true } // Return true if the last date is not set
     return lastNotificationDate.hoursTillNow() >= getNotificationThresholdFromDB() && userHasAllowedNotification()
 }
 
@@ -174,7 +174,7 @@ func getLowAttendanceCount() -> Int {
     do {
         let data = try decoder.decode([AttendanceModel].self, from: attendance)
         for d in data {
-            if (Float(d.percentage.isEmpty ? "75" : d.percentage) ?? 0 < 75) {
+            if Float(d.percentage.isEmpty ? "75" : d.percentage) ?? 0 < 75 {
                 count += 1
             }
         }
@@ -188,7 +188,7 @@ func getLowAttendanceCount() -> Int {
 //  Attendance fetch interval related values
 //
 func getRefreshInterval() -> Int {
-    return UserDefaults.standard.object(forKey: REFRESH_INTERVAL) as? Int ?? 15  // Default fetch interval is 15 minutes
+    UserDefaults.standard.object(forKey: REFRESH_INTERVAL) as? Int ?? 15 // Default fetch interval is 15 minutes
 }
 
 func setRefreshInterval(as value: Int) {
@@ -311,13 +311,13 @@ func admDateFrom(regNo: String) -> Date {
     let regYear = "20" + regNo.prefix(2)
 
     // Semesters generally start at JULY
-    let semStartDate = "\(regYear)-07-01 00:00:00"  // Will return 20 + first two digits of reg number
+    let semStartDate = "\(regYear)-07-01 00:00:00" // Will return 20 + first two digits of reg number
 
     // Create a date formatter instance to format our custom date
     let formatter = DateFormatter()
     formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
 
-    return formatter.date(from: semStartDate)! //TODO: Do not force unwrap the date although it won't bite
+    return formatter.date(from: semStartDate)! // TODO: Do not force unwrap the date although it won't bite
 }
 
 func setShowSemesterDialog(as val: Bool) {
@@ -328,7 +328,7 @@ func setShowSemesterDialog(as val: Bool) {
 
 func showSemesterDialog() -> Bool {
     // If value is there in the UserDefaults, return that
-    return UserDefaults.standard.object(forKey: DIALOG_KEY) as? Bool ?? true
+    UserDefaults.standard.object(forKey: DIALOG_KEY) as? Bool ?? true
 }
 
 //
@@ -341,7 +341,7 @@ func setShowRefreshDialog(as val: Bool) {
 }
 
 func showRefreshDialog() -> Bool {
-    return UserDefaults.standard.object(forKey: REFRESH_KEY) as? Bool ?? true
+    UserDefaults.standard.object(forKey: REFRESH_KEY) as? Bool ?? true
 }
 
 //
@@ -351,8 +351,7 @@ func getProfileImage() -> UIImage? {
     if let image = UserDefaults.standard.value(forKey: PROFILE_IMG_KEY) as? Data {
         let image = UIImage(data: image)
         return image
-    }
-    else {
+    } else {
         return nil
     }
 }
@@ -367,7 +366,7 @@ func setProfileImage(image: Data) {
 //  Dark theme helper functions
 //
 func shoudUseDarkMode() -> Bool {
-    return UserDefaults.standard.object(forKey: DARK_MODE) as? Bool ?? false
+    UserDefaults.standard.object(forKey: DARK_MODE) as? Bool ?? false
 }
 
 func setDarkMode(to: Bool) {

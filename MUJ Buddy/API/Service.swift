@@ -15,7 +15,6 @@
 import UIKit
 
 class Service {
-    
     // Make the initializer private so that only the class itself can instantiate itself
     private init() {
         // Nothing, we don't do anything specific when initializing this singleton
@@ -23,58 +22,54 @@ class Service {
 
     // Shared static instance of the class
     static var shared = Service()
-    
+
     // Function to send the OTP, requires just the userID as a parameter
-    func sendOTPFor(userid: String, completion: @escaping(LoginResponseModel?, Error?) -> Void) {
-        
+    func sendOTPFor(userid: String, completion: @escaping (LoginResponseModel?, Error?) -> Void) {
         // Send the request to the API server and return the response
         let u = API_URL + "genotp?userid=\(userid)"
         guard let url = URL(string: u) else { return }
-        
-        URLSession.shared.dataTask(with: url) {data, response, error in
-            
+
+        URLSession.shared.dataTask(with: url) { data, _, error in
+
             if let error = error {
                 completion(nil, error)
                 return
             }
-            
+
             if let data = data {
                 let decoder = JSONDecoder()
-                
+
                 do {
                     let resp = try decoder.decode(LoginResponseModel.self, from: data)
                     completion(resp, nil)
                     return
-                }
-                catch let e {
+                } catch let e {
                     completion(nil, e)
                     return
                 }
             }
-            
+
         }.resume()
-        
     }
-    
+
     // Function to finish the API auth handshake
-    func finishAuth(for student: String, session: String, otp: String, vs: String, ev: String, completion: @escaping(LoginResponseModel?, Error?) -> Void) {
+    func finishAuth(for student: String, session: String, otp: String, vs: String, ev: String, completion: @escaping (LoginResponseModel?, Error?) -> Void) {
         let u = API_URL + "finishauth?userid=\(student)&sessionid=\(session)&otp=\(otp)&ev=\(ev)&vs=\(vs)"
         guard let url = URL(string: u) else { return }
-        
-        URLSession.shared.dataTask(with: url) {data, response, error in
+
+        URLSession.shared.dataTask(with: url) { data, _, error in
             if let error = error {
                 completion(nil, error)
                 return
             }
-            
+
             if let data = data {
                 let decoder = JSONDecoder()
                 do {
                     let resp = try decoder.decode(LoginResponseModel.self, from: data)
                     completion(resp, nil)
                     return
-                }
-                catch let ex {
+                } catch let ex {
                     completion(nil, ex)
                     return
                 }
@@ -83,8 +78,7 @@ class Service {
     }
 
     // Function to get dashboard details
-    func fetchDashDetails(sessionID: String, isRefresh: Bool = false, completion: @escaping(DashboardModel?, ErrorModel?, Error?) -> Void) {
-
+    func fetchDashDetails(sessionID: String, isRefresh: Bool = false, completion: @escaping (DashboardModel?, ErrorModel?, Error?) -> Void) {
         if !isRefresh {
             if let datafromDB = getDashFromDB() {
                 let decoder = JSONDecoder()
@@ -102,7 +96,7 @@ class Service {
 
         let u = API_URL + "dashboard?sessionid=\(sessionID)"
         guard let url = URL(string: u) else { return }
-        URLSession.shared.dataTask(with: url) {(data, _, error) in
+        URLSession.shared.dataTask(with: url) { data, _, error in
             if let error = error {
                 print("HTTP Error: ", error)
                 completion(nil, nil, error)
@@ -126,21 +120,18 @@ class Service {
                         let errorMsg = try decoder.decode(ErrorModel.self, from: data)
                         completion(nil, errorMsg, nil)
                         return
-                    }
-                        
-                    catch let er {
+                    } catch let er {
                         // This is the final error
                         completion(nil, nil, er)
                         return
                     }
                 }
             }
-            }.resume()
+        }.resume()
     }
 
     // Function to get contacts
     func getFacultyDetails(sessionID: String, isRefresh: Bool = false, uponFinishing: @escaping ([FacultyContactModel]?, ErrorModel?, Error?) -> Void) {
-        
         let tURL = API_URL + "faculties?sessionid=\(sessionID)"
 
         guard let url = URL(string: tURL) else { return }
@@ -150,7 +141,7 @@ class Service {
             if let data = UserDefaults.standard.object(forKey: FACULTY_CONTACT_KEY) as? Data {
                 do {
                     let decoder = JSONDecoder()
-                    let json =  try decoder.decode([FacultyContactModel].self, from: data)
+                    let json = try decoder.decode([FacultyContactModel].self, from: data)
                     uponFinishing(json, nil, nil)
                     return
                 } catch let err {
@@ -162,7 +153,7 @@ class Service {
         }
 
         // Send the request, if the datat is not saved in user defaults
-        URLSession.shared.dataTask(with: url) {(data, _, error) in
+        URLSession.shared.dataTask(with: url) { data, _, error in
             if let error = error {
                 print("HTTP error: ", error)
                 uponFinishing(nil, nil, error)
@@ -173,7 +164,7 @@ class Service {
                 let decoder = JSONDecoder()
                 // Try to decode
                 do {
-                    let json =  try decoder.decode([FacultyContactModel].self, from: data)
+                    let json = try decoder.decode([FacultyContactModel].self, from: data)
                     // Encode and save
                     let encoder = JSONEncoder()
                     let encodedData = try? encoder.encode(json)
@@ -186,9 +177,7 @@ class Service {
                         let errorMsg = try decoder.decode(ErrorModel.self, from: data)
                         uponFinishing(nil, errorMsg, nil)
                         return
-                    }
-                        
-                    catch let er {
+                    } catch let er {
                         // This is the final error
                         uponFinishing(nil, nil, er)
                         return
@@ -196,12 +185,11 @@ class Service {
                 }
             }
 
-            }.resume()
+        }.resume()
     }
 
     // Function to get Attendance
-    func getAttendance(sessionID: String, isRefresh: Bool = false, completion: @escaping([AttendanceModel]?, ErrorModel?, Error?) -> Void) {
-
+    func getAttendance(sessionID: String, isRefresh: Bool = false, completion: @escaping ([AttendanceModel]?, ErrorModel?, Error?) -> Void) {
         // Check if attendance is there in the DB, saves an extra call, but only when it is not a refresh request
         if !isRefresh {
             if let attendanceInDB = getAttendanceFromDB() {
@@ -221,7 +209,7 @@ class Service {
         guard let url = URL(string: u) else { return }
 
         // Start a URL session
-        URLSession.shared.dataTask(with: url) {(data, _, error) in
+        URLSession.shared.dataTask(with: url) { data, _, error in
             if let error = error {
                 completion(nil, nil, error)
                 return
@@ -243,21 +231,18 @@ class Service {
                         let errorMsg = try decoder.decode(ErrorModel.self, from: data)
                         completion(nil, errorMsg, nil)
                         return
-                    }
-                        
-                    catch let er {
+                    } catch let er {
                         // This is the final error
                         completion(nil, nil, er)
                         return
                     }
                 }
             }
-            }.resume()
+        }.resume()
     }
 
     // Function to get Events
-    func fetchEvents(sessionID: String, isRefresh: Bool = false, completion: @escaping([EventsModel]?, ErrorModel?, Error?) -> Void) {
-
+    func fetchEvents(sessionID: String, isRefresh: Bool = false, completion: @escaping ([EventsModel]?, ErrorModel?, Error?) -> Void) {
         // Form the URL
         let tURL = API_URL + "events?sessionid=\(sessionID)"
         guard let url = URL(string: tURL) else { return }
@@ -281,7 +266,7 @@ class Service {
         }
 
         // Send a URL session
-        URLSession.shared.dataTask(with: url) {(data, _, error) in
+        URLSession.shared.dataTask(with: url) { data, _, error in
             if let error = error {
                 print("HTTP error: ", error)
                 completion(nil, nil, error)
@@ -306,21 +291,18 @@ class Service {
                         let errorMsg = try decoder.decode(ErrorModel.self, from: data)
                         completion(nil, errorMsg, nil)
                         return
-                    }
-                        
-                    catch let er {
+                    } catch let er {
                         // This is the final error
                         completion(nil, nil, er)
                         return
                     }
                 }
             }
-            }.resume()
+        }.resume()
     }
 
     // Function to get GPA
-    func fetchGPA(sessionID: String, isRefresh: Bool = false, completion: @escaping(GpaModel?, ErrorModel?, Error?) -> Void) {
-
+    func fetchGPA(sessionID: String, isRefresh: Bool = false, completion: @escaping (GpaModel?, ErrorModel?, Error?) -> Void) {
         if !isRefresh {
             if let data = getGPAFromDB() {
                 let decoder = JSONDecoder()
@@ -340,7 +322,7 @@ class Service {
         guard let url = URL(string: tURL) else { return }
 
         // Send a data request
-        URLSession.shared.dataTask(with: url) {(data, _, error) in
+        URLSession.shared.dataTask(with: url) { data, _, error in
             if let error = error {
                 completion(nil, nil, error)
                 return
@@ -361,21 +343,18 @@ class Service {
                         let errorMsg = try decoder.decode(ErrorModel.self, from: data)
                         completion(nil, errorMsg, nil)
                         return
-                    }
-                        
-                    catch let er {
+                    } catch let er {
                         // This is the final error
                         completion(nil, nil, er)
                         return
                     }
                 }
             }
-            }.resume()
+        }.resume()
     }
 
     // Function to fetch internals from the API
-    func fetchInternals(sessionID: String, semester: Int, isRefresh: Bool = false, completion: @escaping([InternalsModel]?, ErrorModel?, Error?) -> Void) {
-
+    func fetchInternals(sessionID: String, semester: Int, isRefresh: Bool = false, completion: @escaping ([InternalsModel]?, ErrorModel?, Error?) -> Void) {
         if !isRefresh {
             // Check if the data is there in the DB and return from there
             if let data = getInternalsFromDB() {
@@ -394,7 +373,7 @@ class Service {
         // Else send a URL request
         let tURL = API_URL + "internals?sessionid=\(sessionID)&semester=\(semester)"
         guard let url = URL(string: tURL) else { return }
-        URLSession.shared.dataTask(with: url) {(data, _, error) in
+        URLSession.shared.dataTask(with: url) { data, _, error in
             if let error = error {
                 completion(nil, nil, error)
                 return
@@ -415,9 +394,7 @@ class Service {
                         let errorMsg = try decoder.decode(ErrorModel.self, from: data)
                         completion(nil, errorMsg, nil)
                         return
-                    }
-                        
-                    catch let er {
+                    } catch let er {
                         // This is the final error
                         completion(nil, nil, er)
                         return
@@ -428,8 +405,7 @@ class Service {
     }
 
     // Function to fetch results from the API
-    func fetchResults(sessionID: String, semester: Int, isRefresh: Bool = false, completion: @escaping([ResultsModel]?, ErrorModel?, Error?) -> Void) {
-
+    func fetchResults(sessionID: String, semester: Int, isRefresh: Bool = false, completion: @escaping ([ResultsModel]?, ErrorModel?, Error?) -> Void) {
         if !isRefresh {
             // Check if the data is there in the DB and return from there
             if let data = getResultsFromDB() {
@@ -449,7 +425,7 @@ class Service {
         // Else send a URL request
         let tURL = API_URL + "results?sessionid=\(sessionID)&semester=\(semester)"
         guard let url = URL(string: tURL) else { return }
-        URLSession.shared.dataTask(with: url) {(data, _, error) in
+        URLSession.shared.dataTask(with: url) { data, _, error in
             if let error = error {
                 completion(nil, nil, error)
                 return
@@ -471,21 +447,18 @@ class Service {
                         let errorMsg = try decoder.decode(ErrorModel.self, from: data)
                         completion(nil, errorMsg, nil)
                         return
-                    }
-                        
-                    catch let er {
+                    } catch let er {
                         // This is the final error
                         completion(nil, nil, er)
                         return
                     }
                 }
             }
-            }.resume()
+        }.resume()
     }
 
     // Function to fetch fee details from the API
-    func fetchFeeDetails(sessionID: String, isRefresh: Bool = false, completion: @escaping(FeeModel?, ErrorModel?, Error?) -> Void) {
-
+    func fetchFeeDetails(sessionID: String, isRefresh: Bool = false, completion: @escaping (FeeModel?, ErrorModel?, Error?) -> Void) {
         if !isRefresh {
             // Check if the data is there in the DB and return from there
             if let data = getFeeFromDB() {
@@ -504,7 +477,7 @@ class Service {
         // Else send a URL request
         let tURL = API_URL + "feedetails?sessionid=\(sessionID)"
         guard let url = URL(string: tURL) else { return }
-        URLSession.shared.dataTask(with: url) {(data, _, error) in
+        URLSession.shared.dataTask(with: url) { data, _, error in
             if let error = error {
                 completion(nil, nil, error)
                 return
@@ -526,15 +499,13 @@ class Service {
                         let errorMsg = try decoder.decode(ErrorModel.self, from: data)
                         completion(nil, errorMsg, nil)
                         return
-                    }
-                        
-                    catch let er {
+                    } catch let er {
                         // This is the final error
                         completion(nil, nil, er)
                         return
                     }
                 }
             }
-            }.resume()
+        }.resume()
     }
 }

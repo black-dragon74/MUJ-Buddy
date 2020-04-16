@@ -11,22 +11,20 @@ import UIKit
 // Custom extensions for this project, makes my life much easier
 extension UIColor {
     convenience init(r: CGFloat, g: CGFloat, b: CGFloat, alpha: CGFloat = 1) {
-        self.init(red: r/255, green: g/255, blue: b/255, alpha: alpha)
+        self.init(red: r / 255, green: g / 255, blue: b / 255, alpha: alpha)
     }
 }
 
 // MARK: - UIView Extensions
+
 extension UIView {
     // Just adds the anchors
     func anchorToTop(top: NSLayoutYAxisAnchor? = nil, right: NSLayoutXAxisAnchor? = nil, bottom: NSLayoutYAxisAnchor? = nil, left: NSLayoutXAxisAnchor? = nil) {
-
         _ = anchorWithConstantsToTop(top: top, right: right, bottom: bottom, left: left, topConstant: 0, rightConstant: 0, bottomConstant: 0, leftConstant: 0, heightConstant: nil, widthConstant: nil)
-
     }
 
     // Function to add anchor constants, it also returns an array containing the values for each constraint
     func anchorWithConstantsToTop(top: NSLayoutYAxisAnchor? = nil, right: NSLayoutXAxisAnchor? = nil, bottom: NSLayoutYAxisAnchor? = nil, left: NSLayoutXAxisAnchor? = nil, topConstant: CGFloat = 0, rightConstant: CGFloat = 0, bottomConstant: CGFloat = 0, leftConstant: CGFloat = 0, heightConstant: CGFloat? = nil, widthConstant: CGFloat? = nil) -> [NSLayoutConstraint] {
-
         // We generally forget this and then wonder why our view is not being rendered
         translatesAutoresizingMaskIntoConstraints = false
 
@@ -63,13 +61,12 @@ extension UIView {
             anchors.append(widthAnchor.constraint(equalToConstant: width))
         }
 
-        anchors.forEach({$0.isActive = true})
+        anchors.forEach { $0.isActive = true }
 
         return anchors
     }
 
     func anchorWithConstraints(top: NSLayoutYAxisAnchor? = nil, right: NSLayoutXAxisAnchor? = nil, bottom: NSLayoutYAxisAnchor? = nil, left: NSLayoutXAxisAnchor? = nil, topOffset: CGFloat = 0, rightOffset: CGFloat = 0, bottomOffset: CGFloat = 0, leftOffset: CGFloat = 0, height: CGFloat? = nil, width: CGFloat? = nil) {
-
         translatesAutoresizingMaskIntoConstraints = false
 
         if let top = top {
@@ -95,7 +92,6 @@ extension UIView {
         if let width = width {
             widthAnchor.constraint(equalToConstant: width).isActive = true
         }
-
     }
 
     // Functions to add a drop shadow
@@ -108,7 +104,7 @@ extension UIView {
         layer.shadowRadius = 1
 
         layer.shadowPath = UIBezierPath(rect: bounds).cgPath
-        layer.shadowRadius = self.layer.cornerRadius
+        layer.shadowRadius = layer.cornerRadius
         layer.shouldRasterize = true
         layer.rasterizationScale = scale ? UIScreen.main.scale : 1
     }
@@ -121,18 +117,18 @@ extension UIView {
         layer.shadowOffset = offSet
         layer.shadowRadius = radius
 
-        layer.shadowPath = UIBezierPath(rect: self.bounds).cgPath
+        layer.shadowPath = UIBezierPath(rect: bounds).cgPath
         layer.shouldRasterize = true
         layer.rasterizationScale = scale ? UIScreen.main.scale : 1
     }
-    
+
     // Function that animates the view's background color to the given value
     func animateBGColorTo(color: UIColor) {
         UIView.animate(withDuration: 2, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
             self.backgroundColor = color
         }, completion: nil)
     }
-    
+
     // Function to add a diagonal gradient that starts from the bottom center and ends at top center
     func linearGradient(from: UIColor, to: UIColor) {
         let gradientLayer = CAGradientLayer()
@@ -142,18 +138,19 @@ extension UIView {
         gradientLayer.endPoint = CGPoint(x: 1.0, y: 1.0)
         gradientLayer.locations = [0.0, 1.0]
         gradientLayer.cornerRadius = layer.cornerRadius
-        
+
         layer.insertSublayer(gradientLayer, at: 0)
     }
 }
 
 // MARK: - UIImageView Extensions
+
 extension UIImageView {
-    func downloadFromURL(urlString: String, completion: @escaping(UIImage?, Error?) -> Void) {
+    func downloadFromURL(urlString: String, completion: @escaping (UIImage?, Error?) -> Void) {
         let escapedURL = urlString.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)
         guard let url = URL(string: escapedURL!) else { return }
 
-        URLSession.shared.dataTask(with: url) {(data, _, error) in
+        URLSession.shared.dataTask(with: url) { data, _, error in
             if let error = error {
                 print(error)
                 completion(nil, error)
@@ -165,26 +162,26 @@ extension UIImageView {
                 completion(image, nil)
                 return
             }
-            }.resume()
+        }.resume()
     }
 }
 
 extension Notification.Name {
     // This notification is posted whenever user taps on the Attendance Notification
     static let didTapOnAttendanceNotification = NSNotification.Name("didTapOnAttendanceNotification")
-    
+
     // This notification is posted whenever a reauth is needed. It is catched in the appropriate VCs
     static let isReauthRequired = NSNotification.Name("isReauthRequired")
-    
+
     // This notification is observed in the login view controller and is shown on session expiry
     static let sessionExpired = NSNotification.Name("MUJsessionExpired")
-    
+
     // This notification is observed in the login view controller and is fired when login is cancelled
     static let loginCancelled = NSNotification.Name(rawValue: "MUJLoginCancelled")
-    
+
     // This notification is observed in the login view controller and is fired when login is successful
     static let loginSuccessful = NSNotification.Name(rawValue: "MUJLoginSuccess")
-    
+
     // This notification is observed in each VC where the session might expire and a reauth is required
     static let triggerRefresh = NSNotification.Name(rawValue: "MUJReloadTBCV")
 }
@@ -192,36 +189,35 @@ extension Notification.Name {
 // Extension on string
 extension String {
     func capitalizeFirstLetter() -> String {
-        return self.capitalized(with: nil)
+        capitalized(with: nil)
     }
 }
 
 // Extension on a UINavigationItem to set the title and the subtitle for the NavItem
 extension UINavigationItem {
-    
     func setHeader(title: String, subtitle: String) {
         let titleLabel = UILabel()
         titleLabel.text = title
         titleLabel.font = UIFont.systemFont(ofSize: 17, weight: .bold)
         titleLabel.textAlignment = .center
         titleLabel.sizeToFit()
-        
+
         let subtitleLabel = UILabel()
         subtitleLabel.text = subtitle
         subtitleLabel.font = UIFont.systemFont(ofSize: 12)
         subtitleLabel.textAlignment = .center
         subtitleLabel.sizeToFit()
-        
+
         // Stack view to hold these
         let stackView = UIStackView(arrangedSubviews: [titleLabel, subtitleLabel])
         stackView.distribution = .equalCentering
         stackView.axis = .vertical
-        
+
         // Set the frame for the stack view
         let width = max(titleLabel.frame.size.width, subtitleLabel.frame.size.width)
         stackView.frame = CGRect(x: 0, y: 0, width: width, height: 35)
-        
-        self.titleView = stackView
+
+        titleView = stackView
     }
 }
 
@@ -229,7 +225,7 @@ extension UINavigationItem {
 extension UIFont {
     // Bold Font
     func bold() -> UIFont {
-        guard let descriptor = self.fontDescriptor.withSymbolicTraits(.traitBold) else { return UIFont.boldSystemFont(ofSize: 17) }
+        guard let descriptor = fontDescriptor.withSymbolicTraits(.traitBold) else { return UIFont.boldSystemFont(ofSize: 17) }
         return UIFont(descriptor: descriptor, size: 0)
     }
 }
@@ -246,7 +242,7 @@ extension Array where Element: Equatable {
         }
         self = temp
     }
-    
+
     /// Returns a new instance of the object with duplicate values removed.
     func removingDuplicates() -> [Element] {
         var temp = [Element]()

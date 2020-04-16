@@ -9,6 +9,7 @@
 import Foundation
 
 // MARK: - Date Extensions
+
 extension Date {
     func monthsTillNow() -> Int {
         // This will return the months from the given date to current date

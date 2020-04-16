@@ -26,7 +26,7 @@ func canUseBiometrics() -> Bool {
 
 // This function tells the app if the biometric authentication is to be used
 func shouldUseBiometrics() -> Bool {
-    return UserDefaults.standard.object(forKey: BIOMETRICS_KEY) as? Bool ?? false
+    UserDefaults.standard.object(forKey: BIOMETRICS_KEY) as? Bool ?? false
 }
 
 func setBiometricsState(to: Bool) {
@@ -34,7 +34,6 @@ func setBiometricsState(to: Bool) {
     UserDefaults.standard.set(to, forKey: BIOMETRICS_KEY)
     UserDefaults.standard.synchronize()
 }
-
 
 //
 //  Functions for the biometrics events

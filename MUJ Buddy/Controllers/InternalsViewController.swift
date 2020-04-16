@@ -9,7 +9,6 @@
 import UIKit
 
 class InternalsViewController: UICollectionViewController, UICollectionViewDelegateFlowLayout {
-
     // Cell ID
     let cellID = "cellID"
 
@@ -39,28 +38,27 @@ class InternalsViewController: UICollectionViewController, UICollectionViewDeleg
         let layout = UICollectionViewFlowLayout()
         collectionView.collectionViewLayout = layout
     }
-    
+
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
+
         NotificationCenter.default.addObserver(self, selector: #selector(handleBiometricAuth), name: .isReauthRequired, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(handleRefreshForInternals), name: .triggerRefresh, object: nil)
     }
-    
+
     @objc fileprivate func handleBiometricAuth() {
         takeBiometricAction(navController: navigationController ?? UINavigationController(rootViewController: self))
     }
-    
+
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        
+
         NotificationCenter.default.removeObserver(self, name: .isReauthRequired, object: nil)
         NotificationCenter.default.removeObserver(self, name: .triggerRefresh, object: nil)
     }
 
     // Override viewDidLoad and handle rest of the operations
     override func viewDidLoad() {
-
         super.viewDidLoad()
 
         navigationItem.title = "Internals Marks"
@@ -73,7 +71,8 @@ class InternalsViewController: UICollectionViewController, UICollectionViewDeleg
         rControl.addTarget(self, action: #selector(handleRefreshForInternals), for: .valueChanged)
 
         // MARK: - Fetch data from the API
-        let semester = getSemester()  // Will contain the predicted semester
+
+        let semester = getSemester() // Will contain the predicted semester
 
         if showSemesterDialog() {
             DispatchQueue.main.async {
@@ -83,7 +82,7 @@ class InternalsViewController: UICollectionViewController, UICollectionViewDeleg
         }
 
         // Send the actual request
-        Service.shared.fetchInternals(sessionID: getSessionID(), semester: semester) { [weak self] (data, reauth, err) in
+        Service.shared.fetchInternals(sessionID: getSessionID(), semester: semester) { [weak self] data, reauth, err in
             if let err = err {
                 print("Error: ", err)
                 DispatchQueue.main.async {
@@ -91,7 +90,7 @@ class InternalsViewController: UICollectionViewController, UICollectionViewDeleg
                     Toast(with: "Error fetching marks").show(on: self?.view)
                 }
             }
-            
+
             if let eMsg = reauth {
                 if eMsg.error == LOGIN_FAILED {
                     // Time to present the OTP controller for the reauth
@@ -102,8 +101,7 @@ class InternalsViewController: UICollectionViewController, UICollectionViewDeleg
                             NotificationCenter.default.post(name: .sessionExpired, object: nil, userInfo: [:])
                         })
                     }
-                }
-                else {
+                } else {
                     DispatchQueue.main.async {
                         self?.rControl.endRefreshing()
                         self?.indicator.stopAnimating()
@@ -125,6 +123,7 @@ class InternalsViewController: UICollectionViewController, UICollectionViewDeleg
     }
 
     // MARK: - Setup additional views
+
     fileprivate func setupViews() {
         // Register the cell
         collectionView.register(InternalsCell.self, forCellWithReuseIdentifier: cellID)
@@ -141,29 +140,33 @@ class InternalsViewController: UICollectionViewController, UICollectionViewDeleg
     }
 
     // MARK: - Required Init
-    required init?(coder aDecoder: NSCoder) {
+
+    required init?(coder _: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
     // MARK: - Collection view delegate
-    override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return internalsArray.count
+
+    override func collectionView(_: UICollectionView, numberOfItemsInSection _: Int) -> Int {
+        internalsArray.count
     }
 
     // MARK: - Delegate flow layout
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: view.frame.width - 20, height: 180)
+
+    func collectionView(_: UICollectionView, layout _: UICollectionViewLayout, sizeForItemAt _: IndexPath) -> CGSize {
+        CGSize(width: view.frame.width - 20, height: 180)
     }
 
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        return UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
+    func collectionView(_: UICollectionView, layout _: UICollectionViewLayout, insetForSectionAt _: Int) -> UIEdgeInsets {
+        UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
     }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return 10
+
+    func collectionView(_: UICollectionView, layout _: UICollectionViewLayout, minimumLineSpacingForSectionAt _: Int) -> CGFloat {
+        10
     }
 
     // MARK: - Collection view data source
+
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellID, for: indexPath) as! InternalsCell
         cell.internalData = internalsArray[indexPath.item]
@@ -171,13 +174,14 @@ class InternalsViewController: UICollectionViewController, UICollectionViewDeleg
     }
 
     // MARK: - OBJC Refresh func
+
     @objc fileprivate func handleRefreshForInternals() {
         // Will be used after a trigger refresh notification is fired
         rControl.beginRefreshing()
-        
+
         let semester = getSemester()
-        
-        Service.shared.fetchInternals(sessionID: getSessionID(), semester: semester, isRefresh: true) { [weak self] (data, reauth, err) in
+
+        Service.shared.fetchInternals(sessionID: getSessionID(), semester: semester, isRefresh: true) { [weak self] data, reauth, err in
             if let err = err {
                 print("Error: ", err)
                 DispatchQueue.main.async {
@@ -185,7 +189,7 @@ class InternalsViewController: UICollectionViewController, UICollectionViewDeleg
                     Toast(with: "Error fetching marks").show(on: self?.view)
                 }
             }
-            
+
             if let eMsg = reauth {
                 if eMsg.error == LOGIN_FAILED {
                     // Time to present the OTP controller for the reauth
@@ -196,8 +200,7 @@ class InternalsViewController: UICollectionViewController, UICollectionViewDeleg
                             NotificationCenter.default.post(name: .sessionExpired, object: nil, userInfo: [:])
                         })
                     }
-                }
-                else {
+                } else {
                     DispatchQueue.main.async {
                         self?.rControl.endRefreshing()
                         self?.indicator.stopAnimating()
@@ -220,13 +223,14 @@ class InternalsViewController: UICollectionViewController, UICollectionViewDeleg
     }
 
     // MARK: - Semester change
+
     @objc fileprivate func handleSemesterChange() {
         let alert = UIAlertController(title: "Change semester", message: "Current semester is set to: \(getSemester())", preferredStyle: .alert)
-        alert.addTextField { (semTF) in
+        alert.addTextField { semTF in
             semTF.placeholder = "Enter new semester"
             semTF.keyboardType = .numberPad
         }
-        let okAction = UIAlertAction(title: "OK", style: .default) { [weak self] (_) in
+        let okAction = UIAlertAction(title: "OK", style: .default) { [weak self] _ in
             guard let tf = alert.textFields?.first else { return }
             let iText = Int(tf.text!) ?? -1
             if iText > 8 || iText <= 0 {
@@ -243,6 +247,6 @@ class InternalsViewController: UICollectionViewController, UICollectionViewDeleg
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
         alert.addAction(okAction)
         alert.addAction(cancelAction)
-        self.present(alert, animated: true, completion: nil)
+        present(alert, animated: true, completion: nil)
     }
 }

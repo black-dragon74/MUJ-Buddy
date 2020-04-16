@@ -9,12 +9,11 @@
 import UIKit
 
 class FeesViewController: UIViewController {
-
     // Cell reuse identifier
     let cellID = "cellID"
-    
-    let green = [#colorLiteral(red: 0.3796315193, green: 0.7958304286, blue: 0.2592983842, alpha: 1),#colorLiteral(red: 0.2060100436, green: 0.6006633639, blue: 0.09944178909, alpha: 1)]
-    let red = [#colorLiteral(red: 0.9654200673, green: 0.1590853035, blue: 0.2688751221, alpha: 1),#colorLiteral(red: 0.7559037805, green: 0.1139892414, blue: 0.1577021778, alpha: 1)]
+
+    let green = [#colorLiteral(red: 0.3796315193, green: 0.7958304286, blue: 0.2592983842, alpha: 1), #colorLiteral(red: 0.2060100436, green: 0.6006633639, blue: 0.09944178909, alpha: 1)]
+    let red = [#colorLiteral(red: 0.9654200673, green: 0.1590853035, blue: 0.2688751221, alpha: 1), #colorLiteral(red: 0.7559037805, green: 0.1139892414, blue: 0.1577021778, alpha: 1)]
 
     // Start value for animation
     let startValue: Double = 0
@@ -53,7 +52,7 @@ class FeesViewController: UIViewController {
         p.backgroundColor = UIColor(named: "cardBackgroundColor")
         return p
     }()
-    
+
     let paidLabel: UILabel = {
         let p = UILabel()
         p.textColor = UIColor(named: "textPrimary")
@@ -80,7 +79,7 @@ class FeesViewController: UIViewController {
         u.heightAnchor.constraint(equalToConstant: 100).isActive = true
         return u
     }()
-    
+
     let unpaidLabel: UILabel = {
         let p = UILabel()
         p.textColor = UIColor(named: "textPrimary")
@@ -99,21 +98,21 @@ class FeesViewController: UIViewController {
     }()
 
     let startTime = Date()
-    
+
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
+
         NotificationCenter.default.addObserver(self, selector: #selector(handleBiometricAuth), name: .isReauthRequired, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(handleFeeRefresh), name: .triggerRefresh, object: nil)
     }
-    
+
     @objc fileprivate func handleBiometricAuth() {
         takeBiometricAction(navController: navigationController ?? UINavigationController(rootViewController: self))
     }
-    
+
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        
+
         NotificationCenter.default.removeObserver(self, name: .isReauthRequired, object: nil)
         NotificationCenter.default.removeObserver(self, name: .triggerRefresh, object: nil)
     }
@@ -128,7 +127,8 @@ class FeesViewController: UIViewController {
         rControl.addTarget(self, action: #selector(handleFeeRefresh), for: .valueChanged)
 
         // MARK: - Fetch fee from API
-        Service.shared.fetchFeeDetails(sessionID: getSessionID()) { [weak self] (fee, reauth, error) in
+
+        Service.shared.fetchFeeDetails(sessionID: getSessionID()) { [weak self] fee, reauth, error in
             if let error = error {
                 print("Error: ", error)
                 DispatchQueue.main.async {
@@ -136,7 +136,7 @@ class FeesViewController: UIViewController {
                     Toast(with: "Error fetching fee details").show(on: self?.view)
                 }
             }
-            
+
             if let eMsg = reauth {
                 if eMsg.error == LOGIN_FAILED {
                     // Time to present the OTP controller for the reauth
@@ -147,8 +147,7 @@ class FeesViewController: UIViewController {
                             NotificationCenter.default.post(name: .sessionExpired, object: nil, userInfo: [:])
                         })
                     }
-                }
-                else {
+                } else {
                     DispatchQueue.main.async {
                         self?.rControl.endRefreshing()
                         self?.indicator.stopAnimating()
@@ -176,8 +175,8 @@ class FeesViewController: UIViewController {
     }
 
     // MARK: - Setup additional views
-    fileprivate func setupViews() {
 
+    fileprivate func setupViews() {
         // Add primary views
         view.addSubview(scrollView)
         scrollView.addSubview(indicator)
@@ -185,9 +184,9 @@ class FeesViewController: UIViewController {
         // Add subviews
         scrollView.refreshControl = rControl
         scrollView.anchorWithConstraints(top: view.topAnchor, right: view.rightAnchor, bottom: view.bottomAnchor, left: view.leftAnchor)
-        
+
         scrollView.addSubview(paidFeeView)
-        
+
         scrollView.addSubview(unpaidFeeView)
 
         // Paid fee views
@@ -202,12 +201,10 @@ class FeesViewController: UIViewController {
         paidFeeView.anchorWithConstraints(top: scrollView.topAnchor, right: view.rightAnchor, left: view.leftAnchor, topOffset: 10, rightOffset: 10, leftOffset: 10)
         paidLabel.anchorWithConstraints(top: paidFeeView.topAnchor, right: paidFeeView.rightAnchor, left: paidFeeView.leftAnchor, topOffset: 12, rightOffset: 12, leftOffset: 12)
         paidTF.anchorWithConstraints(right: paidFeeView.rightAnchor, bottom: paidFeeView.bottomAnchor, rightOffset: 12, bottomOffset: 12)
-       
 
         unpaidFeeView.anchorWithConstraints(top: paidFeeView.bottomAnchor, right: view.rightAnchor, left: view.leftAnchor, topOffset: 10, rightOffset: 10, leftOffset: 10)
         unpaidLabel.anchorWithConstraints(top: unpaidFeeView.topAnchor, right: unpaidFeeView.rightAnchor, left: unpaidFeeView.leftAnchor, topOffset: 12, rightOffset: 12, leftOffset: 12)
         unpaidTF.anchorWithConstraints(right: unpaidFeeView.rightAnchor, bottom: unpaidFeeView.bottomAnchor, rightOffset: 12, bottomOffset: 12)
-       
 
         indicator.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor).isActive = true
         indicator.centerYAnchor.constraint(equalTo: view.bottomAnchor, constant: -40).isActive = true
@@ -217,17 +214,18 @@ class FeesViewController: UIViewController {
         super.viewDidLayoutSubviews()
 
         scrollView.frame = view.bounds
-        
+
         paidFeeView.dropShadow()
         unpaidFeeView.dropShadow()
     }
 
     // MARK: - Fee refresh
+
     @objc fileprivate func handleFeeRefresh() {
         // Will be used after a trigger refresh notification is fired
         rControl.beginRefreshing()
-        
-        Service.shared.fetchFeeDetails(sessionID: getSessionID(), isRefresh: true) { [weak self] (fee, reauth, error) in
+
+        Service.shared.fetchFeeDetails(sessionID: getSessionID(), isRefresh: true) { [weak self] fee, reauth, error in
             if let error = error {
                 print("Error: ", error)
                 DispatchQueue.main.async {
@@ -235,7 +233,7 @@ class FeesViewController: UIViewController {
                     Toast(with: "Error fetching fee details").show(on: self?.view)
                 }
             }
-            
+
             if let eMsg = reauth {
                 if eMsg.error == LOGIN_FAILED {
                     // Time to present the OTP controller for the reauth
@@ -246,8 +244,7 @@ class FeesViewController: UIViewController {
                             NotificationCenter.default.post(name: .sessionExpired, object: nil, userInfo: [:])
                         })
                     }
-                }
-                else {
+                } else {
                     DispatchQueue.main.async {
                         self?.rControl.endRefreshing()
                         self?.indicator.stopAnimating()
@@ -283,7 +280,7 @@ class FeesViewController: UIViewController {
             paidTF.text = "₹ \(Int(endValue))"
         } else {
             let percent = elapsed / animationDuration
-            let value =  startValue + percent * (endValue - startValue)
+            let value = startValue + percent * (endValue - startValue)
             let roundValue = Int(value)
             paidTF.text = "₹ \(roundValue)"
         }

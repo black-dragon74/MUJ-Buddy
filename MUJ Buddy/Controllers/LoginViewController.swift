@@ -9,16 +9,15 @@
 import UIKit
 
 class LoginViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, LoginDelegate {
-
     // Hold the keyboard state, in order to fix our view going out of bounds :P
     fileprivate var isKbOpen: Bool = false
-    
+
     // If view is being presented when session is expired, we work a bit differently
     fileprivate var isSessionExpired: Bool = false
-    
+
     // Prevent the notification being catched twice
     fileprivate var authBeingHandled: Bool = false
-    
+
     // Status bar height, lazily instantiated after view is loaded
     fileprivate lazy var navBtnOffset = UIApplication.shared.statusBarFrame.height
 
@@ -81,31 +80,30 @@ class LoginViewController: UIViewController, UICollectionViewDelegate, UICollect
     var pControlBottomAnchor: NSLayoutConstraint?
     var sButtonTopAnchor: NSLayoutConstraint?
     var nButtonTopAnchor: NSLayoutConstraint?
-    
+
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
+
         NotificationCenter.default.addObserver(self, selector: #selector(sessionExpired), name: .sessionExpired, object: nil)
-        
+
         // Login cancelled and successful listeners
         NotificationCenter.default.addObserver(self, selector: #selector(loginCancelled), name: .loginCancelled, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(loginSuccessful(_:)), name: .loginSuccessful, object: nil)
-        
+
         view.backgroundColor = UIColor(named: "primaryLighter")
     }
-    
+
     override var preferredStatusBarStyle: UIStatusBarStyle {
         if #available(iOS 13.0, *) {
             return .darkContent
-        }
-        else {
+        } else {
             return .lightContent
         }
     }
-    
+
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
+
         NotificationCenter.default.removeObserver(NSNotification.Name.sessionExpired)
         NotificationCenter.default.removeObserver(NSNotification.Name.loginCancelled)
         NotificationCenter.default.removeObserver(NSNotification.Name.loginSuccessful)
@@ -142,7 +140,6 @@ class LoginViewController: UIViewController, UICollectionViewDelegate, UICollect
         // Add the targets to the buttons
         skipButton.addTarget(self, action: #selector(scrollToLogin), for: .touchUpInside)
         nextButton.addTarget(self, action: #selector(scrollToNextCell), for: .touchUpInside)
-
     }
 
     // Listens for keyboard hide and show events to push the view up and down
@@ -153,15 +150,13 @@ class LoginViewController: UIViewController, UICollectionViewDelegate, UICollect
 
     // Handles event of pushing view up on Y axis if the keyboard is going to show
     @objc fileprivate func handleKeyboardShow() {
-
         if !isKbOpen {
             UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
                 self.view.frame = CGRect(x: 0, y: self.view.frame.minY - 100, width: self.view.frame.width, height: self.view.frame.height)
-            }) { (_) in
+            }) { _ in
                 self.isKbOpen = true
             }
         }
-
     }
 
     // Handles event of pushing view back to normal on Y axis if the keyboard is going to hide
@@ -169,7 +164,7 @@ class LoginViewController: UIViewController, UICollectionViewDelegate, UICollect
         if isKbOpen {
             UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
                 self.view.frame = CGRect(x: 0, y: self.view.frame.minY + 100, width: self.view.frame.width, height: self.view.frame.height)
-            }) {(_) in
+            }) { _ in
                 self.isKbOpen = false
             }
         }
@@ -216,16 +211,15 @@ class LoginViewController: UIViewController, UICollectionViewDelegate, UICollect
 
         // Call next page from there, removes redundancy
         scrollToNextCell()
-
     }
 
     // Hide and show buttons, page control relative to the current page scroll event
-    func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
+    func scrollViewWillEndDragging(_: UIScrollView, withVelocity _: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
         let currentPage = Int(targetContentOffset.pointee.x / view.frame.width)
         pControl.currentPage = currentPage
 
         // For removing the page control, next and skip buttons
-        if (currentPage == pages.count) {
+        if currentPage == pages.count {
             // Off we go
             moveControlsOffScreen()
         } else {
@@ -242,18 +236,18 @@ class LoginViewController: UIViewController, UICollectionViewDelegate, UICollect
     }
 
     // If user scrolls, end editing
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+    func scrollViewDidScroll(_: UIScrollView) {
         endEditing()
     }
 
     // Number of sections to render
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return pages.count + 1  // +1 coz we have an extra login page at the end of the intro cells
+    func collectionView(_: UICollectionView, numberOfItemsInSection _: Int) -> Int {
+        pages.count + 1 // +1 coz we have an extra login page at the end of the intro cells
     }
 
     // Cell for item at the index path
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        if (indexPath.item == pages.count) {
+        if indexPath.item == pages.count {
             let loginCell = collectionView.dequeueReusableCell(withReuseIdentifier: self.loginCell, for: indexPath) as! LoginCell
             loginCell.delegate = self
             return loginCell
@@ -266,27 +260,27 @@ class LoginViewController: UIViewController, UICollectionViewDelegate, UICollect
     }
 
     // Size of an individual cell
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: view.frame.width, height: view.frame.height)
+    func collectionView(_: UICollectionView, layout _: UICollectionViewLayout, sizeForItemAt _: IndexPath) -> CGSize {
+        CGSize(width: view.frame.width, height: view.frame.height)
     }
 
-    func handleLogin(for client: String) {
+    func handleLogin(for _: String) {
         // Referene the cell
         let cell = collectionView.cellForItem(at: IndexPath(row: pages.count, section: 0)) as! LoginCell
-        
+
         // Check that the user id and password are not empty
         let userID = cell.userTextField.text ?? ""
         let password = cell.passwordField.text ?? ""
-        
-        //TODO:- Predict the current semester asynchronously
+
+        // TODO: - Predict the current semester asynchronously
         if userID == "" || password == "" {
-            Toast(with: "ID/Password cannot be empty").show(on: self.view)
+            Toast(with: "ID/Password cannot be empty").show(on: view)
             return
         }
-        
+
         // Disable the cell
         disable(cell)
-        
+
         // Present the WebAuthController contained in a UINavigationController
         let webAuthController = WebAuthController()
         let navWeb = UINavigationController(rootViewController: webAuthController)
@@ -294,27 +288,27 @@ class LoginViewController: UIViewController, UICollectionViewDelegate, UICollect
         webAuthController.userID = userID
         present(navWeb, animated: true, completion: nil)
     }
-    
+
     fileprivate func enable(_ cell: LoginCell) {
         DispatchQueue.main.async {
             cell.progressBar.stopAnimating()
             cell.loginButton.isUserInteractionEnabled = true
         }
     }
-    
+
     fileprivate func disable(_ cell: LoginCell) {
         DispatchQueue.main.async {
             cell.progressBar.startAnimating()
             cell.loginButton.isUserInteractionEnabled = false
         }
     }
-    
+
     @objc fileprivate func sessionExpired() {
         scrollToLogin()
-        Toast(with: "Session expired. Logging in again...").show(on: self.view)
+        Toast(with: "Session expired. Logging in again...").show(on: view)
         perform(#selector(autoLogin), with: self, afterDelay: 0.8)
     }
-    
+
     @objc fileprivate func autoLogin() {
         let cell = collectionView.cellForItem(at: IndexPath(row: pages.count, section: 0)) as! LoginCell
         isSessionExpired = true
@@ -322,90 +316,86 @@ class LoginViewController: UIViewController, UICollectionViewDelegate, UICollect
         cell.passwordField.text = getPassword()
         handleLogin(for: "student")
     }
-    
+
     @objc fileprivate func loginCancelled() {
         //  Enable the cell
         let cell = collectionView.cellForItem(at: IndexPath(row: pages.count, section: 0)) as! LoginCell
         enable(cell)
-        
+
         // Say that the login has failed
         let alert = UIAlertController(title: "Authentication Failed", message: "The login request was cancelled.", preferredStyle: .alert)
         let dismiss = UIAlertAction(title: "Dismiss", style: .cancel, handler: nil)
         alert.addAction(dismiss)
-        
+
         // Auth being handled is false now
         authBeingHandled = false
-        
-        self.present(alert, animated: true, completion: nil)
+
+        present(alert, animated: true, completion: nil)
     }
-    
+
     @objc fileprivate func loginSuccessful(_ notification: NSNotification) {
         // Enable the cell
         let cell = collectionView.cellForItem(at: IndexPath(row: pages.count, section: 0)) as! LoginCell
         enable(cell)
-        
+
         // If handled, return
         if authBeingHandled { return }
-        
+
         // Set the flag as the auth being handled
         authBeingHandled = true
-        
+
         let userid = cell.userTextField.text!
         let password = cell.passwordField.text!
-        
+
         // Else, we proceed and take care of stuffs
-        if let userInfo = notification.userInfo as? [String:String] {
+        if let userInfo = notification.userInfo as? [String: String] {
             let sessionID = userInfo["sessionID"]!
-            
-            if (!isSessionExpired) {
+
+            if !isSessionExpired {
                 // Predict the semester
                 var currSem: Int = -1
                 let regDate = admDateFrom(regNo: userid)
                 let monthSinceAdmission = regDate.monthsTillNow()
-                
+
                 // Now we just have to divide the months by 6 and floor it away from zero to get current semester
                 let rawSem = (Float(monthSinceAdmission) / 6).rounded(.awayFromZero)
-                currSem = Int(rawSem)  // Cast to int to get the exact value
-                
+                currSem = Int(rawSem) // Cast to int to get the exact value
+
                 // Purge User Defaults
                 purgeUserDefaults()
-                
+
                 // Set semester in the DB
                 setSemester(as: currSem)
-                
+
                 // Update the credentials in the DB
                 setUserID(to: userid)
                 setPassword(to: password)
                 setSessionID(to: sessionID)
-                
+
                 // Update the login state
                 setLoginState(to: true)
-                
-            }
-            else {
+            } else {
                 // Just update the session ID in the database
                 setSessionID(to: sessionID)
             }
         }
-        
+
         // Now is the time to dismiss this controller and present the new dashboard controller
         let newController = UINavigationController(rootViewController: DashboardViewController())
         newController.modalTransitionStyle = .crossDissolve
-        
+
         if !isSessionExpired {
             newController.modalPresentationStyle = .fullScreen
-            self.present(newController, animated: true) {
+            present(newController, animated: true) {
                 self.removeFromParent()
             }
-        }
-        else {
+        } else {
             dismiss(animated: true) {
                 NotificationCenter.default.post(name: .triggerRefresh, object: nil)
             }
         }
-        
+
         // Exit
         return
     }
-
 }

@@ -6,12 +6,12 @@
 //  Copyright © 2019 Nick. All rights reserved.
 //
 
-//import SwiftyRSA
+// import SwiftyRSA
 //
 ////
 ////  RSA encryption related functions
 ////
-//func encryptDataWithRSA(withDataToEncrypt: String) -> String {
+// func encryptDataWithRSA(withDataToEncrypt: String) -> String {
 //    // Get hold of the public key
 //    if let pub_path = Bundle.main.path(forResource: "app_pub", ofType: "") {
 //        // Try to read that file
@@ -29,4 +29,4 @@
 //        }
 //    }
 //    return ""
-//}
+// }

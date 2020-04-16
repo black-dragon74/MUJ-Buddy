@@ -9,7 +9,6 @@
 import UIKit
 
 class ResultsViewController: UICollectionViewController, UICollectionViewDelegateFlowLayout {
-
     var resultsArray = [ResultsModel]()
 
     // Cell reuse identifier
@@ -31,21 +30,21 @@ class ResultsViewController: UICollectionViewController, UICollectionViewDelegat
         r.tintColor = .red
         return r
     }()
-    
+
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
+
         NotificationCenter.default.addObserver(self, selector: #selector(handleBiometricAuth), name: .isReauthRequired, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(handleResultsRefresh), name: .triggerRefresh, object: nil)
     }
-    
+
     @objc fileprivate func handleBiometricAuth() {
         takeBiometricAction(navController: navigationController ?? UINavigationController(rootViewController: self))
     }
-    
+
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        
+
         NotificationCenter.default.removeObserver(self, name: .isReauthRequired, object: nil)
         NotificationCenter.default.removeObserver(self, name: .triggerRefresh, object: nil)
     }
@@ -69,7 +68,8 @@ class ResultsViewController: UICollectionViewController, UICollectionViewDelegat
         indicator.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
 
         // MARK: - Get results from API
-        let semester = getSemester()  // Will contain the predicted semester
+
+        let semester = getSemester() // Will contain the predicted semester
 
         if showSemesterDialog() {
             DispatchQueue.main.async {
@@ -78,7 +78,7 @@ class ResultsViewController: UICollectionViewController, UICollectionViewDelegat
             }
         }
 
-        Service.shared.fetchResults(sessionID: getSessionID(), semester: semester) { [weak self] (results, reauth, error) in
+        Service.shared.fetchResults(sessionID: getSessionID(), semester: semester) { [weak self] results, reauth, error in
             if let error = error {
                 print("Error: ", error)
                 DispatchQueue.main.async {
@@ -87,7 +87,7 @@ class ResultsViewController: UICollectionViewController, UICollectionViewDelegat
                 }
                 return
             }
-            
+
             if let eMsg = reauth {
                 if eMsg.error == LOGIN_FAILED {
                     // Time to present the OTP controller for the reauth
@@ -98,8 +98,7 @@ class ResultsViewController: UICollectionViewController, UICollectionViewDelegat
                             NotificationCenter.default.post(name: .sessionExpired, object: nil, userInfo: [:])
                         })
                     }
-                }
-                else {
+                } else {
                     DispatchQueue.main.async {
                         self?.rControl.endRefreshing()
                         self?.indicator.stopAnimating()
@@ -120,7 +119,7 @@ class ResultsViewController: UICollectionViewController, UICollectionViewDelegat
         }
     }
 
-    required init?(coder aDecoder: NSCoder) {
+    required init?(coder _: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
@@ -134,24 +133,27 @@ class ResultsViewController: UICollectionViewController, UICollectionViewDelegat
     }
 
     // MARK: - Collection view delegate
-    override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return resultsArray.count
+
+    override func collectionView(_: UICollectionView, numberOfItemsInSection _: Int) -> Int {
+        resultsArray.count
     }
 
     // MARK: - Collection view delegate flow layout
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: view.frame.width - 20, height: 100)
+
+    func collectionView(_: UICollectionView, layout _: UICollectionViewLayout, sizeForItemAt _: IndexPath) -> CGSize {
+        CGSize(width: view.frame.width - 20, height: 100)
     }
 
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        return UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
+    func collectionView(_: UICollectionView, layout _: UICollectionViewLayout, insetForSectionAt _: Int) -> UIEdgeInsets {
+        UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
     }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return 10
+
+    func collectionView(_: UICollectionView, layout _: UICollectionViewLayout, minimumLineSpacingForSectionAt _: Int) -> CGFloat {
+        10
     }
 
     // MARK: - Collection view data source
+
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellID, for: indexPath) as! ResultsCell
         cell.currentSubjectForResult = resultsArray[indexPath.item]
@@ -159,13 +161,14 @@ class ResultsViewController: UICollectionViewController, UICollectionViewDelegat
     }
 
     // MARK: - OBJC Refresh function
+
     @objc fileprivate func handleResultsRefresh() {
         // Will be used after a trigger refresh notification is fired
         rControl.beginRefreshing()
-        
-        let semester = getSemester()  // Will contain the predicted semester
 
-        Service.shared.fetchResults(sessionID: getSessionID(), semester: semester, isRefresh: true) { [weak self] (results, reauth, error) in
+        let semester = getSemester() // Will contain the predicted semester
+
+        Service.shared.fetchResults(sessionID: getSessionID(), semester: semester, isRefresh: true) { [weak self] results, reauth, error in
             if let error = error {
                 print("Error: ", error)
                 DispatchQueue.main.async {
@@ -174,7 +177,7 @@ class ResultsViewController: UICollectionViewController, UICollectionViewDelegat
                 }
                 return
             }
-            
+
             if let eMsg = reauth {
                 if eMsg.error == LOGIN_FAILED {
                     // Time to present the OTP controller for the reauth
@@ -185,8 +188,7 @@ class ResultsViewController: UICollectionViewController, UICollectionViewDelegat
                             NotificationCenter.default.post(name: .sessionExpired, object: nil, userInfo: [:])
                         })
                     }
-                }
-                else {
+                } else {
                     DispatchQueue.main.async {
                         self?.rControl.endRefreshing()
                         self?.indicator.stopAnimating()
@@ -209,13 +211,14 @@ class ResultsViewController: UICollectionViewController, UICollectionViewDelegat
     }
 
     // MARK: - Semester change
+
     @objc fileprivate func handleSemesterChange() {
         let alert = UIAlertController(title: "Change semester", message: "Current semester is set to: \(getSemester())", preferredStyle: .alert)
-        alert.addTextField { (semTF) in
+        alert.addTextField { semTF in
             semTF.placeholder = "Enter new semester"
             semTF.keyboardType = .numberPad
         }
-        let okAction = UIAlertAction(title: "OK", style: .default) { [weak self] (_) in
+        let okAction = UIAlertAction(title: "OK", style: .default) { [weak self] _ in
             guard let tf = alert.textFields?.first else { return }
             let iText = Int(tf.text!) ?? -1
             if iText > 8 || iText <= 0 {
@@ -232,6 +235,6 @@ class ResultsViewController: UICollectionViewController, UICollectionViewDelegat
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
         alert.addAction(okAction)
         alert.addAction(cancelAction)
-        self.present(alert, animated: true, completion: nil)
+        present(alert, animated: true, completion: nil)
     }
 }

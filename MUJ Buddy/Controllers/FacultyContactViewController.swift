@@ -6,11 +6,10 @@
 //  Copyright © 2019 Nick. All rights reserved.
 //
 
-import UIKit
 import Contacts
+import UIKit
 
 class FacultyContactViewController: UIViewController {
-
     var currentFaculty: FacultyContactModel? {
         didSet {
             guard let currF = currentFaculty else { return }
@@ -19,7 +18,7 @@ class FacultyContactViewController: UIViewController {
             departmentLabel.text = currF.department
             phoneLabel.text = currF.phone.isEmpty ? "NA" : currF.phone
             emailLabel.text = currF.email.isEmpty ? "NA" : currF.email
-            facultyImage.downloadFromURL(urlString: currF.image) { (image, error) in
+            facultyImage.downloadFromURL(urlString: currF.image) { image, error in
                 if let error = error {
                     self.indicator.stopAnimating()
                     print("Error in getting Image: ", error)
@@ -146,12 +145,12 @@ class FacultyContactViewController: UIViewController {
         p.adjustsFontSizeToFitWidth = true
         return p
     }()
-    
+
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
+
         NotificationCenter.default.addObserver(self, selector: #selector(handleBiometricAuth), name: .isReauthRequired, object: nil)
-        
+
         view.backgroundColor = UIColor(named: "primaryLighter")
         nameTitleView.backgroundColor = UIColor(named: "cardBackgroundColor")
         detailedView.backgroundColor = UIColor(named: "cardBackgroundColor")
@@ -161,26 +160,26 @@ class FacultyContactViewController: UIViewController {
         emailLabel.textColor = UIColor(named: "textPrimary")
         departmentLabel.textColor = UIColor(named: "textPrimary")
     }
-    
+
     @objc fileprivate func handleBiometricAuth() {
         takeBiometricAction(navController: navigationController ?? UINavigationController(rootViewController: self))
     }
-    
+
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        
+
         NotificationCenter.default.removeObserver(self, name: .isReauthRequired, object: nil)
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        self.title = "Details"
+        title = "Details"
         navigationItem.largeTitleDisplayMode = .never
 
         setupViews()
     }
-    
+
     fileprivate func setupViews() {
         view.addSubview(facultyImage)
         facultyImage.addSubview(indicator)
@@ -198,6 +197,7 @@ class FacultyContactViewController: UIViewController {
         detailedView.addSubview(departmentLabel)
 
         // MARK: - Gesture recognizers
+
         phoneLabel.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(callPhone)))
         phoneLabel.addGestureRecognizer(UILongPressGestureRecognizer(target: self, action: #selector(longPressedNumber(_:))))
         emailLabel.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(sendEmail)))
@@ -206,6 +206,7 @@ class FacultyContactViewController: UIViewController {
         indicator.startAnimating()
 
         // MARK: - Constraints
+
         facultyImage.anchorWithConstraints(top: view.safeAreaLayoutGuide.topAnchor, right: view.rightAnchor, left: view.leftAnchor, height: view.frame.height / 2.5)
         indicator.centerXAnchor.constraint(equalTo: facultyImage.centerXAnchor).isActive = true
         indicator.centerYAnchor.constraint(equalTo: facultyImage.centerYAnchor).isActive = true
@@ -213,7 +214,7 @@ class FacultyContactViewController: UIViewController {
         nameTitleView.anchorWithConstraints(top: facultyImage.bottomAnchor, right: view.rightAnchor, left: view.leftAnchor)
         nameLabel.anchorWithConstraints(top: nameTitleView.topAnchor, left: nameTitleView.leftAnchor, topOffset: 14, leftOffset: 16)
         designationLabel.anchorWithConstraints(top: nameLabel.bottomAnchor, left: nameTitleView.leftAnchor, topOffset: 5, leftOffset: 16)
-        designationLabel.widthAnchor.constraint(equalToConstant: (view.frame.width - 17)).isActive = true
+        designationLabel.widthAnchor.constraint(equalToConstant: view.frame.width - 17).isActive = true
 
         detailedView.anchorWithConstraints(top: nameTitleView.bottomAnchor, right: view.rightAnchor, bottom: view.bottomAnchor, left: view.leftAnchor, topOffset: 10)
 
@@ -224,21 +225,22 @@ class FacultyContactViewController: UIViewController {
         emailIcon.anchorWithConstraints(top: phoneIcon.bottomAnchor, left: detailedView.leftAnchor, topOffset: 14, leftOffset: 16)
         emailLabel.anchorWithConstraints(left: emailIcon.rightAnchor, leftOffset: 16)
         emailLabel.centerYAnchor.constraint(equalTo: emailIcon.centerYAnchor).isActive = true
-        emailLabel.widthAnchor.constraint(equalToConstant: (view.frame.width - 72)).isActive = true
+        emailLabel.widthAnchor.constraint(equalToConstant: view.frame.width - 72).isActive = true
 
         departmentIcon.anchorWithConstraints(top: emailIcon.bottomAnchor, left: detailedView.leftAnchor, topOffset: 15, leftOffset: 16)
         departmentLabel.anchorWithConstraints(left: departmentIcon.rightAnchor, leftOffset: 16)
         departmentLabel.centerYAnchor.constraint(equalTo: departmentIcon.centerYAnchor).isActive = true
-        departmentLabel.widthAnchor.constraint(equalToConstant: (view.frame.width - 72)).isActive = true
-        
+        departmentLabel.widthAnchor.constraint(equalToConstant: view.frame.width - 72).isActive = true
+
         // Add the bar button item to share the contact
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "ios_share"), style: .plain, target: self, action: #selector(handleContactShare))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "ios_share"), style: .plain, target: self, action: #selector(handleContactShare))
     }
 
     // MARK: - OBJC Fuctions
+
     @objc fileprivate func callPhone() {
         if let phoneNumber = phoneLabel.text {
-            if phoneNumber == "NA"{
+            if phoneNumber == "NA" {
                 return
             } else {
                 let phone = "tel://+91" + phoneNumber
@@ -247,7 +249,7 @@ class FacultyContactViewController: UIViewController {
             }
         }
     }
-    
+
     @objc fileprivate func longPressedNumber(_ sender: UILongPressGestureRecognizer) {
         if sender.state == .began {
             let controller = UIMenuController()
@@ -256,7 +258,7 @@ class FacultyContactViewController: UIViewController {
             controller.setMenuVisible(true, animated: true)
         }
     }
-    
+
     @objc fileprivate func copyNumber() {
         guard let phoneNumber = phoneLabel.text, phoneNumber != "NA" else { return }
         UIPasteboard.general.string = phoneNumber
@@ -264,7 +266,7 @@ class FacultyContactViewController: UIViewController {
 
     @objc fileprivate func sendEmail() {
         if let emailAddress = emailLabel.text {
-            if emailAddress == "NA"{
+            if emailAddress == "NA" {
                 return
             } else {
                 let email = "mailto://" + emailAddress
@@ -273,7 +275,7 @@ class FacultyContactViewController: UIViewController {
             }
         }
     }
-    
+
     @objc fileprivate func longPressedEmail(_ sender: UILongPressGestureRecognizer) {
         if sender.state == .began {
             let controller = UIMenuController()
@@ -282,67 +284,65 @@ class FacultyContactViewController: UIViewController {
             controller.setMenuVisible(true, animated: true)
         }
     }
-    
+
     @objc fileprivate func copyEmail() {
         guard let email = emailLabel.text, email != "NA" else { return }
         UIPasteboard.general.string = email
     }
-    
-    //MARK:- Contacts share
-    
+
+    // MARK: - Contacts share
+
     // Calls to the helper function
     @objc fileprivate func handleContactShare() {
         guard let faculty = currentFaculty else { return }
         generateVCFAndShare(faculty: faculty)
     }
-    
+
     // Return a CN contact object from the passed faculty object
     fileprivate func generateCNContactFrom(faculty: FacultyContactModel) -> CNContact {
         let contact = CNMutableContact()
         contact.givenName = faculty.name
-        contact.imageData = self.facultyImage.image?.pngData()
+        contact.imageData = facultyImage.image?.pngData()
         contact.departmentName = faculty.department
         contact.jobTitle = faculty.designation
-        
+
         // Only add the phone field if it is not empty
         if !faculty.phone.isEmpty {
             contact.phoneNumbers = [CNLabeledValue(label: CNLabelWork, value: CNPhoneNumber(stringValue: "+91-\(faculty.phone)"))]
         }
-        
+
         // Only add the email field if it is not empty
         if !faculty.email.isEmpty {
             contact.emailAddresses = [CNLabeledValue(label: CNLabelWork, value: faculty.email as NSString)]
         }
-        
+
         return contact
     }
-    
+
     // Generats the VCF and shares the contact using UIACtivityView
     fileprivate func generateVCFAndShare(faculty: FacultyContactModel) {
         // Get the contact representation of the faculty
         let contact = generateCNContactFrom(faculty: faculty)
-        
+
         // Get the cache directory URL
         guard let cahceDirectoryURL = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).first else { return }
-        
+
         // Create the file name
         let fileName = contact.givenName.components(separatedBy: " ").joined(separator: "")
-        
+
         // The URL to which we will be writing to
         let fileURL = cahceDirectoryURL.appendingPathComponent(fileName).appendingPathExtension("vcf")
-        
+
         // Create a VCF representation of the contact
         do {
             let data = try CNContactVCardSerialization.data(with: [contact])
-            
+
             try data.write(to: fileURL, options: .atomicWrite)
-        }
-        
-        catch let ex {
+        } catch let ex {
             print("Contact share init error: \(ex.localizedDescription)")
             return
         }
-        
+
         // Now all we need to do is share the URL of the VCF file
         let shareSheet = UIActivityViewController(activityItems: [fileURL], applicationActivities: nil)
         present(shareSheet, animated: true, completion: nil)
@@ -354,12 +354,12 @@ class UICopiableLabel: UILabel {
         super.init(frame: frame)
         becomeFirstResponder()
     }
-    
-    required init?(coder aDecoder: NSCoder) {
+
+    required init?(coder _: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
     override var canBecomeFirstResponder: Bool {
-        return true
+        true
     }
 }

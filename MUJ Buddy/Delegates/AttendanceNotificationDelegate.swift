@@ -13,14 +13,13 @@ import UserNotifications
 //
 
 class AttendanceNotificationDelegate: NSObject, UNUserNotificationCenterDelegate {
-
     // Notification received while app is open
-    func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+    func userNotificationCenter(_: UNUserNotificationCenter, willPresent _: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
         // Just display the notification for now
         completionHandler([.alert, .sound])
     }
 
-    func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
+    func userNotificationCenter(_: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
         switch response.actionIdentifier {
         case UNNotificationDefaultActionIdentifier:
             NotificationCenter.default.post(name: .didTapOnAttendanceNotification, object: nil)
@@ -30,7 +29,6 @@ class AttendanceNotificationDelegate: NSObject, UNUserNotificationCenterDelegate
             completionHandler()
         default:
             completionHandler()
-            break
         }
     }
 }

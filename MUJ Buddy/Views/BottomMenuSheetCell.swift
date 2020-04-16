@@ -9,7 +9,6 @@
 import UIKit
 
 class BottomMenuSheetCell: UICollectionViewCell {
-
     override var isHighlighted: Bool {
         didSet {
             backgroundColor = isHighlighted ? UIColor(named: "textPrimaryLighter") : nil
@@ -49,7 +48,7 @@ class BottomMenuSheetCell: UICollectionViewCell {
         title.centerYAnchor.constraint(equalTo: cellImage.centerYAnchor).isActive = true
     }
 
-    required init?(coder aDecoder: NSCoder) {
+    required init?(coder _: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 }

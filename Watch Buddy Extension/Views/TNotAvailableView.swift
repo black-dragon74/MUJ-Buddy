@@ -8,22 +8,30 @@
 
 import SwiftUI
 
-struct AttendanceNotAvailableView: View {
+struct TNotAvailableView: View {
+    var t: String
+    @EnvironmentObject var dataProvider: DataProvider
+
     var body: some View {
         VStack {
+            Spacer()
             Image(systemName: "xmark.icloud")
                 .font(.system(.title, design: .rounded))
                 .foregroundColor(.yellow)
-            
-            Text("No attendance data found on your iPhone. Please fetch the attedance at least once and try again.")
+
+            Text("No \(t) data found on your iPhone. Please fetch the \(t) at least once and try again.")
                 .modifier(RoundedTextWithColor())
+            Spacer()
         }
         .navigationBarTitle("MUJ Buddy")
+//        .overlay(self.dataProvider.isFetchingData ? LoaderView() : nil)
+        .modifier(WithTapToRefresh())
     }
 }
 
-struct AttendanceNotAvailableView_Previews: PreviewProvider {
+struct TNotAvailableView_Previews: PreviewProvider {
     static var previews: some View {
-        AttendanceNotAvailableView()
+        TNotAvailableView(t: "Test")
+            .environmentObject(DataProvider.shared)
     }
 }

@@ -9,8 +9,7 @@
 import UIKit
 
 class AppSessionManager: NSObject {
-    
     static let shared = AppSessionManager()
-    
+
     var needsReAuth = false
 }

@@ -9,7 +9,6 @@
 import UIKit
 
 class ResultsCell: UICollectionViewCell {
-
     var currentSubjectForResult: ResultsModel? {
         didSet {
             guard let curr = currentSubjectForResult else { return }
@@ -38,7 +37,7 @@ class ResultsCell: UICollectionViewCell {
         g.text = "Grade"
         return g
     }()
-    
+
     let gradeTF: UILabel = {
         let a = UILabel()
         a.text = "00"
@@ -56,7 +55,7 @@ class ResultsCell: UICollectionViewCell {
         return a
     }()
 
-    //Credits
+    // Credits
     let creditsLabel: UILabel = {
         let a = UILabel()
         a.text = "Credits"
@@ -87,25 +86,24 @@ class ResultsCell: UICollectionViewCell {
     fileprivate func setupViews() {
         addSubview(subjectLabel)
         addSubview(courseCodeTF)
-        
+
         addSubview(gradeLabel)
         addSubview(gradeTF)
-        
+
         addSubview(creditsLabel)
         addSubview(creditsTF)
-        
+
         subjectLabel.anchorWithConstraints(top: topAnchor, right: rightAnchor, left: leftAnchor, topOffset: 12, rightOffset: 12, leftOffset: 12)
         courseCodeTF.anchorWithConstraints(top: subjectLabel.bottomAnchor, left: leftAnchor, topOffset: 2, leftOffset: 12)
-        
+
         gradeLabel.anchorWithConstraints(right: rightAnchor, bottom: bottomAnchor, rightOffset: 12, bottomOffset: 12)
         gradeTF.anchorWithConstraints(right: gradeLabel.rightAnchor, bottom: gradeLabel.topAnchor, left: gradeLabel.leftAnchor)
-        
+
         creditsLabel.anchorWithConstraints(right: gradeLabel.leftAnchor, bottom: bottomAnchor, rightOffset: 20, bottomOffset: 12)
         creditsTF.anchorWithConstraints(right: creditsLabel.rightAnchor, bottom: creditsLabel.topAnchor, left: creditsLabel.leftAnchor)
-        
     }
 
-    required init?(coder aDecoder: NSCoder) {
+    required init?(coder _: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 

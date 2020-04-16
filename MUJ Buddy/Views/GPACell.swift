@@ -9,7 +9,6 @@
 import UIKit
 
 class GPACell: UICollectionViewCell {
-
     let semLabel: UILabel = {
         let s = UILabel()
         s.font = .titleFont
@@ -27,7 +26,7 @@ class GPACell: UICollectionViewCell {
     var currentGPA: [String: String]? {
         didSet {
             guard let gpa = currentGPA else { return }
-            let key = Array(gpa.keys)[0]  // Coz, baby steps
+            let key = Array(gpa.keys)[0] // Coz, baby steps
             semLabel.text = key
             gpaLabel.text = gpa[key]
         }
@@ -46,12 +45,12 @@ class GPACell: UICollectionViewCell {
     fileprivate func setupViews() {
         addSubview(semLabel)
         addSubview(gpaLabel)
-        
+
         semLabel.anchorWithConstraints(top: topAnchor, right: rightAnchor, left: leftAnchor, topOffset: 12, rightOffset: 12, leftOffset: 12)
         gpaLabel.anchorWithConstraints(right: rightAnchor, bottom: bottomAnchor, rightOffset: 12, bottomOffset: 12)
     }
 
-    required init?(coder aDecoder: NSCoder) {
+    required init?(coder _: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 }

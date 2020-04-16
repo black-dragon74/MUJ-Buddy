@@ -21,7 +21,7 @@ func prepareNotification(withBody: String) -> UNNotificationRequest {
         return c
     }()
 
-    let identifier = "notif\(Int.random(in: 1...234213))"
+    let identifier = "notif\(Int.random(in: 1 ... 234_213))"
 
     let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1, repeats: false)
 
