@@ -282,10 +282,10 @@ class LoginViewController: UIViewController, UICollectionViewDelegate, UICollect
         disable(cell)
 
         // Present the WebAuthController contained in a UINavigationController
-        let webAuthController = WebAuthController()
-        let navWeb = UINavigationController(rootViewController: webAuthController)
-        webAuthController.password = password
-        webAuthController.userID = userID
+        let captchaAuthController = CaptchaAuthController()
+        let navWeb = UINavigationController(rootViewController: captchaAuthController)
+        captchaAuthController.password = password
+        captchaAuthController.username = userID
         present(navWeb, animated: true, completion: nil)
     }
 
@@ -317,13 +317,19 @@ class LoginViewController: UIViewController, UICollectionViewDelegate, UICollect
         handleLogin(for: "student")
     }
 
-    @objc fileprivate func loginCancelled() {
+    @objc fileprivate func loginCancelled(_ notification: NSNotification) {
         //  Enable the cell
         let cell = collectionView.cellForItem(at: IndexPath(row: pages.count, section: 0)) as! LoginCell
         enable(cell)
+        
+        // Get the reason from the notification object
+        var cancelReason = "Due to undefined error."
+        if let userinfo = notification.userInfo as? [String : String] {
+            cancelReason = userinfo["message"]!
+        }
 
         // Say that the login has failed
-        let alert = UIAlertController(title: "Authentication Failed", message: "The login request was cancelled.", preferredStyle: .alert)
+        let alert = UIAlertController(title: "Login failed", message: cancelReason, preferredStyle: .alert)
         let dismiss = UIAlertAction(title: "Dismiss", style: .cancel, handler: nil)
         alert.addAction(dismiss)
 

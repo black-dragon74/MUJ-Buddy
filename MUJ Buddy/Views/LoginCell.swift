@@ -51,7 +51,7 @@ class LoginCell: UICollectionViewCell {
     let loginButton: UIButton = {
         let b = UIButton(type: .system)
         b.backgroundColor = .orange
-        b.setTitle("Complete login on DMS", for: .normal)
+        b.setTitle("Proceed for captcha verification", for: .normal)
         b.setTitleColor(.white, for: .normal)
         return b
     }()
@@ -148,7 +148,7 @@ class LoginCell: UICollectionViewCell {
     // Function to update the title and the client based on segment's value
     fileprivate func handleSegmentWith(index: Int) {
         if index == 0 {
-            loginButton.setTitle("Complete login on DMS", for: .normal)
+            loginButton.setTitle("Proceed for captcha verification", for: .normal)
             loginFor = "student"
         }
 //        else {

@@ -508,4 +508,58 @@ class Service {
             }
         }.resume()
     }
+    
+    // Function to fetch a captcha from the sever, calling it again will act as refresh
+    func fetchCaptchaFromServer(completion: @escaping(CaptchaModel?, Error?) -> Void) {
+        let tURL = API_URL + "captcha"
+        guard let url = URL(string: tURL) else { return }
+        
+        URLSession.shared.dataTask(with: url) {(data, _, error) in
+            if let error = error {
+                completion(nil, error)
+                return
+            }
+            
+            if let data = data {
+                let decoder = JSONDecoder()
+                decoder.keyDecodingStrategy = .convertFromSnakeCase
+                do {
+                    let decoded = try decoder.decode(CaptchaModel.self, from: data)
+                    completion(decoded, nil)
+                    return
+                }
+                catch let ex{
+                    completion(nil, ex)
+                    return
+                }
+            }
+        }.resume()
+    }
+    
+    // Function to complete auth handshake with captcha
+    func completeAuthWithCaptcha(sessionID: String, userName: String, password: String, captcha: String, completion: @escaping(CaptchaAuthResponseModel?, Error?) -> Void) {
+        let tURL = API_URL + "captcha_auth?sessionid=\(sessionID)&username=\(userName)&password=\(password.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed)!)&captcha=\(captcha)"
+        guard let url = URL(string: tURL) else { return }
+        
+        URLSession.shared.dataTask(with: url) {(data, _, error) in
+            if let error = error {
+                completion(nil, error)
+                return
+            }
+            
+            if let data = data {
+                let decoder = JSONDecoder()
+                decoder.keyDecodingStrategy = .convertFromSnakeCase
+                do {
+                    let data = try decoder.decode(CaptchaAuthResponseModel.self, from: data)
+                    completion(data, nil)
+                    return
+                }
+                catch let ex {
+                    completion(nil, ex)
+                    return
+                }
+            }
+        }.resume()
+    }
 }
