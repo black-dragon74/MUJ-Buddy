@@ -264,7 +264,7 @@ class LoginViewController: UIViewController, UICollectionViewDelegate, UICollect
         CGSize(width: view.frame.width, height: view.frame.height)
     }
 
-    func handleLogin(for _: String) {
+    func handleLogin(for _: String, enableInAppCaptcha: Bool) {
         // Referene the cell
         let cell = collectionView.cellForItem(at: IndexPath(row: pages.count, section: 0)) as! LoginCell
 
@@ -282,11 +282,20 @@ class LoginViewController: UIViewController, UICollectionViewDelegate, UICollect
         disable(cell)
 
         // Present the WebAuthController contained in a UINavigationController
-        let captchaAuthController = CaptchaAuthController()
-        let navWeb = UINavigationController(rootViewController: captchaAuthController)
-        captchaAuthController.password = password
-        captchaAuthController.username = userID
-        present(navWeb, animated: true, completion: nil)
+        if (enableInAppCaptcha) {
+            let captchaAuthController = CaptchaAuthController()
+            let navCaptcha = UINavigationController(rootViewController: captchaAuthController)
+            captchaAuthController.password = password
+            captchaAuthController.username = userID
+            present(navCaptcha, animated: true, completion: nil)
+        }
+        else {
+            let webAuthController = WebAuthController()
+            let navWeb = UINavigationController(rootViewController: webAuthController)
+            webAuthController.userID = userID
+            webAuthController.password = password
+            present(navWeb, animated: true, completion: nil)
+        }
     }
 
     fileprivate func enable(_ cell: LoginCell) {
@@ -314,7 +323,7 @@ class LoginViewController: UIViewController, UICollectionViewDelegate, UICollect
         isSessionExpired = true
         cell.userTextField.text = getUserID()
         cell.passwordField.text = getPassword()
-        handleLogin(for: "student")
+        handleLogin(for: "student", enableInAppCaptcha: shouldUseInAppCaptcha())
     }
 
     @objc fileprivate func loginCancelled(_ notification: NSNotification) {

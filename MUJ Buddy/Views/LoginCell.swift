@@ -11,6 +11,7 @@ import UIKit
 class LoginCell: UICollectionViewCell {
     // Delegate
     weak var delegate: LoginDelegate?
+    lazy var captchaSwitchState: Bool = true
 
     // The login button's title based on client type
     private var loginTitle: String = "Student Login"
@@ -46,6 +47,24 @@ class LoginCell: UICollectionViewCell {
         u.layer.cornerRadius = 20
         u.isSecureTextEntry = true
         return u
+    }()
+    
+    private let toggleSwitch = UISwitch()
+    private lazy var switchView: UIView = {
+        let loginLabel = UILabel()
+        loginLabel.text = "In app captcha"
+        loginLabel.font = .titleFont
+        loginLabel.numberOfLines = 1
+        loginLabel.lineBreakMode = .byTruncatingTail
+        loginLabel.textColor = UIColor(named: "textPrimaryLighter")
+        
+        let stackView = UIStackView(arrangedSubviews: [loginLabel, toggleSwitch])
+        stackView.axis = .horizontal
+        stackView.distribution = .fill
+        stackView.alignment = .center
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        
+        return stackView
     }()
 
     let loginButton: UIButton = {
@@ -93,6 +112,7 @@ class LoginCell: UICollectionViewCell {
         addSubview(userTextField)
         addSubview(passwordField)
         addSubview(loginButton)
+        addSubview(switchView)
         addSubview(cpyLabel)
 
         // Set the constraints
@@ -102,7 +122,9 @@ class LoginCell: UICollectionViewCell {
         _ = logoView.anchorWithConstantsToTop(top: centerYAnchor, right: nil, bottom: nil, left: nil, topConstant: -220, rightConstant: 0, bottomConstant: 0, leftConstant: 0, heightConstant: 150, widthConstant: 150)
         logoView.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
 
-        _ = userTextField.anchorWithConstantsToTop(top: logoView.bottomAnchor, right: rightAnchor, bottom: nil, left: leftAnchor, topConstant: 24, rightConstant: 32, bottomConstant: 0, leftConstant: 32, heightConstant: 50, widthConstant: nil)
+        switchView.anchorWithConstraints(top: logoView.bottomAnchor, right: rightAnchor, left: leftAnchor, topOffset: 24, rightOffset: 40, leftOffset: 40, height: 50)
+        
+        _ = userTextField.anchorWithConstantsToTop(top: switchView.bottomAnchor, right: rightAnchor, bottom: nil, left: leftAnchor, topConstant: 12, rightConstant: 32, bottomConstant: 0, leftConstant: 32, heightConstant: 50, widthConstant: nil)
 
         passwordField.anchorWithConstraints(top: userTextField.bottomAnchor, right: rightAnchor, left: leftAnchor, topOffset: 12, rightOffset: 32, leftOffset: 32, height: 50)
 
@@ -115,6 +137,10 @@ class LoginCell: UICollectionViewCell {
         cpyLabel.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
 
         progressBar.layer.zPosition = 999
+        
+        toggleSwitch.addTarget(self, action: #selector(handleSwitchToggle), for: .valueChanged)
+        toggleSwitch.isOn = shouldUseInAppCaptcha()
+        captchaSwitchState = toggleSwitch.isOn
     }
 
     required init?(coder _: NSCoder) {
@@ -136,7 +162,7 @@ class LoginCell: UICollectionViewCell {
     @objc fileprivate func handleLogin() {
         endEditing(true)
         if let delegate = delegate {
-            delegate.handleLogin(for: loginFor)
+            delegate.handleLogin(for: loginFor, enableInAppCaptcha: captchaSwitchState)
         }
     }
 
@@ -155,6 +181,12 @@ class LoginCell: UICollectionViewCell {
 //            loginButton.setTitle("Parent Login", for: .normal)
 //            loginFor = "parent"
 //        }
+    }
+    
+    // Function to toggle switch state
+    @objc fileprivate func handleSwitchToggle(_ sender: UISwitch) {
+        captchaSwitchState = sender.isOn
+        setUseInAppCaptcha(to: sender.isOn)
     }
 }
 

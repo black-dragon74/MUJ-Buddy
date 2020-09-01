@@ -9,5 +9,5 @@
 import UIKit
 
 protocol LoginDelegate: AnyObject {
-    func handleLogin(for client: String)
+    func handleLogin(for client: String, enableInAppCaptcha: Bool)
 }

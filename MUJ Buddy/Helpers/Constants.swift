@@ -47,6 +47,7 @@ let PROFILE_IMG_KEY = "profile_image"
 let REFRESH_INTERVAL = "fetch_interval"
 let NOTIFICATION_THRESHOLD = "notification_threshold"
 let DARK_MODE = "dark_mode"
+let IN_APP_CAPTCHA = "enable_local_captcha"
 
 //
 //  Error messages

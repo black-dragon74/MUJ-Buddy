@@ -65,15 +65,13 @@ class WebAuthController: UIViewController {
         super.viewDidDisappear(animated)
 
         // If login is not successful and still the view is being dismissed, means user has cancelled the login request
-        if !loginSuccessful { NotificationCenter.default.post(name: .loginCancelled, object: nil) }
+        if !loginSuccessful { NotificationCenter.default.post(name: .loginCancelled, object: nil, userInfo:["message": "Login action was cancelled by the user"]) }
     }
 
     // Handles the dismissal of the webview
     @objc fileprivate func handleCancel() {
         webView.removeFromSuperview()
-        dismiss(animated: true) {
-            NotificationCenter.default.post(name: .loginCancelled, object: nil)
-        }
+        dismiss(animated: true)
     }
 }
 

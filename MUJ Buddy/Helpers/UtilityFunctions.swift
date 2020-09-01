@@ -374,3 +374,16 @@ func setDarkMode(to: Bool) {
     UserDefaults.standard.set(to, forKey: DARK_MODE)
     UserDefaults.standard.synchronize()
 }
+
+//
+//  In-app captcha helpers
+//
+func shouldUseInAppCaptcha() -> Bool {
+    UserDefaults.standard.object(forKey: IN_APP_CAPTCHA) as? Bool ?? true
+}
+
+func setUseInAppCaptcha(to: Bool) {
+    UserDefaults.standard.removeObject(forKey: IN_APP_CAPTCHA)
+    UserDefaults.standard.set(to, forKey: IN_APP_CAPTCHA)
+    UserDefaults.standard.synchronize()
+}

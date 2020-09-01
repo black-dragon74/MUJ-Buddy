@@ -23,7 +23,7 @@ class CaptchaAuthController: UIViewController {
     // UIImageView that will contain the CaptchaImage
     private let captchaImageView: UIImageView = {
         let captchaView = UIImageView()
-        captchaView.backgroundColor = .red
+        captchaView.image = UIImage(named: "loading_captcha")
         captchaView.contentMode = .scaleAspectFill
         captchaView.clipsToBounds = true
         captchaView.translatesAutoresizingMaskIntoConstraints = false
