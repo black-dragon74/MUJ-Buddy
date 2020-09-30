@@ -34,6 +34,22 @@
 		01197BA3222A74E1002F1FC6 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01197BA2222A74E1002F1FC6 /* SettingsViewController.swift */; };
 		01197BA5222A8030002F1FC6 /* Settings.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 01197BA4222A8030002F1FC6 /* Settings.storyboard */; };
 		01197BA7222AA5D5002F1FC6 /* AppInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01197BA6222AA5D5002F1FC6 /* AppInfoViewController.swift */; };
+		011B2DC8252494C30054490A /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 011B2DC7252494C30054490A /* WidgetKit.framework */; };
+		011B2DCA252494C30054490A /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 011B2DC9252494C30054490A /* SwiftUI.framework */; };
+		011B2DCF252494C50054490A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 011B2DCE252494C50054490A /* Assets.xcassets */; };
+		011B2DD3252494C50054490A /* Attendance StatusExtension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 011B2DC6252494C30054490A /* Attendance StatusExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		011B2DDE252495FB0054490A /* UtilityFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01E9623821F4F48F002C9899 /* UtilityFunctions.swift */; };
+		011B2DE4252496040054490A /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01E9623621F4DB40002C9899 /* Constants.swift */; };
+		011B2DF5252496230054490A /* DateHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01C29A2C234B9F4A001AFD75 /* DateHelper.swift */; };
+		011B2DFB2524962D0054490A /* AttendanceModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 014512BE21F79E8000407B91 /* AttendanceModel.swift */; };
+		011B2E11252496F60054490A /* AttendanceWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 011B2E10252496F60054490A /* AttendanceWidget.swift */; };
+		011B2E18252497B10054490A /* AttendanceTimelineProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 011B2E17252497B10054490A /* AttendanceTimelineProvider.swift */; };
+		011B2E20252498180054490A /* AttendanceTimelineEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 011B2E1F252498180054490A /* AttendanceTimelineEntry.swift */; };
+		011B2E3B252499630054490A /* AttendanceWidgetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 011B2E3A252499630054490A /* AttendanceWidgetView.swift */; };
+		011B2E4125249EB90054490A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0110BB3421F32B5600E6546A /* Assets.xcassets */; };
+		011B2E622524C0BB0054490A /* AttendanceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 011B2E612524C0BB0054490A /* AttendanceView.swift */; };
+		011B2E692524C0D50054490A /* GenericNAView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 011B2E682524C0D50054490A /* GenericNAView.swift */; };
+		011B2E702524C0FA0054490A /* NotLoggedIn.swift in Sources */ = {isa = PBXBuildFile; fileRef = 011B2E6F2524C0FA0054490A /* NotLoggedIn.swift */; };
 		011DE71D228CAA8F00FCB106 /* WebAuthController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 011DE71C228CAA8F00FCB106 /* WebAuthController.swift */; };
 		01255054220E05FA008926A6 /* SessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01255053220E05FA008926A6 /* SessionManager.swift */; };
 		01261C992201F7CF00E6EB63 /* EventsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01261C982201F7CF00E6EB63 /* EventsViewController.swift */; };
@@ -119,6 +135,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		011B2DD1252494C50054490A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0110BB2221F32B5500E6546A /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 011B2DC5252494C30054490A;
+			remoteInfo = "Attendance StatusExtension";
+		};
 		018312912345BE7900A0CE2B /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 0110BB2221F32B5500E6546A /* Project object */;
@@ -171,6 +194,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
+				011B2DD3252494C50054490A /* Attendance StatusExtension.appex in Embed App Extensions */,
 				01AFF69722282D3F002403AF /* Attendance Widget.appex in Embed App Extensions */,
 			);
 			name = "Embed App Extensions";
@@ -203,6 +227,19 @@
 		01197BA2222A74E1002F1FC6 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		01197BA4222A8030002F1FC6 /* Settings.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Settings.storyboard; sourceTree = "<group>"; };
 		01197BA6222AA5D5002F1FC6 /* AppInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppInfoViewController.swift; sourceTree = "<group>"; };
+		011B2DC6252494C30054490A /* Attendance StatusExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "Attendance StatusExtension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
+		011B2DC7252494C30054490A /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
+		011B2DC9252494C30054490A /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
+		011B2DCE252494C50054490A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		011B2DD0252494C50054490A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		011B2E10252496F60054490A /* AttendanceWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttendanceWidget.swift; sourceTree = "<group>"; };
+		011B2E17252497B10054490A /* AttendanceTimelineProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttendanceTimelineProvider.swift; sourceTree = "<group>"; };
+		011B2E1F252498180054490A /* AttendanceTimelineEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttendanceTimelineEntry.swift; sourceTree = "<group>"; };
+		011B2E3A252499630054490A /* AttendanceWidgetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttendanceWidgetView.swift; sourceTree = "<group>"; };
+		011B2E5B2524B2820054490A /* Attendance StatusExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Attendance StatusExtension.entitlements"; sourceTree = "<group>"; };
+		011B2E612524C0BB0054490A /* AttendanceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttendanceView.swift; sourceTree = "<group>"; };
+		011B2E682524C0D50054490A /* GenericNAView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenericNAView.swift; sourceTree = "<group>"; };
+		011B2E6F2524C0FA0054490A /* NotLoggedIn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotLoggedIn.swift; sourceTree = "<group>"; };
 		011DE71C228CAA8F00FCB106 /* WebAuthController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebAuthController.swift; sourceTree = "<group>"; };
 		01255053220E05FA008926A6 /* SessionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionManager.swift; sourceTree = "<group>"; };
 		01261C982201F7CF00E6EB63 /* EventsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsViewController.swift; sourceTree = "<group>"; };
@@ -289,6 +326,15 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		011B2DC3252494C30054490A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				011B2DCA252494C30054490A /* SwiftUI.framework in Frameworks */,
+				011B2DC8252494C30054490A /* WidgetKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		0183128C2345BE7900A0CE2B /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -322,11 +368,13 @@
 		0110BB2121F32B5500E6546A = {
 			isa = PBXGroup;
 			children = (
+				011B2E5B2524B2820054490A /* Attendance StatusExtension.entitlements */,
 				01C29A30234BA12E001AFD75 /* WatchConnectivity */,
 				0110BB2C21F32B5500E6546A /* MUJ Buddy */,
 				01AFF68E22282D3F002403AF /* Attendance Widget */,
 				018312842345BE7700A0CE2B /* Watch Buddy */,
 				018312932345BE7900A0CE2B /* Watch Buddy Extension */,
+				011B2DCB252494C30054490A /* Attendance Status */,
 				0110BB2B21F32B5500E6546A /* Products */,
 				DCCD3990B2122B3DA2DFEFD2 /* Frameworks */,
 			);
@@ -339,6 +387,7 @@
 				01AFF68B22282D3F002403AF /* Attendance Widget.appex */,
 				018312832345BE7700A0CE2B /* Watch Buddy.app */,
 				0183128F2345BE7900A0CE2B /* Watch Buddy Extension.appex */,
+				011B2DC6252494C30054490A /* Attendance StatusExtension.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -396,6 +445,46 @@
 				01197BA4222A8030002F1FC6 /* Settings.storyboard */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		011B2DCB252494C30054490A /* Attendance Status */ = {
+			isa = PBXGroup;
+			children = (
+				011B2DDC2524958A0054490A /* App */,
+				011B2E1E252498050054490A /* Model */,
+				011B2DDD252495980054490A /* Views */,
+				011B2DCE252494C50054490A /* Assets.xcassets */,
+				011B2DD0252494C50054490A /* Info.plist */,
+			);
+			path = "Attendance Status";
+			sourceTree = "<group>";
+		};
+		011B2DDC2524958A0054490A /* App */ = {
+			isa = PBXGroup;
+			children = (
+				011B2E10252496F60054490A /* AttendanceWidget.swift */,
+				011B2E17252497B10054490A /* AttendanceTimelineProvider.swift */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		011B2DDD252495980054490A /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				011B2E3A252499630054490A /* AttendanceWidgetView.swift */,
+				011B2E612524C0BB0054490A /* AttendanceView.swift */,
+				011B2E682524C0D50054490A /* GenericNAView.swift */,
+				011B2E6F2524C0FA0054490A /* NotLoggedIn.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		011B2E1E252498050054490A /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				011B2E1F252498180054490A /* AttendanceTimelineEntry.swift */,
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 		01255052220E05EA008926A6 /* Session */ = {
@@ -577,6 +666,8 @@
 			isa = PBXGroup;
 			children = (
 				01AFF68C22282D3F002403AF /* NotificationCenter.framework */,
+				011B2DC7252494C30054490A /* WidgetKit.framework */,
+				011B2DC9252494C30054490A /* SwiftUI.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -599,11 +690,29 @@
 			dependencies = (
 				01AFF69622282D3F002403AF /* PBXTargetDependency */,
 				018312A12345BE7A00A0CE2B /* PBXTargetDependency */,
+				011B2DD2252494C50054490A /* PBXTargetDependency */,
 			);
 			name = "MUJ Buddy";
 			productName = "MUJ Buddy";
 			productReference = 0110BB2A21F32B5500E6546A /* MUJ Buddy.app */;
 			productType = "com.apple.product-type.application";
+		};
+		011B2DC5252494C30054490A /* Attendance StatusExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 011B2DD6252494C50054490A /* Build configuration list for PBXNativeTarget "Attendance StatusExtension" */;
+			buildPhases = (
+				011B2DC2252494C30054490A /* Sources */,
+				011B2DC3252494C30054490A /* Frameworks */,
+				011B2DC4252494C30054490A /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Attendance StatusExtension";
+			productName = "Attendance StatusExtension";
+			productReference = 011B2DC6252494C30054490A /* Attendance StatusExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
 		};
 		018312822345BE7700A0CE2B /* Watch Buddy */ = {
 			isa = PBXNativeTarget;
@@ -662,7 +771,7 @@
 		0110BB2221F32B5500E6546A /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 1100;
+				LastSwiftUpdateCheck = 1200;
 				LastUpgradeCheck = 1200;
 				ORGANIZATIONNAME = Nick;
 				TargetAttributes = {
@@ -677,6 +786,9 @@
 								enabled = 1;
 							};
 						};
+					};
+					011B2DC5252494C30054490A = {
+						CreatedOnToolsVersion = 12.0.1;
 					};
 					018312822345BE7700A0CE2B = {
 						CreatedOnToolsVersion = 11.0;
@@ -712,6 +824,7 @@
 				01AFF68A22282D3F002403AF /* Attendance Widget */,
 				018312822345BE7700A0CE2B /* Watch Buddy */,
 				0183128E2345BE7900A0CE2B /* Watch Buddy Extension */,
+				011B2DC5252494C30054490A /* Attendance StatusExtension */,
 			);
 		};
 /* End PBXProject section */
@@ -730,6 +843,15 @@
 				019297C4227F2996000EACD1 /* Poppins-Medium.ttf in Resources */,
 				01039728227E2115007288AD /* Poppins-SemiBold.ttf in Resources */,
 				01197BA5222A8030002F1FC6 /* Settings.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		011B2DC4252494C30054490A /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				011B2E4125249EB90054490A /* Assets.xcassets in Resources */,
+				011B2DCF252494C50054490A /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -832,6 +954,24 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		011B2DC2252494C30054490A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				011B2DDE252495FB0054490A /* UtilityFunctions.swift in Sources */,
+				011B2E692524C0D50054490A /* GenericNAView.swift in Sources */,
+				011B2E20252498180054490A /* AttendanceTimelineEntry.swift in Sources */,
+				011B2E3B252499630054490A /* AttendanceWidgetView.swift in Sources */,
+				011B2E622524C0BB0054490A /* AttendanceView.swift in Sources */,
+				011B2E702524C0FA0054490A /* NotLoggedIn.swift in Sources */,
+				011B2DF5252496230054490A /* DateHelper.swift in Sources */,
+				011B2E18252497B10054490A /* AttendanceTimelineProvider.swift in Sources */,
+				011B2DFB2524962D0054490A /* AttendanceModel.swift in Sources */,
+				011B2E11252496F60054490A /* AttendanceWidget.swift in Sources */,
+				011B2DE4252496040054490A /* Constants.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		0183128B2345BE7900A0CE2B /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -877,6 +1017,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		011B2DD2252494C50054490A /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 011B2DC5252494C30054490A /* Attendance StatusExtension */;
+			targetProxy = 011B2DD1252494C50054490A /* PBXContainerItemProxy */;
+		};
 		018312922345BE7900A0CE2B /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 0183128E2345BE7900A0CE2B /* Watch Buddy Extension */;
@@ -1086,6 +1231,54 @@
 			};
 			name = Release;
 		};
+		011B2DD4252494C50054490A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_ENTITLEMENTS = "Attendance StatusExtension.entitlements";
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = LUPK75PW6Q;
+				INFOPLIST_FILE = "Attendance Status/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.black-dragon74.MUJ-Buddy.Attendance-Status";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		011B2DD5252494C50054490A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_ENTITLEMENTS = "Attendance StatusExtension.entitlements";
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = LUPK75PW6Q;
+				INFOPLIST_FILE = "Attendance Status/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.black-dragon74.MUJ-Buddy.Attendance-Status";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 		018312A42345BE7A00A0CE2B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1231,6 +1424,15 @@
 			buildConfigurations = (
 				0110BB3D21F32B5600E6546A /* Debug */,
 				0110BB3E21F32B5600E6546A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		011B2DD6252494C50054490A /* Build configuration list for PBXNativeTarget "Attendance StatusExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				011B2DD4252494C50054490A /* Debug */,
+				011B2DD5252494C50054490A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

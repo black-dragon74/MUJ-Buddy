@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import WidgetKit
 
 class LoginViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, LoginDelegate {
     // Hold the keyboard state, in order to fix our view going out of bounds :P
@@ -389,6 +390,11 @@ class LoginViewController: UIViewController, UICollectionViewDelegate, UICollect
 
                 // Update the login state
                 setLoginState(to: true)
+                
+                if #available(iOS 14.0, *)
+                {
+                    WidgetCenter.shared.reloadTimelines(ofKind: "com.mujbuddy.widgetkit.attendance-widget")
+                }
             } else {
                 // Just update the session ID in the database
                 setSessionID(to: sessionID)

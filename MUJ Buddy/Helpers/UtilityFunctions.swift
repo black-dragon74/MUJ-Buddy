@@ -7,6 +7,9 @@
 //
 
 import UIKit
+#if !os(watchOS)
+import WidgetKit
+#endif
 
 //
 //  Shared user defaults between app and extensions
@@ -29,6 +32,11 @@ func purgeUserDefaults() {
     UserDefaults.standard.removePersistentDomain(forName: "group.mujbuddy.shared")
     UserDefaults.standard.removeVolatileDomain(forName: "group.mujbuddy.shared")
     UserDefaults.standard.synchronize()
+    #if !os(watchOS)
+    if #available(iOS 14.0, *) {
+        WidgetCenter.shared.reloadTimelines(ofKind: "com.mujbuddy.widgetkit.attendance-widget")
+    }
+    #endif
 }
 
 //

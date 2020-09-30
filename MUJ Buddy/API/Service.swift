@@ -13,6 +13,7 @@
 //
 
 import UIKit
+import WidgetKit
 
 class Service {
     // Make the initializer private so that only the class itself can instantiate itself
@@ -223,6 +224,9 @@ class Service {
                     let encoder = JSONEncoder()
                     let attendanceData = try? encoder.encode(json) // If it is empty, nil value will be returned from the utility function
                     updateAttendanceInDB(attendance: attendanceData)
+                    if #available(iOS 14.0, *) {
+                        WidgetCenter.shared.reloadTimelines(ofKind: "com.mujbuddy.widgetkit.attendance-widget")
+                    }
                     completion(json, nil, nil)
                     return
                 } catch {
