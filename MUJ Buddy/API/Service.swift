@@ -225,7 +225,7 @@ class Service {
                     let attendanceData = try? encoder.encode(json) // If it is empty, nil value will be returned from the utility function
                     updateAttendanceInDB(attendance: attendanceData)
                     if #available(iOS 14.0, *) {
-                        WidgetCenter.shared.reloadTimelines(ofKind: "com.mujbuddy.widgetkit.attendance-widget")
+                        WidgetCenter.shared.reloadTimelines(ofKind: ATTENDANCE_WIDGET_ID)
                     }
                     completion(json, nil, nil)
                     return

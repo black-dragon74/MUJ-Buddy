@@ -58,3 +58,8 @@ let LOGIN_FAILED = "Login failed"
 //  Cookie names
 //
 let SESSION_COOKIE = "ASP.NET_SessionId"
+
+//
+//  Widget identifier
+//
+let ATTENDANCE_WIDGET_ID = "com.mujbuddy.widgetkit.attendance-widget"

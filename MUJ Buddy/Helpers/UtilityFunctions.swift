@@ -34,7 +34,7 @@ func purgeUserDefaults() {
     UserDefaults.standard.synchronize()
     #if !os(watchOS)
     if #available(iOS 14.0, *) {
-        WidgetCenter.shared.reloadTimelines(ofKind: "com.mujbuddy.widgetkit.attendance-widget")
+        WidgetCenter.shared.reloadTimelines(ofKind: ATTENDANCE_WIDGET_ID)
     }
     #endif
 }

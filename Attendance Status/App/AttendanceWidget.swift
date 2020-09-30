@@ -11,7 +11,7 @@ import SwiftUI
 
 @main
 struct AttendanceWidget: Widget {
-    let kind: String = "com.mujbuddy.widgetkit.attendance-widget"
+    let kind: String = ATTENDANCE_WIDGET_ID
     var body: some WidgetConfiguration {
         StaticConfiguration(kind: kind, provider: AttendanceTimelineProvider()) { entry in
             AttendanceWidgetView(entry: entry)
