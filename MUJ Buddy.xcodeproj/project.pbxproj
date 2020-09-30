@@ -368,7 +368,6 @@
 		0110BB2121F32B5500E6546A = {
 			isa = PBXGroup;
 			children = (
-				011B2E5B2524B2820054490A /* Attendance StatusExtension.entitlements */,
 				01C29A30234BA12E001AFD75 /* WatchConnectivity */,
 				0110BB2C21F32B5500E6546A /* MUJ Buddy */,
 				01AFF68E22282D3F002403AF /* Attendance Widget */,
@@ -450,6 +449,7 @@
 		011B2DCB252494C30054490A /* Attendance Status */ = {
 			isa = PBXGroup;
 			children = (
+				011B2E5B2524B2820054490A /* Attendance StatusExtension.entitlements */,
 				011B2DDC2524958A0054490A /* App */,
 				011B2E1E252498050054490A /* Model */,
 				011B2DDD252495980054490A /* Views */,
@@ -1236,7 +1236,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
-				CODE_SIGN_ENTITLEMENTS = "Attendance StatusExtension.entitlements";
+				CODE_SIGN_ENTITLEMENTS = "Attendance Status/Attendance StatusExtension.entitlements";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = LUPK75PW6Q;
@@ -1260,7 +1260,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
-				CODE_SIGN_ENTITLEMENTS = "Attendance StatusExtension.entitlements";
+				CODE_SIGN_ENTITLEMENTS = "Attendance Status/Attendance StatusExtension.entitlements";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = LUPK75PW6Q;
