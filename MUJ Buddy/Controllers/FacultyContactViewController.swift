@@ -20,7 +20,9 @@ class FacultyContactViewController: UIViewController {
             emailLabel.text = currF.email.isEmpty ? "NA" : currF.email
             facultyImage.downloadFromURL(urlString: currF.image) { image, error in
                 if let error = error {
-                    self.indicator.stopAnimating()
+                    DispatchQueue.main.async {
+                        self.indicator.stopAnimating()
+                    }
                     print("Error in getting Image: ", error)
                     return
                 }

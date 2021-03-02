@@ -147,8 +147,13 @@ extension UIView {
 
 extension UIImageView {
     func downloadFromURL(urlString: String, completion: @escaping (UIImage?, Error?) -> Void) {
-        let escapedURL = urlString.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)
-        guard let url = URL(string: escapedURL!) else { return }
+        let decodedString = try? NSAttributedString(data: urlString.data(using: .utf8)!, options: [
+            .documentType: NSAttributedString.DocumentType.html,
+            .characterEncoding: String.Encoding.utf8.rawValue,
+        ], documentAttributes: nil).string
+        
+        
+        guard let url = URL(string: decodedString ?? DUMMY_PROFILE_IMAGE) else { return }
 
         URLSession.shared.dataTask(with: url) { data, _, error in
             if let error = error {

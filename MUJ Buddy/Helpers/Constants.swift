@@ -63,3 +63,8 @@ let SESSION_COOKIE = "ASP.NET_SessionId"
 //  Widget identifier
 //
 let ATTENDANCE_WIDGET_ID = "com.mujbuddy.widgetkit.attendance-widget"
+
+//
+//  Dummy profile image
+//
+let DUMMY_PROFILE_IMAGE = "https://jaipur.manipal.edu/content/dam/manipal/muj/images/icons/dummy_profile.jpg"
