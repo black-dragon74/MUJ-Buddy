@@ -25,7 +25,7 @@ struct UserNotLoggedInView: View {
         }
         .navigationBarTitle("MUJ Buddy")
 //        .overlay(self.dataProvider.isFetchingData ? LoaderView() : nil)
-        .modifier(WithTapToRefresh())
+        .modifier(WithLoaderView())
     }
 }
 

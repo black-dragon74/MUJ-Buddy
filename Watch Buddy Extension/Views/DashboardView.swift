@@ -65,20 +65,24 @@ struct DashboardView: View {
                 }
             }.navigationBarTitle("MUJ Buddy")
 //                .overlay(self.dataProvider.isFetchingData ? LoaderView() : nil)
-                .modifier(WithTapToRefresh())
+                .modifier(WithLoaderView())
         )
     }
+    
+    fileprivate func genView<T: View>(_ retView: T) -> AnyView {
+        return AnyView(retView.modifier(WithDataProvider()))
+    }
 
-    func getViewFrom(title: String) -> AnyView {
+    fileprivate func getViewFrom(title: String) -> AnyView {
         switch title {
         case "Attendance":
-            return AnyView(AttendanceView())
+            return genView(AttendanceView())
         case "Internals":
-            return AnyView(InternalsView())
+            return genView(InternalsView())
         case "Results":
-            return AnyView(ResultsView())
+            return genView(ResultsView())
         default:
-            return AnyView(UserNotLoggedInView())
+            return genView(UserNotLoggedInView())
         }
     }
 }

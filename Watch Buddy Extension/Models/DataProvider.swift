@@ -42,14 +42,20 @@ class DataProvider: NSObject, ObservableObject {
     static let shared = DataProvider()
 
     func syncWithiPhone() {
-        print("Syncing with iPhone")
         isFetchingData = true
-
-        sleep(1) // Only for simulation
-
+        print("Wait for session activation")
+        
+        while !session.watchSessionActivated {
+            print("Waiting for session...")
+            sleep(1)
+        }
+        
+        print("Session activation is successful, syncing with iOS device")
+        
         // We will initiate a connection with the iPhone and Check if the data is available or not
         let messageRequest = ["requestFor": "attendance"]
         session.sendMessage(message: messageRequest as [String: AnyObject], replyHandler: { iPhoneReply in
+            print("Reply received from iOS device")
             for key in iPhoneReply.keys {
                 if key == "msg" {
                     do {

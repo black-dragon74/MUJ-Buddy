@@ -38,7 +38,7 @@ struct AttendanceView: View {
                 }.frame(height: 150)
             }.listStyle(CarouselListStyle())
                 .navigationBarTitle("Attendance")
-                .modifier(WithTapToRefresh())
+                .modifier(WithLoaderView())
         )
     }
 }

@@ -22,12 +22,11 @@ struct RoundedTextWithColor: ViewModifier {
     }
 }
 
-struct WithTapToRefresh: ViewModifier {
+fileprivate struct WithTapToRefresh: ViewModifier {
     @EnvironmentObject var dataProvider: DataProvider
 
     func body(content: Content) -> some View {
         content
-            .overlay(dataProvider.isFetchingData ? LoaderView() : nil)
             .contextMenu {
                 Button(action: {
                     self.dataProvider.syncWithiPhone()
@@ -39,5 +38,24 @@ struct WithTapToRefresh: ViewModifier {
                     }
             })
             }
+    }
+}
+
+struct WithLoaderView: ViewModifier {
+    @EnvironmentObject var dataProvider: DataProvider
+    
+    func body(content: Content) -> some View {
+        return dataProvider.isFetchingData ?
+            AnyView(LoaderView().modifier(WithTapToRefresh())) :
+            AnyView(
+                content
+                    .modifier(WithTapToRefresh())
+            )
+    }
+}
+
+struct WithDataProvider: ViewModifier {
+    func body(content: Content) -> some View {
+        content.environmentObject(DataProvider.shared)
     }
 }

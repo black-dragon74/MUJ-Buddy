@@ -12,24 +12,33 @@ struct LoaderView: View {
     @State private var isSpinning = false
 
     var body: some View {
-        HStack {
-            Spacer()
-            VStack(spacing: 6) {
-                Spacer()
-                Image(systemName: "arrow.2.circlepath.circle")
-                    .resizable()
+        if #available(watchOSApplicationExtension 7.0, *) {
+            VStack (alignment: .center, spacing: 15, content: {
+                ProgressView()
                     .frame(width: 40, height: 40)
-                    .rotationEffect(Angle(degrees: isSpinning ? 360 : 0))
-                    .animation(Animation.linear(duration: 1).repeatForever(autoreverses: false))
-
+                
                 Text("Please wait")
+            })
+        } else {
+            HStack {
                 Spacer()
-            }
-            Spacer()
-        }.background(Color.black)
-            .onAppear {
-                self.isSpinning.toggle()
-            }
+                VStack(spacing: 6) {
+                    Spacer()
+                    Image(systemName: "arrow.2.circlepath.circle")
+                        .resizable()
+                        .frame(width: 40, height: 40)
+                        .rotationEffect(Angle(degrees: isSpinning ? 360 : 0))
+                        .animation(Animation.linear(duration: 1).repeatForever(autoreverses: false))
+    
+                    Text("Please wait")
+                    Spacer()
+                }
+                Spacer()
+            }.background(Color.black)
+                .onAppear {
+                    self.isSpinning.toggle()
+                }
+        }
     }
 }
 

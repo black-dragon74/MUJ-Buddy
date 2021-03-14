@@ -25,6 +25,9 @@ protocol iOSDelegate: AnyObject {
 }
 
 class WCSessionManager: NSObject {
+    // Var to track if the session has been activated
+    var watchSessionActivated = false
+    
     // Singleton instance to be shared
     static let shared = WCSessionManager()
 
@@ -67,6 +70,7 @@ class WCSessionManager: NSObject {
 extension WCSessionManager: WCSessionDelegate {
     func session(_: WCSession, activationDidCompleteWith activationState: WCSessionActivationState, error: Error?) {
         print("activationDidCompleteWith activationState:\(activationState) error:\(String(describing: error))")
+        if activationState == .activated { watchSessionActivated = true }
     }
 
     #if os(iOS)

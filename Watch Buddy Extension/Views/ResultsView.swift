@@ -33,7 +33,7 @@ struct ResultsView: View {
                 }.frame(height: 100)
             }.listStyle(CarouselListStyle())
                 .navigationBarTitle("Results")
-                .modifier(WithTapToRefresh())
+                .modifier(WithLoaderView())
         )
     }
 }

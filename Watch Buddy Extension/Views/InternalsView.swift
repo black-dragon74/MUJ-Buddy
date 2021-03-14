@@ -36,7 +36,7 @@ struct InternalsView: View {
                 }.frame(height: 150)
             }.listStyle(CarouselListStyle())
                 .navigationBarTitle("Internals")
-                .modifier(WithTapToRefresh())
+                .modifier(WithLoaderView())
         )
     }
 }
